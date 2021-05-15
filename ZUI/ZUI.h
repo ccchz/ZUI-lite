@@ -383,8 +383,9 @@ enum ZREST
 #define Type_ProgressBar            _T("ProgressBar")
 #define ZM_ProgressBar_SetColor   500
 #define ZM_ProgressBar_SetBackColor   501
-#define ZM_ProgressBar_SetPercet   502
-#define ZM_ProgressBar_SetHeight  503
+#define ZM_ProgressBar_SetPos   502
+#define ZM_ProgressBar_SetRange   503
+#define ZM_ProgressBar_SetHeight  504
 #endif
 
 //--------------------------------------------------------------------CheckBox类

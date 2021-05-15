@@ -10,7 +10,8 @@ typedef struct _ZProgressBar
     ZuiColor pbBkColor;       //进度条背景颜色
 
     int pbHeight;
-    int pbPercent;
+    unsigned int pbPos;
+    unsigned int pbRange;
 
     ZCtlProc old_call;
 }*ZuiProgressBar, ZProgressBar;

@@ -7,13 +7,14 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
     case ZM_OnPaint: {
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect rc;
+        ZuiReal percent =(ZuiReal)p->pbPos / (ZuiReal)p->pbRange;
         rc.left = cp->m_rcItem.left;
         rc.top = cp->m_rcItem.top + ((cp->m_rcItem.bottom - cp->m_rcItem.top) - p->pbHeight) / 2;
         rc.right = cp->m_rcItem.right;
         rc.bottom = cp->m_rcItem.bottom - ((cp->m_rcItem.bottom - cp->m_rcItem.top) - p->pbHeight) / 2;
         if (cp->m_rRound.cx && cp->m_rRound.cy) {
             ZuiDrawFillRoundRect(gp, p->pbBkColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy);
-            rc.right = cp->m_rcItem.left + ((cp->m_rcItem.right - cp->m_rcItem.left) * p->pbPercent) / 100;
+            rc.right = cp->m_rcItem.left + ((cp->m_rcItem.right - cp->m_rcItem.left) * percent);
             ZuiDrawFillRoundRect(gp, p->pbColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy);
             if (cp->m_dwBorderWidth) {
                 rc.right = cp->m_rcItem.right;
@@ -22,7 +23,7 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
         }
         else {
             ZuiDrawFillRect(gp, p->pbBkColor, &rc);
-            rc.right = cp->m_rcItem.left + ((cp->m_rcItem.right - cp->m_rcItem.left) * p->pbPercent) / 100;
+            rc.right = cp->m_rcItem.left + ((cp->m_rcItem.right - cp->m_rcItem.left) * percent);
             ZuiDrawFillRect(gp, p->pbColor, &rc);
             if (cp->m_dwBorderWidth) {
                 rc.right = cp->m_rcItem.right;
@@ -35,11 +36,17 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
         if (_tcsicmp(Param1, _T("pbcolor")) == 0) ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("pbbkcolor")) == 0) ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("pbheight")) == 0) ZCCALL(ZM_ProgressBar_SetHeight, cp, (ZuiAny)(_wtoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("pbpercent")) == 0) ZCCALL(ZM_ProgressBar_SetPercet, cp, (ZuiAny)(_wtoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("pbpos")) == 0) ZCCALL(ZM_ProgressBar_SetPos, cp, (ZuiAny)(_wtoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("pbrange")) == 0) ZCCALL(ZM_ProgressBar_SetRange, cp, (ZuiAny)(_wtoi(Param2)), NULL);
         break;
     }
-    case ZM_ProgressBar_SetPercet: {
-        p->pbPercent = (int)Param1;
+    case ZM_ProgressBar_SetPos: {
+        p->pbPos = (int)Param1;
+        ZuiControlInvalidate(cp, TRUE);
+        return 0;
+    }
+    case ZM_ProgressBar_SetRange: {
+        p->pbRange = (int)Param1;
         ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
@@ -66,6 +73,8 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
         np->pbBkColor = 0xFF383838;
         np->pbColor = 0xFF585858;
         np->pbHeight = PBSIZE;
+        np->pbPos = 0;
+        np->pbRange = 100;  //滚动条区域默认值
 
         return np;
     }
