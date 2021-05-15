@@ -40,18 +40,22 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
     }
     case ZM_ProgressBar_SetPercet: {
         p->pbPercent = (int)Param1;
+        ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_ProgressBar_SetHeight: {
         p->pbHeight = (int)Param1;
+        ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_ProgressBar_SetColor: {
         p->pbColor = (ZuiColor)Param1;
+        ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_ProgressBar_SetBackColor: {
         p->pbBkColor = (ZuiColor)Param1;
+        ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_OnCreate: {

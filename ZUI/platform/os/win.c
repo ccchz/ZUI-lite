@@ -133,7 +133,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         TEventUI event = { 0 };
         event.ptMouse = p->m_ptLastMousePos;
         event.wKeyState = MapKeyState();
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         if (p->m_pEventHover != NULL) {
             event.Type = ZEVENT_MOUSELEAVE;
             event.pSender = p->m_pEventHover;
@@ -426,7 +426,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             event.pSender = p->m_pFocus;
             event.wParam = wParam;
             event.lParam = lParam;
-            event.dwTimestamp = GetTickCount64();
+            event.dwTimestamp = GetTickCount();
             event.ptMouse = p->m_ptLastMousePos;
             event.wKeyState = MapKeyState();
             ZuiControlEvent(p->m_pRoot, &event);
@@ -468,7 +468,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                 TEventUI event = { 0 };
                 event.Type = ZEVENT_TIMER;
                 event.pSender = pTimer->pSender;
-                event.dwTimestamp = GetTickCount64();
+                event.dwTimestamp = GetTickCount();
                 event.ptMouse = p->m_ptLastMousePos;
                 event.wKeyState = MapKeyState();
                 event.wParam = pTimer->nLocalID;
@@ -495,7 +495,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             event.pSender = p->m_pEventHover;
             event.wParam = wParam;
             event.lParam = lParam;
-            event.dwTimestamp = GetTickCount64();
+            event.dwTimestamp = GetTickCount();
             event.ptMouse = pt;
             event.wKeyState = MapKeyState();
             ZuiControlEvent(p->m_pEventHover, &event);
@@ -570,7 +570,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.ptMouse = pt;
         event.wParam = wParam;
         event.lParam = lParam;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         event.wKeyState = MapKeyState();
         if (!p->m_bMouseCapture) {
             pNewHover = NULL;
@@ -625,7 +625,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             TEventUI event = { 0 };
             event.Type = ZEVENT_KILLFOCUS;
             event.pSender = pControl;
-            event.dwTimestamp = GetTickCount64();
+            event.dwTimestamp = GetTickCount();
             ZuiControlEvent(p->m_pFocus, &event);
             p->m_pFocus = NULL;
             return SendMessage(pControl->m_pOs->m_hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
@@ -640,7 +640,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.lParam = lParam;
         event.ptMouse = pt;
         event.wKeyState = (WORD)wParam;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(pControl, &event);
         break;
     }
@@ -664,7 +664,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.pSender = pControl;
         event.ptMouse = pt;
         event.wKeyState = (WORD)wParam;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(pControl, &event);
         p->m_pEventClick = pControl;
         break;
@@ -682,7 +682,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.lParam = lParam;
         event.ptMouse = pt;
         event.wKeyState = (WORD)wParam;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControl pClick = p->m_pEventClick;
         p->m_pEventClick = NULL;
         ZuiControlEvent(pClick, &event);
@@ -710,7 +710,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.lParam = lParam;
         event.ptMouse = pt;
         event.wKeyState = (WORD)wParam;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(pControl, &event);
         p->m_pEventClick = pControl;
         break;
@@ -729,7 +729,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.ptMouse = pt;
         event.wKeyState = (WORD)wParam;
         event.lParam = (LPARAM)p->m_pEventClick;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(p->m_pEventClick, &event);
         p->m_pEventClick = NULL;
         break;
@@ -752,7 +752,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.wParam = MAKELPARAM(zDelta < 0 ? SB_LINEDOWN : SB_LINEUP, 0);
         event.lParam = lParam;
         event.wKeyState = MapKeyState();
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(pControl, &event);
 
         // Let's make sure that the scroll item below the cursor is the same as before...
@@ -771,7 +771,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.chKey = (TCHAR)wParam;
         event.ptMouse = p->m_ptLastMousePos;
         event.wKeyState = MapKeyState();
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(p->m_pFocus, &event);
         break;
     }
@@ -787,7 +787,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.chKey = (TCHAR)wParam;
         event.ptMouse = p->m_ptLastMousePos;
         event.wKeyState = MapKeyState();
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(p->m_pFocus, &event);
         p->m_pEventKey = p->m_pFocus;
         break;
@@ -804,7 +804,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.chKey = (TCHAR)wParam;
         event.ptMouse = p->m_ptLastMousePos;
         event.wKeyState = MapKeyState();
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(p->m_pEventKey, &event);
         p->m_pEventKey = NULL;
         break;
@@ -830,7 +830,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.lParam = lParam;
         event.ptMouse = pt;
         event.wKeyState = MapKeyState();
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(pControl, &event);
         return 0;
     }
@@ -840,12 +840,12 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         event.Type = ZEVENT_KILLFOCUS;
         if (p->m_pFocus) {
             event.pSender = p->m_pFocus;
-            event.dwTimestamp = GetTickCount64();
+            event.dwTimestamp = GetTickCount();
             ZuiControlEvent(p->m_pFocus, &event);
             p->m_pFocus = NULL;
         }
         event.pSender = p->m_pRoot;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(p->m_pRoot, &event);
         p->m_bMouseTracking = FALSE;
         p->m_pEventHover = NULL;
@@ -1287,7 +1287,7 @@ ZuiVoid ZuiOsSetFocus(ZuiOsWindow p, ZuiControl pControl, ZuiBool bFocusWnd)
         TEventUI event = { 0 };
         event.Type = ZEVENT_KILLFOCUS;
         event.pSender = pControl;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(p->m_pFocus, &event);
         p->m_pFocus = NULL;
     }
@@ -1302,7 +1302,7 @@ ZuiVoid ZuiOsSetFocus(ZuiOsWindow p, ZuiControl pControl, ZuiBool bFocusWnd)
         TEventUI event = { 0 };
         event.Type = ZEVENT_SETFOCUS;
         event.pSender = pControl;
-        event.dwTimestamp = GetTickCount64();
+        event.dwTimestamp = GetTickCount();
         ZuiControlEvent(p->m_pFocus, &event);
     }
 }

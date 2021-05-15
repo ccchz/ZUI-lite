@@ -23,7 +23,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
     case ZM_OnPaintBorder: {
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = (ZRect*)&cp->m_rcItem;
-        if (p->m_bSelected && !p->m_ResSelected && ((ZuiButton)p->old_udata)->type > 0) {
+        if (cp->m_dwBorderWidth && p->m_bSelected && !p->m_ResSelected && ((ZuiButton)p->old_udata)->type > 0) {
             ZuiDrawRoundRect(gp, ((ZuiButton)p->old_udata)->m_BorderColor, rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
             return 0;
         }
