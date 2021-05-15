@@ -50,7 +50,7 @@ typedef struct tagTEventUI
 
 
 //此函数用作初始化Os.
-ZuiBool ZuiOsInitialize();
+ZuiBool ZuiOsInitialize(ZuiInitConfig);
 //此函数用作反初始化Os.
 ZuiBool ZuiOsUnInitialize();
 //此函数用作创建ZuiOsWindow对象.

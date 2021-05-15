@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <tchar.h>
+#include "resource.h"
 #include <ZUI.h>
 
 ZuiAny ZCALL Main_Notify_ctl_clos(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2);
@@ -16,6 +17,7 @@ ZuiControl win;
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     ZInitConfig config = { 0 };
     config.m_hInstance = hInstance;
+    config.hicon = LoadIcon(config.m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
     config.default_res = _T("file:default.zip");
     config.default_fontname = _T("微软雅黑");
     if (!ZuiInit(&config)) return 0;

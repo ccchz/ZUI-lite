@@ -57,7 +57,7 @@ ZEXPORT ZuiBool ZCALL ZuiInit(ZuiInitConfig config) {
         return FALSE;
     }
     /*初始化系统层*/
-    if (!ZuiOsInitialize()) {
+    if (!ZuiOsInitialize(config)) {
         return FALSE;
     }
     /*初始化全局变量*/

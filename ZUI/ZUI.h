@@ -3,11 +3,12 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <tchar.h>
 //config
 #include "config.h"
 
 #ifdef PLATFORM_OS_WIN
+#include <tchar.h>
+#include <Windows.h>
     # if defined(BUILDING_ZUI_SHARED)
         //编译成动态库
         #ifdef __cplusplus
@@ -132,7 +133,8 @@ typedef struct _ZPath* ZuiPath, ZPath;
 typedef struct _ZuiInitConfig
 {
 #if (defined PLATFORM_OS_WIN)
-    ZuiAny m_hInstance;  //库所在的模块句柄,动态库默认自动为当前模块,静态链接须设置此参数
+    HINSTANCE m_hInstance;  //库所在的模块句柄,动态库默认自动为当前模块,静态链接须设置此参数
+    HICON hicon;
 #endif
     ZuiBool debug;              //启动调试器
     ZuiText default_res;        //默认资源文件,必备,资源字符串

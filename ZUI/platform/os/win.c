@@ -939,7 +939,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-ZuiBool ZuiOsInitialize() {
+ZuiBool ZuiOsInitialize(ZuiInitConfig config) {
     // 关闭DPI缩放 ,UI库自己实现缩放
     FARPROC spdpia = GetProcAddress(GetModuleHandle(TEXT("user32")), "SetProcessDPIAware");
     if (spdpia != NULL)
@@ -955,7 +955,7 @@ ZuiBool ZuiOsInitialize() {
     wc.style = 8;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
-    wc.hIcon = NULL;
+    wc.hIcon = config->hicon;
     wc.lpfnWndProc = __WndProc;
     wc.hInstance = GetModuleHandleA(NULL);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
