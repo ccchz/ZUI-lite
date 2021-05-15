@@ -8,7 +8,7 @@
 ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
-    case Proc_OnPaintText: {
+    case ZM_OnPaintText: {
         ZuiColor tmpTColor;
         if (!cp->m_sText)
             return 0;
@@ -29,30 +29,30 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
             ZuiDrawString(gp, Global_Font, cp->m_sText, _tcslen(cp->m_sText), &pt, tmpTColor, p->m_uTextStyle);
         return 0;
     }
-    case Proc_Label_SetFont: {
+    case ZM_Label_SetFont: {
         if (p->m_rFont)
             ZuiResDBDelRes(p->m_rFont);
         p->m_rFont = Param1;
         ZuiControlNeedUpdate(cp);
         return 0;
     }
-    case Proc_Label_SetTextColor: {
+    case ZM_Label_SetTextColor: {
         p->m_cTextColor = (ZuiColor)Param1;
         ZuiControlNeedUpdate(cp);
         return 0;
     }
-    case Proc_Label_SetTextColorDisabled: {
+    case ZM_Label_SetTextColorDisabled: {
         p->m_cTextColorDisabled = (ZuiColor)Param1;
         ZuiControlNeedUpdate(cp);
         return 0;
     }
-    case Proc_Label_SetTextPadding: {
+    case ZM_Label_SetTextPadding: {
         memcpy(&p->m_rcPadding, Param1, sizeof(ZRect));
         ZuiControlNeedUpdate(cp);
         return 0;
     }
-    case Proc_SetAttribute: {
-        if (_tcsicmp(Param1, _T("font")) == 0) ZuiControlCall(Proc_Label_SetFont, cp, ZuiResDBGetRes(Param2, ZREST_FONT), NULL);
+    case ZM_SetAttribute: {
+        if (_tcsicmp(Param1, _T("font")) == 0) ZCCALL(ZM_Label_SetFont, cp, ZuiResDBGetRes(Param2, ZREST_FONT), NULL);
         if (_tcsicmp(Param1, _T("align")) == 0) {
             //横向对齐方式
             if (_tcsicmp(Param2, _T("left")) == 0) {
@@ -87,11 +87,11 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         }
         else if (_tcsicmp(Param1, _T("textcolor")) == 0) {
             ZuiColor clrColor = ZuiStr2Color(Param2);
-            ZuiControlCall(Proc_Label_SetTextColor, cp, (ZuiAny)clrColor, NULL);
+            ZCCALL(ZM_Label_SetTextColor, cp, (ZuiAny)clrColor, NULL);
         }
         else if (_tcsicmp(Param1, _T("textcolordisabled")) == 0) {
             ZuiColor clrColor = ZuiStr2Color(Param2);
-            ZuiControlCall(Proc_Label_SetTextColorDisabled, cp, (ZuiAny)clrColor, NULL);
+            ZCCALL(ZM_Label_SetTextColorDisabled, cp, (ZuiAny)clrColor, NULL);
         }
         else if (_tcsicmp(Param1, _T("textpadding")) == 0) {
             //字体边距
@@ -101,7 +101,7 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
             rcPadding.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
             rcPadding.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
             rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-            ZuiControlCall(Proc_Label_SetTextPadding, cp, &rcPadding, NULL);
+            ZCCALL(ZM_Label_SetTextPadding, cp, &rcPadding, NULL);
         }
         else if (_tcsicmp(Param1, _T("wordbreak")) == 0) {
             //自动换行
@@ -127,7 +127,7 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         }
         return 0;
     }
-    case Proc_OnCreate: {
+    case ZM_OnCreate: {
         ZuiLabel np = (ZuiLabel)malloc(sizeof(ZLabel));
         memset(np, 0, sizeof(ZLabel));
         //保存原来的回调地址,创建成功后回调地址指向当前函数
@@ -140,7 +140,7 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         np->m_rcPadding = rctmp;
         return np;
     }
-    case Proc_OnDestroy: {
+    case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
 
         old_call(ProcId, cp, 0, Param1, Param2);
@@ -149,15 +149,15 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
 
         return 0;
     }
-    case Proc_GetObject:
+    case ZM_GetObject:
         if (_tcsicmp(Param1, (ZuiAny)Type_Label) == 0)
             return (ZuiAny)p;
         break;
-    case Proc_GetType:
+    case ZM_GetType:
         return (ZuiAny)Type_Label;
-    case Proc_CoreInit:
+    case ZM_CoreInit:
         return (ZuiAny)TRUE;
-    case Proc_CoreUnInit:
+    case ZM_CoreUnInit:
         return (ZuiAny)NULL;
     default:
         break;

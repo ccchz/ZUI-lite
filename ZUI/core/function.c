@@ -136,13 +136,13 @@ ZuiAny ZCALL MsgBox_Notify_ctl(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAn
     if (_tcsicmp(msg, _T("onclick")) == 0)
     {
         if (_tcsicmp(p->m_sName, _T("WindowCtl_clos")) == 0) {
-            ZuiControlCall(Proc_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiCANCEL, NULL);
+            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiCANCEL, NULL);
         }
         else if (_tcsicmp(p->m_sName, _T("ok")) == 0) {
-            ZuiControlCall(Proc_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiOK, NULL);
+            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiOK, NULL);
         }
         else if (_tcsicmp(p->m_sName, _T("cancel")) == 0) {
-            ZuiControlCall(Proc_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiCANCEL, NULL);
+            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiCANCEL, NULL);
         }
     }
     return 0;
@@ -168,10 +168,10 @@ ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp, ZuiText text, ZuiText title) {
     ZuiControlRegNotify(MsgBox_pRoot, Default_NotifyProc);
     //取消最小化按钮
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_min"));
-    ZuiControlCall(Proc_SetVisible, p, FALSE, NULL);
+    ZCCALL(ZM_SetVisible, p, FALSE, NULL);
     //取消最大化按钮
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_max"));
-    ZuiControlCall(Proc_SetVisible, p, FALSE, NULL);
+    ZCCALL(ZM_SetVisible, p, FALSE, NULL);
     //挂接关闭按钮事件
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_clos"));
     ZuiControlRegNotify(p, MsgBox_Notify_ctl);
@@ -183,9 +183,9 @@ ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp, ZuiText text, ZuiText title) {
     ZuiControlRegNotify(p, MsgBox_Notify_ctl);
 
     p = ZuiControlFindName(MsgBox_pRoot, _T("text"));
-    ZuiControlCall(Proc_SetText, p, text, NULL);
+    ZCCALL(ZM_SetText, p, text, NULL);
     p = ZuiControlFindName(MsgBox_pRoot, _T("title"));
-    ZuiControlCall(Proc_SetText, p, title, NULL);
+    ZCCALL(ZM_SetText, p, title, NULL);
 
     return ZuiDoModel(MsgBox_pRoot);
 }

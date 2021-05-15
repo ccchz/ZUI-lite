@@ -73,7 +73,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
                     if (Control) {
                         node->user_data = Control;//保存控件到节点
                                                   /*添加到容器*/
-                        ZuiControlCall(Proc_Layout_Add, node->parent->user_data, Control, NULL);
+                        ZCCALL(ZM_Layout_Add, node->parent->user_data, Control, NULL);
                     }
                     else {
                         /*当前控件创建失败 子控件肯定创建不了 删除节点*/
@@ -95,7 +95,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
                 /*解析属性*/
                 for (int i = 0; i < node->value.num_attrs; i++)
                 {
-                    ZuiControlCall(Proc_SetAttribute, Control, node->value.attrs[i].name, node->value.attrs[i].value);
+                    ZCCALL(ZM_SetAttribute, Control, node->value.attrs[i].name, node->value.attrs[i].value);
                 }
             }
         }

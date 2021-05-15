@@ -26,53 +26,53 @@ DArray *m_window_array = NULL;
 ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
-    case Proc_SetText: {
+    case ZM_SetText: {
         return (ZuiAny)ZuiOsSetWindowTitle(p->m_osWindow, Param1);
     }
-    case Proc_Window_SetWindowMin: {
+    case ZM_Window_SetWindowMin: {
         return (ZuiAny)ZuiOsSetWindowMin(p->m_osWindow);
     }
-    case Proc_Window_SetWindowMax: {
+    case ZM_Window_SetWindowMax: {
         return (ZuiAny)ZuiOsSetWindowMax(p->m_osWindow);
     }
-    case Proc_Window_SetWindowRestor: {
+    case ZM_Window_SetWindowRestor: {
         return (ZuiAny)ZuiOsSetWindowRestor(p->m_osWindow);
     }
-    case Proc_Window_SetMinInfo: {
+    case ZM_Window_SetMinInfo: {
         cp->m_pOs->m_szMinWindow.cx = (LONG)Param1;
         cp->m_pOs->m_szMinWindow.cy = (LONG)Param2;
         break;
     }
-    case Proc_Window_SetMaxInfo: {
+    case ZM_Window_SetMaxInfo: {
         cp->m_pOs->m_szMaxWindow.cx = (LONG)Param1;
         cp->m_pOs->m_szMaxWindow.cy = (LONG)Param2;
         break;
     }
-    case Proc_Window_SetSize: {
+    case ZM_Window_SetSize: {
         return (ZuiAny)(ZuiOsSetWindowSize(p->m_osWindow, (unsigned int)Param1, (unsigned int)Param2));
     }
-    case Proc_Window_SetNoBox: {
+    case ZM_Window_SetNoBox: {
         return (ZuiAny)(ZuiOsSetWindowNoBox(p->m_osWindow, (ZuiBool)Param1));
     }
-    case Proc_Window_SetComBo: {
+    case ZM_Window_SetComBo: {
         return (ZuiAny)(ZuiOsSetWindowComBo(p->m_osWindow, (ZuiBool)Param1));
     }
-    case Proc_Window_SetToolWindow: {
+    case ZM_Window_SetToolWindow: {
         return (ZuiAny)(ZuiOsSetWindowTool(p->m_osWindow, (ZuiBool)Param1));
     }
-    case Proc_Window_Popup: {
+    case ZM_Window_Popup: {
         cp->m_bVisible = TRUE;
         ZuiOsWindowPopup(p->m_osWindow, Param1);
         return 0;
     }
-    case Proc_Window_Center: {
+    case ZM_Window_Center: {
         ZuiOsSetWindowCenter(p->m_osWindow);
         return 0;
     }
-    case Proc_SetAttribute: {
-        if (_tcsicmp(Param1, _T("nobox")) == 0) ZuiControlCall(Proc_Window_SetNoBox, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcsicmp(Param1, _T("combo")) == 0) ZuiControlCall(Proc_Window_SetComBo, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcsicmp(Param1, _T("toolwindow")) == 0) ZuiControlCall(Proc_Window_SetToolWindow, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+    case ZM_SetAttribute: {
+        if (_tcsicmp(Param1, _T("nobox")) == 0) ZCCALL(ZM_Window_SetNoBox, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        else if (_tcsicmp(Param1, _T("combo")) == 0) ZCCALL(ZM_Window_SetComBo, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        else if (_tcsicmp(Param1, _T("toolwindow")) == 0) ZCCALL(ZM_Window_SetToolWindow, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
         else if (_tcsicmp(Param1, _T("layered")) == 0) {
 
         }
@@ -80,19 +80,19 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
             ZuiText pstr = NULL;
             int cx = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
             int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
-            ZuiControlCall(Proc_Window_SetMinInfo, cp, (ZuiAny)cx, (ZuiAny)cy);
+            ZCCALL(ZM_Window_SetMinInfo, cp, (ZuiAny)cx, (ZuiAny)cy);
         }
         else if (_tcsicmp(Param1, _T("maxinfo")) == 0) {
             ZuiText pstr = NULL;
             int cx = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
             int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
-            ZuiControlCall(Proc_Window_SetMaxInfo, cp, (ZuiAny)cx, (ZuiAny)cy);
+            ZCCALL(ZM_Window_SetMaxInfo, cp, (ZuiAny)cx, (ZuiAny)cy);
         }
         else if (_tcsicmp(Param1, _T("size")) == 0) {
             ZuiText pstr = NULL;
             int cx = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
             int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
-            ZuiControlCall(Proc_Window_SetSize, cp, (ZuiAny)cx, (ZuiAny)cy);
+            ZCCALL(ZM_Window_SetSize, cp, (ZuiAny)cx, (ZuiAny)cy);
         }
         else if (_tcsicmp(Param1, _T("name")) == 0) {
             if (cp->m_sName) {
@@ -123,7 +123,7 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         }
         else if (_tcsicmp(Param1, _T("center")) == 0) {
             if (_tcsicmp(Param2, _T("true")) == 0) {
-                ZuiControlCall(Proc_Window_Center, cp, NULL, NULL);
+                ZCCALL(ZM_Window_Center, cp, NULL, NULL);
             }
         }
         else if (_tcsicmp(Param1, _T("desktop")) == 0) {
@@ -131,20 +131,20 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         }
         break;
     }
-    case Proc_SetVisible: {
+    case ZM_SetVisible: {
         if (cp->m_bVisible == (BOOL)Param1)
             return 0;
         ZuiOsSetWindowVisible(p->m_osWindow, (ZuiBool)Param1);
         break;
     }
-    case Proc_GetObject:
+    case ZM_GetObject:
         if (_tcsicmp(Param1, (ZuiAny)Type_Window) == 0)
             return (ZuiAny)p;
         break;
-    case Proc_GetType: {
+    case ZM_GetType: {
         return (ZuiAny)Type_Window;
     }
-	case Proc_SetPos: {
+	case ZM_SetPos: {
 		if (cp->m_pOs->m_bMax) {
 			int tmpwidth = cp->m_dwBorderWidth;
 			cp->m_dwBorderWidth = 0;
@@ -154,18 +154,18 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
 		}
 		break;
 	}
-	case Proc_OnPaintBorder: {
+	case ZM_OnPaintBorder: {
 		if (cp->m_pOs->m_bMax) return 0;
 		break;
 	}
-    case Proc_OnCreate: {
+    case ZM_OnCreate: {
         p = (ZuiWindow)malloc(sizeof(ZWindow));
         if (p)
         {
             memset(p, 0, sizeof(ZWindow));
             //保存原来的回调地址,创建成功后回调地址指向当前函数
             //创建继承的控件 保存数据指针
-            p->old_udata = ZuiVerticalLayoutProc(Proc_OnCreate, cp, 0, 0, 0);
+            p->old_udata = ZuiVerticalLayoutProc(ZM_OnCreate, cp, 0, 0, 0);
             p->old_call = (ZCtlProc)&ZuiVerticalLayoutProc;
 
             //创建宿主窗口
@@ -177,13 +177,13 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         }
         return NULL;
     }
-	case Proc_OnClose: {
+	case ZM_OnClose: {
         if ((int)ZuiControlNotify(_T("onclose"), cp, Param1, Param2) == -1) { //未设置控件m_pNotify的默认处理。
             ZuiOsAddDelayedCleanup(cp, Param1, Param2);
         }
 		return 0;
 	}
-    case Proc_OnDestroy: {
+    case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
         ZuiAny old_udata = p->old_udata;
 		ZuiControlNotify(_T("ondestroy"), cp, Param1, Param2);
@@ -206,13 +206,13 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
 
         return 0;
     }
-    case Proc_CoreInit: {
+    case ZM_CoreInit: {
         m_window = (struct _ZWindows_Tree*)malloc(sizeof(struct _ZWindows_Tree));
         memset(m_window, 0, sizeof(struct _ZWindows_Tree));
         m_window_array = darray_create();
         return (ZuiAny)TRUE;
     }
-    case Proc_CoreUnInit: {
+    case ZM_CoreUnInit: {
         //这里销毁掉所有窗口
         struct _ZWindows * c = NULL;
         struct _ZWindows * cc = NULL;

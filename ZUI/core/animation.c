@@ -7,7 +7,7 @@ ZuiVoid ZCALL OnPaint(ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
         ZuiOsKillTimer_Id(p, 1);
         p->m_aAnime->steup += 1;
         ZRect rc = { 0,0,p->m_rcItem.right - p->m_rcItem.left, p->m_rcItem.bottom - p->m_rcItem.top };
-        ZuiControlCall(Proc_OnPaint, p, p->m_aAnime->m_hDcOffscreen, &rc);
+        ZCCALL(ZM_OnPaint, p, p->m_aAnime->m_hDcOffscreen, &rc);
         ZuiOsSetTimer(p, 1, 50);
         
     }

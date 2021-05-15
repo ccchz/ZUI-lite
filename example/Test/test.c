@@ -64,13 +64,13 @@ ZuiAny ZCALL Main_Button_enable(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiA
     if (_tcsicmp(msg, _T("onclick")) == 0)
     {
         ZuiControl tmp = ZuiControlFindName(win, _T("buttondisable"));
-        if (!ZuiControlCall(Proc_GetEnabled, tmp, 0, 0)) {
-            ZuiControlCall(Proc_SetEnabled, tmp, (ZuiAny)1, 0);
-            ZuiControlCall(Proc_SetText, p, _T("禁用"),  0);
+        if (!ZCCALL(ZM_GetEnabled, tmp, 0, 0)) {
+            ZCCALL(ZM_SetEnabled, tmp, (ZuiAny)1, 0);
+            ZCCALL(ZM_SetText, p, _T("禁用"),  0);
         }
         else {
-            ZuiControlCall(Proc_SetEnabled, tmp, 0, 0);
-            ZuiControlCall(Proc_SetText, p, _T("启用"), 0);
+            ZCCALL(ZM_SetEnabled, tmp, 0, 0);
+            ZCCALL(ZM_SetText, p, _T("启用"), 0);
         }
     }
     return 0;
@@ -78,7 +78,7 @@ ZuiAny ZCALL Main_Button_enable(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiA
 ZuiAny ZCALL Main_Notify_ctl_clos(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
     if (_tcsicmp(msg, _T("onclick")) == 0)
     {
-        ZuiControlCall(Proc_OnClose, win, 0, 0);
+        ZCCALL(ZM_OnClose, win, 0, 0);
     }
     return 0;
 }
@@ -86,7 +86,7 @@ ZuiAny ZCALL Main_Notify_ctl_clos(ZuiText msg, ZuiControl p, ZuiAny UserData, Zu
 ZuiAny ZCALL Main_Notify_ctl_min(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
     if (_tcsicmp(msg, _T("onclick")) == 0)
     {
-        ZuiControlCall(Proc_Window_SetWindowMin, win, 0, 0);
+        ZCCALL(ZM_Window_SetWindowMin, win, 0, 0);
     }
     return 0;
 }
@@ -95,10 +95,10 @@ ZuiAny ZCALL Main_Notify_ctl_max(ZuiText msg, ZuiControl p, ZuiAny UserData, Zui
     if (_tcsicmp(msg, _T("selectchanged")) == 0)
     {
 
-        if (ZuiControlCall(Proc_Option_GetSelected, p, 0, 0))
-            ZuiControlCall(Proc_Window_SetWindowMax, win, 0, 0);
+        if (ZCCALL(ZM_Option_GetSelected, p, 0, 0))
+            ZCCALL(ZM_Window_SetWindowMax, win, 0, 0);
         else
-            ZuiControlCall(Proc_Window_SetWindowRestor, win, 0, 0);
+            ZCCALL(ZM_Window_SetWindowRestor, win, 0, 0);
 
     }
     return 0;
@@ -120,13 +120,13 @@ ZuiAny ZCALL Main_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Para
         if ((LPARAM)Param1 == 2) {
             ZuiControl pmax = ZuiControlFindName(win, _T("WindowCtl_max"));
             if (pmax)
-                ZuiControlCall(Proc_Option_SetSelected, pmax, (ZuiAny)TRUE, NULL);
+                ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)TRUE, NULL);
         }
         else if(Param1 == 0)
         {
             ZuiControl pmax = ZuiControlFindName(p, _T("WindowCtl_max"));
             if (pmax)
-                ZuiControlCall(Proc_Option_SetSelected, pmax, (ZuiAny)FALSE, NULL);
+                ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)FALSE, NULL);
         }
     }
     return 0;

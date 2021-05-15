@@ -3,7 +3,7 @@
 ZEXPORT ZuiAny ZCALL ZuiSplitterBarProc(int ProcId, ZuiControl cp, ZuiSplitterBar p, ZuiAny Param1, ZuiAny Param2){
     switch (ProcId)
     {
-    case Proc_OnEvent: {
+    case ZM_OnEvent: {
         TEventUI *event = (TEventUI *)Param1;
         switch (event->Type)
         {
@@ -28,20 +28,20 @@ ZEXPORT ZuiAny ZCALL ZuiSplitterBarProc(int ProcId, ZuiControl cp, ZuiSplitterBa
             if (p->mousedown && cp->m_pParent)
             {
                 int index;
-                if ((index = (int)ZuiControlCall(Proc_Layout_GetItemIndex, cp->m_pParent, cp, NULL)) > 0)
+                if ((index = (int)ZCCALL(ZM_Layout_GetItemIndex, cp->m_pParent, cp, NULL)) > 0)
                 {
-                    ZuiControl lp = ZuiControlCall(Proc_Layout_GetItemAt, cp->m_pParent, (ZuiAny)(index - 1), NULL);//上一个控件
-                    ZuiControl np = ZuiControlCall(Proc_Layout_GetItemAt, cp->m_pParent, (ZuiAny)(index + 1), NULL);//下一个控件
+                    ZuiControl lp = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)(index - 1), NULL);//上一个控件
+                    ZuiControl np = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)(index + 1), NULL);//下一个控件
                     if (lp && np) {
                         if (cp->m_rcItem.right - cp->m_rcItem.left < cp->m_rcItem.bottom - cp->m_rcItem.top) {
                             if (event->ptMouse.x - lp->m_rcItem.left > lp->m_cxyMin.cx && np->m_rcItem.right - lp->m_rcItem.left - event->ptMouse.x + lp->m_rcItem.left - cp->m_rcItem.right + cp->m_rcItem.left > np->m_cxyMin.cx) {
                                 int width = np->m_rcItem.right - lp->m_rcItem.left;
                                 if (p->type == 1) {
-                                    ZuiControlCall(Proc_SetFixedWidth, lp, (ZuiAny)(event->ptMouse.x - lp->m_rcItem.left), (ZuiAny)TRUE);
+                                    ZCCALL(ZM_SetFixedWidth, lp, (ZuiAny)(event->ptMouse.x - lp->m_rcItem.left), (ZuiAny)TRUE);
                                 }
                                 else if (p->type == 3)
                                 {
-                                    ZuiControlCall(Proc_SetFixedWidth, np, (ZuiAny)(width - event->ptMouse.x + lp->m_rcItem.left - cp->m_rcItem.right + cp->m_rcItem.left), (ZuiAny)TRUE);
+                                    ZCCALL(ZM_SetFixedWidth, np, (ZuiAny)(width - event->ptMouse.x + lp->m_rcItem.left - cp->m_rcItem.right + cp->m_rcItem.left), (ZuiAny)TRUE);
                                 }
                             }
                             else
@@ -51,16 +51,16 @@ ZEXPORT ZuiAny ZCALL ZuiSplitterBarProc(int ProcId, ZuiControl cp, ZuiSplitterBa
                             if (event->ptMouse.y - lp->m_rcItem.top > lp->m_cxyMin.cy && np->m_rcItem.bottom - lp->m_rcItem.top - event->ptMouse.y + lp->m_rcItem.top - cp->m_rcItem.bottom + cp->m_rcItem.top) {
                                 int height = np->m_rcItem.bottom - lp->m_rcItem.top;
                                 if (p->type == 2) {
-                                    ZuiControlCall(Proc_SetFixedHeight, lp, (ZuiAny)(event->ptMouse.y - lp->m_rcItem.top), (ZuiAny)TRUE);
+                                    ZCCALL(ZM_SetFixedHeight, lp, (ZuiAny)(event->ptMouse.y - lp->m_rcItem.top), (ZuiAny)TRUE);
                                 }
                                 else if (p->type == 4)
                                 {
-                                    ZuiControlCall(Proc_SetFixedHeight, np, (ZuiAny)(height - event->ptMouse.y + lp->m_rcItem.top - cp->m_rcItem.bottom + cp->m_rcItem.top), (ZuiAny)TRUE);
+                                    ZCCALL(ZM_SetFixedHeight, np, (ZuiAny)(height - event->ptMouse.y + lp->m_rcItem.top - cp->m_rcItem.bottom + cp->m_rcItem.top), (ZuiAny)TRUE);
                                 }
                             }
                             else
                                 return 0;
-                            //ZuiControlCall(Proc_SetFixedHeight, lp, event->ptMouse.y - lp->m_rcItem.top, NULL, NULL);
+                            //ZCCALL(ZM_SetFixedHeight, lp, event->ptMouse.y - lp->m_rcItem.top, NULL, NULL);
                         }
                         ZuiControlNeedUpdate(cp->m_pParent);
                     }
@@ -75,11 +75,11 @@ ZEXPORT ZuiAny ZCALL ZuiSplitterBarProc(int ProcId, ZuiControl cp, ZuiSplitterBa
         }
         break;
     }
-    case Proc_OnPaint: {
-        ZuiControlCall(Proc_OnPaintBkColor, cp, Param1, Param2);
+    case ZM_OnPaint: {
+        ZCCALL(ZM_OnPaintBkColor, cp, Param1, Param2);
         return 0;
     }
-    case Proc_SetAttribute: {
+    case ZM_SetAttribute: {
         if (_tcsicmp(Param1, _T("sepside")) == 0) {
             if (_tcsicmp(Param2, _T("left")) == 0) {
                 p->type = 1;
@@ -96,33 +96,33 @@ ZEXPORT ZuiAny ZCALL ZuiSplitterBarProc(int ProcId, ZuiControl cp, ZuiSplitterBa
         }
         break;
     }
-    case Proc_GetControlFlags: {
+    case ZM_GetControlFlags: {
         return (ZuiAny)ZFLAG_SETCURSOR;
         break;
     }
-    case Proc_OnCreate: {
+    case ZM_OnCreate: {
         ZuiSplitterBar np = (ZuiSplitterBar)malloc(sizeof(ZSplitterBar));
         memset(np, 0, sizeof(ZSplitterBar));
         //保存原来的回调地址,创建成功后回调地址指向当前函数
         np->old_call = cp->call;
         return np;
     }
-    case Proc_OnDestroy: {
+    case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
         old_call(ProcId, cp, 0, Param1, Param2);
         free(p);
 
         return 0;
     }
-    case Proc_GetObject:
+    case ZM_GetObject:
         if (_tcsicmp(Param1, (ZuiAny)Type_SplitterBar) == 0)
             return (ZuiAny)p;
         break;
-    case Proc_GetType:
+    case ZM_GetType:
         return (ZuiAny)Type_SplitterBar;
-    case Proc_CoreInit:
+    case ZM_CoreInit:
         return (ZuiAny)TRUE;
-    case Proc_CoreUnInit:
+    case ZM_CoreUnInit:
         return (ZuiAny)NULL;
     default:
         break;
