@@ -489,7 +489,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         ZRect *rc = (ZRect *)&p->m_rcItem;
         if (p->m_BkgColor) {
             if (p->m_rRound.cx)
-                ZuiDrawFillRoundRect(gp, p->m_BkgColor, rc, p->m_rRound.cx-1, p->m_rRound.cy-1);
+                ZuiDrawFillRoundRect(gp, p->m_BkgColor, rc, p->m_rRound.cx, p->m_rRound.cy);
             else
                 ZuiDrawFillRect(gp, p->m_BkgColor, rc);
         }
@@ -510,12 +510,12 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 		if (p->m_dwBorderColor) {
 			if(p->m_dwBorderWidth)
                 if (p->m_rRound.cx)
-                    ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx-1, p->m_rRound.cy-1, p->m_dwBorderWidth);
+                    ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy, p->m_dwBorderWidth);
                 else
 				    ZuiDrawRect(gp, p->m_dwBorderColor, rc, p->m_dwBorderWidth);
 			else
                 if (p->m_rRound.cx)
-                    ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx-1, p->m_rRound.cy-1,1);
+                    ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy,1);
                 else
 				    ZuiDrawRect(gp, p->m_dwBorderColor, rc, 1);
 		}

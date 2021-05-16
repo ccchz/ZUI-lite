@@ -82,10 +82,10 @@ extern "C" {
         if (gp)
         {
             REAL left, top, right, bottom;
-            left = rc->left-1;
-            top = rc->top-1;
-            right = rc->right;
-            bottom = rc->bottom;
+            left = rc->left;
+            top = rc->top;
+            right = rc->right-1;
+            bottom = rc->bottom-1;
             GraphicsPath path;
             SolidBrush brush(incolor);
             Graphics gpp(gp->hdc);
@@ -115,7 +115,7 @@ extern "C" {
             bottom = rc->bottom-1;
             GraphicsPath path;
             Pen pen(incolor, (REAL)LineWidth);
-            pen.SetAlignment(PenAlignmentInset);
+            //pen.SetAlignment(PenAlignmentInset);
             Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
@@ -425,6 +425,7 @@ extern "C" {
             gpp.SetSmoothingMode(SmoothingModeAntiAlias);
         }
         if(w && h){
+            w+=2; h+=2;
             path.AddArc((REAL)left, (REAL)top, (REAL)2 * w, (REAL)2 * h, 180, 90);
             path.AddLine((REAL)left + w, (REAL)top, (REAL)right - w, (REAL)top);
             path.AddArc((REAL)right - 2 * w, (REAL)top, (REAL)2 * w, (REAL)2 * h, 270, 90);

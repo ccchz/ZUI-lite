@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="gbk"?>
 <include src="default:default_ctl.xml" />
-<Window nobox="true"  bordercolor="ff686868" bkcolor="0xFF282828" text="Demo" size="600,500" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
+<Window nobox="true"  round="10,10" bordercolor="ff686868" bkcolor="0xFF282828" text="Demo" size="600,500" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
 		<HorizontalLayout name="head" drag="true"  height="23"><!--标题栏-->
 			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:name='微软雅黑':size=10:bold=true" drag="true"/>
 			<Include src="file:itest.xml" />
@@ -289,7 +289,7 @@
 		<NULL height="1" bkcolor="#FF888888"/>
 		<VerticalLayout  vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848"><!--状态栏-->
 			<NULL height="100" width="2000"/>
-			<ProgressBar bordercolor="#FF151515" name="pbb" width="300" height="20" pbheight="8" pbpos="100" pbrange="400" round="2,2"/>
+			<ProgressBar bordercolor="#FF151515" name="pbb" width="300" height="20" pbheight="8" pbpos="100" pbrange="400" round="4,4"/>
 			<Button bordercolor="#FF151515" name="msgbox" text="对话框"  width="100" height="23"/>
 			<Option name="buttondisable" text="按钮禁用状态测试"  enabled="false" disabledcolor="#FF8c8c8c" width="150" height="23"/>
 			<Button name="buttonenable" text="启用" width="100" height="23"/>
