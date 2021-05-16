@@ -25,6 +25,7 @@ typedef struct _ZGraphics {
     int Height;
     ZRect Clip;
 #ifdef PLATFORM_OS_WIN
+    HWND hwnd;
     HDC hdc;		///ÄÚ´æ³¡¾°
     HBITMAP HBitmap;///Î»Í¼¾ä±ú
     BOOL SmoothingMode;

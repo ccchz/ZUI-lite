@@ -81,20 +81,25 @@ extern "C" {
     ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int w, int h) {
         if (gp)
         {
+            REAL left, top, right, bottom;
+            left = rc->left-1;
+            top = rc->top-1;
+            right = rc->right;
+            bottom = rc->bottom;
             GraphicsPath path;
             SolidBrush brush(incolor);
             Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
-            path.AddArc((REAL)rc->left, (REAL)rc->top, (REAL)2*w, (REAL)2*h, 180, 90);
-            path.AddLine((REAL)rc->left + w, (REAL)rc->top, (REAL)rc->right - w, (REAL)rc->top);
-            path.AddArc((REAL)rc->right-2*w-1, (REAL)rc->top, (REAL)2 * w, (REAL)2 * h, 270, 90);
-            path.AddLine((REAL)rc->right-1, (REAL)rc->top+h, (REAL)rc->right-1, (REAL)rc->bottom-h);
-            path.AddArc((REAL)rc->right - 2*w-1, (REAL)rc->bottom - 2*h-1, (REAL)2* w, (REAL)2 * h, 0, 90);
-            path.AddLine((REAL)rc->left+w, (REAL)rc->bottom-1, (REAL)rc->right-w, (REAL)rc->bottom-1);
-            path.AddArc((REAL)rc->left, (REAL)rc->bottom - 2*h-1, (REAL)2 * w, (REAL)2 * h, 90, 90);
-            path.AddLine((REAL)rc->left, (REAL)rc->bottom-h-1, (REAL)rc->left, (REAL)rc->top + h);
+            path.AddArc((REAL)left, (REAL)top, (REAL)2 * w, (REAL)2 * h, 180, 90);
+            path.AddLine((REAL)left + w, (REAL)top, (REAL)right - w, (REAL)top);
+            path.AddArc((REAL)right - 2 * w , (REAL)top, (REAL)2 * w, (REAL)2 * h, 270, 90);
+            path.AddLine((REAL)right , (REAL)top + h, (REAL)right , (REAL)bottom - h);
+            path.AddArc((REAL)right - 2 * w , (REAL)bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 0, 90);
+            path.AddLine((REAL)left + w, (REAL)bottom , (REAL)right - w, (REAL)bottom );
+            path.AddArc((REAL)left, (REAL)bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 90, 90);
+            path.AddLine((REAL)left, (REAL)bottom - h , (REAL)left, (REAL)top + h);
             gpp.FillPath(&brush, &path);
             path.~GraphicsPath();
             gpp.~Graphics();
@@ -103,6 +108,11 @@ extern "C" {
     //绘制圆角矩形
     ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int w, int h, int LineWidth) {
         if (gp) {
+            REAL left, top, right, bottom;
+            left = rc->left;
+            top = rc->top;
+            right = rc->right-1;
+            bottom = rc->bottom-1;
             GraphicsPath path;
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
@@ -110,14 +120,14 @@ extern "C" {
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
-            path.AddArc((REAL)rc->left, (REAL)rc->top, (REAL)2 * w, (REAL)2 * h, 180, 90);
-            path.AddLine((REAL)rc->left + w, (REAL)rc->top, (REAL)rc->right - w, (REAL)rc->top);
-            path.AddArc((REAL)rc->right - 2 * w - 1, (REAL)rc->top, (REAL)2 * w, (REAL)2 * h, 270, 90);
-            path.AddLine((REAL)rc->right - 1, (REAL)rc->top + h, (REAL)rc->right - 1, (REAL)rc->bottom - h);
-            path.AddArc((REAL)rc->right - 2 * w - 1, (REAL)rc->bottom - 2 * h-1, (REAL)2 * w, (REAL)2 * h, 0, 90);
-            path.AddLine((REAL)rc->left + w, (REAL)rc->bottom - 1, (REAL)rc->right - w, (REAL)rc->bottom - 1);
-            path.AddArc((REAL)rc->left, (REAL)rc->bottom - 2 * h - 1, (REAL)2 * w, (REAL)2 * h, 90, 90);
-            path.AddLine((REAL)rc->left, (REAL)rc->bottom - h - 1, (REAL)rc->left, (REAL)rc->top + h);
+            path.AddArc((REAL)left, (REAL)top, (REAL)2 * w, (REAL)2 * h, 180, 90);
+            path.AddLine((REAL)left + w, (REAL)top, (REAL)right - w, (REAL)top);
+            path.AddArc((REAL)right - 2 * w, (REAL)top, (REAL)2 * w, (REAL)2 * h, 270, 90);
+            path.AddLine((REAL)right, (REAL)top + h, (REAL)right, (REAL)bottom - h);
+            path.AddArc((REAL)right - 2 * w, (REAL)bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 0, 90);
+            path.AddLine((REAL)left + w, (REAL)bottom, (REAL)right - w, (REAL)bottom);
+            path.AddArc((REAL)left, (REAL)bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 90, 90);
+            path.AddLine((REAL)left, (REAL)bottom - h, (REAL)left, (REAL)top + h);
             gpp.DrawPath(&pen, &path);
             pen.~Pen();
             path.~GraphicsPath();
@@ -157,8 +167,8 @@ extern "C" {
             pt[1].Y = y2;
             pt[2].X = x3;
             pt[2].Y = y3;
-            pen.~Pen();
             gpp.DrawPolygon(&pen,pt,3);
+            pen.~Pen();
             gpp.~Graphics();
         }
     }
@@ -166,12 +176,11 @@ extern "C" {
     ZEXPORT ZuiVoid ZCALL ZuiDrawLine(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int LineWidth)
     {
         if (gp) {
-            HPEN gPen = CreatePen(PS_SOLID, LineWidth, incolor);
-            HPEN oPen = (HPEN)SelectObject(gp->hdc, gPen);
-            MoveToEx(gp->hdc, rc->left, rc->top, NULL);
-            LineTo(gp->hdc, rc->right, rc->bottom);
-            SelectObject(gp->hdc, oPen);
-            DeleteObject(gPen);
+            Pen pen(incolor, (REAL)LineWidth);
+            Graphics gpp(gp->hdc);
+            gpp.DrawLine(&pen,rc->left,rc->top,rc->right,rc->bottom);
+            pen.~Pen();
+            gpp.~Graphics();
         }
     }
     /*画文本(按照计算好的坐标)*/
@@ -356,9 +365,9 @@ extern "C" {
     }
 
     //设置剪裁区
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClipBox(ZuiGraphics gp, ZuiRect box, int mode) {
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiGraphics gp, ZuiRect rc, int w, int h, int mode) {
 
-        return FALSE;
+        return TRUE;
     }
     //获取剪裁区
     ZEXPORT ZuiBool ZCALL ZuiGraphicsGetClipBox(ZuiGraphics gp, ZuiRect box) {
@@ -402,6 +411,43 @@ extern "C" {
             }
             free(Img);
         }
+    }
+
+    ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiGraphics gp, ZuiRect rc, int w, int h) {
+        REAL left, top, right, bottom;
+        left = rc->left-1;
+        top = rc->top-1;
+        right = rc->right;
+        bottom = rc->bottom;
+        GraphicsPath path;
+        Graphics gpp(gp->hdc);
+        if (gp->SmoothingMode) {
+            gpp.SetSmoothingMode(SmoothingModeAntiAlias);
+        }
+        if(w && h){
+            path.AddArc((REAL)left, (REAL)top, (REAL)2 * w, (REAL)2 * h, 180, 90);
+            path.AddLine((REAL)left + w, (REAL)top, (REAL)right - w, (REAL)top);
+            path.AddArc((REAL)right - 2 * w, (REAL)top, (REAL)2 * w, (REAL)2 * h, 270, 90);
+            path.AddLine((REAL)right, (REAL)top + h, (REAL)right, (REAL)bottom - h);
+            path.AddArc((REAL)right - 2 * w, (REAL)bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 0, 90);
+            path.AddLine((REAL)left + w, (REAL)bottom, (REAL)right - w, (REAL)bottom);
+            path.AddArc((REAL)left, (REAL)bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 90, 90);
+            path.AddLine((REAL)left, (REAL)bottom - h, (REAL)left, (REAL)top + h);
+        }
+        else {
+            path.AddLine((REAL)rc->left, (REAL)rc->top, (REAL)rc->right, (REAL)rc->top);
+            path.AddLine((REAL)rc->right, (REAL)rc->top, (REAL)rc->right, (REAL)rc->bottom);
+            path.AddLine((REAL)rc->left, (REAL)rc->bottom , (REAL)rc->right, (REAL)rc->bottom );
+            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->left, (REAL)rc->top);
+        }
+        Region region(&path);
+        gpp.SetClip(&region);
+        HRGN hrgn = region.GetHRGN(&gpp);
+        SetWindowRgn(gp->hwnd, hrgn, TRUE);
+        DeleteObject(hrgn);
+        path.~GraphicsPath();
+        region.~Region();
+        gpp.~Graphics();
     }
 
 #ifdef __cplusplus

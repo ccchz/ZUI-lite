@@ -489,7 +489,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         ZRect *rc = (ZRect *)&p->m_rcItem;
         if (p->m_BkgColor) {
             if (p->m_rRound.cx)
-                ZuiDrawFillRoundRect(gp, p->m_BkgColor, rc, p->m_rRound.cx, p->m_rRound.cy);
+                ZuiDrawFillRoundRect(gp, p->m_BkgColor, rc, p->m_rRound.cx-1, p->m_rRound.cy-1);
             else
                 ZuiDrawFillRect(gp, p->m_BkgColor, rc);
         }

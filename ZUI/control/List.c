@@ -811,14 +811,14 @@ ZEXPORT ZuiAny ZCALL ZuiListElementProc(int ProcId, ZuiControl cp, ZuiListElemen
         ZRect rcc;
         if (pInfo->dwLineColor != 0) {
             if (pInfo->bShowRowLine) {
-                MAKEZRECT(rcc, rc->left, rc->bottom - 1, rc->right, rc->bottom);
+                MAKEZRECT(rcc, rc->left, rc->bottom - 1, rc->right, rc->bottom - 1);
                 ZuiDrawLine(gp, pInfo->dwLineColor, &rcc, 1);
             }
         }
         if (pInfo->dwColumnColor) {
             if (pInfo->bShowColumnLine) {
                 for (int i = 0; i < pInfo->nColumns; i++) {
-                    MAKEZRECT(rcc, pInfo->rcColumn[i].right - 1, rc->top, pInfo->rcColumn[i].right, rc->bottom);
+                    MAKEZRECT(rcc, pInfo->rcColumn[i].right - 1, rc->top, pInfo->rcColumn[i].right  - 1, rc->bottom);
                     ZuiDrawLine(gp, pInfo->dwColumnColor, &rcc, 1);
                 }
             }
@@ -1138,7 +1138,6 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
             rc = rcThumb;
             ZuiDrawFillRect(gp, p->m_ColorSep, rc);
         }
-        //DrawImage(hDC, );*/
         return 0;
     }
     case ZM_ListHeaderItem_GetThumbRect: {

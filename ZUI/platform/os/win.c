@@ -417,9 +417,9 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             w = p->m_pRoot->m_rRound.cx;
             h = p->m_pRoot->m_rRound.cy;
         }
-        tmprgn = CreateRoundRectRgn(tmprc.left, tmprc.top, tmprc.right+1, tmprc.bottom+1,w,h);
-        SetWindowRgn(p->m_hWnd, tmprgn, TRUE);
-        DeleteObject(tmprgn);
+        //tmprgn = CreateRoundRectRgn(tmprc.left, tmprc.top, tmprc.right+1, tmprc.bottom+1,w,h);
+        //SetWindowRgn(p->m_hWnd, tmprgn, TRUE);
+        //DeleteObject(tmprgn);
         if (p->m_pRoot != NULL) {
             TEventUI event = { 0 };
             event.Type = ZEVENT_WINDOWSIZE;
@@ -446,6 +446,8 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                 p->m_hDcOffscreen = ZuiCreateGraphics(0, 0);
             }
         }
+        p->m_hDcOffscreen->hwnd = p->m_hWnd;
+        ZuiSetWindowRgn(p->m_hDcOffscreen, &tmprc, w, h);
         if (p->m_pRoot != NULL)
             ZuiControlNeedUpdate(p->m_pRoot);
         if (p->m_bLayered)

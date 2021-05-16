@@ -18,6 +18,9 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
             ZuiDrawFillRoundRect(gp, p->pbColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy);
             if (cp->m_dwBorderWidth) {
                 rc.right = cp->m_rcItem.right;
+#ifdef  PLATFORM_OS_WIN
+                rc.top--; rc.bottom++; //修正圆角矩形绘制边框不正确。
+#endif //  PLATFORM_OS_WIN
                 ZuiDrawRoundRect(gp, cp->m_dwBorderColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
             }
         }

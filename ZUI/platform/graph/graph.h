@@ -87,10 +87,9 @@ extern "C"
     ZEXPORT ZuiBool ZCALL ZuiGraphicsPushClipRect(ZuiGraphics gp, ZuiRect box, int mode);
     //ZEXPORT ZuiBool ZCALL PushClipRegion(IRegion* pRegion, UINT mode = RGN_AND);
     ZEXPORT ZuiBool ZCALL ZuiGraphicsPopClip(ZuiGraphics gp);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClipBox(ZuiGraphics gp, ZuiRect box, int mode);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiGraphics gp, ZuiRect box,int width, int height, int mode);
     ZEXPORT ZuiBool ZCALL ZuiGraphicsExcludeClipRect(ZuiGraphics gp, ZuiRect box);
     ZEXPORT ZuiBool ZCALL ZuiGraphicsIntersectClipRect(ZuiGraphics gp, ZuiRect box);
-    //
     ZEXPORT ZuiBool ZCALL ZuiGraphicsSaveClip(ZuiGraphics gp, int * pnState);
     ZEXPORT ZuiBool ZCALL ZuiGraphicsRestoreClip(ZuiGraphics gp, int nState);
     //获取剪裁区
@@ -122,7 +121,7 @@ extern "C"
     * @return 此函数没有返回值.
     */
     ZEXPORT ZuiVoid ZCALL ZuiDestroyImage(ZuiImage Img);
-
+    ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiGraphics gp, ZuiRect rc, int w, int h);
 
 #ifdef __cplusplus
 }
