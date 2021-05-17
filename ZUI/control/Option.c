@@ -41,7 +41,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         rcc.bottom = rcc.top + ResSize;
         //CheckBox控件选择状态线段。
         line1.left = rcc.left+1; line1.top = rcc.top + ResSize * 0.5; line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom-2;
-        line2.left = line1.right; line2.top = line1.bottom; line2.right = rcc.right-2, line2.bottom = rcc.top + ResSize * 0.3;
+        line2.left = line1.right; line2.top = line1.bottom; line2.right = rcc.right-2, line2.bottom = rcc.top + ResSize * 0.1;
         if (p->m_bSelected) {
             if (button->type == 0) {
                 if (p->m_ResSelected) {
@@ -158,9 +158,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                 }
             }
         }
-        ZCCALL(ZM_OnPaintText, cp, Param1, Param2);//绘制文本
-        return 0;//选择状态下不由按钮控件绘制
-        break;
+        return 0;
     }
     case ZM_Option_SetSelected: {
         if (p->m_bCheck && !(ZuiBool)Param2) return 0;  //Check控件选中状态不是点击产生的，不处理。

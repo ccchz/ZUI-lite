@@ -290,16 +290,16 @@
 		<VerticalLayout  vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848"><!--×´Ì¬À¸-->
 			<NULL height="100" width="2000"/>
 			<ProgressBar bordercolor="#FF151515" name="pbb" width="300" height="20" pbheight="8" pbpos="100" pbrange="400" round="4,4"/>
-			<Button bordercolor="#FF151515" name="msgbox" text="¶Ô»°¿ò"  width="100" height="23"/>
-			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ2" group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ3" group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<CheckBox name="buttondisable21" text="CheckBox²âÊÔ" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<CheckBox name="buttondisable22" text="CheckBox²âÊÔ2" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<Option name="buttondisable" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ" group="true" enabled="false" disabledcolor="#FF8c8c8c" width="150" height="23"/>
+			<Button bordercolor="#FF151515" imagepadding="-30,0,0,0" textpadding="34,0,0,0" align="left" foregroundimage="default:default/dui.png" imgsize="16" name="msgbox" text="¶Ô»°¿ò"  width="100" height="23"/>
+			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
+			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ2" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
+			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ3"  align="left" textpadding="22,0,0,0"group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
+			<CheckBox name="buttondisable21" text="CheckBox²âÊÔ" align="left" textpadding="22,0,0,0" disabledcolor="#FF8c8c8c" width="150" height="23"/>
+			<CheckBox name="buttondisable22" text="CheckBox²âÊÔ2" align="left" textpadding="22,0,0,0" disabledcolor="#FF8c8c8c" width="150" height="23"/>
+			<Option name="buttondisable" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ" align="left" textpadding="22,0,0,0" group="true" enabled="false" disabledcolor="#FF8c8c8c" width="150" height="23"/>
 			<Button name="buttonenable" text="ÆôÓÃ" width="100" height="23"/>
 			<Label width="100" name="wordbreak" text="¿éÊÇ  ÔÚÂÛÌ³ÕÒµÄÄ³Î»´óÀÐµÄ¸ÄµÄ¡£" wordbreak="true"/>
-			<NULL "height"="100"  width="800"/>
+			<NULL height="100"  width="800"/>
 		</VerticalLayout>
 		<NULL height="19" />
 		<Button name="floatbutton" bordercolor="#FF151515" text="¸¡¶¯°´Å¥" round="20,20" width="100" height="40" float="150,150,0,0" />

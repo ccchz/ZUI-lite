@@ -100,6 +100,19 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 ZuiDrawFillRoundRect(gp, p->m_ColorDisabled, rc, cp->m_rRound.cx, cp->m_rRound.cy);
             }
         }
+        if (p->m_ResForeground) {  //绘制前景图片
+            ZRect rcc = { 0 };
+            rcc.left = rc->left + ((rc->right - rc->left) - p->m_dwImgsize) / 2;
+            rcc.top = rc->top + ((rc->bottom - rc->top) - p->m_dwImgsize) / 2;
+            rcc.right = rcc.left + p->m_dwImgsize;
+            rcc.bottom = rcc.top + p->m_dwImgsize;
+            rcc.left += p->m_rcImagePadding.left;
+            rcc.top += p->m_rcImagePadding.top;
+            rcc.right = rcc.left + p->m_dwImgsize;
+            rcc.bottom = rcc.top + p->m_dwImgsize;
+            img = p->m_ResForeground->p;
+            ZuiDrawImageEx(gp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 0, 0, 0, 0, 255);
+        }
         return 0;
     }
     case ZM_SetEnabled: {
@@ -144,6 +157,13 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
+    case ZM_Button_SetResForeground: {
+        if (p->m_ResForeground)
+            ZuiResDBDelRes(p->m_ResForeground);
+        p->m_ResForeground = Param1;
+        ZuiControlInvalidate(cp, TRUE);
+        return 0;
+    }
     case ZM_Button_SetColorNormal: {
         p->m_ColorNormal = (ZuiColor)Param1;
         ZuiControlInvalidate(cp, TRUE);
@@ -174,10 +194,19 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
+    case ZM_Button_SetImgSize: {
+        p->m_dwImgsize = (ZuiColor)Param1;
+        return 0;
+    }
     case ZM_SetAnimation: {
         if (cp->m_aAnime)
             ZuiAnimationFree(cp->m_aAnime);
         cp->m_aAnime = ZuiAnimationNew(Param1, Param2);
+        return 0;
+    }
+    case ZM_Button_SetImagePadding: {
+        memcpy(&p->m_rcImagePadding, Param1, sizeof(ZRect));
+        ZuiControlNeedUpdate(cp);
         return 0;
     }
     case ZM_SetAttribute: {
@@ -186,13 +215,23 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         else if (_tcsicmp(Param1, _T("pushedimage")) == 0) ZCCALL(ZM_Button_SetResPushed, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
         else if (_tcsicmp(Param1, _T("focusedimage")) == 0) ZCCALL(ZM_Button_SetResFocused, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
         else if (_tcsicmp(Param1, _T("disabledimage")) == 0) ZCCALL(ZM_Button_SetResDisabled, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        
+        else if (_tcsicmp(Param1, _T("foregroundimage")) == 0) ZCCALL(ZM_Button_SetResForeground, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
         else if (_tcsicmp(Param1, _T("normalcolor")) == 0) ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("hotcolor")) == 0) ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("hotbordercolor")) == 0) ZCCALL(ZM_Button_SetBorderColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("pushedcolor")) == 0) ZCCALL(ZM_Button_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("focusedcolor")) == 0) ZCCALL(ZM_Button_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("disabledcolor")) == 0) ZCCALL(ZM_Button_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("imgsize")) == 0) ZCCALL(ZM_Button_SetImgSize, cp, (ZuiAny)(_wtoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("imagepadding")) == 0) {
+            ZRect rcPadding = { 0 };
+            ZuiText pstr = NULL;
+            rcPadding.left = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
+            rcPadding.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
+            rcPadding.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
+            rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
+            ZCCALL(ZM_Button_SetImagePadding, cp, &rcPadding, NULL);
+        }
         break;
     }
     case ZM_OnCreate: {
@@ -208,6 +247,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         np->m_ColorPushed = 0xFF787878;
         np->m_ColorDisabled = 0xFF989898;
         np->m_BorderColor = 0xFF1874CD;
+        np->m_dwImgsize = ImgResSize;
 
         ((ZuiLabel)np->old_udata)->m_uTextStyle |= ZDT_CENTER;
 

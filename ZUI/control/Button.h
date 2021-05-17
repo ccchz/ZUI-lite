@@ -2,6 +2,7 @@
 #define __BUTTON_H__
 #include <ZUI.h>
 
+#define ImgResSize 16
 /**按钮控件结构*/
 typedef struct _ZButton
 {
@@ -10,6 +11,7 @@ typedef struct _ZButton
     ZuiRes m_ResPushed;     //按下状态
     ZuiRes m_ResFocused;    //焦点图片
     ZuiRes m_ResDisabled;   //非激活状态
+    ZuiRes m_ResForeground;   //前景图片
 
     ZuiColor m_ColorNormal;     //正常状态
     ZuiColor m_ColorHot;        //高亮状态
@@ -18,7 +20,8 @@ typedef struct _ZButton
     ZuiColor m_ColorDisabled;   //非激活状态
 
     ZuiColor m_BorderColor;     //焦点时的边框颜色
-
+    ZRect m_rcImagePadding;     //前景图片控制区域
+    int m_dwImgsize;
     int type;
     ZCtlProc old_call;
     ZuiAny old_udata;

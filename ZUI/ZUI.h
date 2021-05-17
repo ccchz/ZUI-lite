@@ -357,13 +357,16 @@ enum ZREST
 #define ZM_Button_SetResPushed    203    //按下状态
 #define ZM_Button_SetResFocused   204    //焦点图片
 #define ZM_Button_SetResDisabled  205    //非激活状态
+#define ZM_Button_SetResForeground 206   //前景图片
 
-#define ZM_Button_SetColorNormal    206    //普通颜色
-#define ZM_Button_SetColorHot       207    //高亮状态
-#define ZM_Button_SetColorPushed    208    //按下状态
-#define ZM_Button_SetColorFocused   209    //焦点图片
-#define ZM_Button_SetColorDisabled  210    //非激活状态
-#define ZM_Button_SetBorderColorHot    211     //激活状态下边框颜色
+#define ZM_Button_SetColorNormal    207    //普通颜色
+#define ZM_Button_SetColorHot       208    //高亮状态
+#define ZM_Button_SetColorPushed    209    //按下状态
+#define ZM_Button_SetColorFocused   210    //焦点图片
+#define ZM_Button_SetColorDisabled  211    //非激活状态
+#define ZM_Button_SetBorderColorHot    212     //激活状态下边框颜色
+#define ZM_Button_SetImgSize    213        //图片资源尺寸
+#define ZM_Button_SetImagePadding 214
 #endif // 1
 
 //--------------------------------------------------------------------类
