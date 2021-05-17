@@ -11,7 +11,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         {
         case ZEVENT_LBUTTONUP: {
             if (ZuiIsPointInRect(&cp->m_rcItem, &((TEventUI*)Param1)->ptMouse)) {
-                ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(!ZCCALL(ZM_Option_GetSelected, cp, NULL, NULL)), NULL);
+                ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(!ZCCALL(ZM_Option_GetSelected, cp, NULL, NULL)), TRUE);
             }
             break;
         }
@@ -32,85 +32,165 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
     case ZM_OnPaintStatusImage: {
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = &cp->m_rcItem;
+        ZRect rcc = { 0 }, line1 = { 0 }, line2 = { 0 };
+        ZuiButton button = p->old_udata; //需要用到Button类的变量。
+        ZuiImage img;
+        rcc.left = rc->left + ((rc->bottom - rc->top) - ResSize) / 2;
+        rcc.top = rc->top + ((rc->bottom - rc->top) - ResSize) / 2;
+        rcc.right = rcc.left + ResSize;
+        rcc.bottom = rcc.top + ResSize;
+        //CheckBox控件选择状态线段。
+        line1.left = rcc.left+1; line1.top = rcc.top + ResSize * 0.5; line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom-2;
+        line2.left = line1.right; line2.top = line1.bottom; line2.right = rcc.right-2, line2.bottom = rcc.top + ResSize * 0.3;
         if (p->m_bSelected) {
-            ZuiImage img;
-            if (((ZuiButton)p->old_udata)->type == 0) {
+            if (button->type == 0) {
                 if (p->m_ResSelected) {
                     img = p->m_ResSelected->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else {
-                    ZuiDrawFillRect(gp, p->m_ColorSelected, rc);
+                else if (p->m_bCheck) { //绘制CheckBox控件
+                    ZuiDrawRect(gp, p->m_ColorSelected, &rcc, 1);
+                    ZuiDrawLine(gp, p->m_ColorSelected, &line1, 3);
+                    ZuiDrawLine(gp, p->m_ColorSelected, &line2, 3);
+                }
+                else{  //绘制Option控件
+                    ZuiDrawEllipse(gp, p->m_ColorSelected, &rcc, 1);
+                    rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
+                    ZuiFillEllipse(gp, p->m_ColorSelected, &rcc);
                 }
             }
-            else if (((ZuiButton)p->old_udata)->type == 1) {
+            else if (button->type == 1) {
                 if (p->m_ResSelectedHot) {
                     img = p->m_ResSelectedHot->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else {
-                    ZuiDrawFillRect(gp, p->m_ColorSelectedHot, rc);
+                else if (p->m_bCheck) { //绘制CheckBox控件
+                    ZuiDrawRect(gp, p->m_ColorSelectedHot, &rcc, 1);
+                    ZuiDrawLine(gp, p->m_ColorSelectedHot, &line1, 3);
+                    ZuiDrawLine(gp, p->m_ColorSelectedHot, &line2, 3);
+                }
+                else {  //绘制Option控件
+                    ZuiDrawEllipse(gp, p->m_ColorSelectedHot, &rcc, 1);
+                    rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
+                    ZuiFillEllipse(gp, p->m_ColorSelectedHot, &rcc);
                 }
             }
-            else if (((ZuiButton)p->old_udata)->type == 2) {
+            else if (button->type == 2) {
                 if (p->m_ResSelectedPushed) {
                     img = p->m_ResSelectedPushed->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else {
-                    ZuiDrawFillRect(gp, p->m_ColorSelectedPushed, rc);
+                else if (p->m_bCheck) { //绘制CheckBox控件
+                    ZuiDrawRect(gp, p->m_ColorSelectedPushed, &rcc, 1);
+                    ZuiDrawLine(gp, p->m_ColorSelectedPushed, &line1, 3);
+                    ZuiDrawLine(gp, p->m_ColorSelectedPushed, &line2, 3);
+                }
+                else { //绘制Option控件
+                    ZuiDrawEllipse(gp, p->m_ColorSelectedPushed, &rcc, 1);
+                    rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
+                    ZuiFillEllipse(gp, p->m_ColorSelectedPushed, &rcc);
                 }
             }
             else {
-                if (p->m_ResSelectedPushed) {
+                if (p->m_ResSelectedDisabled) {
                     img = p->m_ResSelectedDisabled->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else {
-                    ZuiDrawFillRect(gp, p->m_ColorSelectedDisabled, rc);
+                else if (p->m_bCheck) { //绘制CheckBox控件
+                    ZuiDrawRect(gp, p->m_ColorSelectedDisabled, &rcc, 1);
+                    ZuiDrawLine(gp, p->m_ColorSelectedDisabled, &line1, 3);
+                    ZuiDrawLine(gp, p->m_ColorSelectedDisabled, &line2, 3);
+                }
+                else {  //绘制Option控件
+                    ZuiDrawEllipse(gp, p->m_ColorSelectedDisabled, &rcc, 1);
+                    rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
+                    ZuiFillEllipse(gp, p->m_ColorSelectedDisabled, &rcc);
                 }
             }
-            ZCCALL(ZM_OnPaintText, cp, Param1, Param2);//绘制文本
-            return 0;//选择状态下不由按钮控件绘制
         }
+        else {
+            if (button->type == 0) {
+                if (button->m_ResNormal) {
+                    img = button->m_ResNormal->p;
+                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                }
+                else if (p->m_bCheck) { //绘制CheckBox控件
+                    ZuiDrawRect(gp, button->m_ColorNormal, &rcc, 1);
+                }
+                else {  //绘制Option控件
+                    ZuiDrawEllipse(gp, button->m_ColorNormal, &rcc,1);
+                }
+            }
+            else if (button->type == 1) {
+                if (button->m_ResHot) {
+                    img = button->m_ResHot->p;
+                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                }
+                else if (p->m_bCheck) { //绘制CheckBox控件
+                    ZuiDrawRect(gp, button->m_ColorHot, &rcc, 1);
+                }
+                else {  //绘制Option控件
+                    ZuiDrawEllipse(gp, button->m_ColorHot, &rcc, 1);
+                }
+            }
+            else if (button->type == 2) {
+                if (button->m_ResPushed) {
+                    img = button->m_ResPushed->p;
+                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                }
+                else if (p->m_bCheck) { //绘制CheckBox控件
+                    ZuiDrawRect(gp, button->m_ColorPushed, &rcc, 1);
+                }
+                else {  //绘制Option控件
+                    ZuiDrawEllipse(gp, button->m_ColorPushed, &rcc, 1);
+                }
+            }
+            else {
+                if (button->m_ResDisabled) {
+                    img = button->m_ResDisabled->p;
+                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                }
+                else if (p->m_bCheck) { //绘制CheckBox控件
+                    ZuiDrawRect(gp, button->m_ColorDisabled, &rcc, 1);
+                }
+                else {  //绘制Option控件
+                    ZuiDrawEllipse(gp, button->m_ColorDisabled, &rcc,1);
+                }
+            }
+        }
+        ZCCALL(ZM_OnPaintText, cp, Param1, Param2);//绘制文本
+        return 0;//选择状态下不由按钮控件绘制
         break;
     }
     case ZM_Option_SetSelected: {
+        if (p->m_bCheck && !(ZuiBool)Param2) return 0;  //Check控件选中状态不是点击产生的，不处理。
         if (p->m_bSelected == (ZuiBool)Param1) return 0;
         p->m_bSelected = (ZuiBool)Param1;
-
-        if (p->m_bGroup) {
+        if (!p->m_bCheck) { //不是Option控件，不需要取消其他Option状态。
             if (Param1) {
                 for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
                 {
-                    ZuiControl pControl;
-                    if ((pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL)) != cp)
+                    ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL);
+                    if (pControl != cp)
                     {
-                        if (pControl != cp) {
-                            ZCCALL(ZM_Option_SetSelected, pControl, FALSE, NULL);
-                        }
-
+                        ZCCALL(ZM_Option_SetSelected, pControl, FALSE, NULL);
                     }
 
                 }
             }
             else {
                 //在分组情况下反选,需要保证至少一个被选中
-                int select = 0;
-                for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
-                {
-                    ZuiControl pControl;
-                    if ((pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL)) != cp)
+                if (p->m_bGroup) {
+                    int select = 0;
+                    for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
                     {
-                        if (pControl != cp) {
-                            select += ZCCALL(ZM_Option_GetSelected, pControl, NULL, NULL) ? 1 : 0;
-                        }
-
+                        ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL);
+                        select += ZCCALL(ZM_Option_GetSelected, pControl, NULL, NULL) ? 1 : 0;
                     }
-                }
-                if (!select) {
-                    p->m_bSelected = !p->m_bSelected;
-                    return 0;
+                    if (!select) {
+                        p->m_bSelected = !p->m_bSelected;
+                        return 0;
+                    }
                 }
             }
         }

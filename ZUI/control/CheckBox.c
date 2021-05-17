@@ -1,11 +1,14 @@
 ﻿#include "CheckBox.h"
 #include <core/control.h>
 #include "Option.h"
+
 ZEXPORT ZuiAny ZCALL ZuiCheckBoxProc(int ProcId, ZuiControl cp, ZuiCheckBox p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
     case ZM_OnCreate: {
-        return ZuiOptionProc(ZM_OnCreate, cp, (ZuiOption)p, Param1, Param2);
+        ZuiOption zop =  ZuiOptionProc(ZM_OnCreate, cp, (ZuiOption)p, Param1, Param2);
+        zop->m_bCheck = TRUE;
+        return zop;
     }
     case ZM_GetObject:
         if (_tcsicmp(Param1, (ZuiAny)Type_CheckBox) == 0)

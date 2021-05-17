@@ -74,7 +74,34 @@ extern "C" {
             pen.~Pen();
             gpp.ReleaseHDC(gp->hdc);
             gpp.~Graphics();
- 
+        }
+    }
+    //»æÖÆÍÖÔ²
+    ZEXPORT ZuiVoid ZCALL ZuiDrawEllipse(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc,int LineWidth) {
+        if (gp) {
+            Pen pen(incolor, (REAL)LineWidth);
+            pen.SetAlignment(PenAlignmentInset);
+            Graphics gpp(gp->hdc);
+            if (gp->SmoothingMode) {
+                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
+            }
+            gpp.DrawEllipse(&pen, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
+            pen.~Pen();
+            gpp.ReleaseHDC(gp->hdc);
+            gpp.~Graphics();
+        }
+    }
+    //Ìî³äÍÖÔ²
+    ZEXPORT ZuiVoid ZCALL ZuiFillEllipse(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc) {
+        if (gp)
+        {
+            SolidBrush brush(incolor);
+            Graphics gpp(gp->hdc);
+            if (gp->SmoothingMode) {
+                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
+            }
+            gpp.FillEllipse(&brush, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
+            gpp.~Graphics();
         }
     }
     //Ìî³äÔ²½Ç¾ØÐÎ
@@ -115,7 +142,7 @@ extern "C" {
             bottom = rc->bottom-1;
             GraphicsPath path;
             Pen pen(incolor, (REAL)LineWidth);
-            //pen.SetAlignment(PenAlignmentInset);
+            pen.SetAlignment(PenAlignmentInset);
             Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
@@ -178,6 +205,9 @@ extern "C" {
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
             Graphics gpp(gp->hdc);
+            if (gp->SmoothingMode) {
+                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
+            }
             gpp.DrawLine(&pen,rc->left,rc->top,rc->right,rc->bottom);
             pen.~Pen();
             gpp.~Graphics();
@@ -208,7 +238,6 @@ extern "C" {
     ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiGraphics gp, ZuiImage Img, int x, int y, int Right, int Bottom, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha) {
         int Width, Height;
         if ((gp && Img)) {
-            //wprintf(_T("draw...");
             Image image((LPSTREAM)Img->pstream,0);
             Rect rc(x,y,Right-x,Bottom-y);
             Width = Img->src.right - Img->src.left;

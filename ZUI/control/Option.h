@@ -2,12 +2,14 @@
 #define __OPTION_H__
 #include <ZUI.h>
 
+#define ResSize 14
 
-/**按钮控件结构*/
+/**Option控件结构*/
 typedef struct _ZOption
 {
     ZuiBool m_bSelected;        //是否选择
     ZuiBool m_bGroup;           //
+    ZuiBool m_bCheck;
     //控件继承自按钮控件
     ZuiRes      m_ResSelected;          //选中的普通状态
     ZuiRes      m_ResSelectedHot;       //选中的点燃状态
