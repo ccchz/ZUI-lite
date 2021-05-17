@@ -321,7 +321,7 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
             ZCCALL(ZM_Layout_SetInset, cp, &rcInset, NULL);
         }
         else if (_tcsicmp(Param1, _T("stepsize")) == 0) {
-            ZCCALL(ZM_Layout_SetScrollStepSize, cp, (ZuiAny)(_wtoi(Param2)), NULL);
+            ZCCALL(ZM_Layout_SetScrollStepSize, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         }
         else if (_tcsicmp(Param1, _T("valign")) == 0) {
             //纵向对齐方式

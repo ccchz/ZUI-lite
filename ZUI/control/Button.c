@@ -222,7 +222,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         else if (_tcsicmp(Param1, _T("pushedcolor")) == 0) ZCCALL(ZM_Button_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("focusedcolor")) == 0) ZCCALL(ZM_Button_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("disabledcolor")) == 0) ZCCALL(ZM_Button_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("imgsize")) == 0) ZCCALL(ZM_Button_SetImgSize, cp, (ZuiAny)(_wtoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("imgsize")) == 0) ZCCALL(ZM_Button_SetImgSize, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         else if (_tcsicmp(Param1, _T("imagepadding")) == 0) {
             ZRect rcPadding = { 0 };
             ZuiText pstr = NULL;

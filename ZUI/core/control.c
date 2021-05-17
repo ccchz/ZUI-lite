@@ -572,13 +572,13 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     case ZM_SetAttribute: {
         if (_tcsicmp(Param1, _T("text")) == 0) ZCCALL(ZM_SetText, p, Param2, NULL);
         else if (_tcsicmp(Param1, _T("tooltip")) == 0) ZCCALL(ZM_SetTooltip, p, Param2, NULL);
-        else if (_tcsicmp(Param1, _T("width")) == 0) ZCCALL(ZM_SetFixedWidth, p, (ZuiAny)(_wtoi(Param2)), NULL);
-		else if (_tcsicmp(Param1, _T("borderwidth")) == 0) ZCCALL(ZM_SetBorderWidth, p, (ZuiAny)(_wtoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("height")) == 0) ZCCALL(ZM_SetFixedHeight, p, (ZuiAny)(_wtoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("minwidth")) == 0) ZCCALL(ZM_SetMinWidth, p, (ZuiAny)(_wtoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("minheight")) == 0) ZCCALL(ZM_SetMinHeight, p, (ZuiAny)(_wtoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("maxwidth")) == 0) ZCCALL(ZM_SetMaxWidth, p, (ZuiAny)(_wtoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("maxheight")) == 0) ZCCALL(ZM_SetMaxHeight, p, (ZuiAny)(_wtoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("width")) == 0) ZCCALL(ZM_SetFixedWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
+		else if (_tcsicmp(Param1, _T("borderwidth")) == 0) ZCCALL(ZM_SetBorderWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("height")) == 0) ZCCALL(ZM_SetFixedHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("minwidth")) == 0) ZCCALL(ZM_SetMinWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("minheight")) == 0) ZCCALL(ZM_SetMinHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("maxwidth")) == 0) ZCCALL(ZM_SetMaxWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("maxheight")) == 0) ZCCALL(ZM_SetMaxHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
         else if (_tcsicmp(Param1, _T("round")) == 0) {
             ZuiText pstr = NULL;
             int cx = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);

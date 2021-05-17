@@ -1206,7 +1206,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
     }
     case ZM_SetAttribute: {
         if (_tcsicmp(Param1, _T("dragable")) == 0) ZCCALL(ZM_ListHeaderItem_SetDragable, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcsicmp(Param1, _T("sepwidth")) == 0) ZCCALL(ZM_ListHeaderItem_SetSepWidth, cp, (ZuiAny)_wtoi(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("sepwidth")) == 0) ZCCALL(ZM_ListHeaderItem_SetSepWidth, cp, (ZuiAny)_ttoi(Param2), NULL);
         else if (_tcsicmp(Param1, _T("normalimage")) == 0) ZCCALL(ZM_ListHeaderItem_SetNormalImage, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
         else if (_tcsicmp(Param1, _T("hotimage")) == 0) ZCCALL(ZM_ListHeaderItem_SetHotImage, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
         else if (_tcsicmp(Param1, _T("pushedimage")) == 0) ZCCALL(ZM_ListHeaderItem_SetPushedImage, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
