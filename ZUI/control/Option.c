@@ -34,10 +34,12 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
         break;
     }
     case 3: {
-        ZuiDrawFillRoundRect(gp, color, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+        ZuiDrawFillRect(gp, color, rc);
+        if (button->type == 1 || p->m_bSelected) {
             rcc.left = rc->left + cp->m_dwBorderWidth; rcc.top = rc->top + cp->m_dwBorderWidth;
             rcc.right = rcc.left + ResSize / 2; rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
-            ZuiDrawFillRect(gp, color+0x00555555, &rcc);
+            ZuiDrawFillRect(gp, color + 0x00555555, &rcc);
+        }
         break;
     }
     default:{ //绘制背景色

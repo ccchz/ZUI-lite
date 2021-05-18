@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="gbk"?>
 <include src="default:default_ctl.xml" />
-<Window nobox="true"  round="10,10" bordercolor="ff686868" bkcolor="0xFF282828" text="Demo" size="800,600" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
+<Window nobox="true" bordercolor="ff686868" bkcolor="0xFF282828" text="Demo" size="800,600" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
 		<HorizontalLayout name="head" drag="true"  height="23"><!--标题栏-->
 			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:name='微软雅黑':size=10:bold=true" drag="true"/>
 			<Include src="file:itest.xml" />
 			<WindowCtl name="ctl"/>
 		</HorizontalLayout>	
 		<NULL height="1" bkcolor="0xFF484848"/>
-		<VerticalLayout>
+		<HorizontalLayout>
+		<VerticalLayout width="200" vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848"><!--状态栏-->
+			<NULL height="100"/>
+			
+			<Option name="buttondisable1" text="按钮禁用状态测试1" restype="3" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable2" text="按钮禁用状态测试2" restype="3" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable2" text="按钮禁用状态测试3" restype="3" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable" text="按钮禁用状态测试" restype="3" align="left" textpadding="22,0,0,0" group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>
+			<Button name="buttonenable" text="启用" width="100" height="23"/>
+			<CheckBox name="buttondisable21" text="CheckBox测试" restype="2" align="left" textpadding="22,0,0,0" disabledcolor="#FF8c8c8c" height="30"/>
+			<CheckBox name="buttondisable22" text="CheckBox测试2" restype="2" align="left" textpadding="22,0,0,0" disabledcolor="#FF8c8c8c" height="30"/>
+			<NULL height="50"/>
+			<Button bordercolor="#FF151515" imagepadding="-30,0,0,0" textpadding="34,0,0,0" align="left" foregroundimage="default:default/dui.png" imgsize="16" name="msgbox" text="对话框"  width="100" height="23"/>
+			<ProgressBar bordercolor="#FF151515" name="pbb" width="200" height="20" pbheight="8" pbpos="100" pbrange="400" round="4,4"/>
+			<Label width="100" name="wordbreak" text="块是  在论坛找的某位大佬的改的。" wordbreak="true"/>
+		</VerticalLayout>
+		<NULL width="3" bkcolor="0xFF484848"/>
 			<List name="domainlist"  inset="0,0,0,0" linecolor="#FF00ff00" columncolor="#FF686868" itemshowhtml="true"  itemalign="center" itemaltbk="true" menu="true">
 						<ListHeader height="24" menu="true" name="header1" >
 							<ListHeaderItem text="N o"  width="30" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
@@ -285,22 +301,6 @@
 			
 					
 					</List>
-		</VerticalLayout>
-		<NULL height="1" bkcolor="#FF888888"/>
-		<VerticalLayout  vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848"><!--状态栏-->
-			<NULL height="100" width="2000"/>
-			<ProgressBar bordercolor="#FF151515" name="pbb" width="300" height="20" pbheight="8" pbpos="100" pbrange="400" round="4,4"/>
-			<Button bordercolor="#FF151515" imagepadding="-30,0,0,0" textpadding="34,0,0,0" align="left" foregroundimage="default:default/dui.png" imgsize="16" name="msgbox" text="对话框"  width="100" height="23"/>
-			<Option name="buttondisable1" text="按钮禁用状态测试1" restype="3" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<Option name="buttondisable2" text="按钮禁用状态测试2" restype="1" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<Option name="buttondisable2" text="按钮禁用状态测试3"  align="left" textpadding="22,0,0,0"group="true" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<CheckBox name="buttondisable21" text="CheckBox测试" restype="2" align="left" textpadding="22,0,0,0" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<CheckBox name="buttondisable22" text="CheckBox测试2" align="left" textpadding="22,0,0,0" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<Option name="buttondisable" text="按钮禁用状态测试" align="left" textpadding="22,0,0,0" group="true" enabled="false" disabledcolor="#FF8c8c8c" width="150" height="23"/>
-			<Button name="buttonenable" text="启用" width="100" height="23"/>
-			<Label width="100" name="wordbreak" text="块是  在论坛找的某位大佬的改的。" wordbreak="true"/>
-			<NULL height="100"  width="800"/>
-		</VerticalLayout>
-		<NULL height="19" />
-		<Button name="floatbutton" bordercolor="#FF151515" text="浮动按钮" round="20,20" width="100" height="40" float="150,150,0,0" />
+		</HorizontalLayout>
+		<Button name="floatbutton" bordercolor="#FF151515" text="浮动按钮" round="20,20" width="100" height="40" float="350,150,0,0" />
 </Window>
