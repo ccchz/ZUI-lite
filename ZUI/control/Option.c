@@ -18,19 +18,22 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
     switch (p->m_dwResType)
     {
     case 1: {  //圆形
-        ZuiDrawEllipse(gp, color, &rcc, 1);
         if (p->m_bSelected) {
-            rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
-            ZuiFillEllipse(gp, color, &rcc);
+            color = p->m_ColorSelected;
         }
+        ZuiDrawEllipse(gp, color, &rcc, 1);
+        rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
+        ZuiFillEllipse(gp, color, &rcc);
         break;
     }
     case 2: { //方形
-        ZuiDrawRect(gp, color, &rcc, 1);
         if (p->m_bSelected) {
-            ZuiDrawLine(gp, color, &line1, 3);
-            ZuiDrawLine(gp, color, &line2, 3);
+            color = p->m_ColorSelected;
         }
+        ZuiDrawRect(gp, color, &rcc, 1);
+        ZuiDrawLine(gp, color, &line1, 3);
+        ZuiDrawLine(gp, color, &line2, 3);
+
         break;
     }
     case 3: {
@@ -38,7 +41,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
         if (button->type == 1 || p->m_bSelected) {
             rcc.left = rc->left + cp->m_dwBorderWidth; rcc.top = rc->top + cp->m_dwBorderWidth;
             rcc.right = rcc.left + ResSize / 2; rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
-            ZuiDrawFillRoundRect(gp, color+0x00333333, &rcc, cp->m_rRound.cx, cp->m_rRound.cy);
+            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, cp->m_rRound.cx, cp->m_rRound.cy);
         }
         break;
     }
@@ -83,45 +86,45 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         ZuiButton button = p->old_udata; //需要用到Button类的变量。
         ZuiImage img;
 
-        if (p->m_bSelected) {
-            if (button->type == 0) {
-                if (p->m_ResSelected) {
-                    img = p->m_ResSelected->p;
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
-                }
-                else{  //绘制Option控件
-                    ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelected);
-                }
-            }
-            else if (button->type == 1) {
-                if (p->m_ResSelectedHot) {
-                    img = p->m_ResSelectedHot->p;
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
-                }
-                else {  //绘制Option控件
-                    ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedHot);
-                }
-            }
-            else if (button->type == 2) {
-                if (p->m_ResSelectedPushed) {
-                    img = p->m_ResSelectedPushed->p;
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
-                }
-                else { //绘制Option控件
-                    ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedPushed);
-                }
-            }
-            else {
-                if (p->m_ResSelectedDisabled) {
-                    img = p->m_ResSelectedDisabled->p;
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
-                }
-                else {  //绘制Option控件
-                    ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedDisabled);
-                }
-            }
-        }
-        else {
+        //if (p->m_bSelected) {
+        //    if (button->type == 0) {
+        //        if (p->m_ResSelected) {
+        //            img = p->m_ResSelected->p;
+        //            ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+        //        }
+        //        else{  //绘制Option控件
+        //            ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelected);
+        //        }
+        //    }
+        //    else if (button->type == 1) {
+        //        if (p->m_ResSelectedHot) {
+        //            img = p->m_ResSelectedHot->p;
+        //            ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+        //        }
+        //        else {  //绘制Option控件
+        //            ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedHot);
+        //        }
+        //    }
+        //    else if (button->type == 2) {
+        //        if (p->m_ResSelectedPushed) {
+        //            img = p->m_ResSelectedPushed->p;
+        //            ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+        //        }
+        //        else { //绘制Option控件
+        //            ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedPushed);
+        //        }
+        //    }
+        //    else {
+        //        if (p->m_ResSelectedDisabled) {
+        //            img = p->m_ResSelectedDisabled->p;
+        //            ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+        //        }
+        //        else {  //绘制Option控件
+        //            ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedDisabled);
+        //        }
+        //    }
+        //}
+        //else {
             if (button->type == 0) {
                 if (button->m_ResNormal) {
                     img = button->m_ResNormal->p;
@@ -158,7 +161,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     ZuiOptionDrawResStyle(gp, cp, p, button->m_ColorDisabled);
                 }
             }
-        }
+       // }
         return 0;
     }
     case ZM_Option_SetSelected: {
@@ -306,7 +309,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         //创建继承的控件 保存数据指针
         p->old_udata = ZuiButtonProc(ZM_OnCreate, cp, 0, 0, 0);
         p->old_call = (ZCtlProc)&ZuiButtonProc;
-        p->m_ColorSelected = 0xFF0C4499;		//选中的普通状态
+        p->m_ColorSelected = 0xFF008DD8;
         p->m_ColorSelectedHot = 0xFF0C5599;		//选中的点燃状态
         p->m_ColorSelectedPushed = 0xFF0C6699;	//选中的按下状态
         p->m_ColorSelectedDisabled = 0xFF989898;
