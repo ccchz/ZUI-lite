@@ -2,6 +2,50 @@
 #include <core/control.h>
 #include <core/resdb.h>
 #include "Button.h"
+ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOption p, ZuiColor color) {
+    ZRect* rc = &cp->m_rcItem;
+    ZRect rcc = { 0 }, line1 = { 0 }, line2 = { 0 };
+    ZuiButton button = p->old_udata;
+
+    rcc.left = rc->left + ((rc->bottom - rc->top) - ResSize) / 2;
+    rcc.top = rc->top + ((rc->bottom - rc->top) - ResSize) / 2;
+    rcc.right = rcc.left + ResSize;
+    rcc.bottom = rcc.top + ResSize;
+    //CheckBox控件选择状态线段。
+    line1.left = rcc.left + 1; line1.top = rcc.top + ResSize * 0.5; line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom - 2;
+    line2.left = line1.right; line2.top = line1.bottom; line2.right = rcc.right - 2, line2.bottom = rcc.top + ResSize * 0.1;
+
+    switch (p->m_dwResType)
+    {
+    case 1: {  //圆形
+        ZuiDrawEllipse(gp, color, &rcc, 1);
+        if (p->m_bSelected) {
+            rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
+            ZuiFillEllipse(gp, color, &rcc);
+        }
+        break;
+    }
+    case 2: { //方形
+        ZuiDrawRect(gp, color, &rcc, 1);
+        if (p->m_bSelected) {
+            ZuiDrawLine(gp, color, &line1, 3);
+            ZuiDrawLine(gp, color, &line2, 3);
+        }
+        break;
+    }
+    case 3: {
+        ZuiDrawFillRoundRect(gp, color, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+            rcc.left = rc->left + cp->m_dwBorderWidth; rcc.top = rc->top + cp->m_dwBorderWidth;
+            rcc.right = rcc.left + ResSize / 2; rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
+            ZuiDrawFillRect(gp, color+0x00555555, &rcc);
+        break;
+    }
+    default:{ //绘制背景色
+        ZuiDrawFillRoundRect(gp, color, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+        break;
+    }
+    }
+}
 ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
@@ -11,7 +55,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         {
         case ZEVENT_LBUTTONUP: {
             if (ZuiIsPointInRect(&cp->m_rcItem, &((TEventUI*)Param1)->ptMouse)) {
-                ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(!ZCCALL(ZM_Option_GetSelected, cp, NULL, NULL)), TRUE);
+                ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(!ZCCALL(ZM_Option_GetSelected, cp, NULL, NULL)), NULL);
             }
             break;
         }
@@ -32,31 +76,18 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
     case ZM_OnPaintStatusImage: {
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = &cp->m_rcItem;
-        ZRect rcc = { 0 }, line1 = { 0 }, line2 = { 0 };
+
         ZuiButton button = p->old_udata; //需要用到Button类的变量。
         ZuiImage img;
-        rcc.left = rc->left + ((rc->bottom - rc->top) - ResSize) / 2;
-        rcc.top = rc->top + ((rc->bottom - rc->top) - ResSize) / 2;
-        rcc.right = rcc.left + ResSize;
-        rcc.bottom = rcc.top + ResSize;
-        //CheckBox控件选择状态线段。
-        line1.left = rcc.left+1; line1.top = rcc.top + ResSize * 0.5; line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom-2;
-        line2.left = line1.right; line2.top = line1.bottom; line2.right = rcc.right-2, line2.bottom = rcc.top + ResSize * 0.1;
+
         if (p->m_bSelected) {
             if (button->type == 0) {
                 if (p->m_ResSelected) {
                     img = p->m_ResSelected->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else if (p->m_bCheck) { //绘制CheckBox控件
-                    ZuiDrawRect(gp, p->m_ColorSelected, &rcc, 1);
-                    ZuiDrawLine(gp, p->m_ColorSelected, &line1, 3);
-                    ZuiDrawLine(gp, p->m_ColorSelected, &line2, 3);
-                }
                 else{  //绘制Option控件
-                    ZuiDrawEllipse(gp, p->m_ColorSelected, &rcc, 1);
-                    rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
-                    ZuiFillEllipse(gp, p->m_ColorSelected, &rcc);
+                    ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelected);
                 }
             }
             else if (button->type == 1) {
@@ -64,15 +95,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     img = p->m_ResSelectedHot->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else if (p->m_bCheck) { //绘制CheckBox控件
-                    ZuiDrawRect(gp, p->m_ColorSelectedHot, &rcc, 1);
-                    ZuiDrawLine(gp, p->m_ColorSelectedHot, &line1, 3);
-                    ZuiDrawLine(gp, p->m_ColorSelectedHot, &line2, 3);
-                }
                 else {  //绘制Option控件
-                    ZuiDrawEllipse(gp, p->m_ColorSelectedHot, &rcc, 1);
-                    rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
-                    ZuiFillEllipse(gp, p->m_ColorSelectedHot, &rcc);
+                    ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedHot);
                 }
             }
             else if (button->type == 2) {
@@ -80,15 +104,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     img = p->m_ResSelectedPushed->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else if (p->m_bCheck) { //绘制CheckBox控件
-                    ZuiDrawRect(gp, p->m_ColorSelectedPushed, &rcc, 1);
-                    ZuiDrawLine(gp, p->m_ColorSelectedPushed, &line1, 3);
-                    ZuiDrawLine(gp, p->m_ColorSelectedPushed, &line2, 3);
-                }
                 else { //绘制Option控件
-                    ZuiDrawEllipse(gp, p->m_ColorSelectedPushed, &rcc, 1);
-                    rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
-                    ZuiFillEllipse(gp, p->m_ColorSelectedPushed, &rcc);
+                    ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedPushed);
                 }
             }
             else {
@@ -96,15 +113,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     img = p->m_ResSelectedDisabled->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else if (p->m_bCheck) { //绘制CheckBox控件
-                    ZuiDrawRect(gp, p->m_ColorSelectedDisabled, &rcc, 1);
-                    ZuiDrawLine(gp, p->m_ColorSelectedDisabled, &line1, 3);
-                    ZuiDrawLine(gp, p->m_ColorSelectedDisabled, &line2, 3);
-                }
                 else {  //绘制Option控件
-                    ZuiDrawEllipse(gp, p->m_ColorSelectedDisabled, &rcc, 1);
-                    rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
-                    ZuiFillEllipse(gp, p->m_ColorSelectedDisabled, &rcc);
+                    ZuiOptionDrawResStyle(gp, cp, p, p->m_ColorSelectedDisabled);
                 }
             }
         }
@@ -114,11 +124,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     img = button->m_ResNormal->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else if (p->m_bCheck) { //绘制CheckBox控件
-                    ZuiDrawRect(gp, button->m_ColorNormal, &rcc, 1);
-                }
                 else {  //绘制Option控件
-                    ZuiDrawEllipse(gp, button->m_ColorNormal, &rcc,1);
+                    ZuiOptionDrawResStyle(gp, cp, p, button->m_ColorNormal);
                 }
             }
             else if (button->type == 1) {
@@ -126,11 +133,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     img = button->m_ResHot->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else if (p->m_bCheck) { //绘制CheckBox控件
-                    ZuiDrawRect(gp, button->m_ColorHot, &rcc, 1);
-                }
                 else {  //绘制Option控件
-                    ZuiDrawEllipse(gp, button->m_ColorHot, &rcc, 1);
+                    ZuiOptionDrawResStyle(gp, cp, p, button->m_ColorHot);
                 }
             }
             else if (button->type == 2) {
@@ -138,11 +142,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     img = button->m_ResPushed->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else if (p->m_bCheck) { //绘制CheckBox控件
-                    ZuiDrawRect(gp, button->m_ColorPushed, &rcc, 1);
-                }
                 else {  //绘制Option控件
-                    ZuiDrawEllipse(gp, button->m_ColorPushed, &rcc, 1);
+                    ZuiOptionDrawResStyle(gp, cp, p, button->m_ColorPushed);
                 }
             }
             else {
@@ -150,18 +151,14 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     img = button->m_ResDisabled->p;
                     ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
                 }
-                else if (p->m_bCheck) { //绘制CheckBox控件
-                    ZuiDrawRect(gp, button->m_ColorDisabled, &rcc, 1);
-                }
                 else {  //绘制Option控件
-                    ZuiDrawEllipse(gp, button->m_ColorDisabled, &rcc,1);
+                    ZuiOptionDrawResStyle(gp, cp, p, button->m_ColorDisabled);
                 }
             }
         }
         return 0;
     }
     case ZM_Option_SetSelected: {
-        if (p->m_bCheck && !(ZuiBool)Param2) return 0;  //Check控件选中状态不是点击产生的，不处理。
         if (p->m_bSelected == (ZuiBool)Param1) return 0;
         p->m_bSelected = (ZuiBool)Param1;
         if (!p->m_bCheck) { //不是Option控件，不需要取消其他Option状态。
@@ -169,7 +166,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                 for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
                 {
                     ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL);
-                    if (pControl != cp)
+                    ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL),Type_Option);
+                    if (pControl != cp && !isoption)
                     {
                         ZCCALL(ZM_Option_SetSelected, pControl, FALSE, NULL);
                     }
@@ -183,7 +181,9 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
                     {
                         ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL);
-                        select += ZCCALL(ZM_Option_GetSelected, pControl, NULL, NULL) ? 1 : 0;
+                        ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL), Type_Option);
+                        if(!isoption)
+                            select += ZCCALL(ZM_Option_GetSelected, pControl, NULL, NULL) ? 1 : 0;
                     }
                     if (!select) {
                         p->m_bSelected = !p->m_bSelected;
@@ -263,6 +263,10 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
+    case ZM_Option_SetResType: {
+        p->m_dwResType = (int)Param1;
+        return 0;
+    }
     case ZM_SetAttribute: {
         if (_tcscmp(Param1, _T("group")) == 0)
             ZCCALL(ZM_Option_SetGroup, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
@@ -288,6 +292,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             ZCCALL(ZM_Option_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("disabledselectedcolor")) == 0)
             ZCCALL(ZM_Option_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("restype")) == 0)
+            ZCCALL(ZM_Option_SetResType, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         break;
     }
     case ZM_OnCreate: {

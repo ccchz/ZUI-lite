@@ -485,6 +485,7 @@ enum ZREST
 #define ZM_Option_SetColorDisabled        1042
 
 #define ZM_Option_SetGroup                1043    //设置到组
+#define ZM_Option_SetResType              1044
 #endif // 1
 
 //--------------------------------------------------------------------ScrollBar类
