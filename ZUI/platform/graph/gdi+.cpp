@@ -109,10 +109,10 @@ extern "C" {
         if (gp)
         {
             REAL left, top, right, bottom;
-            left = rc->left;
-            top = rc->top;
-            right = rc->right-1;
-            bottom = rc->bottom-1;
+            left = rc->left-1;
+            top = rc->top-1;
+            right = rc->right;
+            bottom = rc->bottom;
             GraphicsPath path;
             SolidBrush brush(incolor);
             Graphics gpp(gp->hdc);

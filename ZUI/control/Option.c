@@ -34,11 +34,11 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
         break;
     }
     case 3: {
-        ZuiDrawFillRect(gp, color, rc);
+        ZuiDrawFillRoundRect(gp, color, rc, cp->m_rRound.cx, cp->m_rRound.cy);
         if (button->type == 1 || p->m_bSelected) {
             rcc.left = rc->left + cp->m_dwBorderWidth; rcc.top = rc->top + cp->m_dwBorderWidth;
             rcc.right = rcc.left + ResSize / 2; rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
-            ZuiDrawFillRect(gp, color + 0x00555555, &rcc);
+            ZuiDrawFillRoundRect(gp, color+0x00333333, &rcc, cp->m_rRound.cx, cp->m_rRound.cy);
         }
         break;
     }
@@ -47,6 +47,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
         break;
     }
     }
+    return NULL;
 }
 ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
