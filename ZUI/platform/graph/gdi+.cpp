@@ -59,9 +59,9 @@ extern "C" {
         if (gp)
         {
             SolidBrush brush(incolor);
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
             gpp.FillRectangle(&brush,rc->left,rc->top,rc->right-rc->left,rc->bottom-rc->top);
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
     /*画矩形*/
@@ -69,11 +69,11 @@ extern "C" {
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
             gpp.DrawRectangle(&pen, rc->left, rc->top, rc->right - rc->left-1, rc->bottom - rc->top-1);
             pen.~Pen();
             gpp.ReleaseHDC(gp->hdc);
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
     //绘制椭圆
@@ -81,14 +81,14 @@ extern "C" {
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
             gpp.DrawEllipse(&pen, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
             pen.~Pen();
             gpp.ReleaseHDC(gp->hdc);
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
     //填充椭圆
@@ -96,12 +96,12 @@ extern "C" {
         if (gp)
         {
             SolidBrush brush(incolor);
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
             gpp.FillEllipse(&brush, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
     //填充圆角矩形
@@ -109,13 +109,15 @@ extern "C" {
         if (gp)
         {
             REAL left, top, right, bottom;
-            left = rc->left-1;
-            top = rc->top-1;
-            right = rc->right;
-            bottom = rc->bottom;
+            left = rc->left;
+            top = rc->top;
+            right = rc->right-1;
+            bottom = rc->bottom-1;
             GraphicsPath path;
+            Pen pen(incolor, (REAL)1);
+            pen.SetAlignment(PenAlignmentInset);
             SolidBrush brush(incolor);
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
@@ -128,8 +130,10 @@ extern "C" {
             path.AddArc((REAL)left, (REAL)bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 90, 90);
             path.AddLine((REAL)left, (REAL)bottom - h , (REAL)left, (REAL)top + h);
             gpp.FillPath(&brush, &path);
+            gpp.DrawPath(&pen, &path);
+            pen.~Pen();
             path.~GraphicsPath();
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
     //绘制圆角矩形
@@ -143,7 +147,7 @@ extern "C" {
             GraphicsPath path;
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
@@ -158,7 +162,7 @@ extern "C" {
             gpp.DrawPath(&pen, &path);
             pen.~Pen();
             path.~GraphicsPath();
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
 
@@ -169,7 +173,10 @@ extern "C" {
         {
             PointF pt[3];
             SolidBrush brush(incolor);
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
+            if (gp->SmoothingMode) {
+                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
+            }
             pt[0].X = (REAL)x1;
             pt[0].Y = (REAL)y1;
             pt[1].X = (REAL)x2;
@@ -177,7 +184,7 @@ extern "C" {
             pt[2].X = (REAL)x3;
             pt[2].Y = (REAL)y3;
             gpp.FillPolygon(&brush, pt, 3);
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
     //绘制三角形
@@ -187,7 +194,11 @@ extern "C" {
         {
             Point pt[3];
             Pen pen(incolor, (REAL)LineWidth);
-            Graphics gpp(gp->hdc);
+            pen.SetAlignment(PenAlignmentInset);
+            Gdiplus::Graphics gpp(gp->hdc);
+            if (gp->SmoothingMode) {
+                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
+            }
             pt[0].X = x1;
             pt[0].Y = y1;
             pt[1].X = x2;
@@ -196,7 +207,7 @@ extern "C" {
             pt[2].Y = y3;
             gpp.DrawPolygon(&pen,pt,3);
             pen.~Pen();
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
     /*画直线*/
@@ -204,13 +215,13 @@ extern "C" {
     {
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
             gpp.DrawLine(&pen,rc->left,rc->top,rc->right,rc->bottom);
             pen.~Pen();
-            gpp.~Graphics();
+            //gpp.~Graphics();
         }
     }
     /*画文本(按照计算好的坐标)*/
@@ -246,9 +257,9 @@ extern "C" {
                 Width = image.GetWidth();
                 Height = image.GetHeight();
             }
-            Graphics gpp(gp->hdc);
+            Gdiplus::Graphics gpp(gp->hdc);
             gpp.DrawImage(&image, rc, Img->src.left, Img->src.top, Width, Height,UnitPixel);
-            gpp.~Graphics();
+            //gpp.~Graphics();
             image.~Image();
         }
     }
@@ -449,7 +460,7 @@ extern "C" {
         right = rc->right;
         bottom = rc->bottom;
         GraphicsPath path;
-        Graphics gpp(gp->hdc);
+        Gdiplus::Graphics gpp(gp->hdc);
         if (gp->SmoothingMode) {
             gpp.SetSmoothingMode(SmoothingModeAntiAlias);
         }
@@ -477,7 +488,7 @@ extern "C" {
         DeleteObject(hrgn);
         path.~GraphicsPath();
         region.~Region();
-        gpp.~Graphics();
+        //gpp.~Graphics();
     }
 
 #ifdef __cplusplus
