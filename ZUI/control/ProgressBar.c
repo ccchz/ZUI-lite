@@ -18,7 +18,6 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
             ZuiDrawFillRoundRect(gp, p->pbColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy);
             if (cp->m_dwBorderWidth) {
                 rc.right = cp->m_rcItem.right;
-                //rc.top--; rc.bottom++; //描边修正。
                 ZuiDrawRoundRect(gp, cp->m_dwBorderColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
             }
         }

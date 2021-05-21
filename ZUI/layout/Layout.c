@@ -116,10 +116,10 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
                     if (pControl->m_bFloat) {
                         if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)&cp->m_rcItem, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0))) continue;
                         IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)&pControl->m_rcItem);
-                        MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
-                        ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
+                        //MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
+                        //ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
                         ZCCALL(ZM_OnPaint, pControl, Param1, &rcTemp);
-						ZuiGraphicsPopClip((ZuiGraphics)Param1);
+						//ZuiGraphicsPopClip((ZuiGraphics)Param1);
                     }
                 }
             }
@@ -137,13 +137,13 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
                         if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0)))
                             continue;
                         IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)&pControl->m_rcItem);
-                        MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
-						ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
+                        //MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
+						//ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
                         if (pControl->m_aAnime)
                             pControl->m_aAnime->OnPaint(pControl, Param1, Param2);
                         else
                             ZCCALL(ZM_OnPaint, pControl, Param1, &rcTemp);
-						ZuiGraphicsPopClip((ZuiGraphics)Param1);
+						//ZuiGraphicsPopClip((ZuiGraphics)Param1);
                     }
                     else {
                         if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)&rc, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0))) continue;
@@ -151,10 +151,10 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
                             pControl->m_aAnime->OnPaint(pControl, Param1, Param2);
                         else {
                             IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)&rcTemp);
-                            MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
-							ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
+                            //MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
+							//ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
                             ZCCALL(ZM_OnPaint, pControl, Param1, &rcTemp);
-							ZuiGraphicsPopClip((ZuiGraphics)Param1);
+							//ZuiGraphicsPopClip((ZuiGraphics)Param1);
                         }
                     }
                 }

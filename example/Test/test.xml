@@ -12,9 +12,9 @@
 			<NULL height="100"/>
 			
 			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" restype="3" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ2" restype="3" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ3" restype="3" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ" restype="3" align="left" textpadding="22,0,0,0" group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ2" restype="4" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ3" restype="5" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ" restype="6" align="left" textpadding="22,0,0,0" group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>
 			<Button name="buttonenable" text="ÆôÓÃ" width="100" height="23"/>
 			<CheckBox name="buttondisable21" text="CheckBox²âÊÔ" restype="2" align="left" textpadding="22,0,0,0" disabledcolor="#FF8c8c8c" height="30"/>
 			<CheckBox name="buttondisable22" text="CheckBox²âÊÔ2" restype="2" align="left" textpadding="22,0,0,0" disabledcolor="#FF8c8c8c" height="30"/>
