@@ -140,7 +140,10 @@ BOOL darray_insert(DArray *darray, int index, void * data)
     {
         return FALSE;
     }
-
+    if (index > darray->count)
+    {
+        index = darray->count;
+    }
     if (darray->count + 1 > darray->size)
     {
         darray_expand(darray, 1);

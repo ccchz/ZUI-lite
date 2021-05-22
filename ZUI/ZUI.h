@@ -336,6 +336,7 @@ enum ZREST
 
 //--------Tab
 #define ZM_TabLayout_SelectItem       161    //当前Tab
+#define ZM_TabLayout_SetSelect        162
 
 #endif // 1
 
