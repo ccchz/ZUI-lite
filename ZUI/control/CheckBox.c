@@ -11,11 +11,11 @@ ZEXPORT ZuiAny ZCALL ZuiCheckBoxProc(int ProcId, ZuiControl cp, ZuiCheckBox p, Z
         return zop;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_CheckBox) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_CheckBox) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_CheckBox;
+        return (ZuiAny)ZC_CheckBox;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

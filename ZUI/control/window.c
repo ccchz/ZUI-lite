@@ -138,11 +138,11 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         break;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_Window) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_Window) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType: {
-        return (ZuiAny)Type_Window;
+        return (ZuiAny)ZC_Window;
     }
 	case ZM_SetPos: {
 		if (cp->m_pOs->m_bMax) {

@@ -72,7 +72,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
     }
     case ZM_List_Add: {
         //判断添加的元素是否是表头控件
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL) ,(ZuiAny)Type_ListHeader)) {
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL) ,(ZuiAny)ZC_ListHeader)) {
             if (p->m_pHeader != Param1 && ZCCALL(ZM_Layout_GetCount, p->m_pHeader, NULL, NULL) == 0) {
                 //删除原来的头元素
                 FreeZuiControl(p->m_pHeader, FALSE);
@@ -84,7 +84,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
             }
             return FALSE;
         }
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_ListBody)) {
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_ListBody)) {
             if (p->m_pList != Param1 && ZCCALL(ZM_Layout_GetCount, p->m_pList, NULL, NULL) == 0) {
                 //删除原来的表体
                 FreeZuiControl(p->m_pList, FALSE);
@@ -98,7 +98,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
             return FALSE;
         }
         //判断元素是否是表头元素
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_ListHeaderItem)) {
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_ListHeaderItem)) {
             //插入到头容器
             ZuiBool ret = (ZuiBool)ZCCALL(ZM_Layout_Add, p->m_pHeader, Param1, NULL);
             //计算列数量
@@ -106,7 +106,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
             return (ZuiAny)ret;
         }
         // 插入的元素是行数据
-        if (ZCCALL(ZM_GetObject, Param1, (ZuiAny)Type_ListElement, NULL)) {
+        if (ZCCALL(ZM_GetObject, Param1, (ZuiAny)ZC_ListElement, NULL)) {
             return ZCCALL(ZM_Layout_Add, p->m_pList, Param1, NULL);
         }
 
@@ -114,7 +114,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
     }
     case ZM_List_AddAt: {
         //判断添加的元素是否是表头控件
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_ListHeader)) {
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_ListHeader)) {
             if (p->m_pHeader != Param1 && ZCCALL(ZM_Layout_GetCount, p->m_pHeader, NULL, NULL) == 0) {
                 //删除原来的头元素
                 FreeZuiControl(p->m_pHeader, FALSE);
@@ -128,7 +128,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
             return FALSE;
         }
         //判断元素是否是表头元素
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_ListHeaderItem)) {
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_ListHeaderItem)) {
             //插入到头容器指定位置
             ZuiBool ret = (ZuiBool)ZCCALL(ZM_Layout_AddAt, p->m_pHeader, Param1, Param2);
             //计算列数量
@@ -136,7 +136,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
             return (ZuiAny)ret;
         }
         // 插入的元素是行数据
-        if (ZCCALL(ZM_GetObject, Param1, (ZuiAny)Type_ListElement, NULL)) {
+        if (ZCCALL(ZM_GetObject, Param1, (ZuiAny)ZC_ListElement, NULL)) {
             return ZCCALL(ZM_Layout_Add, p->m_pList, Param1, Param2);
         }
         return (ZuiAny)TRUE;
@@ -144,12 +144,12 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
     case ZM_List_Remove: {
         //判断删除的元素是否是表头控件
         //判断删除的元素是否是表头元素
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_ListHeaderItem))
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_ListHeaderItem))
             return ZCCALL(ZM_Layout_Remove, p->m_pHeader, Param1, Param2);
         //判断删除的元素是否是表体控件
         // 删除的元素是行数据
         int iIndex = -1;
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_ListElement)) {
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_ListElement)) {
             iIndex = (int)ZCCALL(ZM_Layout_GetItemIndex, p->m_pList, Param1, 0);
             if (iIndex == -1) return FALSE;
             return ZCCALL(ZM_Layout_RemoveAt, p->m_pList, Param1, (ZuiAny)iIndex);
@@ -287,16 +287,16 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
         return 0;
     }
     case ZM_GetObject: {
-        if (_tcsicmp(Param1, (ZuiAny)Type_List) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_List) == 0)
             return (ZuiAny)p;
         break;
     }
     case ZM_GetType:
-        return (ZuiAny)Type_List;
+        return (ZuiAny)ZC_List;
     case ZM_CoreInit:
         //将辅助控件注册到系统
-        ZuiControlRegisterAdd(Type_ListBody, (ZCtlProc)&ZuiListBodyProc);
-        ZuiControlRegisterAdd(Type_ListHeader, (ZCtlProc)&ZuiListHeaderProc);
+        ZuiControlRegisterAdd(ZC_ListBody, (ZCtlProc)&ZuiListBodyProc);
+        ZuiControlRegisterAdd(ZC_ListHeader, (ZCtlProc)&ZuiListHeaderProc);
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:
         return (ZuiAny)TRUE;
@@ -342,14 +342,14 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
         p->old_call(ProcId, cp, p->old_udata, Param1, Param2);
         ZuiRect rrc = &cp->m_rcItem;
         ZuiRect rc = Param2;
-        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)Type_Layout, NULL);
+        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)ZC_Layout, NULL);
         if (op->m_pVerticalScrollBar && op->m_pVerticalScrollBar->m_bVisible) {
             int sw = (int)ZCCALL(ZM_GetFixedWidth, op->m_pVerticalScrollBar, NULL, NULL);
             if (rc->right > (rrc->right - sw)) {
                 rc->right -= sw;
             }
         }
-        ZuiControl pHeader = ((ZuiList)ZCCALL(ZM_GetObject, p->m_pOwner, (ZuiAny)Type_List, NULL))->m_pHeader;
+        ZuiControl pHeader = ((ZuiList)ZCCALL(ZM_GetObject, p->m_pOwner, (ZuiAny)ZC_List, NULL))->m_pHeader;
         if (pHeader->m_bVisible) {
             ZCCALL(ProcId, pHeader, Param1, rc);
         }
@@ -357,14 +357,14 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
     }
     case ZM_FindControl: {
         ZuiControl pResult = NULL;
-        pResult = ZCCALL(ProcId, ((ZuiList)ZCCALL(ZM_GetObject, p->m_pOwner, (ZuiAny)Type_List, NULL))->m_pHeader, Param1, Param2);
+        pResult = ZCCALL(ProcId, ((ZuiList)ZCCALL(ZM_GetObject, p->m_pOwner, (ZuiAny)ZC_List, NULL))->m_pHeader, Param1, Param2);
         if (pResult) return pResult;
         return p->old_call(ProcId, cp, p->old_udata, Param1, Param2);
     }
     case ZM_SetPos: {
         ZuiDefaultControlProc(ProcId, cp, 0, Param1, Param2);
         ZRect rc = *(ZRect*)Param1;
-        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)Type_Layout, NULL);
+        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)ZC_Layout, NULL);
         // Adjust for inset
         rc.left += op->m_rcInset.left;
         rc.top += op->m_rcInset.top;
@@ -511,7 +511,7 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
         int cx = 0;
         int cy = 0;
         SIZE *szPos = Param1;
-        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)Type_Layout, NULL);
+        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)ZC_Layout, NULL);
 
         if (op->m_pVerticalScrollBar && op->m_pVerticalScrollBar->m_bVisible) {
             int iLastScrollPos = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pVerticalScrollBar, NULL, NULL);
@@ -588,15 +588,15 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
         return 0;
     }
     case ZM_GetObject: {
-        if (_tcsicmp(Param1, (ZuiAny)Type_ListBody) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_ListBody) == 0)
             return (ZuiAny)p;
         break;
     }
     case ZM_GetType:
-        return (ZuiAny)Type_ListBody;
+        return (ZuiAny)ZC_ListBody;
     case ZM_CoreInit:
         //将辅助控件注册到系统
-        ZuiControlRegisterAdd(Type_ListElement, (ZCtlProc)&ZuiListElementProc);
+        ZuiControlRegisterAdd(ZC_ListElement, (ZCtlProc)&ZuiListElementProc);
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:
         return (ZuiAny)NULL;
@@ -615,15 +615,15 @@ ZEXPORT ZuiAny ZCALL ZuiListElementProc(int ProcId, ZuiControl cp, ZuiListElemen
         ZuiControl pHeader = ZCCALL(ZM_List_GetHeader, p->m_pOwner, cp, NULL);
         if (pHeader == NULL)
             return FALSE;
-        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)Type_Layout, NULL);
+        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)ZC_Layout, NULL);
         int i = darray_find(op->m_items, Param1);
 
         if (i >= 0) {
             ZuiControl pHeaderItem = ZCCALL(ZM_Layout_GetItemAt, pHeader, (ZuiAny)i, NULL);
             if (pHeaderItem == NULL) break;
 
-            ZuiListHeaderItem lhi = ZCCALL(ZM_GetObject, pHeaderItem, (ZuiAny)Type_ListHeaderItem, NULL);
-            ZuiLabel lop = ZCCALL(ZM_GetObject, op->m_items->data[i], (ZuiAny)Type_Label, NULL);
+            ZuiListHeaderItem lhi = ZCCALL(ZM_GetObject, pHeaderItem, (ZuiAny)ZC_ListHeaderItem, NULL);
+            ZuiLabel lop = ZCCALL(ZM_GetObject, op->m_items->data[i], (ZuiAny)ZC_Label, NULL);
             lop->m_uTextStyle |= lhi->m_uListTextStyle;
             lop->m_cTextColor = lhi->m_cTextColor;
             lop->m_rFont = lhi->m_rListFont;
@@ -708,7 +708,7 @@ ZEXPORT ZuiAny ZCALL ZuiListElementProc(int ProcId, ZuiControl cp, ZuiListElemen
         if (!cp->m_bVisible) return 0;
 
         if (cp->m_pParent) {
-            ZuiLayout pParentContainer = ZCCALL(ZM_GetObject, cp->m_pParent, (ZuiAny)Type_Layout, NULL);
+            ZuiLayout pParentContainer = ZCCALL(ZM_GetObject, cp->m_pParent, (ZuiAny)ZC_Layout, NULL);
             if (pParentContainer) {
                 ZRect rc = *(ZRect *)ZCCALL(ZM_GetPos, cp->m_pParent, NULL, NULL);
                 ZRect rcInset = pParentContainer->m_rcInset;
@@ -754,7 +754,7 @@ ZEXPORT ZuiAny ZCALL ZuiListElementProc(int ProcId, ZuiControl cp, ZuiListElemen
         return 0;
     }
     case ZM_SetPos: {
-        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)Type_Layout, NULL);
+        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)ZC_Layout, NULL);
         //通知父容器调整布局
         ZuiLayoutProc(ProcId, cp, p->old_udata, Param1, Param2);
         if (p->m_pOwner == NULL) return 0;
@@ -879,12 +879,12 @@ ZEXPORT ZuiAny ZCALL ZuiListElementProc(int ProcId, ZuiControl cp, ZuiListElemen
         return 0;
     }
     case ZM_GetObject: {
-        if (_tcsicmp(Param1, (ZuiAny)Type_ListElement) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_ListElement) == 0)
             return (ZuiAny)p;
         break;
     }
     case ZM_GetType:
-        return (ZuiAny)Type_ListElement;
+        return (ZuiAny)ZC_ListElement;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:
@@ -898,7 +898,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderProc(int ProcId, ZuiControl cp, ZuiListHeader 
     switch (ProcId)
     {
     case ZM_EstimateSize: {
-        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)Type_Layout, NULL);
+        ZuiLayout op = ZCCALL(ZM_GetObject, cp, (ZuiAny)ZC_Layout, NULL);
         p->cXY.cy = cp->m_cxyFixed.cy;
         p->cXY.cx = 0;
         if (p->cXY.cy == 0 && cp->m_pOs != NULL) {
@@ -934,15 +934,15 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderProc(int ProcId, ZuiControl cp, ZuiListHeader 
         return 0;
     }
     case ZM_GetObject: {
-        if (_tcsicmp(Param1, (ZuiAny)Type_ListHeader) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_ListHeader) == 0)
             return (ZuiAny)p;
         break;
     }
     case ZM_GetType:
-        return (ZuiAny)Type_ListHeader;
+        return (ZuiAny)ZC_ListHeader;
     case ZM_CoreInit:
         //将辅助控件注册到系统
-        ZuiControlRegisterAdd(Type_ListHeaderItem, (ZCtlProc)&ZuiListHeaderItemProc);
+        ZuiControlRegisterAdd(ZC_ListHeaderItem, (ZCtlProc)&ZuiListHeaderItemProc);
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit: {
         return (ZuiAny)TRUE;
@@ -1200,7 +1200,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         return 0;
     }
     case ZM_GetObject: {
-        if (_tcsicmp(Param1, (ZuiAny)Type_ListHeaderItem) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_ListHeaderItem) == 0)
             return (ZuiAny)p;
         break;
     }
@@ -1350,7 +1350,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         break;
     }
     case ZM_GetType:
-        return (ZuiAny)Type_ListHeaderItem;
+        return (ZuiAny)ZC_ListHeaderItem;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

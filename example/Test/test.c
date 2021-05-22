@@ -134,7 +134,9 @@ ZuiAny ZCALL Main_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Para
 ZuiAny ZCALL msgbox_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
     if (_tcsicmp(msg, _T("onclick")) == 0)
     {
-        ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
+        //ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
+        ZuiControl cp = ZuiControlFindName(win, _T("tab"));
+        ZCCALL(ZM_TabLayout_SelectItem, cp, 2, NULL);
     }
     return 0;
 }

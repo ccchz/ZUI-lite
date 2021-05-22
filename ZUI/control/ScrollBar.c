@@ -947,11 +947,11 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_ScrollBar) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_ScrollBar) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_ScrollBar;
+        return (ZuiAny)ZC_ScrollBar;
     case ZM_CoreInit: {
         return (ZuiAny)TRUE;
     }

@@ -190,7 +190,7 @@ enum ZREST
 //--------------------------------------------------------------------Base类
 #if 1
 //功能宏
-#define Type_Null               _T("Null")
+#define ZC_Null               _T("Null")
 
 #define ZTYLE_BOX               1   //单线边框
 #define ZTYLE_BKGColor          2   //具有背景色
@@ -284,11 +284,11 @@ enum ZREST
 
 //--------------------------------------------------------------------Layout类
 #if 1
-#define Type_Layout                     _T("Layout")
-#define Type_VerticalLayout             _T("VerticalLayout")
-#define Type_HorizontalLayout           _T("HorizontalLayout")
-#define Type_TileLayout                 _T("TileLayout")
-#define Type_TabLayout                  _T("TabLayout")
+#define ZC_Layout                     _T("Layout")
+#define ZC_VerticalLayout             _T("VerticalLayout")
+#define ZC_HorizontalLayout           _T("HorizontalLayout")
+#define ZC_TileLayout                 _T("TileLayout")
+#define ZC_TabLayout                  _T("TabLayout")
 
 //--------base
 #define ZM_Layout_Add                 101 ///添加控件
@@ -342,7 +342,7 @@ enum ZREST
 
 //--------------------------------------------------------------------Label类
 #if 1
-#define Type_Label                  _T("Label")
+#define ZC_Label                  _T("Label")
 #define ZM_Label_SetFont          171     //设置字体
 #define ZM_Label_SetTextColor     172     //设置文本颜色
 #define ZM_Label_SetTextPadding   173     //字体边距
@@ -351,7 +351,7 @@ enum ZREST
 
 //--------------------------------------------------------------------Button类
 #if 1
-#define Type_Button                 _T("Button")
+#define ZC_Button                 _T("Button")
 
 #define ZM_Button_SetResNormal    201    //普通颜色
 #define ZM_Button_SetResHot       202    //高亮状态
@@ -376,15 +376,15 @@ enum ZREST
 #endif // 1
 //--------------------------------------------------------------------DrawPanel类
 #if 1
-#define Type_DrawPanel            _T("DrawPanel")
+#define ZC_DrawPanel            _T("DrawPanel")
 #endif // 1
 //--------------------------------------------------------------------SplitterBar类
 #if 1
-#define Type_SplitterBar            _T("SplitterBar")
+#define ZC_SplitterBar            _T("SplitterBar")
 #endif // 1
 //--------------------------------------------------------------------ProgressBar类
 #if 1
-#define Type_ProgressBar            _T("ProgressBar")
+#define ZC_ProgressBar            _T("ProgressBar")
 #define ZM_ProgressBar_SetColor   500
 #define ZM_ProgressBar_SetBackColor   501
 #define ZM_ProgressBar_SetPos   502
@@ -394,15 +394,15 @@ enum ZREST
 
 //--------------------------------------------------------------------CheckBox类
 #if 1
-#define Type_CheckBox               _T("CheckBox")
+#define ZC_CheckBox               _T("CheckBox")
 #endif // 1
 //--------------------------------------------------------------------List类
 #if 1
-#define Type_List                           _T("List")
-#define Type_ListBody                       _T("ListBody")
-#define Type_ListElement                    _T("listElement")
-#define Type_ListHeader                     _T("listHeader")
-#define Type_ListHeaderItem                 _T("listHeaderItem")
+#define ZC_List                           _T("List")
+#define ZC_ListBody                       _T("ListBody")
+#define ZC_ListElement                    _T("listElement")
+#define ZC_ListHeader                     _T("listHeader")
+#define ZC_ListHeaderItem                 _T("listHeaderItem")
 
 
 #define ZM_List_GetHeader                 400    //取列表头控件
@@ -451,7 +451,7 @@ enum ZREST
 
 //--------------------------------------------------------------------Window类
 #if 1
-#define Type_Window                 _T("Window")
+#define ZC_Window                 _T("Window")
 
 #define ZM_Window_SetNoBox        1001    //设置为无边框窗体
 #define ZM_Window_SetWindowMin    1002    //
@@ -469,7 +469,7 @@ enum ZREST
 
 //--------------------------------------------------------------------Option类
 #if 1
-#define Type_Option                         _T("Option")
+#define ZC_Option                         _T("Option")
 #define ZM_Option_SetSelected             1031    //
 #define ZM_Option_GetSelected             1032    //
 
@@ -491,7 +491,7 @@ enum ZREST
 
 //--------------------------------------------------------------------ScrollBar类
 #if 1
-#define Type_ScrollBar                  _T("ScrollBar")
+#define ZC_ScrollBar                  _T("ScrollBar")
 #define ZM_ScrollBar_SetHorizontal    1050 //设置为横向滚动条
 #define ZM_ScrollBar_SetScrollPos     1051 //设置位置
 #define ZM_ScrollBar_GetScrollPos     1052 //获取位置
@@ -515,8 +515,8 @@ enum ZREST
 #endif //1
 //--------------------------------------------------------------------TreeView类
 #if 1
-#define Type_TreeView                   _T("TreeView")
-#define Type_TreeNode                   _T("TreeNode")
+#define ZC_TreeView                   _T("TreeView")
+#define ZC_TreeNode                   _T("TreeNode")
 
 #define ZM_TreeView_Add                   ZM_Layout_Add  
 #define ZM_TreeView_AddAt                 ZM_Layout_AddAt

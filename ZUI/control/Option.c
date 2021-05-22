@@ -207,7 +207,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                 for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
                 {
                     ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL);
-                    ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL),Type_Option);
+                    ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL),ZC_Option);
                     if (pControl != cp && !isoption)
                     {
                         ZCCALL(ZM_Option_SetSelected, pControl, FALSE, NULL);
@@ -222,7 +222,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
                     {
                         ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL);
-                        ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL), Type_Option);
+                        ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL), ZC_Option);
                         if(!isoption)
                             select += ZCCALL(ZM_Option_GetSelected, pControl, NULL, NULL) ? 1 : 0;
                     }
@@ -359,11 +359,11 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_Option) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_Option) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_Option;
+        return (ZuiAny)ZC_Option;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

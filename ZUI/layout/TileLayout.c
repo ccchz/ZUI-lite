@@ -156,7 +156,7 @@ void* ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, void* 
         return old_call(ProcId, cp, old_udata, Param1, Param2);
     }
     case ZM_GetType:
-        return (ZuiAny)Type_TileLayout;
+        return (ZuiAny)ZC_TileLayout;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

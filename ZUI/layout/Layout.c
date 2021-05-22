@@ -844,11 +844,11 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_Layout) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_Layout) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_Layout;
+        return (ZuiAny)ZC_Layout;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

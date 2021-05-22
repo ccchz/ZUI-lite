@@ -17,7 +17,7 @@ ZEXPORT ZuiAny ZCALL ZuiTreeViewProc(int ProcId, ZuiControl cp, ZuiTreeView p, Z
         if (!Param1)
             return FALSE;
 
-        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_TreeNode))
+        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_TreeNode))
             return FALSE;
 
         ZuiControlRegNotify(Param1, ZuiTreeViewNotifyProc);
@@ -38,7 +38,7 @@ ZEXPORT ZuiAny ZCALL ZuiTreeViewProc(int ProcId, ZuiControl cp, ZuiTreeView p, Z
         if (!Param1)
             return (ZuiAny)-1;
 
-        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_TreeNode))
+        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_TreeNode))
             return (ZuiAny)-1;
 
         //继承事件
@@ -113,14 +113,14 @@ ZEXPORT ZuiAny ZCALL ZuiTreeViewProc(int ProcId, ZuiControl cp, ZuiTreeView p, Z
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_TreeView) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_TreeView) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_TreeView;
+        return (ZuiAny)ZC_TreeView;
     case ZM_CoreInit:
         //将辅助控件注册到系统
-        ZuiControlRegisterAdd(Type_TreeNode, (ZCtlProc)&ZuiTreeNodeProc);
+        ZuiControlRegisterAdd(ZC_TreeNode, (ZCtlProc)&ZuiTreeNodeProc);
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:
         return (ZuiAny)NULL;
@@ -133,7 +133,7 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
     switch (ProcId)
     {
     case ZM_TreeNode_Add: {
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_TreeNode))
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_TreeNode))
             return ZCCALL(ZM_TreeNode_AddChildNode, cp, Param1, NULL);//作为子节点插入
         return ZCCALL(ZM_TreeNode_Add, p->pHoriz, Param1, NULL);
         break;//普通插入,直接交给原型处理
@@ -148,7 +148,7 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
         if (!Param1)
             return FALSE;
 
-        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)Type_TreeNode))
+        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_TreeNode))
             return FALSE;
         //计算缩进
         Param1 = ZCCALL(ZM_TreeNode_CalLocation, cp, Param1, NULL);
@@ -323,11 +323,11 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_TreeNode) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_TreeNode) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_TreeNode;
+        return (ZuiAny)ZC_TreeNode;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

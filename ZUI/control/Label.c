@@ -150,11 +150,11 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_Label) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_Label) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_Label;
+        return (ZuiAny)ZC_Label;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

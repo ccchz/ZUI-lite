@@ -24,7 +24,7 @@
 			<Label width="100" name="wordbreak" text="块是  在论坛找的某位大佬的改的。" wordbreak="true"/>
 		</VerticalLayout>
 		<NULL width="3" bkcolor="0xFF484848"/>
-		<TabLayout tabselect='2'>
+		<TabLayout name="tab" tabselect='0'>
 		<Button name="tab1" text="tab1"/>
 		<Button name="tab2" text="tab2"/>		
 		<List name="domainlist"  inset="0,0,0,0" linecolor="#FF00ff00" columncolor="#FF686868" itemshowhtml="true"  itemalign="center" itemaltbk="true" menu="true">

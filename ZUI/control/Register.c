@@ -33,21 +33,21 @@ ZuiBool ZuiClassInit()
     Global_ControlClass = (struct _ZClass_Tree *)malloc(sizeof(struct _ZClass_Tree));
     memset(Global_ControlClass, 0, sizeof(struct _ZClass_Tree));
     /*核心组件 不可卸载*/
-    ZuiControlRegisterAdd(Type_Layout, (ZCtlProc)&ZuiLayoutProc);
-    ZuiControlRegisterAdd(Type_VerticalLayout, (ZCtlProc)&ZuiVerticalLayoutProc);
-    ZuiControlRegisterAdd(Type_HorizontalLayout, (ZCtlProc)&ZuiHorizontalLayoutProc);
-    ZuiControlRegisterAdd(Type_TabLayout, (ZCtlProc)&ZuiTabLayoutProc);
-    ZuiControlRegisterAdd(Type_TileLayout, (ZCtlProc)&ZuiTileLayoutProc);
-    ZuiControlRegisterAdd(Type_Window, (ZCtlProc)&ZuiWindowProc);
-    ZuiControlRegisterAdd(Type_ScrollBar, (ZCtlProc)&ZuiScrollBarProc);
-    ZuiControlRegisterAdd(Type_SplitterBar, (ZCtlProc)&ZuiSplitterBarProc);
-    ZuiControlRegisterAdd(Type_Label, (ZCtlProc)&ZuiLabelProc);
-    ZuiControlRegisterAdd(Type_ProgressBar, (ZCtlProc)&ZuiProgressBarProc);
-    ZuiControlRegisterAdd(Type_Button, (ZCtlProc)&ZuiButtonProc);
-    ZuiControlRegisterAdd(Type_Option, (ZCtlProc)&ZuiOptionProc);
-    ZuiControlRegisterAdd(Type_CheckBox, (ZCtlProc)&ZuiCheckBoxProc);
-    ZuiControlRegisterAdd(Type_List, (ZCtlProc)&ZuiListProc);
-    ZuiControlRegisterAdd(Type_TreeView, (ZCtlProc)&ZuiTreeViewProc);
+    ZuiControlRegisterAdd(ZC_Layout, (ZCtlProc)&ZuiLayoutProc);
+    ZuiControlRegisterAdd(ZC_VerticalLayout, (ZCtlProc)&ZuiVerticalLayoutProc);
+    ZuiControlRegisterAdd(ZC_HorizontalLayout, (ZCtlProc)&ZuiHorizontalLayoutProc);
+    ZuiControlRegisterAdd(ZC_TabLayout, (ZCtlProc)&ZuiTabLayoutProc);
+    ZuiControlRegisterAdd(ZC_TileLayout, (ZCtlProc)&ZuiTileLayoutProc);
+    ZuiControlRegisterAdd(ZC_Window, (ZCtlProc)&ZuiWindowProc);
+    ZuiControlRegisterAdd(ZC_ScrollBar, (ZCtlProc)&ZuiScrollBarProc);
+    ZuiControlRegisterAdd(ZC_SplitterBar, (ZCtlProc)&ZuiSplitterBarProc);
+    ZuiControlRegisterAdd(ZC_Label, (ZCtlProc)&ZuiLabelProc);
+    ZuiControlRegisterAdd(ZC_ProgressBar, (ZCtlProc)&ZuiProgressBarProc);
+    ZuiControlRegisterAdd(ZC_Button, (ZCtlProc)&ZuiButtonProc);
+    ZuiControlRegisterAdd(ZC_Option, (ZCtlProc)&ZuiOptionProc);
+    ZuiControlRegisterAdd(ZC_CheckBox, (ZCtlProc)&ZuiCheckBoxProc);
+    ZuiControlRegisterAdd(ZC_List, (ZCtlProc)&ZuiListProc);
+    ZuiControlRegisterAdd(ZC_TreeView, (ZCtlProc)&ZuiTreeViewProc);
     
     return TRUE;
 }

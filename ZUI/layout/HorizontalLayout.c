@@ -200,11 +200,11 @@ void* ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLayo
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_HorizontalLayout) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_HorizontalLayout) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_HorizontalLayout;
+        return (ZuiAny)ZC_HorizontalLayout;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

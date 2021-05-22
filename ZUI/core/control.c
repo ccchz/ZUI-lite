@@ -641,12 +641,12 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         break;
     }
     case ZM_GetObject: {
-        if (_tcsicmp(Param1, (ZuiAny)Type_Null) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_Null) == 0)
             return p;
         break;
     }
     case ZM_GetType: {
-        return (ZuiAny)Type_Null;
+        return (ZuiAny)ZC_Null;
     }
     case ZM_CoreInit: {
         return (ZuiAny)TRUE;

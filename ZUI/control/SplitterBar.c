@@ -115,11 +115,11 @@ ZEXPORT ZuiAny ZCALL ZuiSplitterBarProc(int ProcId, ZuiControl cp, ZuiSplitterBa
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)Type_SplitterBar) == 0)
+        if (_tcsicmp(Param1, (ZuiAny)ZC_SplitterBar) == 0)
             return (ZuiAny)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)Type_SplitterBar;
+        return (ZuiAny)ZC_SplitterBar;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:

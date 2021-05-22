@@ -189,7 +189,7 @@ void* ZCALL ZuiVerticalLayoutProc(int ProcId, ZuiControl cp, ZuiVerticalLayout p
         return 0;
     }
     case ZM_GetType:
-        return (ZuiAny)Type_VerticalLayout;
+        return (ZuiAny)ZC_VerticalLayout;
     case ZM_CoreInit:
         return (ZuiAny)TRUE;
     case ZM_CoreUnInit:
