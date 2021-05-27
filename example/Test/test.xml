@@ -8,7 +8,7 @@
 		</HorizontalLayout>	
 		<NULL height="1" bkcolor="0xFF484848"/>
 		<HorizontalLayout>
-		<VerticalLayout bordercolor="#ff00ff00" width="200"  align="center" sbbkcolor="#FF484848"><!--×´Ì¬À¸-->
+		<VerticalLayout width="200"  align="center" sbbkcolor="#FF484848"><!--×´Ì¬À¸-->
 			<NULL height="100"/>
 			
 			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" restype="3" align="left" textpadding="22,0,0,0" group="true" disabledcolor="#FF8c8c8c" height="30"/>
