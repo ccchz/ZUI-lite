@@ -334,14 +334,14 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
 
             rc = &p->m_rcButton1;
             if (!p->m_bHorizontal) {
-                x1 = rc->left + cp->m_cxyFixed.cx / 2; y1 = rc->top + SB_INSET + 1;
-                x2 = rc->left + SB_INSET; y2 = rc->bottom - SB_INSET;
-                x3 = rc->right - SB_INSET - 1; y3 = rc->bottom - SB_INSET;
+                x1 = rc->left + cp->m_cxyFixed.cx / 2;  y1 = rc->top + SB_INSET + 1;
+                x2 = rc->left + SB_INSET;               y2 = rc->bottom - SB_INSET;
+                x3 = rc->right - SB_INSET - 1;          y3 = rc->bottom - SB_INSET;
             }
             else {
-                x1 = rc->left + SB_INSET + 1; y1 = rc->top + cp->m_cxyFixed.cy / 2;
-                x2 = rc->right - SB_INSET;  y2 = rc->top + SB_INSET;
-                x3 = rc->right - SB_INSET; y3 = rc->bottom - SB_INSET - 1;
+                x1 = rc->left + SB_INSET + 1;   y1 = rc->top + cp->m_cxyFixed.cy / 2;
+                x2 = rc->right - SB_INSET;      y2 = rc->top + SB_INSET;
+                x3 = rc->right - SB_INSET;      y3 = rc->bottom - SB_INSET - 1;
             }
             if (!cp->m_bEnabled) p->m_uButton1State |= ZSTATE_DISABLED;
             else p->m_uButton1State &= ~ZSTATE_DISABLED;
@@ -392,14 +392,14 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
 
             rc = &p->m_rcButton2;
             if (!p->m_bHorizontal) {
-                x1 = rc->left + cp->m_cxyFixed.cx / 2; y1 = rc->bottom - SB_INSET - 1;
-                x2 = rc->left + SB_INSET; y2 = rc->top + SB_INSET - 1;
-                x3 = rc->right - SB_INSET - 1; y3 = rc->top + SB_INSET - 1;
+                x1 = rc->left + cp->m_cxyFixed.cx / 2;  y1 = rc->bottom - SB_INSET - 1;
+                x2 = rc->left + SB_INSET;               y2 = rc->top + SB_INSET - 1;
+                x3 = rc->right - SB_INSET - 1;          y3 = rc->top + SB_INSET - 1;
             }
             else {
-                x1 = rc->right - SB_INSET - 1; y1 = rc->top + cp->m_cxyFixed.cy / 2;
-                x2 = rc->left + SB_INSET - 1; y2 = rc->top + SB_INSET;
-                x3 = rc->left + SB_INSET - 1;y3 = rc->bottom - SB_INSET - 1;
+                x1 = rc->right - SB_INSET - 1;  y1 = rc->top + cp->m_cxyFixed.cy / 2;
+                x2 = rc->left + SB_INSET - 1;   y2 = rc->top + SB_INSET;
+                x3 = rc->left + SB_INSET - 1;   y3 = rc->bottom - SB_INSET - 1;
             }
             if (!cp->m_bEnabled) p->m_uButton2State |= ZSTATE_DISABLED;
             else p->m_uButton2State &= ~ZSTATE_DISABLED;

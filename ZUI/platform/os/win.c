@@ -991,9 +991,10 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
 
         // Set the dialog root element
         OsWindow->m_pRoot = root;
-
+        OsWindow->m_bOffscreenPaint = TRUE;
+        OsWindow->m_hDcOffscreen = ZuiCreateGraphics(100, 100);
         OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI"), _T(""),
-            WS_OVERLAPPEDWINDOW | WS_VISIBLE ,
+            WS_OVERLAPPEDWINDOW | WS_VISIBLE,
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
             tmphwnd, NULL, GetModuleHandle(NULL),
             OsWindow);
@@ -1015,7 +1016,6 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         //p->m_bShowUpdateRect = TRUE;
         OsWindow->m_uTimerID = 0x1000;
         OsWindow->m_bFirstLayout = TRUE;
-        OsWindow->m_bOffscreenPaint = TRUE;
         OsWindow->m_nOpacity = 0xFF;
 
         OsWindow->m_ptLastMousePos.x = OsWindow->m_ptLastMousePos.y = -1;
