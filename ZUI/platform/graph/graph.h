@@ -1,6 +1,7 @@
 ﻿#ifndef __ZUI_PLATFORM_GRAPH_H__
 #define __ZUI_PLATFORM_GRAPH_H__
 #include <ZUI.h>
+#include <platform/platform.h>
 #if defined(__cplusplus)
 extern "C"
 {
@@ -80,7 +81,7 @@ extern "C"
     ZEXPORT ZuiVoid ZCALL ZuiDestroyFont(ZuiFont Font);
     //创建图形
     //ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsInMemory(int Width, int Height);
-    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(int Width, int Height);
+    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(ZuiOsWindow p, int Width, int Height);
     /*附加到一块内存上*/
     ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiGraphics gp, ZuiAny bits, int Width, int Height, int stride);
     //销毁图形

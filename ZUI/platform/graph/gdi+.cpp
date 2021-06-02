@@ -3,6 +3,7 @@
 #include "core/carray.h"
 #include "stdlib.h"
 #include <VersionHelpers.h>
+#include <core/control.h>
 #include <comdef.h>
 #if PLATFORM_GRAPH_GDIX
 #include "gdiplus.h"
@@ -307,7 +308,7 @@ extern "C" {
         }
     }
     /*´´½¨Í¼ÐÎ*/
-    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(int Width, int Height) {
+    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(ZuiOsWindow p,int Width, int Height) {
         ZuiGraphics gp = (ZuiGraphics)malloc(sizeof(ZGraphics));
         if (!gp) { return NULL; }
         memset(gp, 0, sizeof(ZGraphics));
@@ -318,9 +319,8 @@ extern "C" {
             gp->Clip.top = 1;
             gp->Clip.right = Width;
             gp->Clip.bottom = Height;
-            HDC tempdc = GetDC(0);
+            HDC tempdc = GetDC(p->m_hWnd);
             gp->hdc = CreateCompatibleDC(tempdc);
-            gp->hdc = gp->hdc;
             ReleaseDC(0, tempdc);
             BITMAPINFO BitmapInfo;
             memset(&BitmapInfo, 0, sizeof(BitmapInfo));

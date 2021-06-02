@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="gbk"?>
 <include src="default:default_ctl.xml" />
-<Window nobox="true" round="4,4" bordercolor="#ff686868" bkcolor="0xFF282828" text="Demo" size="800,600" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
+<Window nobox="true" bordercolor="#ff686868" bkcolor="0xFF282828" text="Demo" size="800,600" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
 		<HorizontalLayout name="head" drag="true"  height="23"><!--标题栏-->
 			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:name='微软雅黑':size=10:bold=true" drag="true"/>
 			<Include src="file:itest.xml" />

@@ -13,7 +13,7 @@ typedef BOOL(__stdcall *PFUNCUPDATELAYEREDWINDOW)(HWND, HDC, POINT*, SIZE*, HDC,
 static HPEN m_hUpdateRectPen = NULL;
 HINSTANCE m_hInstance = NULL;           //模块句柄
 static DWORD m_hMainThreadId = 0;    //主线程ID
-static PFUNCUPDATELAYEREDWINDOW g_fUpdateLayeredWindow = NULL;	//UpdateLayeredWindow函数指针
+static PFUNCUPDATELAYEREDWINDOW g_fUpdateLayeredWindow; 	//UpdateLayeredWindow函数指针
 
 //定时器结构
 typedef struct tagTIMERINFO
@@ -221,6 +221,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         p->m_bIsPainting = TRUE;
         //是否需要更新控件布局
         if (p->m_bUpdateNeeded) {	//更新控件布局
+            _tprintf(_T("setpos.."));
             p->m_bUpdateNeeded = FALSE;
             if (!IsRectEmpty(&rcClient)) {
                 if (p->m_pRoot->m_bUpdateNeeded) {
@@ -308,13 +309,14 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         //是否双缓存绘图
         if (p->m_bOffscreenPaint)
         {
+            _tprintf(_T("%d,%d.."), rcPaint.bottom, rcPaint.right);
             ZCCALL(ZM_OnPaint, p->m_pRoot, p->m_hDcOffscreen, &rcPaint);
 
             for (int i = 0; i < darray_len(p->m_aPostPaintControls); i++) {
                 ZuiControl pPostPaintControl = (ZuiControl)(p->m_aPostPaintControls->data[i]);
                 ZCCALL(ZM_OnPostPaint, pPostPaintControl, p->m_hDcOffscreen, &rcPaint);
             }
-            //RestoreDC(p->m_hDcOffscreen->hdc, iSaveDC);
+
             if (p->m_bLayered) {
                 RECT rcWnd = { 0 };
                 GetWindowRect(p->m_hWnd, &rcWnd);
@@ -331,6 +333,9 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                 POINT ptPos = { rcWnd.left, rcWnd.top };
                 SIZE sizeWnd = { dwWidth, dwHeight };
                 POINT ptSrc = { 0, 0 };
+                DWORD dwExStyle = GetWindowLong(p->m_hWnd, GWL_EXSTYLE);
+                if ((dwExStyle & 0x80000) != 0x80000)
+                    SetWindowLong(p->m_hWnd, GWL_EXSTYLE, dwExStyle ^ 0x80000);
                 g_fUpdateLayeredWindow(p->m_hWnd, p->m_hDcPaint, &ptPos, &sizeWnd, p->m_hDcOffscreen->hdc, &ptSrc, 0, &bf, ULW_ALPHA);
             }
             else
@@ -438,20 +443,20 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         if (p->m_bOffscreenPaint)
         {
             ZuiDestroyGraphics(p->m_hDcOffscreen);
-            p->m_hDcOffscreen = ZuiCreateGraphics(LOWORD(lParam),HIWORD(lParam));
+            p->m_hDcOffscreen = ZuiCreateGraphics(p,LOWORD(lParam),HIWORD(lParam));
         }
         else {
             if (p->m_hDcOffscreen == NULL)
             {
-                p->m_hDcOffscreen = ZuiCreateGraphics(0, 0);
+                p->m_hDcOffscreen = ZuiCreateGraphics(p,0, 0);
             }
         }
         p->m_hDcOffscreen->hwnd = p->m_hWnd;
         ZuiSetWindowRgn(p->m_hDcOffscreen, &tmprc, w, h);
         if (p->m_pRoot != NULL)
             ZuiControlNeedUpdate(p->m_pRoot);
-        if (p->m_bLayered)
-            ZuiOsInvalidate(p);
+        //if (p->m_bLayered)
+         //   ZuiOsInvalidate(p);
         return 0;
     }
     case WM_TIMER:  //时钟事件
@@ -966,6 +971,9 @@ ZuiBool ZuiOsInitialize(ZuiInitConfig config) {
     wc.lpszClassName = _T("ZUI");
     RegisterClass(&wc);
 
+    HMODULE hFuncInst = LoadLibrary(_T("User32.DLL"));
+    g_fUpdateLayeredWindow = GetProcAddress(hFuncInst, "UpdateLayeredWindow");
+
     if (m_hUpdateRectPen == NULL) {
         m_hUpdateRectPen = CreatePen(PS_SOLID, 1, RGB(220, 0, 0));
         InitCommonControls();
@@ -991,8 +999,8 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
 
         // Set the dialog root element
         OsWindow->m_pRoot = root;
-        OsWindow->m_bOffscreenPaint = TRUE;
-        OsWindow->m_hDcOffscreen = ZuiCreateGraphics(100, 100);
+
+
         OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI"), _T(""),
             WS_OVERLAPPEDWINDOW | WS_VISIBLE,
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -1017,7 +1025,8 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         OsWindow->m_uTimerID = 0x1000;
         OsWindow->m_bFirstLayout = TRUE;
         OsWindow->m_nOpacity = 0xFF;
-
+        OsWindow->m_bOffscreenPaint = TRUE;
+        //OsWindow->m_bLayered = TRUE;
         OsWindow->m_ptLastMousePos.x = OsWindow->m_ptLastMousePos.y = -1;
 
         OsWindow->m_aTimers = darray_create();

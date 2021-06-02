@@ -25,7 +25,7 @@ ZuiVoid ZCALL OnPaint(ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
 ZuiVoid ZCALL OnSize(ZuiControl p, ZuiAny w, ZuiAny h) {
     if (p->m_aAnime->m_hDcOffscreen)
         ZuiDestroyGraphics(p->m_aAnime->m_hDcOffscreen);
-   p->m_aAnime->m_hDcOffscreen = ZuiCreateGraphics((int)w, (int)h);
+   p->m_aAnime->m_hDcOffscreen = ZuiCreateGraphics(p->m_pOs,(int)w, (int)h);
 }
 ZuiVoid ZCALL OnEvent(ZuiControl p, TEventUI *event) {
     if (event->Type == ZEVENT_TIMER && event->wParam==1) {
