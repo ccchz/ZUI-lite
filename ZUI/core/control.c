@@ -222,16 +222,16 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         }
         case ZEVENT_MOUSELEAVE: {
             ZuiControlNotify(_T("onmouseleave"), p, NULL, NULL);
-        }
-                                break;
+            break;
+	}
         case ZEVENT_MOUSEENTER: {
             ZuiControlNotify(_T("onmouseenter"), p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y));
-        }
-                                break;
+            break;
+	}
         case ZEVENT_LBUTTONDOWN: {
             ZuiControlNotify(_T("onlbuttondown"), p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y));
-        }
-                                 break;
+            break;
+	}
         case ZEVENT_LBUTTONUP: {
             if (ZuiIsPointInRect(&p->m_rcItem, &((TEventUI*)Param1)->ptMouse)) {
                 ZuiControlNotify(_T("onclick"), p, (ZuiAny)(((TEventUI*)Param1)->ptMouse.x), (ZuiAny)(((TEventUI*)Param1)->ptMouse.y));
@@ -258,7 +258,6 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     }
     case ZM_GetMinWidth: {
         return (void *)p->m_cxyMin.cx;
-        break;
     }
     case ZM_SetMinWidth: {
         if (p->m_cxyMin.cx == (int)Param1)
@@ -269,19 +268,19 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         ZuiControlNeedParentUpdate(p);
         break;
     }
-	case ZM_GetBorderWidth: {
-		return (void *)p->m_dwBorderWidth;
-		break;
+    case ZM_GetBorderWidth: {
+	return (void *)p->m_dwBorderWidth;
+	break;
 	}
-	case ZM_SetBorderWidth: {
-		if (p->m_dwBorderWidth == (int)Param1)
-			return 0;
-		if ((int)Param1 < 0)
-			return 0;
-		p->m_dwBorderWidth = (int)Param1;
-		ZuiControlNeedParentUpdate(p);
-		break;
-	}
+    case ZM_SetBorderWidth: {
+	if (p->m_dwBorderWidth == (int)Param1)
+		return 0;
+	if ((int)Param1 < 0)
+		return 0;
+	p->m_dwBorderWidth = (int)Param1;
+	ZuiControlNeedParentUpdate(p);
+	break;
+    }
     case ZM_GetMaxWidth: {
         return (void *)p->m_cxyMax.cx;
         break;
@@ -507,18 +506,12 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     case ZM_OnPaintBorder: {
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = &p->m_rcItem;
-		if (p->m_dwBorderColor) {
-			if(p->m_dwBorderWidth)
-               // if (p->m_rRound.cx)
-                    ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy, p->m_dwBorderWidth);
-                //else
-				   // ZuiDrawRect(gp, p->m_dwBorderColor, rc, p->m_dwBorderWidth);
-			else
-                //if (p->m_rRound.cx)
-                    ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy,1);
-                //else
-				    //ZuiDrawRect(gp, p->m_dwBorderColor, rc, 1);
-		}
+	if (p->m_dwBorderColor) {
+	    if(p->m_dwBorderWidth)
+                ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy, p->m_dwBorderWidth);
+	    else
+                ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy,1);
+	    }
         break;
     }
     case ZM_OnCreate: {
@@ -570,15 +563,24 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         break;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("text")) == 0) ZCCALL(ZM_SetText, p, Param2, NULL);
-        else if (_tcsicmp(Param1, _T("tooltip")) == 0) ZCCALL(ZM_SetTooltip, p, Param2, NULL);
-        else if (_tcsicmp(Param1, _T("width")) == 0) ZCCALL(ZM_SetFixedWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
-		else if (_tcsicmp(Param1, _T("borderwidth")) == 0) ZCCALL(ZM_SetBorderWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("height")) == 0) ZCCALL(ZM_SetFixedHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("minwidth")) == 0) ZCCALL(ZM_SetMinWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("minheight")) == 0) ZCCALL(ZM_SetMinHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("maxwidth")) == 0) ZCCALL(ZM_SetMaxWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("maxheight")) == 0) ZCCALL(ZM_SetMaxHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        if (_tcsicmp(Param1, _T("text")) == 0)
+		ZCCALL(ZM_SetText, p, Param2, NULL);
+        else if (_tcsicmp(Param1, _T("tooltip")) == 0)
+		ZCCALL(ZM_SetTooltip, p, Param2, NULL);
+        else if (_tcsicmp(Param1, _T("width")) == 0)
+		ZCCALL(ZM_SetFixedWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
+	else if (_tcsicmp(Param1, _T("borderwidth")) == 0)
+		ZCCALL(ZM_SetBorderWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("height")) == 0)
+		ZCCALL(ZM_SetFixedHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("minwidth")) == 0)
+		ZCCALL(ZM_SetMinWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("minheight")) == 0)
+		ZCCALL(ZM_SetMinHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("maxwidth")) == 0)
+		ZCCALL(ZM_SetMaxWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("maxheight")) == 0)
+		ZCCALL(ZM_SetMaxHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);
         else if (_tcsicmp(Param1, _T("round")) == 0) {
             ZuiText pstr = NULL;
             int cx = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
@@ -590,8 +592,10 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 			clrColor = ZuiStr2Color(Param2);
             ZCCALL(ZM_SetBkColor, p, (ZuiAny)BK_Color,(ZuiAny)clrColor);
         }
-        else if (_tcsicmp(Param1, _T("drag")) == 0) ZCCALL(ZM_SetDrag, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcsicmp(Param1, _T("bkimage")) == 0) ZCCALL(ZM_SetBkImage, p, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
+        else if (_tcsicmp(Param1, _T("drag")) == 0)
+		ZCCALL(ZM_SetDrag, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        else if (_tcsicmp(Param1, _T("bkimage")) == 0)
+		ZCCALL(ZM_SetBkImage, p, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
         else if (_tcsicmp(Param1, _T("padding")) == 0) {
             ZRect rcPadding = { 0 };
             ZuiText pstr = NULL;
@@ -606,7 +610,8 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 			clrColor = ZuiStr2Color(Param2);
             ZCCALL(ZM_SetBkColor, p, (ZuiAny)Border_Color,(ZuiAny)clrColor);
         }
-        else if (_tcsicmp(Param1, _T("name")) == 0) ZCCALL(ZM_SetName, p, Param2, NULL);
+        else if (_tcsicmp(Param1, _T("name")) == 0)
+		ZCCALL(ZM_SetName, p, Param2, NULL);
         else if (_tcsicmp(Param1, _T("float")) == 0) {
             if (_tcschr(Param2, ',') == 0) {
                 ZCCALL(ZM_SetFloat, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
@@ -622,7 +627,8 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
                 ZCCALL(ZM_SetFloat, p, (ZuiAny)TRUE, NULL);
             }
         }
-        else if (_tcsicmp(Param1, _T("visible")) == 0) ZCCALL(ZM_SetVisible, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        else if (_tcsicmp(Param1, _T("visible")) == 0)
+		ZCCALL(ZM_SetVisible, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
         else if (_tcsicmp(Param1, _T("pos")) == 0) {
             ZRect rcPos = { 0 };
             ZuiText pstr = NULL;
@@ -634,7 +640,8 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             ZCCALL(ZM_SetFixedWidth, p, (ZuiAny)(rcPos.right - rcPos.left), NULL);
             ZCCALL(ZM_SetFixedHeight, p, (ZuiAny)(rcPos.bottom - rcPos.top), NULL);
         }
-        else if (_tcsicmp(Param1, _T("enabled")) == 0) ZCCALL(ZM_SetEnabled, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        else if (_tcsicmp(Param1, _T("enabled")) == 0)
+		ZCCALL(ZM_SetEnabled, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
         break;
     }
     case ZM_GetAttribute: {
