@@ -33,11 +33,16 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
         return 0;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("pbcolor")) == 0) ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("pbbkcolor")) == 0) ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("pbheight")) == 0) ZCCALL(ZM_ProgressBar_SetHeight, cp, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("pbpos")) == 0) ZCCALL(ZM_ProgressBar_SetPos, cp, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("pbrange")) == 0) ZCCALL(ZM_ProgressBar_SetRange, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        if (_tcsicmp(Param1, _T("pbcolor")) == 0)
+            ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("pbbkcolor")) == 0)
+            ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("pbheight")) == 0)
+            ZCCALL(ZM_ProgressBar_SetHeight, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("pbpos")) == 0)
+            ZCCALL(ZM_ProgressBar_SetPos, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(Param1, _T("pbrange")) == 0)
+            ZCCALL(ZM_ProgressBar_SetRange, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         break;
     }
     case ZM_ProgressBar_SetPos: {
