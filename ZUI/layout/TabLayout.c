@@ -12,8 +12,9 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
         if ((int)Param2 & ZFIND_FROM_POINT) {
             op = ZCCALL(ZM_Layout_GetItemAt, cp, p->m_iCurSel, Param2);
             op = ZCCALL(ProcId, op, Param1, Param2);
-            if (op) return op;
-            return ZuiDefaultControlProc(ProcId, cp, p, Param1, Param2);
+            if (!op) 
+                op = ZuiDefaultControlProc(ProcId, cp, p, Param1, Param2);;
+            return op; 
         }
         else
             break;
@@ -24,11 +25,13 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
         return TRUE;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("tabselect")) == 0) ZCCALL(ZM_TabLayout_SetSelect, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        if (_tcsicmp(Param1, _T("tabselect")) == 0)
+            ZCCALL(ZM_TabLayout_SetSelect, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         break;
     }
     case ZM_OnPaint: {
-        if (p->m_iCurSel < 0) return FALSE;
+        if (p->m_iCurSel < 0)
+            return FALSE;
         ZuiDefaultControlProc(ProcId, cp, cp, Param1, Param2);
         ZuiControl op = ZCCALL(ZM_Layout_GetItemAt, cp, p->m_iCurSel, Param2);
         ZCCALL(ZM_OnPaint, op, Param1, Param2);
@@ -83,9 +86,10 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
     case ZM_TabLayout_SelectItem: {
         int iIndex = (int)Param1;
         ZuiLayout op = (ZuiLayout)p->old_udata;
-        if (iIndex < 0 || iIndex >= darray_len(op->m_items)) return FALSE;
-        if (iIndex == p->m_iCurSel) return (ZuiAny)TRUE;
-
+        if (iIndex < 0 || iIndex >= darray_len(op->m_items))
+            return FALSE;
+        if (iIndex == p->m_iCurSel)
+            return (ZuiAny)TRUE;
 
         p->m_iCurSel = iIndex;
         ZuiControlInvalidate(cp, 0);
