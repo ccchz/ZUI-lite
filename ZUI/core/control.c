@@ -57,9 +57,10 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     {
     case ZM_Invalidate: {
         ZRect invalidateRc = p->m_rcItem;
-        if (!p->m_bVisible) return 0;
-		else
-		{
+        if (!p->m_bVisible)
+		return 0;
+	else
+	{
             ZuiControl pParent = p;
             ZRect rcTemp;
             ZRect *rcParent;
@@ -80,8 +81,10 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         return 0;
     }
     case ZM_Activate: {
-        if (!p->m_bVisible) return FALSE;
-        if (!p->m_bEnabled) return FALSE;
+        if (!p->m_bVisible)
+		return FALSE;
+        if (!p->m_bEnabled)
+		return FALSE;
     }
     case ZM_SetVisible: {
         BOOL v = p->m_bVisible;
