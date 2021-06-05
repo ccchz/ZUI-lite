@@ -9,10 +9,14 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
     {
     case ZM_FindControl: {
         ZuiControl op;
-        op = ZCCALL(ZM_Layout_GetItemAt, cp, p->m_iCurSel, Param2);
-       op =  ZCCALL(ProcId, op, Param1, Param2);
-       if (op) return op;
-       return ZuiDefaultControlProc(ProcId, cp, p, Param1, Param2);
+        if ((int)Param2 & ZFIND_FROM_POINT) {
+            op = ZCCALL(ZM_Layout_GetItemAt, cp, p->m_iCurSel, Param2);
+            op = ZCCALL(ProcId, op, Param1, Param2);
+            if (op) return op;
+            return ZuiDefaultControlProc(ProcId, cp, p, Param1, Param2);
+        }
+        else
+            break;
     }
     case ZM_TabLayout_SetSelect: {
         p->m_iCurSel = (int)Param1;
