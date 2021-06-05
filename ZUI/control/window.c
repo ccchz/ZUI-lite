@@ -70,9 +70,12 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         return 0;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("nobox")) == 0) ZCCALL(ZM_Window_SetNoBox, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcsicmp(Param1, _T("combo")) == 0) ZCCALL(ZM_Window_SetComBo, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcsicmp(Param1, _T("toolwindow")) == 0) ZCCALL(ZM_Window_SetToolWindow, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        if (_tcsicmp(Param1, _T("nobox")) == 0)
+		ZCCALL(ZM_Window_SetNoBox, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        else if (_tcsicmp(Param1, _T("combo")) == 0)
+		ZCCALL(ZM_Window_SetComBo, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        else if (_tcsicmp(Param1, _T("toolwindow")) == 0)
+		ZCCALL(ZM_Window_SetToolWindow, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
         else if (_tcsicmp(Param1, _T("layered")) == 0) {
 
         }
@@ -96,22 +99,22 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         }
         else if (_tcsicmp(Param1, _T("name")) == 0) {
             if (cp->m_sName) {
-				if (_tcsicmp(cp->m_sName, Param2) != 0) {
-					//删除以前的名字
-					ZWindows theNode = { 0 };
-					ZWindows *c;
-					theNode.key = Zui_Hash(cp->m_sName);
-					c = RB_FIND(_ZWindows_Tree, m_window, &theNode);
-					if (c) {
-						RB_REMOVE(_ZWindows_Tree, m_window, c);
-						free(c);
-					}
-					free(cp->m_sName);
-					cp->m_sName = NULL;
-				}
-				else {
-					return 0;
-				}
+		if (_tcsicmp(cp->m_sName, Param2) != 0) {
+			//删除以前的名字
+			ZWindows theNode = { 0 };
+			ZWindows *c;
+			theNode.key = Zui_Hash(cp->m_sName);
+			c = RB_FIND(_ZWindows_Tree, m_window, &theNode);
+			if (c) {
+				RB_REMOVE(_ZWindows_Tree, m_window, c);
+				free(c);
+			}
+			free(cp->m_sName);
+			cp->m_sName = NULL;
+		}
+		else {
+			return 0;
+		}
             }
                 //保存现在的名字
                 ZWindows *n = (ZWindows *)malloc(sizeof(ZWindows));
@@ -155,7 +158,8 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
 		break;
 	}
 	case ZM_OnPaintBorder: {
-		if (cp->m_pOs->m_bMax) return 0;
+		if (cp->m_pOs->m_bMax)
+		    return 0;
 		break;
 	}
     case ZM_OnCreate: {
