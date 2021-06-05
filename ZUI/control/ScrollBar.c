@@ -28,7 +28,8 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         }
         if (event->Type == ZEVENT_LBUTTONDOWN || event->Type == ZEVENT_LDBLCLICK)
         {
-            if (!cp->m_bEnabled) return 0;
+            if (!cp->m_bEnabled)
+                return 0;
 
             p->m_nLastScrollOffset = 0;
             p->m_nScrollRepeatDelay = 0;
@@ -205,7 +206,8 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
                 ZuiControlInvalidate(cp, TRUE);
             }
             else if ((p->m_uButton1State & ZSTATE_PUSHED) != 0) {
-                if (p->m_nScrollRepeatDelay <= 5) return 0;
+                if (p->m_nScrollRepeatDelay <= 5)
+                    return 0;
                 if (!p->m_bHorizontal) {
                     if (p->m_pOwner != NULL)
                         ZCCALL(ZM_Layout_LineUp, p->m_pOwner, NULL, NULL);
@@ -220,7 +222,8 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
                 }
             }
             else if ((p->m_uButton2State & ZSTATE_PUSHED) != 0) {
-                if (p->m_nScrollRepeatDelay <= 5) return 0;
+                if (p->m_nScrollRepeatDelay <= 5)
+                    return 0;
                 if (!p->m_bHorizontal) {
                     if (p->m_pOwner != NULL)
                         ZCCALL(ZM_Layout_LineDown, p->m_pOwner, NULL, NULL);
@@ -236,7 +239,8 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             }
             else {
                 ZPoint pt = { 0 };
-                if (p->m_nScrollRepeatDelay <= 5) return 0;
+                if (p->m_nScrollRepeatDelay <= 5)
+                    return 0;
                 GetCursorPos((LPPOINT)& pt);
                 ZuiScreenToClient(cp, &pt);
                 if (!p->m_bHorizontal) {
@@ -725,7 +729,8 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         return 0;
     }
     case ZM_ScrollBar_SetHorizontal: {
-        if (p->m_bHorizontal == (ZuiBool)Param1) return 0;
+        if (p->m_bHorizontal == (ZuiBool)Param1)
+            return 0;
 
         p->m_bHorizontal = (ZuiBool)Param1;
         if (p->m_bHorizontal) {
@@ -748,7 +753,8 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         break;
     }
     case ZM_ScrollBar_SetScrollPos: {
-        if (p->m_nScrollPos == (int)Param1) return 0;
+        if (p->m_nScrollPos == (int)Param1)
+            return 0;
 
         p->m_nScrollPos = (int)Param1;
         if (p->m_nScrollPos < 0) p->m_nScrollPos = 0;
@@ -767,7 +773,8 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         break;
     }
     case ZM_ScrollBar_SetScrollRange: {
-        if (p->m_nRange == (int)Param1) return 0;
+        if (p->m_nRange == (int)Param1)
+            return 0;
 
         p->m_nRange = (int)Param1;
         if (p->m_nRange < 0) p->m_nRange = 0;
