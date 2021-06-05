@@ -101,11 +101,11 @@ ZEXPORT ZuiResDB ZCALL ZuiResDBCreateFromBuf(ZuiAny data, int len, ZuiText Pass)
                 bufsize = ZuiAsciiToUnicode(&name, bufsize / sizeof(wchar_t), txtbuf, bufsize);
                 //添加到资源池
                 p->key = Zui_Hash(txtbuf);
-				if (RB_FIND(_ZResDB_Tree, &Global_ResDB->resdb, p)) {
-					ZuiResDBDestroy(p);
-					free(txtbuf);
-					return NULL;
-				}
+		if (RB_FIND(_ZResDB_Tree, &Global_ResDB->resdb, p)) {
+			ZuiResDBDestroy(p);
+			free(txtbuf);
+			return NULL;
+		}
                 RB_INSERT(_ZResDB_Tree, &Global_ResDB->resdb, p);
 
                 free(txtbuf);
@@ -217,8 +217,8 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
                 ret = unzReadCurrentFile(db->uf, buf, (int)info.uncompressed_size);
                 if (ret < 0) {
                     free(buf);
-					buf = NULL;
-					buflen = 0;
+		    buf = NULL;
+		    buflen = 0;
                 }
             }
             free(n);
@@ -235,7 +235,8 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
             }
         }
         /*字节*/else if (db->type == ZRESDBT_STREAM) {
-			if (arrnum < 4) return NULL;
+			if (arrnum < 4)
+				return NULL;
             buflen = _wtoi(arr[3]);
             buf = malloc(buflen);
             memcpy(buf, (void *)_wtoi(arr[2]), buflen);
