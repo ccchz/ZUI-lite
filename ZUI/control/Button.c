@@ -12,31 +12,30 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         TEventUI *event = (TEventUI *)Param1;
         switch (event->Type)
         {
-		case ZEVENT_KILLFOCUS:
-		{
-			p->type = 0;
-			break;
-		}
+	case ZEVENT_KILLFOCUS: {
+	    p->type = 0;
+	    break;
+	}
         case ZEVENT_MOUSELEAVE: {
             p->type = 0;
             ZuiControlInvalidate(cp, TRUE);
-        }
-                                break;
+            break;
+	}
         case ZEVENT_MOUSEENTER: {
             p->type = 1;
             ZuiControlInvalidate(cp, TRUE);
-        }
-                                break;
+            break;
+	}
         case ZEVENT_LBUTTONDOWN: {
             p->type = 2;
             ZuiControlInvalidate(cp, TRUE);
+	    break;
         }
-                                 break;
         case ZEVENT_LBUTTONUP: {
             p->type = 1;
             ZuiControlInvalidate(cp, TRUE);
+	    break;
         }
-                               break;
         default:
             break;
         }
@@ -210,19 +209,32 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         return 0;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("normalimage")) == 0) ZCCALL(ZM_Button_SetResNormal, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("hotimage")) == 0) ZCCALL(ZM_Button_SetResHot, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("pushedimage")) == 0) ZCCALL(ZM_Button_SetResPushed, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("focusedimage")) == 0) ZCCALL(ZM_Button_SetResFocused, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("disabledimage")) == 0) ZCCALL(ZM_Button_SetResDisabled, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("foregroundimage")) == 0) ZCCALL(ZM_Button_SetResForeground, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("normalcolor")) == 0) ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("hotcolor")) == 0) ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("hotbordercolor")) == 0) ZCCALL(ZM_Button_SetBorderColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("pushedcolor")) == 0) ZCCALL(ZM_Button_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("focusedcolor")) == 0) ZCCALL(ZM_Button_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("disabledcolor")) == 0) ZCCALL(ZM_Button_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("imgsize")) == 0) ZCCALL(ZM_Button_SetImgSize, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        if (_tcsicmp(Param1, _T("normalimage")) == 0)
+		ZCCALL(ZM_Button_SetResNormal, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
+        else if (_tcsicmp(Param1, _T("hotimage")) == 0)
+		ZCCALL(ZM_Button_SetResHot, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
+        else if (_tcsicmp(Param1, _T("pushedimage")) == 0)
+		ZCCALL(ZM_Button_SetResPushed, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
+        else if (_tcsicmp(Param1, _T("focusedimage")) == 0)
+		ZCCALL(ZM_Button_SetResFocused, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
+        else if (_tcsicmp(Param1, _T("disabledimage")) == 0)
+		ZCCALL(ZM_Button_SetResDisabled, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
+        else if (_tcsicmp(Param1, _T("foregroundimage")) == 0)
+		ZCCALL(ZM_Button_SetResForeground, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
+        else if (_tcsicmp(Param1, _T("normalcolor")) == 0)
+		ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("hotcolor")) == 0)
+		ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("hotbordercolor")) == 0)
+		ZCCALL(ZM_Button_SetBorderColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("pushedcolor")) == 0)
+		ZCCALL(ZM_Button_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("focusedcolor")) == 0)
+		ZCCALL(ZM_Button_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("disabledcolor")) == 0)
+		ZCCALL(ZM_Button_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+        else if (_tcsicmp(Param1, _T("imgsize")) == 0)
+		ZCCALL(ZM_Button_SetImgSize, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         else if (_tcsicmp(Param1, _T("imagepadding")) == 0) {
             ZRect rcPadding = { 0 };
             ZuiText pstr = NULL;
