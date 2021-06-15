@@ -366,7 +366,8 @@ enum ZREST
 #define ZM_Button_SetColorFocused   210    //焦点图片
 #define ZM_Button_SetColorDisabled  211    //非激活状态
 #define ZM_Button_SetBorderColorHot    212     //激活状态下边框颜色
-#define ZM_Button_SetImagePadding 213
+#define ZM_Button_SetImagePadding   213
+#define ZM_Button_SetStyle          214
 #endif // 1
 
 //--------------------------------------------------------------------类

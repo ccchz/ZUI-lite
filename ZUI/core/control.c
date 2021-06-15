@@ -572,7 +572,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 		ZCCALL(ZM_SetTooltip, p, Param2, NULL);
         else if (_tcsicmp(Param1, _T("width")) == 0)
 		ZCCALL(ZM_SetFixedWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
-	else if (_tcsicmp(Param1, _T("borderwidth")) == 0)
+	    else if (_tcsicmp(Param1, _T("borderwidth")) == 0)
 		ZCCALL(ZM_SetBorderWidth, p, (ZuiAny)(_ttoi(Param2)), NULL);
         else if (_tcsicmp(Param1, _T("height")) == 0)
 		ZCCALL(ZM_SetFixedHeight, p, (ZuiAny)(_ttoi(Param2)), NULL);

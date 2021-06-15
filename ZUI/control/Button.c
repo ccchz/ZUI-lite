@@ -111,12 +111,25 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             ZSizeR sr = {0};
             ZuiMeasureTextSize(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font, cp->m_sText, &sr);
 
-            rcc.left = rc->left + ((rc->right - rc->left) - img->Width - sr.cx - sepSize) / 2;
-            rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height) / 2;
+            if (!p->m_dwStyle) {
+                rcc.left = rc->left + ((rc->right - rc->left) - img->Width - sr.cx - sepSize) / 2;
+                rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height) / 2;
+            }
+            else {
+                rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;
+                rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height - sr.cy - sepSize) / 2;
+            }
             rcc.right = rcc.left + img->Width;
             rcc.bottom = rcc.top + img->Height;
             ZuiDrawImageEx(gp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 0, 0, 0, 0, 255);
-            rcc.left = rcc.right + sepSize;
+            if (!p->m_dwStyle) {
+                rcc.left = rcc.right + sepSize;
+                rcc.top = rc->top + cp->m_dwBorderWidth;
+            }
+            else {
+                rcc.left = rc->left + cp->m_dwBorderWidth;
+                rcc.top = rcc.bottom ;
+            }
             rcc.right = rc->right - cp->m_dwBorderWidth;
             rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
             ZuiColor tmpTColor;
@@ -126,7 +139,14 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 tmpTColor = zb->m_cTextColor;
             else
                 tmpTColor = zb->m_cTextColorDisabled;
-            ZuiDrawString(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font,cp->m_sText, _tcslen(cp->m_sText), & rcc, tmpTColor, ZDT_VCENTER | ZDT_SINGLELINE);
+            int tStyle;
+            if (!p->m_dwStyle) {
+                tStyle = ZDT_VCENTER | ZDT_SINGLELINE;
+            }
+            else {
+                tStyle = ZDT_CENTER;
+            }
+            ZuiDrawString(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font,cp->m_sText, _tcslen(cp->m_sText), & rcc, tmpTColor, tStyle);
             return 0;
         }
         break;
@@ -221,6 +241,10 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         ZuiControlNeedUpdate(cp);
         return 0;
     }
+    case ZM_Button_SetStyle : {
+        p->m_dwStyle = (int)Param1;
+        return 0;
+    }
     case ZM_SetAttribute: {
         if (_tcsicmp(Param1, _T("normalimage")) == 0)
 		ZCCALL(ZM_Button_SetResNormal, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
@@ -255,6 +279,8 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
             ZCCALL(ZM_Button_SetImagePadding, cp, &rcPadding, NULL);
         }
+        else if (_tcsicmp(Param1, _T("buttonstyle")) == 0)
+            ZCCALL(ZM_Button_SetStyle, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         break;
     }
     case ZM_OnCreate: {
