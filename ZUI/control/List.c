@@ -1194,8 +1194,8 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         memset(p, 0, sizeof(ZListHeaderItem));
         //保存原来的回调地址,创建成功后回调地址指向当前函数
         //创建继承的控件 保存数据指针
-        p->old_udata = ZuiLayoutProc(ZM_OnCreate, cp, 0, 0, 0);
-        p->old_call = (ZCtlProc)&ZuiLayoutProc;
+        //p->old_udata = ZuiLayoutProc(ZM_OnCreate, cp, 0, 0, 0);
+        p->old_call = cp->call;
         //初始参数
         p->m_bDragable = TRUE;
         p->m_iSepWidth = 4;

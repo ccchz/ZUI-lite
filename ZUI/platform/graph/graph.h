@@ -66,7 +66,7 @@ extern "C"
     ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiGraphics gp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR Pt[]);
     ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiGraphics gp, ZuiFont Font, ZuiText String, int StrLens, ZRect * Rect, ZuiColor incolor, unsigned int TextStyle);
     //测量字符大小
-    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiFont Font, _ZuiText String, ZuiSizeR Size);
+    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiGraphics gp, ZuiFont Font, ZuiText String, ZuiSizeR Size);
     //绘制图像
     ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiGraphics gp, ZuiImage Img, int x, int y, int Width, int Height, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha);
     //复制图形

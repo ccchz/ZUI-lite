@@ -13,10 +13,7 @@ typedef struct _ZImage {
     int Width;
     int Height;
     ZRect src;	//源矩形
-#ifdef PLATFORM_OS_WIN
-    ZuiAny pstream;
-#endif
-    size_t len;
+    struct graphimage *image;
 }*ZuiImage, ZImage;
 
 /**图形*/
@@ -38,9 +35,7 @@ typedef struct _ZFont {
     ZuiColor TextColor;
     ZuiColor ShadowColor;
     ZuiReal FontSize;       ///字体大小
-#ifdef PLATFORM_OS_WIN
-    HFONT font;
-#endif
+    struct graphfont* font;
 }*ZuiFont, ZFont;
 
 #endif //__ZUI_PLATFORM_GRAPH_GDIX_H__

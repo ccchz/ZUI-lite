@@ -99,20 +99,37 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 ZuiDrawFillRoundRect(gp, p->m_ColorDisabled, rc, cp->m_rRound.cx, cp->m_rRound.cy);
             }
         }
-        if (p->m_ResForeground) {  //绘制前景图片
-            ZRect rcc = { 0 };
-            rcc.left = rc->left + ((rc->right - rc->left) - p->m_dwImgsize) / 2;
-            rcc.top = rc->top + ((rc->bottom - rc->top) - p->m_dwImgsize) / 2;
-            rcc.right = rcc.left + p->m_dwImgsize;
-            rcc.bottom = rcc.top + p->m_dwImgsize;
-            rcc.left += p->m_rcImagePadding.left;
-            rcc.top += p->m_rcImagePadding.top;
-            rcc.right = rcc.left + p->m_dwImgsize;
-            rcc.bottom = rcc.top + p->m_dwImgsize;
-            img = p->m_ResForeground->p;
-            ZuiDrawImageEx(gp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 0, 0, 0, 0, 255);
-        }
         return 0;
+    }
+    case ZM_OnPaintText: { //按钮控件带图片绘制。
+        if (p->m_ResForeground) {
+            ZuiGraphics gp = (ZuiGraphics)Param1;
+            ZRect rcc = { 0 };
+            ZRect* rc = (ZRect*)&cp->m_rcItem;
+            ZuiImage img = p->m_ResForeground->p;
+            ZuiLabel zb = p->old_udata;
+            ZSizeR sr = {0};
+            ZuiMeasureTextSize(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font, cp->m_sText, &sr);
+
+            rcc.left = rc->left + ((rc->right - rc->left) - img->Width - sr.cx - sepSize) / 2;
+            rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height) / 2;
+            rcc.right = rcc.left + img->Width;
+            rcc.bottom = rcc.top + img->Height;
+            ZuiDrawImageEx(gp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 0, 0, 0, 0, 255);
+            rcc.left = rcc.right + sepSize;
+            rcc.right = rc->right - cp->m_dwBorderWidth;
+            rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
+            ZuiColor tmpTColor;
+            if (!cp->m_sText)
+                return 0;
+            if (cp->m_bEnabled)
+                tmpTColor = zb->m_cTextColor;
+            else
+                tmpTColor = zb->m_cTextColorDisabled;
+            ZuiDrawString(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font,cp->m_sText, _tcslen(cp->m_sText), & rcc, tmpTColor, ZDT_VCENTER | ZDT_SINGLELINE);
+            return 0;
+        }
+        break;
     }
     case ZM_SetEnabled: {
         if (0 == (ZuiBool)Param1)
@@ -193,10 +210,6 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
-    case ZM_Button_SetImgSize: {
-        p->m_dwImgsize = (ZuiColor)Param1;
-        return 0;
-    }
     case ZM_SetAnimation: {
         if (cp->m_aAnime)
             ZuiAnimationFree(cp->m_aAnime);
@@ -233,8 +246,6 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
 		ZCCALL(ZM_Button_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("disabledcolor")) == 0)
 		ZCCALL(ZM_Button_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("imgsize")) == 0)
-		ZCCALL(ZM_Button_SetImgSize, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         else if (_tcsicmp(Param1, _T("imagepadding")) == 0) {
             ZRect rcPadding = { 0 };
             ZuiText pstr = NULL;
@@ -259,7 +270,6 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         np->m_ColorPushed = 0xFF787878;
         np->m_ColorDisabled = 0xFF989898;
         np->m_BorderColor = 0xFF1874CD;
-        np->m_dwImgsize = ImgResSize;
 
         ((ZuiLabel)np->old_udata)->m_uTextStyle |= ZDT_CENTER;
 

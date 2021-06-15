@@ -39,6 +39,15 @@ extern "C" {
 
     DArray* rcDarray;
 
+    struct graphimage {
+        Gdiplus::Image *image;
+    };
+
+    struct graphfont {
+        Gdiplus::FontFamily* fontfamily;
+        Gdiplus::Font* font;
+    };
+
     int pGdiToken;
     /*初始化图形接口*/
     ZuiBool ZuiGraphInitialize() {
@@ -233,35 +242,50 @@ extern "C" {
     }
     ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiGraphics gp, ZuiFont Font, ZuiText String, int StrLen, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle) {
         if (String && Font && gp) {
-            SetTextColor(gp->hdc, ARGB2BGR(incolor));
-            SetBkMode(gp->hdc, TRANSPARENT);
-            SelectObject(gp->hdc, Font->font);
-            DrawTextEx(gp->hdc, String, StrLen, (LPRECT)Rect, TextStyle, NULL);
+            Gdiplus::RectF rf;
+            rf.X = (REAL)Rect->left; rf.Y = (REAL)Rect->top;
+            rf.Width = (REAL)(Rect->right - Rect->left); rf.Height = (REAL)(Rect->bottom - Rect->top);
+            Gdiplus::StringFormat sf; sf.GenericTypographic();
+            if (TextStyle & ZDT_SINGLELINE) sf.SetFormatFlags(StringFormatFlagsNoWrap);
+            if (TextStyle & ZDT_END_ELLIPSIS) sf.SetTrimming(StringTrimmingEllipsisCharacter);
+            if (TextStyle & ZDT_CENTER) sf.SetAlignment(StringAlignmentCenter);
+            if (TextStyle & ZDT_VCENTER) sf.SetLineAlignment(StringAlignmentCenter);
+            if (TextStyle & ZDT_RIGHT) sf.SetAlignment(StringAlignmentFar);
+            if (TextStyle & ZDT_BOTTOM) sf.SetAlignment(StringAlignmentFar);
+            SolidBrush brush(incolor);
+            Gdiplus::Graphics gpp(gp->hdc);
+            gpp.DrawString(String, StrLen, Font->font->font,rf,&sf,&brush);
         }
     }
     /*测量文本大小*/
-    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiFont Font, _ZuiText String, ZuiSizeR Size)
+    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiGraphics gp, ZuiFont Font, ZuiText String, ZuiSizeR Size)
     {
         if (String && Font) {
-
+            Gdiplus::StringFormat sf; //sf.GenericTypographic();
+            sf.SetFormatFlags(StringFormatFlagsMeasureTrailingSpaces);
+            PointF pf; pf.X = 0; pf.Y = 0;
+            RectF rf;
+            Gdiplus::Graphics gpp(gp->hdc);
+            gpp.MeasureString(String, -1, Font->font->font, pf,&sf, &rf);
+            //_tprintf(_T("%f..."), rf.Width);
+            Size->cx = rf.Width;
+            Size->cy = rf.Height;
         }
     }
     /*画图像缩放*/
     ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiGraphics gp, ZuiImage Img, int x, int y, int Right, int Bottom, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha) {
         int Width, Height;
         if ((gp && Img)) {
-            Image image((LPSTREAM)Img->pstream,0);
             Rect rc(x,y,Right-x,Bottom-y);
             Width = Img->src.right - Img->src.left;
             Height = Img->src.bottom - Img->src.top;
             if (Width == 0 && Height == 0) {
-                Width = image.GetWidth();
-                Height = image.GetHeight();
+                Width = Img->Width;
+                Height = Img->Height;
             }
             Gdiplus::Graphics gpp(gp->hdc);
-            gpp.DrawImage(&image, rc, Img->src.left, Img->src.top, Width, Height,UnitPixel);
+            gpp.DrawImage(Img->image->image, rc, Img->src.left, Img->src.top, Width, Height,UnitPixel);
             //gpp.~Graphics();
-            image.~Image();
         }
     }
     /*复制位图*/
@@ -284,26 +308,34 @@ extern "C" {
     }
     /*创建字体*/
     ZEXPORT ZuiFont ZCALL ZuiCreateFont(ZuiText FontName, int FontSize, ZuiBool Bold, ZuiBool Italic) {
-        ZuiFont Font = (ZuiFont)malloc(sizeof(ZFont));
-        if (!Font) { return NULL; }
-        memset(Font, 0, sizeof(ZFont));
-        LOGFONT lf;
-        GetObject(GetStockObject(SYSTEM_FONT), sizeof(LOGFONT), &lf);
-        lf.lfHeight = -MulDiv(FontSize, GetDeviceCaps(GetDC(0), LOGPIXELSY), 72);
-        lf.lfWidth = 0;
-        lf.lfItalic = Italic;
-        lf.lfWeight = FW_NORMAL;
-        if (Bold)
-            lf.lfWeight = FW_BOLD;
-        wsprintf(lf.lfFaceName, _T("%s\0"), FontName);
-        Font->font = CreateFont(lf.lfHeight, lf.lfWidth, lf.lfEscapement, lf.lfOrientation, lf.lfWeight, lf.lfItalic,
-            lf.lfUnderline, lf.lfStrikeOut, lf.lfCharSet, lf.lfOutPrecision, lf.lfClipPrecision, lf.lfQuality, lf.lfPitchAndFamily, lf.lfFaceName);
-        return Font;
+        ZuiFont zFont = (ZuiFont)malloc(sizeof(ZFont));
+        if (!zFont) { return NULL; }
+        memset(zFont, 0, sizeof(ZFont));
+        zFont->font = (struct graphfont*)malloc(sizeof(struct graphfont));
+        if (!zFont->font) { free(zFont); return NULL; }
+        Gdiplus::FontStyle fontstyle;
+        if (Bold) { 
+            if (Italic)
+                fontstyle = Gdiplus::FontStyleBoldItalic;
+            else
+                fontstyle = Gdiplus::FontStyleBold;
+        }
+        else {
+            if (Italic)
+                fontstyle = Gdiplus::FontStyleItalic;
+            else
+                fontstyle = Gdiplus::FontStyleRegular;
+        }
+
+        zFont->font->fontfamily = new FontFamily(FontName);
+        zFont->font->font = new Gdiplus::Font(zFont->font->fontfamily,FontSize, fontstyle,Gdiplus::UnitPoint);
+        return zFont;
     }
     /*销毁字体*/
     ZEXPORT ZuiVoid ZCALL ZuiDestroyFont(ZuiFont Font) {
         if (Font) {
-            DeleteObject(Font->font);
+            Font->font->fontfamily->~FontFamily();
+            Font->font->font->~Font();
             free(Font);
         }
     }
@@ -424,8 +456,12 @@ extern "C" {
         ZuiImage Img = (ZuiImage)malloc(sizeof(ZImage));
         if (!Img) { return NULL; }
         memset(Img, 0, sizeof(ZImage));
+        Img->image = (struct graphimage *)malloc(sizeof(struct graphimage));
+        if (!Img->image) { free(Img);  return NULL; }
+
         HGLOBAL hMem = ::GlobalAlloc(GMEM_MOVEABLE, len);
         if (!hMem) {
+            free(Img->image);
             free(Img);
             return NULL;
         }
@@ -434,21 +470,26 @@ extern "C" {
         ::GlobalUnlock(hMem);
 
         // create IStream* from global memory
-        HRESULT hr = CreateStreamOnHGlobal(hMem, TRUE, (LPSTREAM*)&Img->pstream);
+        LPSTREAM pstream;
+        HRESULT hr = CreateStreamOnHGlobal(hMem, TRUE, (LPSTREAM*)&pstream);
         if (hr != S_OK){
             GlobalFree(hMem);
+            free(Img->image);
             free(Img);
             return NULL;
         }
-        Img->len = len;
+
+        Img->image->image = new Image((LPSTREAM)pstream, 0);
+        Img->Width = Img->image->image->GetWidth();
+        Img->Height = Img->image->image->GetHeight();
+        LPSTREAM(pstream)->Release();
         return Img;
     }
     /*销毁图像*/
     ZEXPORT ZuiVoid ZCALL ZuiDestroyImage(ZuiImage Img) {
         if (Img) {
-            if (Img->pstream) {
-                LPSTREAM(Img->pstream)->Release();
-            }
+            Img->image->image->~Image();
+            free(Img->image);
             free(Img);
         }
     }

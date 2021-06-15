@@ -221,7 +221,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         p->m_bIsPainting = TRUE;
         //是否需要更新控件布局
         if (p->m_bUpdateNeeded) {	//更新控件布局
-            _tprintf(_T("setpos.."));
+            //_tprintf(_T("setpos.."));
             p->m_bUpdateNeeded = FALSE;
             if (!IsRectEmpty(&rcClient)) {
                 if (p->m_pRoot->m_bUpdateNeeded) {
@@ -309,7 +309,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         //是否双缓存绘图
         if (p->m_bOffscreenPaint)
         {
-            _tprintf(_T("%d,%d.."), rcPaint.bottom, rcPaint.right);
+            //_tprintf(_T("%d,%d.."), rcPaint.bottom, rcPaint.right);
             ZCCALL(ZM_OnPaint, p->m_pRoot, p->m_hDcOffscreen, &rcPaint);
 
             for (int i = 0; i < darray_len(p->m_aPostPaintControls); i++) {
