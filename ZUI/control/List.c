@@ -5,7 +5,7 @@
 #include <layout/Layout.h>
 #include <layout/VerticalLayout.h>
 #include <layout/HorizontalLayout.h>
-#include <control/Register.h>
+#include <core/Register.h>
 #include <control/Label.h>
 ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)

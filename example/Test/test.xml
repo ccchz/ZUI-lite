@@ -22,7 +22,7 @@
 			<Button bordercolor="#FF151515"   foregroundimage="default:default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
 			<Button bordercolor="#FF151515"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
 			<ProgressBar bordercolor="#FF151515" name="pbb" width="200" height="20" pbheight="8" pbpos="100" pbrange="400" round="4,4"/>
-			<Label width="100" name="wordbreak" text="块是在论坛找的某位大佬的改的。" align="center" wordbreak="true"/>
+			<Label width="100" name="wordbreak" text="块是在论坛找的某位大佬的改的。" wordbreak="true"/>
 		</VerticalLayout>
 		<NULL width="3" bkcolor="0xFF484848"/>
 		<TabLayout name="tab" tabselect='0'>

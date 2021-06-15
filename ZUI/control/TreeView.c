@@ -2,7 +2,7 @@
 #include <core/control.h>
 #include <core/resdb.h>
 #include <control/List.h>
-#include "Register.h"
+#include "core/Register.h"
 ZuiAny ZCALL ZuiTreeViewNotifyProc(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
     if (_tcsicmp(_T("selectchanged"), msg) == 0) {
         ////选择

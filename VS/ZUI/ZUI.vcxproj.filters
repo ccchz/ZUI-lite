@@ -63,9 +63,6 @@
     <ClCompile Include="..\..\ZUI\control\ScrollBar.c">
       <Filter>control</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ZUI\control\Register.c">
-      <Filter>control</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ZUI\control\Button.c">
       <Filter>control</Filter>
     </ClCompile>
@@ -113,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="..\..\ZUI\platform\graph\gdi+.cpp">
       <Filter>platform\graph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ZUI\core\Register.c">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,9 +175,6 @@
     <ClInclude Include="..\..\ZUI\control\ScrollBar.h">
       <Filter>control</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ZUI\control\Register.h">
-      <Filter>control</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ZUI\control\Window.h">
       <Filter>control</Filter>
     </ClInclude>
@@ -225,6 +222,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ZUI\platform\graph\gdi+.h">
       <Filter>platform\graph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ZUI\core\Register.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

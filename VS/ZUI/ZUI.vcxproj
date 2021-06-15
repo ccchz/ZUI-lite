@@ -267,7 +267,6 @@
     <ClCompile Include="..\..\ZUI\control\List.c" />
     <ClCompile Include="..\..\ZUI\control\Option.c" />
     <ClCompile Include="..\..\ZUI\control\ProgressBar.c" />
-    <ClCompile Include="..\..\ZUI\control\Register.c" />
     <ClCompile Include="..\..\ZUI\control\ScrollBar.c" />
     <ClCompile Include="..\..\ZUI\control\SplitterBar.c" />
     <ClCompile Include="..\..\ZUI\control\TreeView.c" />
@@ -279,6 +278,7 @@
     <ClCompile Include="..\..\ZUI\core\export.c" />
     <ClCompile Include="..\..\ZUI\core\function.c" />
     <ClCompile Include="..\..\ZUI\core\mxml.c" />
+    <ClCompile Include="..\..\ZUI\core\Register.c" />
     <ClCompile Include="..\..\ZUI\core\resdb.c" />
     <ClCompile Include="..\..\ZUI\core\template.c" />
     <ClCompile Include="..\..\ZUI\core\unzip.c" />
@@ -301,7 +301,6 @@
     <ClInclude Include="..\..\ZUI\control\List.h" />
     <ClInclude Include="..\..\ZUI\control\Option.h" />
     <ClInclude Include="..\..\ZUI\control\ProgressBar.h" />
-    <ClInclude Include="..\..\ZUI\control\Register.h" />
     <ClInclude Include="..\..\ZUI\control\ScrollBar.h" />
     <ClInclude Include="..\..\ZUI\control\SplitterBar.h" />
     <ClInclude Include="..\..\ZUI\control\TreeView.h" />
@@ -313,6 +312,7 @@
     <ClInclude Include="..\..\ZUI\core\export.h" />
     <ClInclude Include="..\..\ZUI\core\function.h" />
     <ClInclude Include="..\..\ZUI\core\mxml.h" />
+    <ClInclude Include="..\..\ZUI\core\Register.h" />
     <ClInclude Include="..\..\ZUI\core\resdb.h" />
     <ClInclude Include="..\..\ZUI\core\template.h" />
     <ClInclude Include="..\..\ZUI\core\tree.h" />

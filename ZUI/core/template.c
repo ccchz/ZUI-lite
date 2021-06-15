@@ -41,7 +41,7 @@ ZuiVoid ZuiAddTemplate(mxml_node_t *node)
     /*解析属性*/
     for (int i = 0; i < node->value.num_attrs; i++)
     {
-        if (_tcsicmp(node->value.attrs[i].name, _T("class")) == 0)
+        if (_tcsicmp(node->value.attrs[i].name, _T("zuiclass")) == 0)
         {
             classname = node->value.attrs[i].value;
         }

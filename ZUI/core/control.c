@@ -4,7 +4,7 @@
 #include "resdb.h"
 #include "template.h"
 #include "builder.h"
-#include <control/Register.h>
+#include <core/Register.h>
 #include <platform/platform.h>
 //创建控件
 ZEXPORT ZuiControl ZCALL NewZuiControl(ZuiText classname, ZuiAny Param1, ZuiAny Param2) {

@@ -1,7 +1,7 @@
 ﻿#include <ZUI.h>
 #include <stdlib.h>
 #include <platform/platform.h>
-#include <control/Register.h>
+#include <core/Register.h>
 #include "control.h"
 #include "function.h"
 #include "resdb.h"
