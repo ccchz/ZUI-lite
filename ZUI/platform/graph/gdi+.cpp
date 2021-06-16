@@ -336,6 +336,7 @@ extern "C" {
         if (Font) {
             Font->font->fontfamily->~FontFamily();
             Font->font->font->~Font();
+            free(Font->font);
             free(Font);
         }
     }
