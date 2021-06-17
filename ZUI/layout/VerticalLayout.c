@@ -12,17 +12,23 @@ void* ZCALL ZuiVerticalLayoutProc(int ProcId, ZuiControl cp, ZuiVerticalLayout p
         ZuiLayout op = (ZuiLayout)p->old_udata;
 
         // Adjust for inset
-		rc.left += op->m_rcInset.left;
-		rc.top += op->m_rcInset.top;
-		rc.right -= op->m_rcInset.right;
-		rc.bottom -= op->m_rcInset.bottom;
-		rc.left += cp->m_dwBorderWidth;
-		rc.top += cp->m_dwBorderWidth;
-		rc.right -= cp->m_dwBorderWidth;
-		rc.bottom -= cp->m_dwBorderWidth;
+        rc.left += op->m_rcInset.left;
+        rc.top += op->m_rcInset.top;
+        rc.right -= op->m_rcInset.right;
+        rc.bottom -= op->m_rcInset.bottom;
+        rc.left += cp->m_dwBorderWidth;
+        rc.top += cp->m_dwBorderWidth;
+        rc.right -= cp->m_dwBorderWidth;
+        rc.bottom -= cp->m_dwBorderWidth;
 
-        if (op->m_pVerticalScrollBar && op->m_pVerticalScrollBar->m_bVisible) { rc.right -= (int)ZCCALL(ZM_GetFixedWidth, op->m_pVerticalScrollBar, NULL, NULL); }
-        if (op->m_pHorizontalScrollBar && op->m_pHorizontalScrollBar->m_bVisible) { rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, op->m_pHorizontalScrollBar, NULL, NULL); }
+        if (op->m_pVerticalScrollBar && op->m_pVerticalScrollBar->m_bVisible)
+        {
+            rc.right -= (int)ZCCALL(ZM_GetFixedWidth, op->m_pVerticalScrollBar, NULL, NULL);
+        }
+        if (op->m_pHorizontalScrollBar && op->m_pHorizontalScrollBar->m_bVisible)
+        {
+            rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, op->m_pHorizontalScrollBar, NULL, NULL);
+        }
 
         if (darray_len(op->m_items) == 0) {
             ZCCALL(ZM_Layout_ProcessScrollBar, cp, &rc, 0);

@@ -26,7 +26,17 @@
 		</VerticalLayout>
 		<NULL width="3" bkcolor="0xFF484848"/>
 		<TabLayout name="tab" tabselect='0'>
-		<Button name="tab1" text="tab1"/>
+		<GridLayout name="grid" gridsize="64,64" vscrollbar="true" hscrollbar="true">
+			<Button bordercolor="#FF151515"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
+			<Button text="tab1"/>
+			<Button text="tab1"/>
+			<Button text="tab1"/>
+			<Button text="tab1"/>
+			<Button text="tab1"/>
+			<Button text="tab1"/>
+			<Button text="tab1"/>
+			<Button text="tab1"/>
+		</GridLayout>
 		<Button name="tab2" text="tab2"/>		
 		<List name="domainlist"  inset="0,0,0,0" linecolor="#FF00ff00" columncolor="#FF686868" itemshowhtml="true"  itemalign="center" itemaltbk="true" menu="true">
 						<ListHeader height="24" menu="true" name="header1" >

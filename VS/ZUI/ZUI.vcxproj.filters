@@ -114,6 +114,9 @@
     <ClCompile Include="..\..\ZUI\core\Register.c">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ZUI\layout\GridLayout.c">
+      <Filter>layout</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ZUI\ZUI.h" />
@@ -225,6 +228,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ZUI\core\Register.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ZUI\layout\GridLayout.h">
+      <Filter>layout</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

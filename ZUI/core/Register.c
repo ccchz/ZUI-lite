@@ -1,6 +1,7 @@
 ﻿#include "Register.h"
 #include <core/function.h>
 #include <layout/Layout.h>
+#include <layout/GridLayout.h>
 #include <layout/VerticalLayout.h>
 #include <layout/HorizontalLayout.h>
 #include <layout/TabLayout.h>
@@ -34,6 +35,7 @@ ZuiBool ZuiClassInit()
     memset(Global_ControlClass, 0, sizeof(struct _ZClass_Tree));
     /*核心组件 不可卸载*/
     ZuiControlRegisterAdd(ZC_Layout, (ZCtlProc)&ZuiLayoutProc);
+    ZuiControlRegisterAdd(ZC_GridLayout, (ZCtlProc)&ZuiGridLayoutProc);
     ZuiControlRegisterAdd(ZC_VerticalLayout, (ZCtlProc)&ZuiVerticalLayoutProc);
     ZuiControlRegisterAdd(ZC_HorizontalLayout, (ZCtlProc)&ZuiHorizontalLayoutProc);
     ZuiControlRegisterAdd(ZC_TabLayout, (ZCtlProc)&ZuiTabLayoutProc);

@@ -51,8 +51,8 @@
 #define ASSERT(expr)  _ASSERTE(expr)
 #endif
 
-#define MAKEPARAM(a, b)  ((b & 0xFFFFFFFF) << 16) | (a & 0xFFFF)
-#define HPARAM(a)   (a & 0xFFFFFFFF) >> 16
+#define MAKEPARAM(a, b)  ((b & 0xFFFF) << 16) | (a & 0xFFFF)
+#define HPARAM(a)   (a & 0xFFFF0000) >> 16
 #define LPARAM(a)   a & 0xFFFF
 //--------------------------------------------------------------------基础数据类型
 typedef wchar_t* ZuiText;
@@ -289,6 +289,7 @@ enum ZREST
 #define ZC_HorizontalLayout           _T("HorizontalLayout")
 #define ZC_TileLayout                 _T("TileLayout")
 #define ZC_TabLayout                  _T("TabLayout")
+#define ZC_GridLayout                 _T("GridLayout")
 
 //--------base
 #define ZM_Layout_Add                 101 ///添加控件
@@ -333,6 +334,9 @@ enum ZREST
 //--------Tile
 #define ZM_TileLayout_SetColumns      150
 #define ZM_TileLayout_SetItemSize     151
+
+//--------Grid
+#define ZM_GridSetSize                155
 
 //--------Tab
 #define ZM_TabLayout_SelectItem       161    //当前Tab
