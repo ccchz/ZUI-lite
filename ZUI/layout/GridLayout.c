@@ -21,14 +21,17 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
         rc.right -= cp->m_dwBorderWidth;
         rc.bottom -= cp->m_dwBorderWidth;
 
-
+        int iposx, iposy;  //¹ö¶¯ÌõÎ»ÖÃ¡£
+        iposx = iposy = 0;
         if (op->m_pVerticalScrollBar && op->m_pVerticalScrollBar->m_bVisible)
         {
             rc.right -= (int)ZCCALL(ZM_GetFixedWidth, op->m_pVerticalScrollBar, NULL, NULL);
+            iposy = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pVerticalScrollBar, 0, NULL);
         }
         if (op->m_pHorizontalScrollBar && op->m_pHorizontalScrollBar->m_bVisible)
         {
             rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, op->m_pHorizontalScrollBar, NULL, NULL);
+            iposx = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pHorizontalScrollBar, 0, NULL);
         }
 
         if (darray_len(op->m_items) == 0) {
@@ -48,8 +51,8 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             j = i % col;
             if (j == 0)
                 rows++;
-            rcCtrl.left = rc.left + j * p->m_szGridSize.cx;
-            rcCtrl.top = rc.top + rows * p->m_szGridSize.cy;
+            rcCtrl.left = rc.left + j * p->m_szGridSize.cx - iposx;
+            rcCtrl.top = rc.top + rows * p->m_szGridSize.cy - iposy;
             rcCtrl.right = rcCtrl.left + p->m_szGridSize.cx;
             rcCtrl.bottom = rcCtrl.top + p->m_szGridSize.cy;
             ZuiControl pControl = (ZuiControl)(op->m_items->data[i]);
