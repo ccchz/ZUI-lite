@@ -19,10 +19,10 @@ void Rect_Join(ZRect *rc, ZRect *rc1)
     if (rc1->bottom > rc->bottom) rc->bottom = rc1->bottom;
 }
 
-uint32_t Zui_Hash(wchar_t* str) {
+uint32_t Zui_Hash(ZuiText str) {
     uint32_t hash = 0;
-    wchar_t ch;
-    for (uint32_t i = 0; ch = (uint32_t)*str++; i++)
+    ZText ch;
+    for (uint32_t i = 0; ch = *str++; i++)
     {
         if ((i & 1) == 0)
         {

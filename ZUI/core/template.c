@@ -1,7 +1,7 @@
 ﻿#include <ZUI.h>
 #include "control.h"
 #include "template.h"
-
+#include <core/Register.h>
 #include <layout/HorizontalLayout.h>
 #include <layout/Layout.h>
 #include <layout/TabLayout.h>
@@ -48,16 +48,16 @@ ZuiVoid ZuiAddTemplate(mxml_node_t *node)
     }
     if (classname)
     {
-	ZTemplate tmp = { 0 };
-	tmp.key = Zui_Hash(classname);
-	if (RB_FIND(_ZTemplate_Tree, Global_TemplateClass, &tmp))
-	{
-	    return;
-	}
+        _tcslwr(classname);
+	    ZTemplate tmp = { 0 };
+	    tmp.key = Zui_Hash(classname);
+	    if (RB_FIND(_ZTemplate_Tree, Global_TemplateClass, &tmp))
+	    {
+	        return;
+	    }
         mxml_node_t *new_node = mxmlClone(node, NULL);
         if (new_node)
         {
-            _tcslwr(classname);
             struct _ZTemplate *n = malloc(sizeof(struct _ZTemplate));
             memset(n, 0, sizeof(struct _ZTemplate));
             n->key = Zui_Hash(classname);
@@ -77,32 +77,15 @@ ZuiVoid ZuiLoadTemplate(mxml_node_t *n, ZuiControl p, ZuiAny Param1, ZuiAny Para
     {
         if (_tcsicmp(node->value.attrs[i].name, _T("layout")) == 0) {
             Layout = node->value.attrs[i].value;
-            if (_tcsicmp(Layout, _T("layout")) == 0)
-            {
-                p->m_sUserData = ZuiLayoutProc(ZM_OnCreate, p, 0, Param1, Param2);
-                p->call = (ZCtlProc)&ZuiLayoutProc;
+            ZClass thecNode = { 0 };
+            ZClass* cnode;
+            //_tprintf(_T("%s..."), Layout);
+            thecNode.key = Zui_Hash(Layout);
+            cnode = RB_FIND(_ZClass_Tree, Global_ControlClass, &thecNode);
+            if (cnode) {
+                p->m_sUserData = cnode->cb(ZM_OnCreate, p, 0, Param1, Param2);
+                p->call = cnode->cb;
             }
-            else if (_tcsicmp(Layout, _T("horizontal")) == 0)
-            {
-                p->m_sUserData = ZuiHorizontalLayoutProc(ZM_OnCreate, p, 0, Param1, Param2);
-                p->call = (ZCtlProc)&ZuiHorizontalLayoutProc;
-            }
-            else if (_tcsicmp(Layout, _T("vertical")) == 0)
-            {
-                p->m_sUserData = ZuiVerticalLayoutProc(ZM_OnCreate, p, 0, Param1, Param2);
-                p->call = (ZCtlProc)&ZuiVerticalLayoutProc;
-            }
-            else if (_tcsicmp(Layout, _T("tile")) == 0)
-            {
-                p->m_sUserData = ZuiTileLayoutProc(ZM_OnCreate, p, 0, Param1, Param2);
-                p->call = (ZCtlProc)&ZuiTileLayoutProc;
-            }
-            else if (_tcsicmp(Layout, _T("window")) == 0)
-            {
-                p->m_sUserData = ZuiWindowProc(ZM_OnCreate, p, 0, Param1, Param2);
-                p->call = (ZCtlProc)&ZuiWindowProc;
-            }
-
         }
         else
         {
