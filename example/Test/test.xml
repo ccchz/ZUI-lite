@@ -31,7 +31,7 @@
 			<Button text="tab1"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
-			<Button text="tab1"/>
+			<Button text="tab1" padding="2,2,2,2"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>

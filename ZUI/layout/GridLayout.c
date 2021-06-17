@@ -38,6 +38,7 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             ZCCALL(ZM_Layout_ProcessScrollBar, cp, &rc, 0);
             return 0;
         }
+        //计算每行控件数量。
         int col = (rc.right - rc.left) / p->m_szGridSize.cx;
         if (col < 1) {
             p->m_szGridSize.cx = rc.right - rc.left;
@@ -47,6 +48,7 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
         j = 0;
         rows = -1;
         ZRect rcCtrl;
+        //计算控件布局尺寸。
         for (i = 0; i < darray_len(op->m_items); i++) {
             j = i % col;
             if (j == 0)
@@ -56,12 +58,19 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             rcCtrl.right = rcCtrl.left + p->m_szGridSize.cx;
             rcCtrl.bottom = rcCtrl.top + p->m_szGridSize.cy;
             ZuiControl pControl = (ZuiControl)(op->m_items->data[i]);
+            //处理控件 padding 尺寸。
+            ZRect rcPadding = *(ZRect*)(ZCCALL(ZM_GetPadding, pControl, 0, 0));
+            rcCtrl.left += rcPadding.left;
+            rcCtrl.top += rcPadding.top;
+            rcCtrl.right -= rcPadding.right;
+            rcCtrl.bottom -= rcPadding.bottom;
             ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
         }
         // Process the scrollbar
         ZCCALL(ZM_Layout_ProcessScrollBar, cp, (ZuiAny)&rc, (ZuiAny)(MAKEPARAM(col * p->m_szGridSize.cx, (rows+1) * p->m_szGridSize.cy)));
         return 0;
     }
+    //设置控件单元尺寸。
     case ZM_SetAttribute: {
         if (_tcsicmp(Param1, _T("gridsize")) == 0) {
             ZuiText pstr = NULL;
