@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="gbk"?>
 <include src="default:default_ctl.xml" />
-<Window nobox="true" bordercolor="#ff686868" bkcolor="0xFF282828" text="Demo" size="800,600" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
-		<HorizontalLayout name="head" drag="true"  height="23"><!--标题栏-->
+<Window nobox="true"bordercolor="#FF131313" bkcolor="0xFF131313" text="Demo" size="800,600" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
+		<HorizontalLayout name="head" drag="true" bkcolor="0xFF232323" height="23"><!--标题栏-->
 			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:name='微软雅黑':size=10:bold=true" drag="true"/>
 			<Include src="file:itest.xml" />
 			<WindowCtl name="ctl"/>
 		</HorizontalLayout>	
-		<NULL height="1" bkcolor="0xFF484848"/>
+		<NULL height="1"/>
 		<HorizontalLayout>
 		<VerticalLayout width="200"  align="center" sbbkcolor="#FF484848"><!--状态栏-->
 			<NULL height="100"/>
@@ -19,15 +19,15 @@
 			<CheckBox name="buttondisable21" text="CheckBox测试" restype="2" align="left" textpadding="26,0,0,0" disabledcolor="#FF8c8c8c" height="30"/>
 			<CheckBox name="buttondisable22" text="CheckBox测试2" restype="2" align="left" textpadding="26,0,0,0" disabledcolor="#FF8c8c8c" height="30"/>
 			<NULL height="50"/>
-			<Button bordercolor="#FF151515"   foregroundimage="default:default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
-			<Button bordercolor="#FF151515"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
+			<Button bordercolor="#FF555555"   foregroundimage="default:default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
+			<Button bordercolor="#FF555555"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
 			<ProgressBar bordercolor="#FF151515" name="pbb" width="200" height="20" pbheight="8" pbpos="100" pbrange="400" round="4,4"/>
 			<Label width="100" name="wordbreak" text="块是在论坛找的某位大佬的改的。" wordbreak="true"/>
 		</VerticalLayout>
 		<NULL width="3" bkcolor="0xFF484848"/>
 		<TabLayout name="tab" tabselect='0'>
 		<GridLayout name="grid" gridsize="64,64" vscrollbar="true" hscrollbar="true">
-			<Button bordercolor="#FF151515"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
+			<Button bordercolor="#FF232323"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
@@ -36,7 +36,7 @@
 			<Button text="tab1"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
-			<Button bordercolor="#FF151515"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
+			<Button bordercolor="#FF232323"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
 		</GridLayout>
 		<Button name="tab2" text="tab2"/>		
 		<List name="domainlist"  inset="0,0,0,0" linecolor="#FF00ff00" columncolor="#FF686868" itemshowhtml="true"  itemalign="center" itemaltbk="true" menu="true">

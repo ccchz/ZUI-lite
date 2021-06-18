@@ -182,8 +182,11 @@ void* ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLayo
         }
         cxNeeded += (nEstimateNum - 1) * op->m_iChildPadding;
 
+        ZSize SBarSize;
+        SBarSize.cx = cxNeeded;
+        SBarSize.cy = cyNeeded;
         // Process the scrollbar
-        ZCCALL(ZM_Layout_ProcessScrollBar, cp, (ZuiAny)&rc, (ZuiAny)(MAKEPARAM(cxNeeded, cyNeeded)));
+        ZCCALL(ZM_Layout_ProcessScrollBar, cp, (ZuiAny)&rc, (ZuiAny)&SBarSize);
         return 0;
     }
     case ZM_OnCreate: {

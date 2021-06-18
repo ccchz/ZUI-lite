@@ -106,7 +106,7 @@ ZuiAny ZCALL Main_Notify_ctl_max(ZuiText msg, ZuiControl p, ZuiAny UserData, Zui
 ZuiAny ZCALL Main_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
     if (_tcsicmp(msg, _T("onclose")) == 0)
     {
-        int ret = ZuiMsgBox(win, _T("是否退出程序？"), _T("提示!!"));
+        int ret = ZuiMsgBox(win, _T("是否退出程序?"), _T("提示!!"));
         if (ret == ZuiOK) {
             FreeZuiControl(win, 1);
         }

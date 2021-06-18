@@ -66,8 +66,11 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             rcCtrl.bottom -= rcPadding.bottom;
             ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
         }
+        ZSize SBarSize;
+        SBarSize.cx = col * p->m_szGridSize.cx;
+        SBarSize.cy = (rows + 1) * p->m_szGridSize.cy;
         // Process the scrollbar
-        ZCCALL(ZM_Layout_ProcessScrollBar, cp, (ZuiAny)&rc, (ZuiAny)(MAKEPARAM(col * p->m_szGridSize.cx, (rows+1) * p->m_szGridSize.cy)));
+        ZCCALL(ZM_Layout_ProcessScrollBar, cp, &rc, &SBarSize);
         return 0;
     }
     //设置控件单元尺寸。

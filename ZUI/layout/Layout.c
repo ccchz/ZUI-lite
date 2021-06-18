@@ -728,8 +728,9 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
     }
     case ZM_Layout_ProcessScrollBar: {
         ZRect *rc = Param1;
-        int cxRequired = LPARAM((int)Param2);
-        int cyRequired = HPARAM((int)Param2);
+        ZSize* SBarSize = Param2;
+        int cxRequired = SBarSize->cx;
+        int cyRequired = SBarSize->cy;
 
         while (p->m_pHorizontalScrollBar)
         {

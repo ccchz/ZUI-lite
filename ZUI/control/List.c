@@ -519,7 +519,11 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
         cyNeeded += (nEstimateNum - 1) * op->m_iChildPadding;
         // Process the scrollbar
         rc.top -= ph; cyNeeded += ph;
-        ZCCALL(ZM_Layout_ProcessScrollBar, cp, (ZuiAny)&rc, (ZuiAny)(MAKEPARAM(cxNeeded, cyNeeded)));
+        
+        ZSize SBarSize;
+        SBarSize.cx = cxNeeded;
+        SBarSize.cy = cyNeeded;
+        ZCCALL(ZM_Layout_ProcessScrollBar, cp, (ZuiAny)&rc, (ZuiAny)&SBarSize);
         return 0;
     }
     case ZM_ListBody_SetScrollPos: {

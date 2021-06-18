@@ -114,6 +114,14 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
                 p->m_uTextStyle |= ZDT_SINGLELINE;
             }
         }
+        else if (_tcsicmp(Param1, _T("singleline")) == 0) {
+            if (_tcsicmp(Param2, _T("true")) == 0) {
+                p->m_uTextStyle |= ZDT_SINGLELINE;
+            }
+            else {
+                p->m_uTextStyle &= ~ZDT_SINGLELINE;
+            }
+        }
         else if (_tcsicmp(Param1, _T("endellipsis")) == 0) {
             //替换超出部分为...
             if (_tcsicmp(Param2, _T("true")) == 0) {
