@@ -19,6 +19,14 @@ void Rect_Join(ZRect *rc, ZRect *rc1)
     if (rc1->bottom > rc->bottom) rc->bottom = rc1->bottom;
 }
 
+void ZuiIntersectRect(ZuiRect rc, ZuiRect rc1)
+{
+    if (rc1->left > rc->left) rc->left = rc1->left;
+    if (rc1->top > rc->top) rc->top = rc1->top;
+    if (rc1->right < rc->right) rc->right = rc1->right;
+    if (rc1->bottom < rc->bottom) rc->bottom = rc1->bottom;
+}
+
 uint32_t Zui_Hash(ZuiText str) {
     uint32_t hash = 0;
     ZText ch;
