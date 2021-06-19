@@ -182,7 +182,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     }
     case WM_PAINT:  //绘制
     {
-        //wprintf(_T("paint...");
+        //_tprintf(_T("paint..."));
         PAINTSTRUCT ps = { 0 };
         if (p->m_pRoot == NULL) {	//没有控件树
             BeginPaint(p->m_hWnd, &ps);
@@ -221,7 +221,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         p->m_bIsPainting = TRUE;
         //是否需要更新控件布局
         if (p->m_bUpdateNeeded) {	//更新控件布局
-            //_tprintf(_T("setpos.."));
+            //_tprintf(_T("winsetpos.."));
             p->m_bUpdateNeeded = FALSE;
             if (!IsRectEmpty(&rcClient)) {
                 if (p->m_pRoot->m_bUpdateNeeded) {

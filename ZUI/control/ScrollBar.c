@@ -574,7 +574,7 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
                 }
             }
         }
-
+        return 0;
     }
     case ZM_SetPos: {
         ZuiDefaultControlProc(ProcId, cp, 0, Param1, Param2);
@@ -612,7 +612,7 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
                 if (p->m_nRange > 0) {
                     int cxThumb = cx * (rc.right - rc.left) / (p->m_nRange + rc.right - rc.left);
                     
-                    p->m_rcThumb.left = p->m_nScrollPos * (cx - cxThumb) / p->m_nRange + p->m_rcButton1.right;
+                    p->m_rcThumb.left = (float)p->m_nScrollPos / (float)p->m_nRange * (cx - cxThumb) + p->m_rcButton1.right;
                     if (cxThumb < cp->m_cxyFixed.cy) cxThumb = cp->m_cxyFixed.cy;
                     p->m_rcThumb.right = p->m_rcThumb.left + cxThumb;
                     if (p->m_rcThumb.right > p->m_rcButton2.left) {
@@ -685,7 +685,7 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
                 if (p->m_nRange > 0) {
                     int cyThumb = cy * (rc.bottom - rc.top) / (p->m_nRange + rc.bottom - rc.top);
                     
-                    p->m_rcThumb.top = p->m_nScrollPos * (cy - cyThumb) / p->m_nRange + p->m_rcButton1.bottom;
+                    p->m_rcThumb.top = (float) p->m_nScrollPos / (float) p->m_nRange * (cy - cyThumb)  + p->m_rcButton1.bottom;
                     if (cyThumb < cp->m_cxyFixed.cx) cyThumb = cp->m_cxyFixed.cx;
                     p->m_rcThumb.bottom = p->m_rcThumb.top + cyThumb;
                     if (p->m_rcThumb.bottom > p->m_rcButton2.top) {

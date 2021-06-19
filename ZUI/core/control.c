@@ -58,9 +58,9 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     case ZM_Invalidate: {
         ZRect invalidateRc = p->m_rcItem;
         if (!p->m_bVisible)
-		return 0;
-	else
-	{
+		    return 0;
+	    else
+	    {
             ZuiControl pParent = p;
             ZRect rcTemp;
             ZRect *rcParent;
@@ -802,7 +802,3 @@ ZuiControl ZCALL __FindControlFromName(ZuiControl pThis, ZuiAny pData)
     if (!pThis->m_sName) return NULL;
     return (_tcsicmp(pThis->m_sName, pstrName) == 0) ? pThis : NULL;
 }
-
-
-
-
