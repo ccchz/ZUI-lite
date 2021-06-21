@@ -394,6 +394,8 @@ enum ZREST
 #define ZM_ProgressBar_SetPos   502
 #define ZM_ProgressBar_SetRange   503
 #define ZM_ProgressBar_SetHeight  504
+#define ZM_ProgressBar_SetHorizontal 505
+
 #endif
 
 //--------------------------------------------------------------------CheckBox类

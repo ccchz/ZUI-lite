@@ -8,6 +8,7 @@ typedef struct _ZProgressBar
 {
     ZuiColor pbColor;         //进度条颜色
     ZuiColor pbBkColor;       //进度条背景颜色
+    ZuiBool m_bHorizontal; //是否横向
 
     int pbHeight;
     unsigned int pbPos;
