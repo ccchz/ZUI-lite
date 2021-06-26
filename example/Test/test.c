@@ -136,7 +136,7 @@ ZuiAny ZCALL msgbox_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Pa
     {
         //ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
         ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        ZCCALL(ZM_TabLayout_SelectItem, cp, 2, NULL);
+        ZCCALL(ZM_TabLayout_SelectItem, cp, (ZuiAny)2, NULL);
     }
     return 0;
 }

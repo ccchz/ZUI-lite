@@ -119,10 +119,10 @@ extern "C" {
         if (gp)
         {
             REAL left, top, right, bottom;
-            left = rc->left;
-            top = rc->top;
-            right = rc->right-1;
-            bottom = rc->bottom-1;
+            left = (REAL)rc->left;
+            top = (REAL)rc->top;
+            right = (REAL)rc->right-1;
+            bottom = (REAL)rc->bottom-1;
             GraphicsPath path;
             Pen pen(incolor, (REAL)1);
             pen.SetAlignment(PenAlignmentInset);
@@ -131,14 +131,14 @@ extern "C" {
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
-            path.AddArc((REAL)left, (REAL)top, (REAL)2 * w, (REAL)2 * h, 180, 90);
-            path.AddLine((REAL)left + w, (REAL)top, (REAL)right - w, (REAL)top);
-            path.AddArc((REAL)right - 2 * w , (REAL)top, (REAL)2 * w, (REAL)2 * h, 270, 90);
-            path.AddLine((REAL)right , (REAL)top + h, (REAL)right , (REAL)bottom - h);
-            path.AddArc((REAL)right - 2 * w , (REAL)bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 0, 90);
-            path.AddLine((REAL)left + w, (REAL)bottom , (REAL)right - w, (REAL)bottom );
-            path.AddArc((REAL)left, (REAL)bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 90, 90);
-            path.AddLine((REAL)left, (REAL)bottom - h , (REAL)left, (REAL)top + h);
+            path.AddArc(left, top, (REAL)2 * w, (REAL)2 * h, 180, 90);
+            path.AddLine(left + w, top, right - w, top);
+            path.AddArc(right - 2 * w , top, (REAL)2 * w, (REAL)2 * h, 270, 90);
+            path.AddLine(right , top + h, right , bottom - h);
+            path.AddArc(right - 2 * w , bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 0, 90);
+            path.AddLine(left + w, bottom , right - w, bottom );
+            path.AddArc(left, bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 90, 90);
+            path.AddLine(left, bottom - h , left, top + h);
             gpp.FillPath(&brush, &path);
             gpp.DrawPath(&pen, &path);
             pen.~Pen();
@@ -150,10 +150,10 @@ extern "C" {
     ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int w, int h, int LineWidth) {
         if (gp) {
             REAL left, top, right, bottom;
-            left = rc->left;
-            top = rc->top;
-            right = rc->right-1;
-            bottom = rc->bottom-1;
+            left = (REAL)rc->left;
+            top = (REAL)rc->top;
+            right = (REAL)rc->right-1;
+            bottom = (REAL)rc->bottom-1;
             GraphicsPath path;
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
@@ -161,14 +161,14 @@ extern "C" {
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);
             }
-            path.AddArc((REAL)left, (REAL)top, (REAL)2 * w, (REAL)2 * h, 180, 90);
-            path.AddLine((REAL)left + w, (REAL)top, (REAL)right - w, (REAL)top);
-            path.AddArc((REAL)right - 2 * w, (REAL)top, (REAL)2 * w, (REAL)2 * h, 270, 90);
-            path.AddLine((REAL)right, (REAL)top + h, (REAL)right, (REAL)bottom - h);
-            path.AddArc((REAL)right - 2 * w, (REAL)bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 0, 90);
-            path.AddLine((REAL)left + w, (REAL)bottom, (REAL)right - w, (REAL)bottom);
-            path.AddArc((REAL)left, (REAL)bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 90, 90);
-            path.AddLine((REAL)left, (REAL)bottom - h, (REAL)left, (REAL)top + h);
+            path.AddArc(left, top, (REAL)2 * w, (REAL)2 * h, 180, 90);
+            path.AddLine(left + w, top, right - w, (REAL)top);
+            path.AddArc(right - 2 * w, top, (REAL)2 * w, (REAL)2 * h, 270, 90);
+            path.AddLine(right, top + h, right, (REAL)bottom - h);
+            path.AddArc(right - 2 * w, bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 0, 90);
+            path.AddLine(left + w, bottom, right - w, bottom);
+            path.AddArc(left, bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 90, 90);
+            path.AddLine(left, bottom - h, left, top + h);
             gpp.DrawPath(&pen, &path);
             pen.~Pen();
             path.~GraphicsPath();
@@ -243,9 +243,12 @@ extern "C" {
     ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiGraphics gp, ZuiFont Font, ZuiText String, int StrLen, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle) {
         if (String && Font && gp) {
             Gdiplus::RectF rf;
-            rf.X = (REAL)Rect->left; rf.Y = (REAL)Rect->top;
-            rf.Width = (REAL)(Rect->right - Rect->left); rf.Height = (REAL)(Rect->bottom - Rect->top);
-            Gdiplus::StringFormat sf; sf.GenericTypographic();
+            rf.X = (REAL)Rect->left;
+            rf.Y = (REAL)Rect->top;
+            rf.Width = (REAL)(Rect->right - Rect->left);
+            rf.Height = (REAL)(Rect->bottom - Rect->top);
+            Gdiplus::StringFormat sf;
+            sf.GenericTypographic();
             if (TextStyle & ZDT_SINGLELINE) sf.SetFormatFlags(StringFormatFlagsNoWrap);
             if (TextStyle & ZDT_END_ELLIPSIS) sf.SetTrimming(StringTrimmingEllipsisCharacter);
             if (TextStyle & ZDT_CENTER) sf.SetAlignment(StringAlignmentCenter);
@@ -263,7 +266,8 @@ extern "C" {
         if (String && Font) {
             Gdiplus::StringFormat sf; //sf.GenericTypographic();
             sf.SetFormatFlags(StringFormatFlagsMeasureTrailingSpaces);
-            PointF pf; pf.X = 0; pf.Y = 0;
+            PointF pf;
+            pf.X = 0; pf.Y = 0;
             RectF rf;
             Gdiplus::Graphics gpp(gp->hdc);
             gpp.MeasureString(String, -1, Font->font->font, pf,&sf, &rf);
@@ -309,10 +313,14 @@ extern "C" {
     /*创建字体*/
     ZEXPORT ZuiFont ZCALL ZuiCreateFont(ZuiText FontName, int FontSize, ZuiBool Bold, ZuiBool Italic) {
         ZuiFont zFont = (ZuiFont)malloc(sizeof(ZFont));
-        if (!zFont) { return NULL; }
+        if (!zFont) {
+            return NULL;
+        }
         memset(zFont, 0, sizeof(ZFont));
         zFont->font = (struct graphfont*)malloc(sizeof(struct graphfont));
-        if (!zFont->font) { free(zFont); return NULL; }
+        if (!zFont->font) {
+            free(zFont); return NULL;
+        }
         Gdiplus::FontStyle fontstyle;
         if (Bold) { 
             if (Italic)
@@ -328,7 +336,7 @@ extern "C" {
         }
 
         zFont->font->fontfamily = new FontFamily(FontName);
-        zFont->font->font = new Gdiplus::Font(zFont->font->fontfamily,FontSize, fontstyle,Gdiplus::UnitPoint);
+        zFont->font->font = new Gdiplus::Font(zFont->font->fontfamily,(REAL)FontSize, fontstyle,Gdiplus::UnitPoint);
         return zFont;
     }
     /*销毁字体*/
@@ -343,7 +351,9 @@ extern "C" {
     /*创建图形*/
     ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(ZuiOsWindow p,int Width, int Height) {
         ZuiGraphics gp = (ZuiGraphics)malloc(sizeof(ZGraphics));
-        if (!gp) { return NULL; }
+        if (!gp) {
+            return NULL; 
+        }
         memset(gp, 0, sizeof(ZGraphics));
         if (Width && Height) {
             gp->Width = Width;
@@ -391,7 +401,9 @@ extern "C" {
     }
     /*附加到一块内存上*/
     ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiGraphics gp, ZuiAny bits, int Width, int Height, int stride) {
-        if (!gp) { return NULL; }
+        if (!gp) {
+            return NULL;
+        }
         if (gp->hdc) {
             DeleteDC(gp->hdc);
             gp->hdc = NULL;
@@ -455,10 +467,15 @@ extern "C" {
     /*加载图像自内存*/
     ZEXPORT ZuiImage ZCALL ZuiLoadImageFromBinary(ZuiAny buf, size_t len) {
         ZuiImage Img = (ZuiImage)malloc(sizeof(ZImage));
-        if (!Img) { return NULL; }
+        if (!Img) {
+            return NULL;
+        }
         memset(Img, 0, sizeof(ZImage));
         Img->image = (struct graphimage *)malloc(sizeof(struct graphimage));
-        if (!Img->image) { free(Img);  return NULL; }
+        if (!Img->image) {
+            free(Img);
+            return NULL;
+        }
 
         HGLOBAL hMem = ::GlobalAlloc(GMEM_MOVEABLE, len);
         if (!hMem) {
@@ -497,10 +514,10 @@ extern "C" {
 
     ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiGraphics gp, ZuiRect rc, int w, int h) {
         REAL left, top, right, bottom;
-        left = rc->left-1;
-        top = rc->top-1;
-        right = rc->right;
-        bottom = rc->bottom;
+        left = (REAL)rc->left-1;
+        top = (REAL)rc->top-1;
+        right = (REAL)rc->right;
+        bottom = (REAL)rc->bottom;
         GraphicsPath path;
         Gdiplus::Graphics gpp(gp->hdc);
         if (gp->SmoothingMode) {
@@ -508,14 +525,14 @@ extern "C" {
         }
         if(w && h){
             w+=2; h+=2;
-            path.AddArc((REAL)left, (REAL)top, (REAL)2 * w, (REAL)2 * h, 180, 90);
-            path.AddLine((REAL)left + w, (REAL)top, (REAL)right - w, (REAL)top);
-            path.AddArc((REAL)right - 2 * w, (REAL)top, (REAL)2 * w, (REAL)2 * h, 270, 90);
-            path.AddLine((REAL)right, (REAL)top + h, (REAL)right, (REAL)bottom - h);
-            path.AddArc((REAL)right - 2 * w, (REAL)bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 0, 90);
-            path.AddLine((REAL)left + w, (REAL)bottom, (REAL)right - w, (REAL)bottom);
-            path.AddArc((REAL)left, (REAL)bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 90, 90);
-            path.AddLine((REAL)left, (REAL)bottom - h, (REAL)left, (REAL)top + h);
+            path.AddArc(left, top, (REAL)2 * w, (REAL)2 * h, 180, 90);
+            path.AddLine(left + w, top, right - w, top);
+            path.AddArc(right - 2 * w, top, (REAL)2 * w, (REAL)2 * h, 270, 90);
+            path.AddLine(right, top + h, right, bottom - h);
+            path.AddArc(right - 2 * w, bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 0, 90);
+            path.AddLine(left + w, bottom, right - w, bottom);
+            path.AddArc(left, bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 90, 90);
+            path.AddLine(left, bottom - h, left, top + h);
         }
         else {
             path.AddLine((REAL)rc->left, (REAL)rc->top, (REAL)rc->right, (REAL)rc->top);

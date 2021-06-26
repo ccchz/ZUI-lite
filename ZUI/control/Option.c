@@ -12,8 +12,10 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
     rcc.right = rcc.left + ResSize;
     rcc.bottom = rcc.top + ResSize;
     //CheckBox控件选择状态线段。
-    line1.left = rcc.left + 1; line1.top = rcc.top + ResSize * 0.5; line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom - 2;
-    line2.left = line1.right; line2.top = line1.bottom; line2.right = rcc.right - 2, line2.bottom = rcc.top + ResSize * 0.1;
+    line1.left = rcc.left + 1; line1.top = rcc.top + ResSize * 0.5;
+    line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom - 2;
+    line2.left = line1.right; line2.top = line1.bottom;
+    line2.right = rcc.right - 2, line2.bottom = rcc.top + ResSize * 0.1;
 
     switch (p->m_dwResType)
     {
