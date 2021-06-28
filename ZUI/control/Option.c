@@ -29,9 +29,9 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
         break;
     }
     case 2: { //方形
-        if (p->m_bSelected) {
-            color = p->m_ColorSelected;
-        }
+        //if (p->m_bSelected) {
+        //    color = p->m_ColorSelected;
+        //}
         ZuiDrawRect(gp, color, &rcc, 1);
         ZuiDrawLine(gp, color, &line1, 3);
         ZuiDrawLine(gp, color, &line2, 3);

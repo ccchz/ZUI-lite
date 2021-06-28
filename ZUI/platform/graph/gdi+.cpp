@@ -247,16 +247,31 @@ extern "C" {
             rf.Y = (REAL)Rect->top;
             rf.Width = (REAL)(Rect->right - Rect->left);
             rf.Height = (REAL)(Rect->bottom - Rect->top);
+            Gdiplus::Graphics gpp(gp->hdc);
+            SolidBrush brush(incolor);
             Gdiplus::StringFormat sf;
             sf.GenericTypographic();
             if (TextStyle & ZDT_SINGLELINE) sf.SetFormatFlags(StringFormatFlagsNoWrap);
             if (TextStyle & ZDT_END_ELLIPSIS) sf.SetTrimming(StringTrimmingEllipsisCharacter);
             if (TextStyle & ZDT_CENTER) sf.SetAlignment(StringAlignmentCenter);
-            if (TextStyle & ZDT_VCENTER) sf.SetLineAlignment(StringAlignmentCenter);
+            if (TextStyle & ZDT_VCENTER) {
+                sf.SetLineAlignment(StringAlignmentCenter);
+                SizeF sf1,sf2;
+                sf1.Height = rf.Height;
+                sf1.Width = rf.Width;
+                int lines;
+                gpp.MeasureString(String, -1, Font->font->font,(const SizeF)sf1,&sf, &sf2,0,&lines);
+               
+                if (sf2.Width < rf.Width) {
+                    _tprintf(_T("%f...%f.."), sf2.Height,Font->font->font->GetHeight(&gpp));
+                    sf2.Height = Font->font->font->GetHeight(&gpp);
+                    rf.Y = rf.Y + (( rf.Height - sf2.Height) / 2);
+                    rf.Height = sf2.Height;
+                }
+            }
             if (TextStyle & ZDT_RIGHT) sf.SetAlignment(StringAlignmentFar);
             if (TextStyle & ZDT_BOTTOM) sf.SetAlignment(StringAlignmentFar);
-            SolidBrush brush(incolor);
-            Gdiplus::Graphics gpp(gp->hdc);
+
             gpp.DrawString(String, StrLen, Font->font->font,rf,&sf,&brush);
         }
     }
