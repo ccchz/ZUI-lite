@@ -82,7 +82,7 @@ extern "C" {
             Gdiplus::Graphics gpp(gp->hdc);
             gpp.DrawRectangle(&pen, rc->left, rc->top, rc->right - rc->left-1, rc->bottom - rc->top-1);
             pen.~Pen();
-            gpp.ReleaseHDC(gp->hdc);
+            //gpp.ReleaseHDC(gp->hdc);
             //gpp.~Graphics();
         }
     }
@@ -97,7 +97,7 @@ extern "C" {
             }
             gpp.DrawEllipse(&pen, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
             pen.~Pen();
-            gpp.ReleaseHDC(gp->hdc);
+            //gpp.ReleaseHDC(gp->hdc);
             //gpp.~Graphics();
         }
     }
@@ -263,10 +263,10 @@ extern "C" {
                 gpp.MeasureString(String, -1, Font->font->font,(const SizeF)sf1,&sf, &sf2,0,&lines);
                
                 if (sf2.Width < rf.Width) {
-                    _tprintf(_T("%f...%f.."), sf2.Height,Font->font->font->GetHeight(&gpp));
+                    //_tprintf(_T("%f...%f.."), sf2.Height,Font->font->font->GetHeight(&gpp));
                     sf2.Height = Font->font->font->GetHeight(&gpp);
-                    rf.Y = rf.Y + (( rf.Height - sf2.Height) / 2);
-                    rf.Height = sf2.Height;
+                    rf.Y = rf.Y + (( rf.Height - sf2.Height) / 2)+1;
+                    rf.Height =  sf2.Height;
                 }
             }
             if (TextStyle & ZDT_RIGHT) sf.SetAlignment(StringAlignmentFar);

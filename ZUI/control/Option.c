@@ -12,29 +12,34 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
     rcc.right = rcc.left + ResSize;
     rcc.bottom = rcc.top + ResSize;
     //CheckBox控件选择状态线段。
-    line1.left = rcc.left + 1; line1.top = rcc.top + ResSize * 0.5;
-    line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom - 2;
+    line1.left = rcc.left + 3; line1.top = rcc.top + ResSize * 0.5;
+    line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom - 4;
     line2.left = line1.right; line2.top = line1.bottom;
-    line2.right = rcc.right - 2, line2.bottom = rcc.top + ResSize * 0.1;
+    line2.right = rcc.right - 3, line2.bottom = rcc.top + ResSize * 0.3;
 
     switch (p->m_dwResType)
     {
     case 1: {  //圆形
         if (p->m_bSelected) {
-            color = p->m_ColorSelected;
+            ZuiDrawEllipse(gp, color, &rcc, 1);
+            rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
+            ZuiFillEllipse(gp, color, &rcc);
         }
-        ZuiDrawEllipse(gp, color, &rcc, 1);
-        rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
-        ZuiFillEllipse(gp, color, &rcc);
+        else {
+            ZuiDrawEllipse(gp, color, &rcc, 1);
+        }
         break;
     }
-    case 2: { //方形
-        //if (p->m_bSelected) {
-        //    color = p->m_ColorSelected;
-        //}
-        ZuiDrawRect(gp, color, &rcc, 1);
-        ZuiDrawLine(gp, color, &line1, 3);
-        ZuiDrawLine(gp, color, &line2, 3);
+    case 2: { //方形        
+        if (p->m_bSelected) {
+            ZuiDrawFillRect(gp, color, &rcc);
+            color = 0xFFFFFFFF;
+            ZuiDrawLine(gp, color, &line1, 1);
+            ZuiDrawLine(gp, color, &line2, 1);
+        }
+        else {
+            ZuiDrawRect(gp, color, &rcc, 1);
+        }
 
         break;
     }
@@ -346,7 +351,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         //创建继承的控件 保存数据指针
         p->old_udata = ZuiButtonProc(ZM_OnCreate, cp, 0, 0, 0);
         p->old_call = (ZCtlProc)&ZuiButtonProc;
-        p->m_ColorSelected = 0xFF008DD8;
+        p->m_ColorSelected = 0xFF004499;
         p->m_ColorSelectedHot = 0xFF0C5599;		//选中的点燃状态
         p->m_ColorSelectedPushed = 0xFF0C6699;	//选中的按下状态
         p->m_ColorSelectedDisabled = 0xFF989898;

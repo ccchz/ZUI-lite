@@ -39,6 +39,8 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             return 0;
         }
         //计算每行控件数量。
+        if (rc.right - rc.left == 0) //控件宽度为零时，不进行布局计算。
+            return 0;
         int col = (rc.right - rc.left) / p->m_szGridSize.cx;
         if (col < 1) {
             p->m_szGridSize.cx = rc.right - rc.left;

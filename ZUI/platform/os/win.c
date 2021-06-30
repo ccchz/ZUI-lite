@@ -443,6 +443,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         if (p->m_bOffscreenPaint)
         {
             ZuiDestroyGraphics(p->m_hDcOffscreen);
+            //_tprintf(_T("%d...%d...//"), LOWORD(lParam), HIWORD(lParam));
             p->m_hDcOffscreen = ZuiCreateGraphics(p,LOWORD(lParam),HIWORD(lParam));
         }
         else {
