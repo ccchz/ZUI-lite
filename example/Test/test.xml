@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="gbk"?>
 <include src="default:default_ctl.xml" />
-<Window bordercolor="#FF131313" bkcolor="0xFF131313" text="Demo" size="800,600" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
-		<HorizontalLayout name="head" drag="true" bkcolor="0xFF232323" height="23"><!--标题栏-->
+<Window nobox="true" bordercolor="#FF636363" round="7,7" bkcolor="0xFF131313" text="TEST" size="800,600" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
+		<HorizontalLayout name="head" drag="true" round="7,7" bkcolor="0xFF232323" height="23"><!--标题栏-->
+			<NULL width="10"/>
 			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:name='微软雅黑':size=10:bold=true" drag="true"/>
 			<Include src="file:itest.xml" />
 			<WindowCtl name="ctl"/>

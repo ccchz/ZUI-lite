@@ -13,20 +13,29 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
         ZuiControl pResult = NULL;
         FINDCONTROLPROC findProc = __FindControlsFromUpdate;
 
-        if ((int)Param2 & ZFIND_FROM_UPDATE) findProc = __FindControlsFromUpdate;
-        else if ((int)Param2 & ZFIND_FROM_TAB) findProc = __FindControlFromTab;
-        else if ((int)Param2 & ZFIND_FROM_POINT) findProc = __FindControlFromPoint;
-        else if ((int)Param2 & ZFIND_FROM_NAME) findProc = __FindControlFromName;
+        if ((int)Param2 & ZFIND_FROM_UPDATE)
+            findProc = __FindControlsFromUpdate;
+        else if ((int)Param2 & ZFIND_FROM_TAB)
+            findProc = __FindControlFromTab;
+        else if ((int)Param2 & ZFIND_FROM_POINT)
+            findProc = __FindControlFromPoint;
+        else if ((int)Param2 & ZFIND_FROM_NAME)
+            findProc = __FindControlFromName;
 
         // Check if this guy is valid
-        if (((unsigned int)Param2 & ZFIND_VISIBLE) != 0 && !cp->m_bVisible) return NULL;
-        if (((unsigned int)Param2 & ZFIND_ENABLED) != 0 && !cp->m_bEnabled) return NULL;
-        if (((unsigned int)Param2 & ZFIND_HITTEST) != 0 && !ZuiIsPointInRect(&cp->m_rcItem, Param1)) return NULL;
-        if (((unsigned int)Param2 & ZFIND_UPDATETEST) != 0 && ((FINDCONTROLPROC)findProc)(cp, Param1) != NULL) return NULL;
+        if (((unsigned int)Param2 & ZFIND_VISIBLE) != 0 && !cp->m_bVisible)
+            return NULL;
+        if (((unsigned int)Param2 & ZFIND_ENABLED) != 0 && !cp->m_bEnabled)
+            return NULL;
+        if (((unsigned int)Param2 & ZFIND_HITTEST) != 0 && !ZuiIsPointInRect(&cp->m_rcItem, Param1))
+            return NULL;
+        if (((unsigned int)Param2 & ZFIND_UPDATETEST) != 0 && ((FINDCONTROLPROC)findProc)(cp, Param1) != NULL)
+            return NULL;
 
 
         if (((unsigned int)Param2 & ZFIND_ME_FIRST) != 0) {
-            if (((unsigned int)Param2 & ZFIND_HITTEST) == 0 || cp->m_bMouseEnabled) pResult = ((FINDCONTROLPROC)findProc)(cp, Param1);
+            if (((unsigned int)Param2 & ZFIND_HITTEST) == 0 || cp->m_bMouseEnabled)
+                pResult = ((FINDCONTROLPROC)findProc)(cp, Param1);
         }
         if (pResult != NULL) return pResult;
 
@@ -36,8 +45,10 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
             rc.top += p->m_rcInset.top;
             rc.right -= p->m_rcInset.right;
             rc.bottom -= p->m_rcInset.bottom;
-            if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible) rc.right -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
-            if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible) rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
+            if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible)
+                rc.right -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
+            if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible)
+                rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
 
             if (((unsigned int)Param2 & ZFIND_TOP_FIRST) != 0) {
                 for (int it = darray_len(p->m_items) - 1; it >= 0; it--) {
@@ -63,14 +74,17 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
             }
         }
 
-        if (p->m_pVerticalScrollBar != NULL) pResult = (ZuiControl)ZCCALL(ZM_FindControl, p->m_pVerticalScrollBar, Param1, Param2);
-        if (pResult == NULL && p->m_pHorizontalScrollBar != NULL) pResult = (ZuiControl)ZCCALL(ZM_FindControl, p->m_pHorizontalScrollBar, Param1, Param2);
+        if (p->m_pVerticalScrollBar != NULL)
+            pResult = (ZuiControl)ZCCALL(ZM_FindControl, p->m_pVerticalScrollBar, Param1, Param2);
+        if (pResult == NULL && p->m_pHorizontalScrollBar != NULL)
+            pResult = (ZuiControl)ZCCALL(ZM_FindControl, p->m_pHorizontalScrollBar, Param1, Param2);
         if (pResult != NULL)
             return pResult;
 
         pResult = NULL;
         if (pResult == NULL && ((unsigned int)Param2 & ZFIND_ME_FIRST) == 0) {
-            if (((unsigned int)Param2 & ZFIND_HITTEST) == 0 || cp->m_bMouseEnabled) pResult = ((FINDCONTROLPROC)findProc)(cp, Param1);
+            if (((unsigned int)Param2 & ZFIND_HITTEST) == 0 || cp->m_bMouseEnabled)
+                pResult = ((FINDCONTROLPROC)findProc)(cp, Param1);
         }
         return pResult;
     }
@@ -105,16 +119,20 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
             rc.right -= p->m_rcInset.right;
             rc.bottom -= p->m_rcInset.bottom;
 			//获取滚动条区域,排除滚动条绘制
-            if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible) rc.right -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
-            if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible) rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
+            if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible)
+                rc.right -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
+            if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible)
+                rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
 			//求当前控件的具体交集
             if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)&rc)) {
                 for (int it = 0; it < darray_len(p->m_items); it++) {
                     ZuiControl pControl = (ZuiControl)(p->m_items->data[it]);
                     if (!pControl->m_bVisible) continue;
-                    if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0))) continue;
+                    if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0)))
+                        continue;
                     if (pControl->m_bFloat) {
-                        if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)&cp->m_rcItem, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0))) continue;
+                        if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)&cp->m_rcItem, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0)))
+                            continue;
                         IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)&pControl->m_rcItem);
                         //MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
                         //ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
@@ -132,7 +150,8 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
                 for (int it = 0; it < darray_len(p->m_items); it++) {
                     ZuiControl pControl = (ZuiControl)(p->m_items->data[it]);
                     if (!pControl->m_bVisible) continue;
-                    if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0))) continue;
+                    if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0)))
+                        continue;
                     if (pControl->m_bFloat) {
                         if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0)))
                             continue;
@@ -146,7 +165,8 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
 						//ZuiGraphicsPopClip((ZuiGraphics)Param1);
                     }
                     else {
-                        if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)&rc, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0))) continue;
+                        if (!IntersectRect((LPRECT)&rcTemp, (const RECT *)&rc, (const RECT *)ZCCALL(ZM_GetPos, pControl, 0, 0)))
+                            continue;
                         if (pControl->m_aAnime)
                             pControl->m_aAnime->OnPaint(pControl, Param1, Param2);
                         else {
@@ -207,10 +227,14 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
             else {
                 ZRect rcCtrl;
                 ZSize sz = { rc.right - rc.left, rc.bottom - rc.top };
-                if (sz.cx < (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0)) sz.cx = (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0);
-                if (sz.cx > (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0)) sz.cx = (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0);
-                if (sz.cy < (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0)) sz.cy = (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0);
-                if (sz.cy > (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0)) sz.cy = (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0);
+                if (sz.cx < (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0))
+                    sz.cx = (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0);
+                if (sz.cx > (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0))
+                    sz.cx = (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0);
+                if (sz.cy < (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0))
+                    sz.cy = (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0);
+                if (sz.cy > (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0))
+                    sz.cy = (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0);
                 rcCtrl.left = rc.left;
                 rcCtrl.top = rc.top;
                 rcCtrl.right = rc.left + sz.cx;
@@ -535,15 +559,19 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
     }
     case ZM_Layout_GetScrollPos: {
         ZuiSize sz = Param1;
-        if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible) sz->cy = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pVerticalScrollBar, NULL, NULL);
-        if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible) sz->cx = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pHorizontalScrollBar, NULL, NULL);
+        if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible)
+            sz->cy = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pVerticalScrollBar, NULL, NULL);
+        if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible)
+            sz->cx = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pHorizontalScrollBar, NULL, NULL);
         return 0;
         break;
     }
     case ZM_Layout_GetScrollRange: {
         ZuiSize sz = Param1;
-        if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible) sz->cy = (int)ZCCALL(ZM_ScrollBar_GetScrollRange, p->m_pVerticalScrollBar, NULL, NULL);
-        if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible) sz->cx = (int)ZCCALL(ZM_ScrollBar_GetScrollRange, p->m_pHorizontalScrollBar, NULL, NULL);
+        if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible)
+            sz->cy = (int)ZCCALL(ZM_ScrollBar_GetScrollRange, p->m_pVerticalScrollBar, NULL, NULL);
+        if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible)
+            sz->cx = (int)ZCCALL(ZM_ScrollBar_GetScrollRange, p->m_pHorizontalScrollBar, NULL, NULL);
         return 0;
         break;
     }
@@ -618,7 +646,8 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
     case ZM_Layout_PageUp: {
         ZCCALL(ZM_Layout_GetScrollPos, cp, &sz, NULL);
         int iOffset = cp->m_rcItem.bottom - cp->m_rcItem.top - p->m_rcInset.top - p->m_rcInset.bottom;
-        if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible) iOffset -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
+        if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible)
+            iOffset -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
         sz.cy -= iOffset;
         ZCCALL(ZM_Layout_SetScrollPos, cp, &sz, NULL);
         break;
@@ -626,7 +655,8 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
     case ZM_Layout_PageDown: {
         ZCCALL(ZM_Layout_GetScrollPos, cp, &sz, NULL);
         int iOffset = cp->m_rcItem.bottom - cp->m_rcItem.top - p->m_rcInset.top - p->m_rcInset.bottom;
-        if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible) iOffset -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
+        if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible)
+            iOffset -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
         sz.cy += iOffset;
         ZCCALL(ZM_Layout_SetScrollPos, cp, &sz, NULL);
         break;
@@ -663,7 +693,8 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
     case ZM_Layout_PageLeft: {
         ZCCALL(ZM_Layout_GetScrollPos, cp, &sz, NULL);
         int iOffset = cp->m_rcItem.right - cp->m_rcItem.left - p->m_rcInset.left - p->m_rcInset.right;
-        if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible) iOffset -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
+        if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible)
+            iOffset -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
         sz.cx -= iOffset;
         ZCCALL(ZM_Layout_SetScrollPos, cp, &sz, NULL);
         break;
@@ -671,7 +702,8 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
     case ZM_Layout_PageRight: {
         ZCCALL(ZM_Layout_GetScrollPos, cp, &sz, NULL);
         int iOffset = cp->m_rcItem.right - cp->m_rcItem.left - p->m_rcInset.left - p->m_rcInset.right;
-        if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible) iOffset -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
+        if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible)
+            iOffset -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
         sz.cx += iOffset;
         ZCCALL(ZM_Layout_SetScrollPos, cp, &sz, NULL);
         break;

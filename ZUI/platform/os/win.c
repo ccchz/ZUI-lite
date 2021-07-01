@@ -1085,14 +1085,14 @@ ZuiBool ZuiOsSetWindowNoBox(ZuiOsWindow OsWindow, ZuiBool b) {
     if (OsWindow->m_nobox == b)
         return FALSE;
     OsWindow->m_nobox = b;
-    DWORD dwStyle = GetWindowLong(OsWindow->m_hWnd, GWL_STYLE);
-    if (b)
-    {
-        SetWindowLong(OsWindow->m_hWnd, GWL_STYLE, dwStyle | WS_VISIBLE | WS_POPUP | WS_CLIPCHILDREN);
-    }
-    else {
-        SetWindowLong(OsWindow->m_hWnd, GWL_STYLE, dwStyle | WS_VISIBLE | WS_POPUP | WS_CLIPCHILDREN);
-    }
+    //DWORD dwStyle = GetWindowLong(OsWindow->m_hWnd, GWL_STYLE);
+    //if (b)
+    //{
+    //    SetWindowLong(OsWindow->m_hWnd, GWL_STYLE, dwStyle | WS_VISIBLE | WS_POPUP | WS_CLIPCHILDREN);
+    //}
+    //else {
+    //    SetWindowLong(OsWindow->m_hWnd, GWL_STYLE, dwStyle | WS_VISIBLE | WS_POPUP | WS_CLIPCHILDREN);
+    //}
     GetWindowRect(OsWindow->m_hWnd, (LPRECT)&OsWindow->m_rect);
     return TRUE;
 }

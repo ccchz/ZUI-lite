@@ -41,25 +41,25 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
         //计算每行控件数量。
         if (rc.right - rc.left == 0) //控件宽度为零时，不进行布局计算。
             return 0;
-        int col = (rc.right - rc.left) / p->m_szGridSize.cx;
-        if (col < 1) {
+        int maxcols = (rc.right - rc.left) / p->m_szGridSize.cx; //最大列数
+        if (maxcols < 1) {
             p->m_szGridSize.cx = rc.right - rc.left;
-            col = 1;
+            maxcols = 1;
         }
-        int i , j, rows;
-        j = 0;
+        int index , cols, rows;
+        cols = 0;
         rows = -1;
         ZRect rcCtrl;
         //计算控件布局尺寸。
-        for (i = 0; i < darray_len(op->m_items); i++) {
-            j = i % col;
-            if (j == 0)
+        for (index = 0; index < darray_len(op->m_items); index++) {
+            cols = index % maxcols;
+            if (cols == 0)
                 rows++;
-            rcCtrl.left = rc.left + j * p->m_szGridSize.cx - iposx;
+            rcCtrl.left = rc.left + cols * p->m_szGridSize.cx - iposx;
             rcCtrl.top = rc.top + rows * p->m_szGridSize.cy - iposy;
             rcCtrl.right = rcCtrl.left + p->m_szGridSize.cx;
             rcCtrl.bottom = rcCtrl.top + p->m_szGridSize.cy;
-            ZuiControl pControl = (ZuiControl)(op->m_items->data[i]);
+            ZuiControl pControl = (ZuiControl)(op->m_items->data[index]);
             //处理控件 padding 尺寸。
             ZRect rcPadding = *(ZRect*)(ZCCALL(ZM_GetPadding, pControl, 0, 0));
             rcCtrl.left += rcPadding.left;
@@ -69,7 +69,7 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
         }
         ZSize SBarSize;
-        SBarSize.cx = col * p->m_szGridSize.cx;
+        SBarSize.cx = maxcols * p->m_szGridSize.cx;
         SBarSize.cy = (rows + 1) * p->m_szGridSize.cy;
         // Process the scrollbar
         ZCCALL(ZM_Layout_ProcessScrollBar, cp, &rc, &SBarSize);

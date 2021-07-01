@@ -439,10 +439,14 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     case ZM_FindControl: {
         FINDCONTROLPROC findProc = __FindControlsFromUpdate;
 
-        if ((int)Param2 & ZFIND_FROM_UPDATE) findProc = __FindControlsFromUpdate;
-        else if ((int)Param2 & ZFIND_FROM_TAB) findProc = __FindControlFromTab;
-        else if ((int)Param2 & ZFIND_FROM_POINT) findProc = __FindControlFromPoint;
-        else if ((int)Param2 & ZFIND_FROM_NAME) findProc = __FindControlFromName;
+        if ((int)Param2 & ZFIND_FROM_UPDATE)
+            findProc = __FindControlsFromUpdate;
+        else if ((int)Param2 & ZFIND_FROM_TAB)
+            findProc = __FindControlFromTab;
+        else if ((int)Param2 & ZFIND_FROM_POINT)
+            findProc = __FindControlFromPoint;
+        else if ((int)Param2 & ZFIND_FROM_NAME)
+            findProc = __FindControlFromName;
 
         if (((unsigned int)Param2 & ZFIND_VISIBLE) != 0 && !p->m_bVisible)
             return NULL;
