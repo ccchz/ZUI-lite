@@ -162,6 +162,15 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
 		    return 0;
 		break;
 	}
+    case ZM_OnPaintBkColor: {
+        ZuiGraphics gp = (ZuiGraphics)Param1;
+        ZRect* rc = (ZRect*)&cp->m_rcItem;
+        if (cp->m_BkgColor&& cp->m_pOs->m_bMax) {
+            ZuiDrawFillRoundRect(gp, cp->m_BkgColor, rc, 0, 0);
+            return 0;
+        }
+        break;
+    }
     case ZM_OnCreate: {
         p = (ZuiWindow)malloc(sizeof(ZWindow));
         if (p)

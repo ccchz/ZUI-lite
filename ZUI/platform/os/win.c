@@ -418,7 +418,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             }
         }
         int w = 0, h = 0;
-        if (p){
+        if (p&& !p->m_bMax){
             w = p->m_pRoot->m_rRound.cx;
             h = p->m_pRoot->m_rRound.cy;
         }
