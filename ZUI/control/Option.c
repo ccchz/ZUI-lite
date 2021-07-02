@@ -22,7 +22,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
     case 1: {  //圆形
         if (p->m_bSelected) {
             ZuiDrawEllipse(gp, color, &rcc, 1);
-            rcc.left += 2; rcc.top += 2; rcc.right -= 2; rcc.bottom -= 2;
+            rcc.left += 3; rcc.top += 3; rcc.right -= 3; rcc.bottom -= 3;
             ZuiFillEllipse(gp, color, &rcc);
         }
         else {

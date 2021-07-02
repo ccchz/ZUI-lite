@@ -90,7 +90,7 @@ extern "C" {
     ZEXPORT ZuiVoid ZCALL ZuiDrawEllipse(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc,int LineWidth) {
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
-            pen.SetAlignment(PenAlignmentInset);
+            //pen.SetAlignment(PenAlignmentInset);
             Gdiplus::Graphics gpp(gp->hdc);
             if (gp->SmoothingMode) {
                 gpp.SetSmoothingMode(SmoothingModeAntiAlias);

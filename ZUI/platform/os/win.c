@@ -413,9 +413,9 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             tmprc.right += GetSystemMetrics(SM_CXSIZEFRAME);
             tmprc.top += GetSystemMetrics(SM_CYSIZEFRAME);
             tmprc.bottom += GetSystemMetrics(SM_CYSIZEFRAME);
-            if (!p->m_bMax) {
+           // if (!p->m_bMax) {
                 p->m_bMax = TRUE;
-            }
+           // }
         }
         int w = 0, h = 0;
         if (p&& !p->m_bMax){

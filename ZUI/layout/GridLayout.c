@@ -46,20 +46,24 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             p->m_szGridSize.cx = rc.right - rc.left;
             maxcols = 1;
         }
-        int index , cols, rows;
+        int index ,count, cols, rows;
         cols = 0;
         rows = -1;
         ZRect rcCtrl;
         //计算控件布局尺寸。
-        for (index = 0; index < darray_len(op->m_items); index++) {
-            cols = index % maxcols;
+        for (index = count = 0; index < darray_len(op->m_items); index++) {
+            ZuiControl pControl = (ZuiControl)(op->m_items->data[index]);
+            if (!pControl->m_bVisible)
+                continue;
+            cols = count % maxcols;
+            count++;
             if (cols == 0)
                 rows++;
             rcCtrl.left = rc.left + cols * p->m_szGridSize.cx - iposx;
             rcCtrl.top = rc.top + rows * p->m_szGridSize.cy - iposy;
             rcCtrl.right = rcCtrl.left + p->m_szGridSize.cx;
             rcCtrl.bottom = rcCtrl.top + p->m_szGridSize.cy;
-            ZuiControl pControl = (ZuiControl)(op->m_items->data[index]);
+           
             //处理控件 padding 尺寸。
             ZRect rcPadding = *(ZRect*)(ZCCALL(ZM_GetPadding, pControl, 0, 0));
             rcCtrl.left += rcPadding.left;

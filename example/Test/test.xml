@@ -12,7 +12,7 @@
 		<VerticalLayout width="200"  align="center" sbbkcolor="#FF484848"><!--状态栏-->
 			<NULL height="100"/>
 			
-			<Option name="buttondisable1" text="按钮禁用状态测试1" restype="1"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable1" text="按钮禁用状态测试1" restype="1"  group="tr" disabledcolor="#FF8c8c8c" height="30"/>
 			<Option name="buttondisable2" text="按钮禁用状态测试2" restype="4"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
 			<Option name="buttondisable2" text="按钮禁用状态测试3" restype="5"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
 			<Option name="buttondisable" text="按钮禁用状态测试" restype="6"  group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>
@@ -21,7 +21,7 @@
 			<CheckBox name="buttondisable22" text="CheckBox测试2" restype="2" align="left" textpadding="20,0,0,0" disabledcolor="#FF8c8c8c" height="22"/>
 			<NULL height="50"/>
 			<Button bordercolor="#FF555555"   foregroundimage="default:default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
-			<Button bordercolor="#FF555555"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
+			<Button bordercolor="#FF555555"   foregroundimage="default:default/dui.png"  name="msgbox0" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
 			<ProgressBar bordercolor="#FF151515" name="pbb" height="20" pbheight="8" pbpos="100" pbrange="400" round="3,3"/>
 			<Label width="100" name="wordbreak" text="块是在论坛找的某位大佬的改的。" wordbreak="true"/>
 		</VerticalLayout>
@@ -29,7 +29,7 @@
 		<NULL width="3" bkcolor="0xFF484848"/>
 		<TabLayout name="tab" tabselect='0'>
 		<GridLayout name="grid" gridsize="64,64" vscrollbar="true" hscrollbar="true">
-			<Button bordercolor="#FF232323"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
+			<Button bordercolor="#FF232323" visible="false"  foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
@@ -38,7 +38,7 @@
 			<Button text="tab1"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
-			<Button bordercolor="#FF232323"   foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
+			<Button bordercolor="#FF232323"   foregroundimage="default:default/dui.png"  name="msgbox2" buttonstyle="1" text="这个按钮真不错"/>
 		</GridLayout>
 		<Button name="tab2" text="tab2"/>		
 		<List name="domainlist" itemshowhtml="true"  itemalign="center" itemaltbk="true" menu="true">
