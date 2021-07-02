@@ -12,7 +12,7 @@
 		<VerticalLayout width="200"  align="center" sbbkcolor="#FF484848"><!--×´Ì¬À¸-->
 			<NULL height="100"/>
 			
-			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" restype="1"  group="tr" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" restype="1"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
 			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ2" restype="4"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
 			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ3" restype="5"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
 			<Option name="buttondisable" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ" restype="6"  group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>

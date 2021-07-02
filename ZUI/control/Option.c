@@ -11,11 +11,6 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
     rcc.top = rc->top + ((rc->bottom - rc->top) - ResSize) / 2;
     rcc.right = rcc.left + ResSize;
     rcc.bottom = rcc.top + ResSize;
-    //CheckBox控件选择状态线段。
-    line1.left = rcc.left + 3; line1.top = rcc.top + ResSize * 0.5;
-    line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom - 4;
-    line2.left = line1.right; line2.top = line1.bottom;
-    line2.right = rcc.right - 3, line2.bottom = rcc.top + ResSize * 0.3;
 
     switch (p->m_dwResType)
     {
@@ -32,6 +27,11 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
     }
     case 2: { //方形        
         if (p->m_bSelected) {
+            //CheckBox控件选择状态线段。
+            line1.left = rcc.left + 3; line1.top = rcc.top + ResSize * 0.5;
+            line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom - 4;
+            line2.left = line1.right; line2.top = line1.bottom;
+            line2.right = rcc.right - 3, line2.bottom = rcc.top + ResSize * 0.3;
             ZuiDrawFillRect(gp, color, &rcc);
             color = 0xFFFFFFFF;
             ZuiDrawLine(gp, color, &line1, 1);
