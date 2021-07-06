@@ -54,7 +54,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = (ZRect*)&cp->m_rcItem;
         if (cp->m_dwBorderWidth && !p->m_ResNormal && p->type > 0) {
-            ZuiDrawRoundRect(gp, p->m_BorderColor, rc, cp->m_rRound.cx, cp->m_rRound.cy,cp->m_dwBorderWidth);
+            ZuiDrawRoundRect(gp, cp->m_dwBorderColor2, rc, cp->m_rRound.cx, cp->m_rRound.cy,cp->m_dwBorderWidth);
             return 0;
         }
         break;
@@ -222,11 +222,6 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
-    case ZM_Button_SetBorderColorHot: {
-        p->m_BorderColor = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
-        return 0;
-    }
     case ZM_Button_SetColorPushed: {
         p->m_ColorPushed = (ZuiColor)Param1;
         ZuiControlInvalidate(cp, TRUE);
@@ -274,8 +269,6 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
 		ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("hotcolor")) == 0)
 		ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("hotbordercolor")) == 0)
-		ZCCALL(ZM_Button_SetBorderColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("pushedcolor")) == 0)
 		ZCCALL(ZM_Button_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
         else if (_tcsicmp(Param1, _T("focusedcolor")) == 0)
@@ -307,7 +300,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         np->m_ColorHot = 0xFF585858;
         np->m_ColorPushed = 0xFF787878;
         np->m_ColorDisabled = 0xFF989898;
-        np->m_BorderColor = 0xFF1874CD;
+        cp->m_dwBorderColor2 = 0xFF1874CD;
 
         ((ZuiLabel)np->old_udata)->m_uTextStyle |= ZDT_CENTER;
 

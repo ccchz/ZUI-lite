@@ -2,7 +2,7 @@
 #define __BUTTON_H__
 #include <ZUI.h>
 
-#define sepSize 8
+#define sepSize 8           //间隙尺寸
 /**按钮控件结构*/
 typedef struct _ZButton
 {

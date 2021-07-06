@@ -472,6 +472,13 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             ZuiControlInvalidate(p, TRUE);
             break;
         }
+        else if ((int)Param1 & Border_Color2) {
+            if (!p->m_dwBorderColor2 && !p->m_dwBorderWidth)
+                p->m_dwBorderWidth++;
+            p->m_dwBorderColor2 = (ZuiColor)Param2;
+            ZuiControlInvalidate(p, TRUE);
+            break;
+        }
         break;
     }
     case ZM_SetBkImage: {
@@ -616,6 +623,11 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 			ZuiColor clrColor;
 			clrColor = ZuiStr2Color(Param2);
             ZCCALL(ZM_SetBkColor, p, (ZuiAny)Border_Color,(ZuiAny)clrColor);
+        }
+        else if (_tcsicmp(Param1, _T("bordercolor2")) == 0) {
+            ZuiColor clrColor;
+            clrColor = ZuiStr2Color(Param2);
+            ZCCALL(ZM_SetBkColor, p, (ZuiAny)Border_Color2, (ZuiAny)clrColor);
         }
         else if (_tcsicmp(Param1, _T("name")) == 0)
 		ZCCALL(ZM_SetName, p, Param2, NULL);

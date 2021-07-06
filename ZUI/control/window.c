@@ -48,6 +48,10 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         cp->m_pOs->m_szMaxWindow.cy = (LONG)Param2;
         break;
     }
+    case ZM_SetRound: {
+        ZuiOsSetWindowRound(cp->m_pOs, (int)Param1, (int)Param2);
+        break;
+    }
     case ZM_Window_SetSize: {
         return (ZuiAny)(ZuiOsSetWindowSize(p->m_osWindow, (unsigned int)Param1, (unsigned int)Param2));
     }
@@ -157,11 +161,21 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
 		}
 		break;
 	}
-	case ZM_OnPaintBorder: {
-		if (cp->m_pOs->m_bMax)
-		    return 0;
-		break;
-	}
+    case ZM_OnPaintBorder: {
+        ZuiGraphics gp = (ZuiGraphics)Param1;
+        ZRect* rc = &cp->m_rcItem;
+        if (!cp->m_pOs->m_bMax) {
+            ZuiDrawRoundRect(gp, cp->m_pOs->m_bIsActive ? cp->m_dwBorderColor : cp->m_dwBorderColor2, rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
+        }
+        return 0;
+    }
+	case ZM_OnPaint: {
+        p->old_call(ProcId,cp, p->old_udata, Param1, Param2);
+        if (!cp->m_pOs->m_bMax) {
+            ZCCALL(ZM_OnPaintBorder, cp, Param1, Param2);
+        }
+		return 0;
+    }
     case ZM_OnPaintBkColor: {
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = (ZRect*)&cp->m_rcItem;

@@ -276,6 +276,7 @@ enum ZREST
 //------属性名称
 #define BK_Color        0x00000001 //背景色
 #define Border_Color    0x00000002 //边框颜色
+#define Border_Color2    0x00000004 //边框颜色2
 
 #define ZuiControlSetDrag(p,b)  ZuiControlCall(ZM_SetDrag,(p),(b),NULL,NULL)
 #define ZuiControlSetFixedHeight(p,h) ZuiControlCall(ZM_SetFixedHeight,(p),(h),NULL,NULL)

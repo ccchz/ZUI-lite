@@ -82,6 +82,7 @@ typedef struct _ZOsWindow
     ZuiBool m_bUpdateNeeded;        //是否需要更新界面布局
     ZuiBool m_bFocusNeeded;         //是否需要焦点
     ZuiBool m_bOffscreenPaint;      //是否需要开双缓存绘图
+    ZuiBool m_bIsActive;            //窗口是否活动
     //
     DArray *m_aTimers;              //时钟句柄数组
     DArray *m_aPostPaintControls;   //在绘制完成后发送绘制请求的控件集合

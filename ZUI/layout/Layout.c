@@ -108,7 +108,7 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
         ZuiGraphicsGetClipBox((ZuiGraphics)Param1, &CurBox);
 
 		//通知当前容器绘制
-        p->old_call(ZM_OnPaint, cp, 0, Param1, Param2);
+        p->old_call(ProcId, cp, 0, Param1, Param2);
 		//绘制子控件
         if (darray_len(p->m_items) > 0) {
 			//当前控件区域

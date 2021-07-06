@@ -174,6 +174,16 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         }
         return TRUE;
     }
+    case WM_ACTIVATE:
+    {
+        if (LOWORD(wParam) == WA_INACTIVE) {
+            p->m_bIsActive = FALSE;
+        }
+        else {
+            p->m_bIsActive = TRUE;
+        }
+        break;
+    }
     case WM_NCACTIVATE:
     case WM_NCPAINT:
     {
@@ -404,6 +414,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     }
     case WM_SIZE:   //大小被改变
     {
+        //_tprintf(_T("onsize...."));
         GetWindowRect(hWnd, (LPRECT)&p->m_rect);
         RECT tmprc;
         //HRGN tmprgn;
@@ -1001,25 +1012,9 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         // Set the dialog root element
         OsWindow->m_pRoot = root;
 
-
-        OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI"), _T(""),
-            WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-            tmphwnd, NULL, GetModuleHandle(NULL),
-            OsWindow);
-
-        OsWindow->m_hIMC = ImmGetContext(OsWindow->m_hWnd);//获取系统的输入法
-                                             /*屏蔽输入法*/
-        ImmAssociateContext(OsWindow->m_hWnd, NULL);
-
-        OsWindow->m_hDcPaint = GetDC(OsWindow->m_hWnd);
-
-
-
         // Initiate all control
         root->m_pOs = OsWindow;
         ZCCALL(ZM_OnInit, root, 0,0);
-
         OsWindow->m_iTooltipWidth = -1;
         OsWindow->m_iHoverTime = 1000;
         //p->m_bShowUpdateRect = TRUE;
@@ -1036,6 +1031,17 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         OsWindow->m_aDelayedCleanup = darray_create();
         //darray_append(m_aPreMessages, p);
 
+        OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI"), _T(""),
+            WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+            CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+            tmphwnd, NULL, GetModuleHandle(NULL),
+            OsWindow);
+
+        OsWindow->m_hIMC = ImmGetContext(OsWindow->m_hWnd);//获取系统的输入法
+                                             /*屏蔽输入法*/
+        ImmAssociateContext(OsWindow->m_hWnd, NULL);
+
+        OsWindow->m_hDcPaint = GetDC(OsWindow->m_hWnd);
 
         //是否立即显示
         if (!show)
@@ -1080,6 +1086,11 @@ ZuiBool ZuiOsSetWindowSize(ZuiOsWindow OsWindow, int w, int h) {
     ZCCALL(ZM_SetFixedWidth, OsWindow->m_pRoot, (ZuiAny)w, NULL);
     ZCCALL(ZM_SetFixedHeight, OsWindow->m_pRoot, (ZuiAny)h, NULL);
     return SetWindowPos(OsWindow->m_hWnd, NULL, 0, 0, w, h, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+}
+ZuiVoid ZuiOsSetWindowRound(ZuiOsWindow OsWindow, int w, int h) {
+    RECT tmprc;
+    GetClientRect(OsWindow->m_hWnd, &tmprc);
+    ZuiSetWindowRgn(OsWindow->m_hDcOffscreen, &tmprc, w, h);
 }
 ZuiBool ZuiOsSetWindowNoBox(ZuiOsWindow OsWindow, ZuiBool b) {
     if (OsWindow->m_nobox == b)

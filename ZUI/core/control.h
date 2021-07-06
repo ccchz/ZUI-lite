@@ -77,6 +77,7 @@ typedef struct _ZControl
     ZuiColor m_BkgColor;            //背景颜色
     ZuiRes m_BkgImg;                //背景图片
     ZuiColor m_dwBorderColor;       //边框颜色
+    ZuiColor m_dwBorderColor2;      //边框颜色2
 	int m_dwBorderWidth;
     //控件默认样式-------------------
 
