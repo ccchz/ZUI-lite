@@ -9,7 +9,7 @@
 		</HorizontalLayout>	
 		<NULL height="1"/>
 		<HorizontalLayout>
-		<VerticalLayout width="200"  align="center" sbbkcolor="#FF484848"><!--×´Ì¬À¸-->
+		<VerticalLayout width="200" name="leftsiedBAR" vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848">
 			<NULL height="100"/>
 			
 			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" restype="1"  group="true" disabledcolor="#FF8c8c8c" height="30"/>

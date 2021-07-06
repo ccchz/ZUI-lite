@@ -69,6 +69,7 @@ ZuiBool ZuiOsSetWindowSize(ZuiOsWindow OsWindow,  int w, int h);
 ZuiBool ZuiOsSetWindowNoBox(ZuiOsWindow OsWindow, ZuiBool b);
 ZuiBool ZuiOsSetWindowComBo(ZuiOsWindow OsWindow, ZuiBool b);
 ZuiBool ZuiOsSetWindowTool(ZuiOsWindow OsWindow, ZuiBool b);
+ZuiVoid ZuiOsSetWindowRgn(ZuiOsWindow OsWindow, int w, int h);
 
 //此函数用作设置窗口可视状态.
 ZuiVoid ZuiOsSetWindowVisible(ZuiOsWindow OsWindow, ZuiBool Visible);

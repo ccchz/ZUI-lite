@@ -49,7 +49,7 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         break;
     }
     case ZM_SetRound: {
-        ZuiOsSetWindowRound(cp->m_pOs, (int)Param1, (int)Param2);
+        ZuiOsSetWindowRgn(cp->m_pOs, (int)Param1, (int)Param2);
         break;
     }
     case ZM_Window_SetSize: {
