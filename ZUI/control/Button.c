@@ -111,36 +111,44 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             ZSizeR sr = {0};
             ZuiMeasureTextSize(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font, cp->m_sText, &sr);
 
-            if (!p->m_dwStyle) {
-                if (sr.cx) { //没有文本时图片尺寸计算
+            if (p->m_dwStyle == 1) { //图片、文本居中上下结构
+                rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;
+                if (sr.cy) {
+                    rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height - sr.cy - sepSize) / 2;
+                }
+                else { //没有文本时图片尺寸计算
+                    rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height) / 2;
+                }
+            }
+            else if (p->m_dwStyle == 2) { //图片文本靠左
+                rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height) / 2;
+                rcc.left = rc->left + p->m_rcImagePadding.left;
+            }
+            else { //默认  图片、文本居中左右结构
+                if (sr.cx) {
                     rcc.left = rc->left + ((rc->right - rc->left) - img->Width - sr.cx - sepSize) / 2;
                 }
-                else {
+                else { //没有文本时图片尺寸计算
                     rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;
                 }
                 rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height) / 2;
-            }
-            else {
-                rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;
-                if (sr.cy) { //没有文本时图片尺寸计算
-                    rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height - sr.cy - sepSize) / 2;
-                }
-                else {
-                    rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height) / 2;
-                }
             }
             rcc.right = rcc.left + img->Width;
             rcc.bottom = rcc.top + img->Height;
             ZuiIntersectRect(&rcc, rc);
             ZuiDrawImageEx(gp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 0, 0, 0, 0, 255);
             //绘制文本
-            if (!p->m_dwStyle) {
-                rcc.left = rcc.right + sepSize;
+            if (p->m_dwStyle == 1) { //图片、文本居中上下结构
+                rcc.left = rc->left + cp->m_dwBorderWidth;
+                rcc.top = rcc.bottom;
+            }
+            else if (p->m_dwStyle == 2) { //图片文本靠左
+                rcc.left = rc->left + cp->m_dwBorderWidth + zb->m_rcPadding.left;
                 rcc.top = rc->top + cp->m_dwBorderWidth;
             }
-            else {
-                rcc.left = rc->left + cp->m_dwBorderWidth;
-                rcc.top = rcc.bottom ;
+            else { //没有文本时图片尺寸计算
+                rcc.left = rcc.right + sepSize;
+                rcc.top = rc->top + cp->m_dwBorderWidth;
             }
             rcc.right = rc->right - cp->m_dwBorderWidth;
             rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
@@ -152,11 +160,14 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             else
                 tmpTColor = zb->m_cTextColorDisabled;
             int tStyle;
-            if (!p->m_dwStyle) {
+            if (p->m_dwStyle == 1) {
+                tStyle = ZDT_CENTER;
+            }
+            else if (p->m_dwStyle == 2) { //图片文本靠左
                 tStyle = ZDT_VCENTER | ZDT_SINGLELINE;
             }
             else {
-                tStyle = ZDT_CENTER;
+                tStyle = ZDT_VCENTER | ZDT_SINGLELINE;
             }
             ZuiDrawString(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font,cp->m_sText, _tcslen(cp->m_sText), & rcc, tmpTColor, tStyle);
             return 0;
