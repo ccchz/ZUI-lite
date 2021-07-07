@@ -6,13 +6,13 @@
 #define PBSIZE 6
 typedef struct _ZProgressBar
 {
-    ZuiColor pbColor;         //进度条颜色
-    ZuiColor pbBkColor;       //进度条背景颜色
+    ZuiColor m_cColor;         //进度条颜色
+    ZuiColor m_cBkColor;       //进度条背景颜色
     ZuiBool m_bHorizontal; //是否横向
 
-    int pbHeight;
-    unsigned int pbPos;
-    unsigned int pbRange;
+    int m_dwHeight;
+    unsigned int m_dwPos;
+    unsigned int m_dwRange;
 
     ZCtlProc old_call;
 }*ZuiProgressBar, ZProgressBar;

@@ -19,10 +19,9 @@ typedef struct _ZButton
     ZuiColor m_ColorFocused;    //焦点图片
     ZuiColor m_ColorDisabled;   //非激活状态
 
-    ZuiColor m_BorderColor;     //焦点时的边框颜色
     ZRect m_rcImagePadding;     //图片控制区域
     int m_dwStyle;              //图片文字组合结构-0 左右 1 上下。。。
-    int type;
+    int m_dwType;               //按钮状态
     ZCtlProc old_call;
     ZuiAny old_udata;
 }*ZuiButton, ZButton;

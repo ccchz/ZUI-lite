@@ -11,16 +11,16 @@ typedef struct _ZListHeaderItem
     int m_iSepWidth;         //分隔符区域
 
 
-    ZuiRes m_diNormal;          //通常图片
-    ZuiRes m_diHot;             //点燃图片
-    ZuiRes m_diPushed;          //按下图片
-    ZuiRes m_diFocused;         //焦点图片
-    ZuiRes m_diSep;
-	ZuiColor m_ColorNormal;     //正常状态
-	ZuiColor m_ColorHot;        //高亮状态
-	ZuiColor m_ColorPushed;     //按下状态
-	ZuiColor m_ColorFocused;    //焦点图片
-	ZuiColor m_ColorSep;
+    ZuiRes m_ResNormal;          //通常图片
+    ZuiRes m_ResHot;             //点燃图片
+    ZuiRes m_ResPushed;          //按下图片
+    ZuiRes m_ResFocused;         //焦点图片
+    ZuiRes m_ResSep;
+	ZuiColor m_cColorNormal;     //正常状态
+	ZuiColor m_cColorHot;        //高亮状态
+	ZuiColor m_cColorPushed;     //按下状态
+	ZuiColor m_cColorFocused;    //焦点图片
+	ZuiColor m_cColorSep;
 
     ZuiRes      m_rFont;         //字体
 	ZuiRes		m_rListFont;
@@ -29,7 +29,7 @@ typedef struct _ZListHeaderItem
     ZuiColor    m_cTextColor;   //字体颜色
 	ZRect		m_rcPadding;
 
-    ZRect Thumb;
+    ZRect m_rcThumb;
     ZuiAny old_udata;
     ZCtlProc old_call;
 }*ZuiListHeaderItem, ZListHeaderItem;
@@ -37,7 +37,7 @@ typedef struct _ZListHeaderItem
 /**列表头结构*/
 typedef struct _ZListHeader
 {
-    ZSize cXY;  //表头大小
+    ZSize m_szXY;  //表头大小
     ZuiAny old_udata;
     ZCtlProc old_call;
 }*ZuiListHeader, ZListHeader;
@@ -66,19 +66,19 @@ typedef struct _ZListElement
 #define ZLIST_MAX_COLUMNS 32
 typedef struct _ZListInfo
 {
-    int nColumns;//列数量
-    ZRect rcColumn[ZLIST_MAX_COLUMNS];
+    int m_iColumns;//列数量
+    ZRect m_rcColumn[ZLIST_MAX_COLUMNS];
 
-    ZuiBool bAlternateBk;       //使用交替背景色
-    ZuiColor dwLineColor;          //行间线颜色
-	ZuiColor dwColumnColor;			//列间线颜色
-    ZuiColor dwBkColor;            //背景色
-    ZuiColor dwHotBkColor;         //点燃背景色
-    ZuiColor dwSelectedBkColor;    //选中背景色
-    ZuiColor dwDisabledBkColor;    //禁用背景色
+    ZuiBool m_bAlternateBk;       //使用交替背景色
+    ZuiColor m_cLineColor;          //行间线颜色
+	ZuiColor m_cColumnColor;			//列间线颜色
+    ZuiColor m_cBkColor;            //背景色
+    ZuiColor m_cHotBkColor;         //点燃背景色
+    ZuiColor m_cSelectedBkColor;    //选中背景色
+    ZuiColor m_cDisabledBkColor;    //禁用背景色
 
-    ZuiBool bShowRowLine;       //显示行线
-    ZuiBool bShowColumnLine;    //显示列线
+    ZuiBool m_bShowRowLine;       //显示行线
+    ZuiBool m_bShowColumnLine;    //显示列线
 } *ZuiListInfo, ZListInfo;
 
 /**列表控件结构*/

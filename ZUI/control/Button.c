@@ -13,26 +13,26 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         switch (event->Type)
         {
 	case ZEVENT_KILLFOCUS: {
-	    p->type = 0;
+	    p->m_dwType = 0;
 	    break;
 	}
         case ZEVENT_MOUSELEAVE: {
-            p->type = 0;
+            p->m_dwType = 0;
             ZuiControlInvalidate(cp, TRUE);
             break;
 	}
         case ZEVENT_MOUSEENTER: {
-            p->type = 1;
+            p->m_dwType = 1;
             ZuiControlInvalidate(cp, TRUE);
             break;
 	}
         case ZEVENT_LBUTTONDOWN: {
-            p->type = 2;
+            p->m_dwType = 2;
             ZuiControlInvalidate(cp, TRUE);
 	    break;
         }
         case ZEVENT_LBUTTONUP: {
-            p->type = 1;
+            p->m_dwType = 1;
             ZuiControlInvalidate(cp, TRUE);
 	    break;
         }
@@ -53,7 +53,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
     case ZM_OnPaintBorder: {
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = (ZRect*)&cp->m_rcItem;
-        if (cp->m_dwBorderWidth && !p->m_ResNormal && p->type > 0) {
+        if (cp->m_dwBorderWidth && !p->m_ResNormal && p->m_dwType > 0) {
             ZuiDrawRoundRect(gp, cp->m_dwBorderColor2, rc, cp->m_rRound.cx, cp->m_rRound.cy,cp->m_dwBorderWidth);
             return 0;
         }
@@ -63,7 +63,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = (ZRect *)&cp->m_rcItem;
         ZuiImage img;
-        if (p->type == 0) {
+        if (p->m_dwType == 0) {
             if (p->m_ResNormal) {
                 img = p->m_ResNormal->p;
                 ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
@@ -72,7 +72,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 ZuiDrawFillRoundRect(gp, p->m_ColorNormal, rc,cp->m_rRound.cx,cp->m_rRound.cy);
             }
         }
-        else if (p->type == 1) {
+        else if (p->m_dwType == 1) {
             if (p->m_ResHot) {
                 img = p->m_ResHot->p;
                 ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
@@ -81,7 +81,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 ZuiDrawFillRoundRect(gp, p->m_ColorHot, rc, cp->m_rRound.cx, cp->m_rRound.cy);
             }
         }
-        else if (p->type == 2) {
+        else if (p->m_dwType == 2) {
             if (p->m_ResPushed) {
                 img = p->m_ResPushed->p;
                 ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
@@ -176,9 +176,9 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
     }
     case ZM_SetEnabled: {
         if (0 == (ZuiBool)Param1)
-            p->type = -1;
+            p->m_dwType = -1;
         else
-            p->type = 0;
+            p->m_dwType = 0;
         break;
     }
     case ZM_Button_SetResNormal: {

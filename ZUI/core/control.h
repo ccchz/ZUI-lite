@@ -73,7 +73,7 @@ typedef struct _ZControl
     ZuiAny m_sUserData;              //
 
     //控件默认样式-------------------
-    int m_tyle;                  //控件风格
+    int m_dwType;                  //控件风格
     ZuiColor m_BkgColor;            //背景颜色
     ZuiRes m_BkgImg;                //背景图片
     ZuiColor m_dwBorderColor;       //边框颜色
