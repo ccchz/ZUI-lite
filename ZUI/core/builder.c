@@ -11,29 +11,29 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
     ZuiControl Control;
     for (node = mxmlFindElement(tree, tree, NULL, NULL, NULL, MXML_DESCEND); node != NULL; node = mxmlWalkNext(node, NULL, MXML_DESCEND)/*node = mxmlFindElement(node, tree, NULL,NULL,NULL,MXML_DESCEND)*/) {
         {
-        LoadNodeBedin:
+            LoadNodeBedin:
             ClassName = node->value.name;
             
             if (_tcsicmp(ClassName, _T("Template")) == 0) {//模版类
                 ZuiAddTemplate(node);
                 if (node->next) {
-					node = node->next;
+                    node = node->next;
                     ClassName = node->value.name;
                     goto LoadNodeBedin;
                 }
-		else if (node->parent) {
-			node = node->parent->next;
-			if (node) {
-				ClassName = node->value.name;
-				goto LoadNodeBedin;
-			}
-			else
-				continue;
-		}
-		else {
-			node = NULL;//模板节点既没有兄弟节点也没有父节点，设置为空。
-			continue;
-		}
+                else if (node->parent) {
+                    node = node->parent->next;
+                    if (node) {
+                        ClassName = node->value.name;
+                        goto LoadNodeBedin;
+                    }
+                    else
+                        continue;
+                }
+                else {
+                    node = NULL;//模板节点既没有兄弟节点也没有父节点，设置为空。
+                    continue;
+                }
             }
             /*
             if (_tcsicmp(ClassName, _T("Menu") == 0) {//菜单类
@@ -47,10 +47,10 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
                     continue;
             }
             */
-	    if (_tcsnicmp(ClassName, _T("?"), 1) == 0) {//跳过<? xxx ?>节点
-		node->user_data = node->parent->user_data;
-		continue;
-		}
+	        if (_tcsnicmp(ClassName, _T("?"), 1) == 0) {//跳过<? xxx ?>节点
+		        node->user_data = node->parent->user_data;
+		        continue;
+		    }
             if (_tcsicmp(ClassName, _T("Include")) == 0) {//包含文件
                 ZuiText src = NULL;
                 for (int i = 0; i < node->value.num_attrs; i++)

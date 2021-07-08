@@ -961,11 +961,11 @@ ZuiBool ZuiOsInitialize(ZuiInitConfig config) {
     wc.cbWndExtra = 0;
     wc.hIcon = config->hicon;
     wc.lpfnWndProc = __WndProc;
-    wc.hInstance = GetModuleHandleA(NULL);
+    wc.hInstance = GetModuleHandle(NULL);
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground = NULL;
     wc.lpszMenuName = NULL;
-    wc.lpszClassName = _T("ZUI");
+    wc.lpszClassName = _T("ZUI-lite");
     RegisterClass(&wc);
 
     HMODULE hFuncInst = LoadLibrary(_T("User32.DLL"));
@@ -1016,7 +1016,7 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         OsWindow->m_aDelayedCleanup = darray_create();
         //darray_append(m_aPreMessages, p);
 
-        OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI"), _T(""),
+        OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI-lite"), 0,
             WS_OVERLAPPEDWINDOW | WS_VISIBLE,
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
             tmphwnd, NULL, GetModuleHandle(NULL),
@@ -1031,7 +1031,8 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         //是否立即显示
         if (!show)
             ShowWindow(OsWindow->m_hWnd, SW_SHOW);
-
+        else
+            ShowWindow(OsWindow->m_hWnd, SW_HIDE);
         return OsWindow;
     }
     return NULL;
