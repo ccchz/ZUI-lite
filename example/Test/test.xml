@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="gbk"?>
 <include src="default:default_ctl.xml" />
-<Window nobox="true" bordercolor="#FF636363" bordercolor2="#FF333333" round="7,7" bkcolor="0xFF131313" text="TEST" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
+<Window nobox="true" bordercolor="#FF155515" bordercolor2="#FF05AA05" round="7,7" bkcolor="0xFF131313" text="TEST" mininfo="300,200" center="true"  name="window_main" tooltip="主窗口">
 		<HorizontalLayout name="head" drag="true" bkcolor="0xFF232323" height="26"><!--标题栏-->
 			<NULL width="10"/>
 			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:name='微软雅黑':size=10:bold=true" drag="true"/>
@@ -12,20 +12,21 @@
 		<VerticalLayout width="200" name="leftsiedBAR" vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848">
 			<NULL height="100"/>
 			
-			<Option name="buttondisable1" text="按钮禁用状态测试1" optionstyle="3" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0" foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable2" text="按钮禁用状态测试2" optionstyle="4"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable2" text="按钮禁用状态测试3" optionstyle="5"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable" text="按钮禁用状态测试" optionstyle="6"  group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable1" text="按钮禁用状态测试1" round="3,3" optionstyle="3" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
+					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable2" text="按钮禁用状态测试2" round="3,3" optionstyle="4"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable2" text="按钮禁用状态测试3" round="3,3" optionstyle="5"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable" text="按钮禁用状态测试" round="3,3" optionstyle="6"  group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>
 			<Button name="buttonenable" text="启用" width="100" height="23"/>
-			<CheckBox name="buttondisable21" text="CheckBox测试" optionstyle="2" align="left" textpadding="20,0,0,0" disabledcolor="#FF8c8c8c" height="22"/>
-			<CheckBox name="buttondisable22" text="CheckBox测试2" optionstyle="2" align="left" textpadding="20,0,0,0" disabledcolor="#FF8c8c8c" height="22"/>
+			<CheckBox name="buttondisable21" text="CheckBox测试" round="3,3" optionstyle="2" align="left" textpadding="24,0,0,0" disabledcolor="#FF8c8c8c" height="22"/>
+			<CheckBox name="buttondisable22" text="CheckBox测试2" round="3,3" optionstyle="2" align="left" textpadding="24,0,0,0" disabledcolor="#FF8c8c8c" height="22"/>
 			<NULL height="50"/>
-			<Button bordercolor="#FF555555"   foregroundimage="default:default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
-			<Button bordercolor="#FF555555"   foregroundimage="default:default/dui.png"  name="msgbox0" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
-			<ProgressBar bordercolor="#FF151515" name="pbb" height="20" pbheight="8" pbpos="100" pbrange="400" round="3,3"/>
+			<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
+			<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox0" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
+			<ProgressBar bordercolor="#FF155515" name="pbb" height="20" pbheight="8" pbpos="100" pbrange="400" round="3,3"/>
 			<Label width="100" name="wordbreak" bordercolor="#FF636363" text="块是在论坛找的某位大佬的改的。" wordbreak="true"/>
 		</VerticalLayout>
-		<ProgressBar bordercolor="#FF555555" name="pbb" width="20" pbheight="8" pbpos="100" pbrange="400" round="3,3" pbhorizontal="false"/>
+		<ProgressBar bordercolor="#FF155515" name="pbb" width="20" pbheight="8" pbpos="100" pbrange="400" round="3,3" pbhorizontal="false"/>
 		<NULL width="3" bkcolor="0xFF484848"/>
 		<TabLayout name="tab" tabselect='0'>
 		<GridLayout name="grid" gridsize="64,64" vscrollbar="true" hscrollbar="true">
@@ -38,7 +39,7 @@
 			<Button text="tab1"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
-			<Button bordercolor="#FF232323"   foregroundimage="default:default/dui.png"  name="msgbox2" buttonstyle="1" text="这个按钮真不错"/>
+			<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox2" buttonstyle="1" text="这个按钮真不错"/>
 		</GridLayout>
 		<Button name="tab2" text="tab2"/>		
 		<List name="domainlist" itemshowhtml="true"  itemalign="center" itemaltbk="true" menu="true">
@@ -325,5 +326,5 @@
 			<NULL width="10"/>
 			<Label  name="statustxt" text="就绪" tooltip="状态栏"/>
 		</HorizontalLayout>	
-		<Button name="floatbutton" bordercolor="#FF151515" text="浮动按钮" round="20,20" width="100" height="40" float="350,150,0,0" />
+		<Button name="floatbutton" bordercolor="#FF155515" text="浮动按钮" round="20,20" width="100" height="40" float="350,150,0,0" />
 </Window>

@@ -9,7 +9,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
     ZuiText ClassName = NULL;
     ZuiBool Visible = FALSE, Enabled = TRUE;
     ZuiControl Control;
-    for (node = mxmlFindElement(tree, tree, NULL, NULL, NULL, MXML_DESCEND); node != NULL; node = mxmlWalkNext(node, NULL, MXML_DESCEND)/*node = mxmlFindElement(node, tree, NULL,NULL,NULL,MXML_DESCEND)*/) {
+    for (node = mxmlFindElement(tree, tree, NULL, NULL, NULL, MXML_DESCEND); node != NULL; node = mxmlWalkNext(node, NULL, MXML_DESCEND))
         {
             LoadNodeBedin:
             ClassName = node->value.name;
@@ -48,7 +48,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
             }
             */
 	        if (_tcsnicmp(ClassName, _T("?"), 1) == 0) {//跳过<? xxx ?>节点
-		        node->user_data = node->parent->user_data;
+                node->user_data = node->parent->user_data;
 		        continue;
 		    }
             if (_tcsicmp(ClassName, _T("Include")) == 0) {//包含文件
@@ -99,7 +99,6 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
                 }
             }
         }
-    }
     return win;
 }
 ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiAny xml, int len) {

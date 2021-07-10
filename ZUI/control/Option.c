@@ -28,17 +28,24 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
     case 2: { //方形        
         if (p->m_bSelected) {
             //CheckBox控件选择状态线段。
-            line1.left = rcc.left + 3; line1.top = rcc.top + ResSize * 0.5;
-            line1.right = rcc.left + ResSize * 0.4; line1.bottom = rcc.bottom - 4;
-            line2.left = line1.right; line2.top = line1.bottom;
-            line2.right = rcc.right - 3, line2.bottom = rcc.top + ResSize * 0.3;
-            ZuiDrawFillRect(gp, color, &rcc);
-            color = 0xFFFFFFFF;
+            if (button->m_dwType >= 1) {
+                ZuiDrawFillRoundRect(gp, p->m_ColorSelectedHot & 0x33FFFFFF, &rcc, cp->m_rRound.cx, cp->m_rRound.cy);
+                color = p->m_ColorSelected;
+            }
+            ZuiDrawRoundRect(gp, color, &rcc, cp->m_rRound.cx, cp->m_rRound.cy, 1);
+            line1.left = rcc.left + 3;
+            line1.top = rcc.top + ResSize * 0.5;
+            line1.right = rcc.left + ResSize * 0.4;
+            line1.bottom = rcc.bottom - 4;
+            line2.left = line1.right;
+            line2.top = line1.bottom;
+            line2.right = rcc.right - 3;
+            line2.bottom = rcc.top + ResSize * 0.3;
             ZuiDrawLine(gp, color, &line1, 1);
             ZuiDrawLine(gp, color, &line2, 1);
         }
         else {
-            ZuiDrawRect(gp, color, &rcc, 1);
+            ZuiDrawRoundRect(gp, color, &rcc, cp->m_rRound.cx, cp->m_rRound.cy, 1);
         }
 
         break;
@@ -46,36 +53,44 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiGraphics gp, ZuiControl cp, ZuiOpt
     case 3: {
         if (button->m_dwType >=1 || p->m_bSelected) {
             ZuiDrawFillRoundRect(gp, color, rc, cp->m_rRound.cx, cp->m_rRound.cy);
-            rcc.left = rc->left + cp->m_dwBorderWidth; rcc.top = rc->top + cp->m_dwBorderWidth;
-            rcc.right = rcc.left + ResSize / 2; rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
-            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, cp->m_rRound.cx, cp->m_rRound.cy);
+            rcc.left = rc->left + cp->m_dwBorderWidth;
+            rcc.top = rc->top + cp->m_dwBorderWidth + cp->m_rRound.cy;
+            rcc.right = rcc.left + ResSize / 4;
+            rcc.bottom = rc->bottom - cp->m_dwBorderWidth - cp->m_rRound.cy;
+            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, 1, 1);
         }
         break;
     }
     case 4: {
         if (button->m_dwType >=1 || p->m_bSelected) {
             ZuiDrawFillRoundRect(gp, color, rc, cp->m_rRound.cx, cp->m_rRound.cy);
-            rcc.left = rc->right - cp->m_dwBorderWidth - ResSize / 2; rcc.top = rc->top + cp->m_dwBorderWidth;
-            rcc.right = rc->right - cp->m_dwBorderWidth; rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
-            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, cp->m_rRound.cx, cp->m_rRound.cy);
+            rcc.left = rc->right - cp->m_dwBorderWidth - ResSize / 4;
+            rcc.top = rc->top + cp->m_dwBorderWidth + cp->m_rRound.cy;
+            rcc.right = rc->right - cp->m_dwBorderWidth;
+            rcc.bottom = rc->bottom - cp->m_dwBorderWidth - cp->m_rRound.cy;
+            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, 1, 1);
         }
         break;
     }
     case 5: {
         if (button->m_dwType >=1 || p->m_bSelected) {
             ZuiDrawFillRoundRect(gp, color, rc, cp->m_rRound.cx, cp->m_rRound.cy);
-            rcc.left = rc->left + cp->m_dwBorderWidth; rcc.top = rc->bottom - cp->m_dwBorderWidth - ResSize / 4;
-            rcc.right = rc->right - cp->m_dwBorderWidth; rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
-            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, cp->m_rRound.cx, cp->m_rRound.cy);
+            rcc.left = rc->left + cp->m_dwBorderWidth + cp->m_rRound.cx;
+            rcc.top = rc->bottom - cp->m_dwBorderWidth - ResSize / 4 ;
+            rcc.right = rc->right - cp->m_dwBorderWidth - cp->m_rRound.cx;
+            rcc.bottom = rc->bottom - cp->m_dwBorderWidth;
+            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, 1, 1);
         }
         break;
     }
     case 6: {
         if (button->m_dwType >=1 || p->m_bSelected) {
             ZuiDrawFillRoundRect(gp, color, rc, cp->m_rRound.cx, cp->m_rRound.cy);
-            rcc.left = rc->left + cp->m_dwBorderWidth; rcc.top = rc->top + cp->m_dwBorderWidth;
-            rcc.right = rc->right - cp->m_dwBorderWidth; rcc.bottom = rcc.top + ResSize / 4;
-            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, cp->m_rRound.cx, cp->m_rRound.cy);
+            rcc.left = rc->left + cp->m_dwBorderWidth + cp->m_rRound.cx;
+            rcc.top = rc->top + cp->m_dwBorderWidth;
+            rcc.right = rc->right - cp->m_dwBorderWidth - cp->m_rRound.cx;
+            rcc.bottom = rcc.top + ResSize / 4;
+            ZuiDrawFillRoundRect(gp, p->m_ColorSelected, &rcc, 1, 1);
         }
         break;
     }
@@ -359,9 +374,9 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         //创建继承的控件 保存数据指针
         p->old_udata = ZuiButtonProc(ZM_OnCreate, cp, 0, 0, 0);
         p->old_call = (ZCtlProc)&ZuiButtonProc;
-        p->m_ColorSelected = 0xFF004499;
-        p->m_ColorSelectedHot = 0xFF0C5599;		//选中的点燃状态
-        p->m_ColorSelectedPushed = 0xFF0C6699;	//选中的按下状态
+        p->m_ColorSelected = 0xFF05AA05;
+        p->m_ColorSelectedHot = 0xFF35AA35;		//选中的点燃状态
+        p->m_ColorSelectedPushed = 0xFF55AA55;	//选中的按下状态
         p->m_ColorSelectedDisabled = 0xFF989898;
         return p;
     }

@@ -165,7 +165,7 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = &cp->m_rcItem;
         if (!cp->m_pOs->m_bMax) {
-            ZuiDrawRoundRect(gp, cp->m_pOs->m_bIsActive ? cp->m_dwBorderColor : cp->m_dwBorderColor2, rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
+            ZuiDrawRoundRect(gp, cp->m_pOs->m_bIsActive ? cp->m_dwBorderColor2 : cp->m_dwBorderColor, rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
         }
         return 0;
     }

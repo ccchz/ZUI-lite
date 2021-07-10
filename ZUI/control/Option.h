@@ -2,7 +2,7 @@
 #define __OPTION_H__
 #include <ZUI.h>
 
-#define ResSize 14
+#define ResSize 16
 
 /**Option控件结构*/
 typedef struct _ZOption
