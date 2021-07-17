@@ -262,6 +262,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\ZUI\control\Button.c" />
     <ClCompile Include="..\..\ZUI\control\CheckBox.c" />
+    <ClCompile Include="..\..\ZUI\control\Container.c" />
     <ClCompile Include="..\..\ZUI\control\DrawPanel.c" />
     <ClCompile Include="..\..\ZUI\control\Label.c" />
     <ClCompile Include="..\..\ZUI\control\List.c" />
@@ -297,6 +298,7 @@
     <ClInclude Include="..\..\ZUI\config.h" />
     <ClInclude Include="..\..\ZUI\control\Button.h" />
     <ClInclude Include="..\..\ZUI\control\CheckBox.h" />
+    <ClInclude Include="..\..\ZUI\control\Container.h" />
     <ClInclude Include="..\..\ZUI\control\DrawPanel.h" />
     <ClInclude Include="..\..\ZUI\control\Label.h" />
     <ClInclude Include="..\..\ZUI\control\List.h" />

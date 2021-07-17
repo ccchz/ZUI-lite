@@ -259,20 +259,21 @@ enum ZREST
 #define ZM_GetImePoint        62  // 获取输入法位置
 #define ZM_SetFloat           63  //设置为浮动控件
 #define ZM_SetEnabled         64  //设置可用状态
-#define ZM_SetFocus           65  //设置焦点
-#define ZM_SetDrag            66  //设置拖拽控件
+#define ZM_SetMouseEnabled    65  //设置鼠标响应
+#define ZM_SetFocus           66  //设置焦点
+#define ZM_SetDrag            67  //设置拖拽控件
 
 //-------绘图资源
-#define ZM_SetBkColor           67  //设置背景色
-#define ZM_SetBkImage         68  //设置背景图片
-#define ZM_SetBorderColor     69  //设置边框颜色
+#define ZM_SetBkColor         68  //设置背景色
+#define ZM_SetBkImage         69 //设置背景图片
+#define ZM_SetBorderColor     70  //设置边框颜色
 
-#define ZM_SetAnimationType   70  //设置动画类型
-#define	ZM_SetBorderWidth		71
-#define	ZM_GetBorderWidth		72
-#define ZM_OnClose			73
-#define ZM_GetEnabled         74
-#define ZM_SetRound           75  //设置圆角
+#define ZM_SetAnimationType   71  //设置动画类型
+#define	ZM_SetBorderWidth     72
+#define	ZM_GetBorderWidth	  73
+#define ZM_OnClose			  74
+#define ZM_GetEnabled         75
+#define ZM_SetRound           76  //设置圆角
 //------属性名称
 #define BK_Color        0x00000001 //背景色
 #define Border_Color    0x00000002 //边框颜色
@@ -291,6 +292,7 @@ enum ZREST
 #define ZC_TileLayout                 _T("TileLayout")
 #define ZC_TabLayout                  _T("TabLayout")
 #define ZC_GridLayout                 _T("GridLayout")
+#define ZC_Container                  _T("Container")
 
 //--------base
 #define ZM_Layout_Add                 101 ///添加控件
@@ -348,36 +350,40 @@ enum ZREST
 //--------------------------------------------------------------------Label类
 #if 1
 #define ZC_Label                  _T("Label")
-#define ZM_Label_SetFont          171     //设置字体
-#define ZM_Label_SetTextColor     172     //设置文本颜色
-#define ZM_Label_SetTextPadding   173     //字体边距
-#define ZM_Label_SetTextColorDisabled     174
+#define ZM_Label_SetFont          1101     //设置字体
+#define ZM_Label_SetTextColor     1102     //设置文本颜色
+#define ZM_Label_SetTextPadding   1103     //字体边距
+#define ZM_Label_SetTextColorDisabled     1104
 #endif // 1
 
 //--------------------------------------------------------------------Button类
 #if 1
 #define ZC_Button                 _T("Button")
 
-#define ZM_Button_SetResNormal    201    //普通颜色
-#define ZM_Button_SetResHot       202    //高亮状态
-#define ZM_Button_SetResPushed    203    //按下状态
-#define ZM_Button_SetResFocused   204    //焦点图片
-#define ZM_Button_SetResDisabled  205    //非激活状态
-#define ZM_Button_SetResForeground 206   //前景图片
+#define ZM_Button_SetResNormal    1201    //普通颜色
+#define ZM_Button_SetResHot       1202    //高亮状态
+#define ZM_Button_SetResPushed    1203    //按下状态
+#define ZM_Button_SetResFocused   1204    //焦点图片
+#define ZM_Button_SetResDisabled  1205    //非激活状态
+#define ZM_Button_SetResForeground 1206   //前景图片
 
-#define ZM_Button_SetColorNormal    207    //普通颜色
-#define ZM_Button_SetColorHot       208    //高亮状态
-#define ZM_Button_SetColorPushed    209    //按下状态
-#define ZM_Button_SetColorFocused   210    //焦点图片
-#define ZM_Button_SetColorDisabled  211    //非激活状态
-#define ZM_Button_SetBorderColorHot    212     //激活状态下边框颜色
-#define ZM_Button_SetImagePadding   213
-#define ZM_Button_SetStyle          214
+#define ZM_Button_SetColorNormal    1207    //普通颜色
+#define ZM_Button_SetColorHot       1208    //高亮状态
+#define ZM_Button_SetColorPushed    1209    //按下状态
+#define ZM_Button_SetColorFocused   1210    //焦点颜色
+#define ZM_Button_SetColorDisabled  1211    //非激活状态
+#define ZM_Button_SetBorderColorHot    1212     //激活状态下边框颜色
+#define ZM_Button_SetImagePadding   1213
+#define ZM_Button_SetStyle          1214
 #endif // 1
 
-//--------------------------------------------------------------------类
+//--------------------------------------------------------------------Container类
 #if 1
-
+#define ZM_Container_SetColorNormal     ZM_Button_SetColorNormal              //普通颜色
+#define ZM_Container_SetColorHot        ZM_Button_SetColorHot                 //高亮状态颜色
+#define ZM_Container_SetColorPushed     ZM_Button_SetColorPushed              //按下状态颜色
+#define ZM_Container_SetColorFocused    ZM_Button_SetColorFocused             //焦点颜色
+#define ZM_Container_SetColorDisabled   ZM_Button_SetColorDisabled            //禁用状态颜色
 #endif // 1
 //--------------------------------------------------------------------DrawPanel类
 #if 1
@@ -390,12 +396,12 @@ enum ZREST
 //--------------------------------------------------------------------ProgressBar类
 #if 1
 #define ZC_ProgressBar            _T("ProgressBar")
-#define ZM_ProgressBar_SetColor   500
-#define ZM_ProgressBar_SetBackColor   501
-#define ZM_ProgressBar_SetPos   502
-#define ZM_ProgressBar_SetRange   503
-#define ZM_ProgressBar_SetHeight  504
-#define ZM_ProgressBar_SetHorizontal 505
+#define ZM_ProgressBar_SetColor   1500
+#define ZM_ProgressBar_SetBackColor   1501
+#define ZM_ProgressBar_SetPos   1502
+#define ZM_ProgressBar_SetRange   1503
+#define ZM_ProgressBar_SetHeight  1504
+#define ZM_ProgressBar_SetHorizontal 1505
 
 #endif
 
@@ -412,8 +418,8 @@ enum ZREST
 #define ZC_ListHeaderItem                 _T("listHeaderItem")
 
 
-#define ZM_List_GetHeader                 400    //取列表头控件
-#define ZM_List_GetListInfo               401    //取列表属性
+#define ZM_List_GetHeader                 1400    //取列表头控件
+#define ZM_List_GetListInfo               1401    //取列表属性
 #define ZM_List_Add                       ZM_Layout_Add
 #define ZM_List_GetCount                  ZM_Layout_GetCount
 #define ZM_List_AddAt                     ZM_Layout_AddAt
@@ -422,38 +428,38 @@ enum ZREST
 #define ZM_List_RemoveAll                 ZM_Layout_RemoveAll
 #define ZM_List_SetScrollPos              ZM_Layout_SetScrollPos
 #define ZM_List_GetItemAt                 ZM_Layout_GetItemAt
-#define ZM_List_SelectItem                402     //选择表项
-#define ZM_List_SelectMultiItem           403     //多项选择
-#define ZM_List_SetMultiSelect            404     //置允许多项选择
-#define ZM_List_IsMultiSelect             405     //是否允许多项选择
-#define ZM_List_UnSelectItem              406
-#define ZM_List_SelectAllItems            407     //选择全部行
-#define ZM_List_UnSelectAllItems          408     //取消所有选择项
-#define ZM_List_EnsureVisible             409     //定位滚动条
+#define ZM_List_SelectItem                1402     //选择表项
+#define ZM_List_SelectMultiItem           1403     //多项选择
+#define ZM_List_SetMultiSelect            1404     //置允许多项选择
+#define ZM_List_IsMultiSelect             1405     //是否允许多项选择
+#define ZM_List_UnSelectItem              1406
+#define ZM_List_SelectAllItems            1407     //选择全部行
+#define ZM_List_UnSelectAllItems          1408     //取消所有选择项
+#define ZM_List_EnsureVisible             1409     //定位滚动条
 
 
 #define ZM_List_GetVerticalScrollBar      ZM_Layout_GetVerticalScrollBar
 #define ZM_List_GetHorizontalScrollBar    ZM_Layout_GetHorizontalScrollBar
 #define ZM_List_EnableScrollBar           ZM_Layout_EnableScrollBar
 
-#define ZM_ListHeaderItem_SetSepWidth     400
-#define ZM_ListHeaderItem_SetNormalImage  401
-#define ZM_ListHeaderItem_SetHotImage     402
-#define ZM_ListHeaderItem_SetPushedImage  403
-#define ZM_ListHeaderItem_SetFocusedImage 404
-#define ZM_ListHeaderItem_SetSepImage     405
-#define ZM_ListHeaderItem_GetThumbRect    406
-#define ZM_ListHeaderItem_SetDragable     407
+#define ZM_ListHeaderItem_SetSepWidth     1440
+#define ZM_ListHeaderItem_SetNormalImage  1441
+#define ZM_ListHeaderItem_SetHotImage     1442
+#define ZM_ListHeaderItem_SetPushedImage  1443
+#define ZM_ListHeaderItem_SetFocusedImage 1444
+#define ZM_ListHeaderItem_SetSepImage     1445
+#define ZM_ListHeaderItem_GetThumbRect    1446
+#define ZM_ListHeaderItem_SetDragable     1447
 #define ZM_ListHeaderItem_EstimateSize    ZM_EstimateSize
 
-#define ZM_ListBody_SetOwner              400    //设置宿主
+#define ZM_ListBody_SetOwner              1410    //设置宿主
 #define ZM_ListBody_SetScrollPos          ZM_Layout_SetScrollPos
 
-#define ZM_ListElement_SetOwner           400    //设置宿主
-#define ZM_ListElement_SetIndex           401    //
-#define ZM_ListElement_GetIndex           402    //
-#define ZM_ListElement_Select             403     //选中
-#define ZM_ListElement_SelectMulti        404     //多选
+#define ZM_ListElement_SetOwner           1450    //设置宿主
+#define ZM_ListElement_SetIndex           1451    //
+#define ZM_ListElement_GetIndex           1452    //
+#define ZM_ListElement_Select             1453    //选中
+#define ZM_ListElement_SelectMulti        1454    //多选
 #endif // 1
 
 //--------------------------------------------------------------------Window类

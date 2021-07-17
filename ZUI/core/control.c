@@ -226,18 +226,24 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         case ZEVENT_MOUSELEAVE: {
             ZuiControlNotify(_T("onmouseleave"), p, NULL, NULL);
             break;
-	}
+	    }
         case ZEVENT_MOUSEENTER: {
             ZuiControlNotify(_T("onmouseenter"), p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y));
             break;
-	}
+	    }
         case ZEVENT_LBUTTONDOWN: {
             ZuiControlNotify(_T("onlbuttondown"), p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y));
             break;
-	}
+	    }
+        case ZEVENT_LDBLCLICK: {
+            if (ZuiControlNotify(_T("ondbclick"), p, (ZuiAny)(((TEventUI*)Param1)->ptMouse.x), (ZuiAny)(((TEventUI*)Param1)->ptMouse.y)) ==1 )
+                return 1;
+            break;
+        }
         case ZEVENT_LBUTTONUP: {
             if (ZuiIsPointInRect(&p->m_rcItem, &((TEventUI*)Param1)->ptMouse)) {
-                ZuiControlNotify(_T("onclick"), p, (ZuiAny)(((TEventUI*)Param1)->ptMouse.x), (ZuiAny)(((TEventUI*)Param1)->ptMouse.y));
+                if (ZuiControlNotify(_T("onclick"), p, (ZuiAny)(((TEventUI*)Param1)->ptMouse.x), (ZuiAny)(((TEventUI*)Param1)->ptMouse.y)) == 1)
+                    return 1;
             }
             break;
         }
@@ -253,7 +259,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         default:
             break;
         }
-        if (p->m_pParent != NULL)
+        if (p->m_pParent != NULL && p->m_bMouseEnabled)
             ZCCALL(ZM_OnEvent, p->m_pParent, Param1, NULL);
         if (p->m_aAnime)
             p->m_aAnime->OnEvent(p, Param1);
@@ -433,6 +439,10 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         p->m_drag = (ZuiBool)Param1;
         break;
     }
+    case ZM_SetMouseEnabled: {
+        p->m_bMouseEnabled = (ZuiBool)Param1;
+        break;
+    }
     case ZM_EstimateSize: {
         return (void *)&p->m_cxyFixed;
     }
@@ -452,7 +462,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             return NULL;
         if (((unsigned int)Param2 & ZFIND_ENABLED) != 0 && !p->m_bEnabled)
             return NULL;//激活
-        if (((unsigned int)Param2 & ZFIND_HITTEST) != 0 && (!p->m_bMouseEnabled || !ZuiIsPointInRect(&p->m_rcItem, Param1)))
+        if (((unsigned int)Param2 & ZFIND_HITTEST) != 0 && !p->m_bMouseEnabled)
             return NULL;
         if (((unsigned int)Param2 & ZFIND_UPDATETEST) != 0 && ((FINDCONTROLPROC)findProc)(p, Param1) != NULL)
             return NULL;
@@ -608,6 +618,8 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         }
         else if (_tcsicmp(Param1, _T("drag")) == 0)
 		ZCCALL(ZM_SetDrag, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
+        else if (_tcsicmp(Param1, _T("mouseenable")) == 0)
+            ZCCALL(ZM_SetMouseEnabled, p, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
         else if (_tcsicmp(Param1, _T("bkimage")) == 0)
 		ZCCALL(ZM_SetBkImage, p, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
         else if (_tcsicmp(Param1, _T("padding")) == 0) {

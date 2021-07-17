@@ -17,6 +17,7 @@
 #include <control/SplitterBar.h>
 #include <control/List.h>
 #include <control/TreeView.h>
+#include <control/Container.h>
 
 static int ZClass_Compare(struct _ZClass *e1, struct _ZClass *e2)
 {
@@ -50,6 +51,7 @@ ZuiBool ZuiClassInit()
     ZuiControlRegisterAdd(ZC_CheckBox, (ZCtlProc)&ZuiCheckBoxProc);
     ZuiControlRegisterAdd(ZC_List, (ZCtlProc)&ZuiListProc);
     ZuiControlRegisterAdd(ZC_TreeView, (ZCtlProc)&ZuiTreeViewProc);
+    ZuiControlRegisterAdd(ZC_Container, (ZCtlProc)&ZuiContainerProc);
     
     return TRUE;
 }

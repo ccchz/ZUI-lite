@@ -12,43 +12,35 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         TEventUI *event = (TEventUI *)Param1;
         switch (event->Type)
         {
-	case ZEVENT_KILLFOCUS: {
-	    p->m_dwType = 0;
-	    break;
-	}
+	    case ZEVENT_KILLFOCUS: {
+	        p->m_dwType = 0;
+	        break;
+	    }
         case ZEVENT_MOUSELEAVE: {
             p->m_dwType = 0;
             ZuiControlInvalidate(cp, TRUE);
             break;
-	}
+	    }
         case ZEVENT_MOUSEENTER: {
             p->m_dwType = 1;
             ZuiControlInvalidate(cp, TRUE);
             break;
-	}
+	    }
+        case ZEVENT_LDBLCLICK:
         case ZEVENT_LBUTTONDOWN: {
             p->m_dwType = 2;
             ZuiControlInvalidate(cp, TRUE);
-	    break;
+	        break;
         }
         case ZEVENT_LBUTTONUP: {
             p->m_dwType = 1;
             ZuiControlInvalidate(cp, TRUE);
-	    break;
+	        break;
         }
         default:
             break;
         }
         break;
-    }
-    case ZM_OnPaint: {
-        //调整绘制顺序
-        ZCCALL(ZM_OnPaintBkColor, cp, Param1, Param2);
-        ZCCALL(ZM_OnPaintBkImage, cp, Param1, Param2);
-        ZCCALL(ZM_OnPaintStatusImage, cp, Param1, Param2);
-        ZCCALL(ZM_OnPaintText, cp, Param1, Param2);
-        ZCCALL(ZM_OnPaintBorder, cp, Param1, Param2);
-        return 0;
     }
     case ZM_OnPaintBorder: {
         ZuiGraphics gp = (ZuiGraphics)Param1;
@@ -300,22 +292,22 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         break;
     }
     case ZM_OnCreate: {
-        ZuiButton np = (ZuiButton)malloc(sizeof(ZButton));
-        memset(np, 0, sizeof(ZButton));
+        p = (ZuiButton)malloc(sizeof(ZButton));
+        memset(p, 0, sizeof(ZButton));
 
         //保存原来的回调地址,创建成功后回调地址指向当前函数
-        np->old_udata = ZuiLabelProc(ZM_OnCreate, cp, 0, 0, 0);
-        np->old_call = (ZCtlProc)&ZuiLabelProc;
+        p->old_udata = ZuiLabelProc(ZM_OnCreate, cp, 0, 0, 0);
+        p->old_call = (ZCtlProc)&ZuiLabelProc;
 
-        np->m_ColorNormal = 0xFF333333;
-        np->m_ColorHot = 0xFF3D3D3D;
-        np->m_ColorPushed = 0xFF282828;
-        np->m_ColorDisabled = 0xFF282828;
+        p->m_ColorNormal = 0xFF333333;
+        p->m_ColorHot = 0xFF3D3D3D;
+        p->m_ColorPushed = 0xFF282828;
+        p->m_ColorDisabled = 0xFF282828;
         cp->m_dwBorderColor2 = 0xFF05AA05;
 
-        ((ZuiLabel)np->old_udata)->m_uTextStyle |= ZDT_CENTER;
+        ((ZuiLabel)p->old_udata)->m_uTextStyle |= ZDT_CENTER;
 
-        return np;
+        return p;
     }
     case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
