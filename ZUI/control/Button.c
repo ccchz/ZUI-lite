@@ -307,9 +307,9 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         np->old_udata = ZuiLabelProc(ZM_OnCreate, cp, 0, 0, 0);
         np->old_call = (ZCtlProc)&ZuiLabelProc;
 
-        np->m_ColorNormal = 0xFF585858;
-        np->m_ColorHot = 0xFF383838;
-        np->m_ColorPushed = 0xFF484848;
+        np->m_ColorNormal = 0xFF333333;
+        np->m_ColorHot = 0xFF3D3D3D;
+        np->m_ColorPushed = 0xFF282828;
         np->m_ColorDisabled = 0xFF282828;
         cp->m_dwBorderColor2 = 0xFF05AA05;
 

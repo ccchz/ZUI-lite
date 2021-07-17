@@ -12,14 +12,15 @@
 		<VerticalLayout width="200" name="leftsiedBAR" vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848">
 			<NULL height="100"/>
 			
-			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" round="3,3" optionstyle="3" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
+			<Option name="buttondisable1" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ1" round="3,3" optionstyle="5" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
 					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ2" round="3,3" optionstyle="4"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ3" round="3,3" optionstyle="5"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
-			<Option name="buttondisable" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ" round="3,3" optionstyle="6"  group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ2" round="3,3" optionstyle="1"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable2" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ3" round="3,3" optionstyle="7"  group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="buttondisable" text="°´Å¥½ûÓÃ×´Ì¬²âÊÔ" round="3,3" optionstyle="8"  group="true" enabled="false" disabledcolor="#FF8c8c8c" height="30"/>
 			<Button name="buttonenable" text="ÆôÓÃ" width="100" height="23"/>
 			<CheckBox name="buttondisable21" text="CheckBox²âÊÔ" round="3,3" optionstyle="2" align="left" textpadding="24,0,0,0" disabledcolor="#FF8c8c8c" height="22"/>
 			<CheckBox name="buttondisable22" text="CheckBox²âÊÔ2" round="3,3" optionstyle="2" align="left" textpadding="24,0,0,0" disabledcolor="#FF8c8c8c" height="22"/>
+			<CheckBox name="buttondisable23" text="CheckBox²âÊÔ3" round="3,3" optionstyle="3" align="left" textpadding="40,0,0,0" disabledcolor="#FF8c8c8c" height="22"/>
 			<NULL height="50"/>
 			<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox" text="Ñ¡Ôñ"  width="150" height="23"/>
 			<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox0" buttonstyle="1" text="Õâ¸ö°´Å¥Õæ²»´í"  width="96" height="64"/>
@@ -30,7 +31,7 @@
 		<NULL width="3" bkcolor="0xFF484848"/>
 		<TabLayout name="tab" tabselect='0'>
 		<GridLayout name="grid" gridsize="64,64" vscrollbar="true" hscrollbar="true">
-			<Button bordercolor="#FF232323" visible="false"  foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="Õâ¸ö°´Å¥Õæ²»´í"/>
+			<Button bordercolor="#FF232323"  foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="Õâ¸ö°´Å¥Õæ²»´í"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
 			<Button text="tab1"/>
