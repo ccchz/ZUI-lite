@@ -116,6 +116,9 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         CONTROL_SETSTR(p->m_sName, Param1, ZuiText);
         break;
     }
+    case ZM_GetName: {
+        return p->m_sName;
+    }
     case ZM_SetTooltip: {
         CONTROL_SETSTR(p->m_sToolTip, Param1, ZuiText);
         break;
@@ -232,7 +235,8 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             break;
 	    }
         case ZEVENT_LBUTTONDOWN: {
-            ZuiControlNotify(_T("onlbuttondown"), p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y));
+            if(ZuiControlNotify(_T("onlbuttondown"), p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y)) == 1)
+                return 1;
             break;
 	    }
         case ZEVENT_LDBLCLICK: {

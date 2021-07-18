@@ -225,13 +225,13 @@ enum ZREST
 #define ZM_SetVisible         29  //设置是否可视
 #define ZM_GetVisible         30  //是否可视
 #define ZM_SetText            31  //设置文本
-#define ZM_GetText            32  //设置文本
-#define ZM_SetName            33  //设置名字
-#define ZM_SetTooltip         34  //设置提示文本
-#define ZM_GetPos             35  //得到控件位置
-#define ZM_SetPos             36  //设置控件位置并重绘
-#define ZM_SetOs              37  //设置控件的绘制管理者
-#define ZM_SetAnimation       38  //设置动画类型
+#define ZM_GetText            32  //获取文本
+#define ZM_SetName            33  //设置控件名字
+#define ZM_GetName            34  //获取控件名字
+#define ZM_SetTooltip         35  //设置提示文本
+#define ZM_GetPos             36  //得到控件位置
+#define ZM_SetPos             37  //设置控件位置并重绘
+#define ZM_SetOs              38  //设置控件的绘制管理者
 //设置大小的限制值
 #define ZM_GetMinWidth        39  //
 #define ZM_SetMinWidth        40  //
@@ -274,6 +274,7 @@ enum ZREST
 #define ZM_OnClose			  74
 #define ZM_GetEnabled         75
 #define ZM_SetRound           76  //设置圆角
+#define ZM_SetAnimation       77  //设置动画类型
 //------属性名称
 #define BK_Color        0x00000001 //背景色
 #define Border_Color    0x00000002 //边框颜色

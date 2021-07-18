@@ -153,11 +153,13 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         TEventUI *event = (TEventUI *)Param1;
         switch (event->Type)
         {
+        case ZEVENT_LDBLCLICK:
         case ZEVENT_LBUTTONUP: {
+            p->old_call(ProcId, cp, p->old_udata, Param1, Param2); //先处理父类过程。
             if (ZuiIsPointInRect(&cp->m_rcItem, &((TEventUI*)Param1)->ptMouse)) {
                 ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(!ZCCALL(ZM_Option_GetSelected, cp, NULL, NULL)), NULL);
             }
-            break;
+            return 0;
         }
         default:
             break;
@@ -308,8 +310,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                 }
             }
         }
-        ZuiControlNotify(_T("selectchanged"), cp, Param1, NULL);
         ZuiControlInvalidate(cp, TRUE);
+        ZuiControlNotify(_T("selectchanged"), cp, p->m_bSelected, NULL);
         break;
     }
     case ZM_Option_SetGroup: {

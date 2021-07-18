@@ -6,6 +6,11 @@
 #include <ZUI.h>
 
 ZuiControl win;
+ZuiText cname[5] = { _T("option0"),
+                     _T("option1"), 
+                     _T("option2"), 
+                     _T("option3"), 
+                     _T("option4"), };
 
 ZuiAny ZCALL Main_Button_enable(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
     if (_tcsicmp(msg, _T("onclick")) == 0)
@@ -91,9 +96,20 @@ ZuiAny ZCALL msgbox_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Pa
 ZuiAny ZCALL msgbox_Notify1(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
     if (_tcsicmp(msg, _T("onclick")) == 0)
     {
-        //ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
+        ZuiMsgBox(win, _T("Container点击响应。"), _T("提示..."));
+    }
+    return 0;
+}
+
+ZuiAny ZCALL Option_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (_tcsicmp(msg, _T("selectchanged")) == 0 && Param1)
+    {
+        //ZuiMsgBox(win, msg, _T("提示..."));
+        ZuiText pname = ZCCALL(ZM_GetName, p, 0, 0);
+        //ZuiMsgBox(win, pname, _T("提示..."));
+        while (pname && *pname && !isdigit(*pname)) pname++;
         ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        ZCCALL(ZM_TabLayout_SelectItem, cp, (ZuiAny)1, NULL);
+        ZCCALL(ZM_TabLayout_SelectItem, cp, _ttoi(pname), NULL);
     }
     return 0;
 }
@@ -128,14 +144,14 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     p = ZuiControlFindName(win, _T("WindowCtl_min"));
     ZuiControlRegNotify(p, Main_Notify_ctl_min);
 
-    p = ZuiControlFindName(win, _T("msgbox"));
-    ZuiControlRegNotify(p, msgbox_Notify);
+    for (int i = 0; i < 5; i++) {
+        p = ZuiControlFindName(win, cname[i]);
+        ZuiControlRegNotify(p, Option_Notify);
+    }
 
     p = ZuiControlFindName(win, _T("container1"));
     ZuiControlRegNotify(p, msgbox_Notify1);
 
-    p = ZuiControlFindName(win, _T("buttonenable"));
-    ZuiControlRegNotify(p, Main_Button_enable);
 
     ZuiMsgLoop();
     printf("Loop done!!\n");

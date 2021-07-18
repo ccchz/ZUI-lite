@@ -196,7 +196,6 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         PAINTSTRUCT ps = { 0 };
         if (p->m_pRoot == NULL) {	//没有控件树
             BeginPaint(p->m_hWnd, &ps);
-            //CRenderEngine::DrawColor(p->m_hDcPaint, ps.rcPaint, 0xFFFF0000);
             EndPaint(p->m_hWnd, &ps);
             return 0;
         }
@@ -236,9 +235,6 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             if (!IsRectEmpty(&rcClient)) {
                 if (p->m_pRoot->m_bUpdateNeeded) {
                     RECT rcRoot = rcClient;
-                    //if (p->m_bOffscreenPaint)
-                    //    ZuiDestroyGraphics(p->m_hDcOffscreen);
-                    //p->m_hDcOffscreen = NULL;
                     if (p->m_bLayered) {
                         rcRoot.left += p->m_rcLayeredInset.left;
                         rcRoot.top += p->m_rcLayeredInset.top;
@@ -853,6 +849,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         ZuiControlEvent(p->m_pRoot, &event);
         p->m_bMouseTracking = FALSE;
         p->m_pEventHover = NULL;
+        return 1;
     }
     case WM_NOTIFY:
     {
@@ -1015,7 +1012,7 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         OsWindow->m_aFoundControls = darray_create();
         OsWindow->m_aDelayedCleanup = darray_create();
         //darray_append(m_aPreMessages, p);
-
+        
         OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI-lite"), 0,
             WS_OVERLAPPEDWINDOW | WS_VISIBLE,
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,

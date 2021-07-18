@@ -254,17 +254,6 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
                 ZuiDefaultControlProc(ZM_OnEvent, cp, 0, Param1, NULL);
             return 0;
         }
-
-        if (event->Type == ZEVENT_SETFOCUS)
-        {
-            p->m_bFocused = TRUE;
-            return NULL;
-        }
-        if (event->Type == ZEVENT_KILLFOCUS)
-        {
-            p->m_bFocused = FALSE;
-            return NULL;
-        }
         if (p->m_pVerticalScrollBar != NULL && p->m_pVerticalScrollBar->m_bVisible && p->m_pVerticalScrollBar->m_bEnabled)
         {
             if (event->Type == ZEVENT_KEYDOWN)
