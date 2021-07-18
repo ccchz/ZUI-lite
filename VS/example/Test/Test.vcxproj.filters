@@ -33,11 +33,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\example\Test\test32.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="..\..\..\example\Test\Test.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>

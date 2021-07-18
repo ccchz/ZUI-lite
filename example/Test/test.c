@@ -104,12 +104,12 @@ ZuiAny ZCALL msgbox_Notify1(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny P
 ZuiAny ZCALL Option_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
     if (_tcsicmp(msg, _T("selectchanged")) == 0 && Param1)
     {
-        //ZuiMsgBox(win, msg, _T("提示..."));
         ZuiText pname = ZCCALL(ZM_GetName, p, 0, 0);
         //ZuiMsgBox(win, pname, _T("提示..."));
-        while (pname && *pname && !isdigit(*pname)) pname++;
+        while (pname && *pname && !isdigit(*pname))
+            pname++;
         ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        ZCCALL(ZM_TabLayout_SelectItem, cp, _ttoi(pname), NULL);
+        ZCCALL(ZM_TabLayout_SelectItem, cp, (ZuiAny)_ttoi(pname), NULL);
     }
     return 0;
 }

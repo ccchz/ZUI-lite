@@ -37,9 +37,6 @@
     <Text Include="..\..\..\example\Test\readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\example\Test\test32.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="..\..\..\example\Test\Test.rc" />
   </ItemGroup>
   <ItemGroup>
