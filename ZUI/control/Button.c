@@ -4,6 +4,7 @@
 #include <core/resdb.h>
 #include <core/builder.h>
 #include <platform/platform.h>
+#include <core/function.h>
 #include <stdlib.h>
 ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
@@ -101,7 +102,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             ZuiImage img = p->m_ResForeground->p;
             ZuiLabel zb = p->old_udata;
             ZSizeR sr = {0};
-            ZuiMeasureTextSize(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font, cp->m_sText, &sr);
+            ZuiMeasureTextSize(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font->p, cp->m_sText, &sr);
 
             if (p->m_dwStyle == 1) { //图片、文本居中上下结构
                 rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;
@@ -161,7 +162,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             else {
                 tStyle = ZDT_VCENTER | ZDT_SINGLELINE;
             }
-            ZuiDrawString(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font,cp->m_sText, _tcslen(cp->m_sText), & rcc, tmpTColor, tStyle);
+            ZuiDrawString(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font->p,cp->m_sText, _tcslen(cp->m_sText), & rcc, tmpTColor, tStyle);
             return 0;
         }
         break;

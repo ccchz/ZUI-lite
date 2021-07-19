@@ -8,8 +8,8 @@
 #include "template.h"
 #include "builder.h"
 #include "export.h"
-ZuiText Global_DefaultFontName;     //系统默认字体名称
-ZuiFont Global_Font;                //默认字体
+ZuiText Global_DefaultFontName = _T("font:name='微软雅黑':size=10");   //系统默认字体名称
+ZuiRes Global_Font = NULL;                //默认字体
 
 void Rect_Join(ZRect *rc, ZRect *rc1)
 {
@@ -68,20 +68,6 @@ ZEXPORT ZuiBool ZCALL ZuiInit(ZuiInitConfig config) {
     if (!ZuiOsInitialize(config)) {
         return FALSE;
     }
-    /*初始化全局变量*/
-
-        if (config->default_fontname) {
-            Global_DefaultFontName = _tcsdup(config->default_fontname);
-        }
-        else
-        {
-#if (defined PLATFORM_OS_WIN)
-            LOGFONT lf;
-            SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, 0);
-            Global_DefaultFontName = _tcsdup(lf.lfFaceName);
-#endif
-        }
-        Global_Font = ZuiCreateFont(Global_DefaultFontName, 10, FALSE, FALSE);
     /*初始化模版管理器*/
     if (!ZuiTemplateInit())
     {
@@ -98,6 +84,10 @@ ZEXPORT ZuiBool ZCALL ZuiInit(ZuiInitConfig config) {
     }
     /*加载默认资源*/
     ZuiResDBGetRes(config->default_res, ZREST_ZIP);
+    /*初始化全局变量*/
+
+    Global_Font = ZuiResDBGetRes(config->default_font? config->default_font: Global_DefaultFontName, ZREST_FONT);
+
     /*注册全局控件*/
     if (!ZuiClassInit())
     {
@@ -115,12 +105,8 @@ ZEXPORT ZuiBool ZCALL ZuiUnInit() {
     /*反初始化全局变量*/
     {
 #if (defined PLATFORM_OS_WIN)
-        if (Global_DefaultFontName) {
-            free(Global_DefaultFontName);
-            Global_DefaultFontName = NULL;
-        }
         if (Global_Font) {
-            ZuiDestroyFont(Global_Font);
+            ZuiResDBDelRes(Global_Font);
             Global_Font = NULL;
         }
 #endif

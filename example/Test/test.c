@@ -119,7 +119,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     config.m_hInstance = hInstance;
     config.hicon = LoadIcon(config.m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
     config.default_res = _T("file:default.zip");
-    config.default_fontname = _T("微软雅黑");
+    config.default_font = _T("font:name='微软雅黑':size=10");
     if (!ZuiInit(&config)) return 0;
 
     ZuiRes	res = ZuiResDBGetRes(_T("default:default_msgbox.xml"), ZREST_STREAM);

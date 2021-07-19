@@ -1105,7 +1105,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         pt.top = rc->top + p->m_rcPadding.top;
         pt.right = rc->right - p->m_rcPadding.right - p->m_iSepWidth;
         pt.bottom = rc->bottom - p->m_rcPadding.bottom;
-        ZuiDrawString(gp, p->m_rFont ? p->m_rFont->p : Global_Font, cp->m_sText, _tcslen(cp->m_sText), &pt, p->m_cTextColor, p->m_uTextStyle);
+        ZuiDrawString(gp, p->m_rFont ? p->m_rFont->p : Global_Font->p, cp->m_sText, _tcslen(cp->m_sText), &pt, p->m_cTextColor, p->m_uTextStyle);
         return 0;
     }
     case ZM_OnPaintStatusImage: {

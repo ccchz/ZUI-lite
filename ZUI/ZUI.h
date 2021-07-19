@@ -138,8 +138,8 @@ typedef struct _ZuiInitConfig
 #endif
     ZuiBool debug;              //启动调试器
     ZuiText default_res;        //默认资源文件,必备,资源字符串
-    ZuiText default_fontname;   //默认字体名字
-
+    ZuiText default_font;   //默认字体名字
+    int font_size;
 } *ZuiInitConfig, ZInitConfig;
 
 //--------------------------------------------------------------------回调定义
@@ -275,6 +275,7 @@ enum ZREST
 #define ZM_GetEnabled         75
 #define ZM_SetRound           76  //设置圆角
 #define ZM_SetAnimation       77  //设置动画类型
+#define ZM_SetFont            78  //设置缺省字体
 //------属性名称
 #define BK_Color        0x00000001 //背景色
 #define Border_Color    0x00000002 //边框颜色

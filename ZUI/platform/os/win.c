@@ -1354,6 +1354,7 @@ ZuiVoid ZuiOsPostMessage(ZuiControl cp, ZuiAny Msg, ZuiAny Param1, ZuiAny Param2
 
 ZEXPORT int ZuiDoModel(ZuiControl cp)
 {
+    int nRet;
     HWND chwnd = cp->m_pOs->m_hWnd;
     HWND phwnd = GetWindowOwner((HWND)chwnd);
     SetWindowPos((HWND)chwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
@@ -1364,20 +1365,16 @@ ZEXPORT int ZuiDoModel(ZuiControl cp)
     {
         if (Msg.message == WM_APP + 1)
         {
+            nRet = (int)Msg.wParam;
             EnableWindow((HWND)phwnd, TRUE);
             SetFocus((HWND)phwnd);
         }
-        //if (Msg.hwnd == (HWND)chwnd || Msg.message == WM_PAINT || Msg.message == WM_TIMER) {
         TranslateMessage(&Msg);
         DispatchMessage(&Msg);
-        //}
-        if (Msg.message == WM_QUIT) {
-            break;
-        }
     }
     //重新开启父窗口
     EnableWindow((HWND)phwnd, TRUE);
-    return (int)Msg.wParam;;
+    return nRet;
 }
 int ZuiOsUtf8ToUnicode(ZuiAny str, int slen, ZuiText out, int olen)
 {

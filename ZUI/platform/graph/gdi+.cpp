@@ -351,6 +351,11 @@ extern "C" {
         }
 
         zFont->font->fontfamily = new FontFamily(FontName);
+        if (zFont->font->fontfamily->GetLastStatus() != Gdiplus::Ok) {
+            LOGFONT lf;
+            SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, 0);
+            zFont->font->fontfamily = new FontFamily(lf.lfFaceName);
+        }
         zFont->font->font = new Gdiplus::Font(zFont->font->fontfamily,(REAL)FontSize, fontstyle,Gdiplus::UnitPoint);
         return zFont;
     }

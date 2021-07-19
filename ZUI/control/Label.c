@@ -26,14 +26,14 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         if (p->m_rFont)
             ZuiDrawString(gp, p->m_rFont->p, cp->m_sText, _tcslen(cp->m_sText), &pt, tmpTColor, p->m_uTextStyle);
         else
-            ZuiDrawString(gp, Global_Font, cp->m_sText, _tcslen(cp->m_sText), &pt, tmpTColor, p->m_uTextStyle);
+            ZuiDrawString(gp, Global_Font->p, cp->m_sText, _tcslen(cp->m_sText), &pt, tmpTColor, p->m_uTextStyle);
         return 0;
     }
     case ZM_Label_SetFont: {
         if (p->m_rFont)
             ZuiResDBDelRes(p->m_rFont);
         p->m_rFont = Param1;
-        ZuiControlNeedUpdate(cp);
+        ZuiControlInvalidate(cp,TRUE);
         return 0;
     }
     case ZM_Label_SetTextColor: {
@@ -52,7 +52,8 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         return 0;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("font")) == 0) ZCCALL(ZM_Label_SetFont, cp, ZuiResDBGetRes(Param2, ZREST_FONT), NULL);
+        if (_tcsicmp(Param1, _T("font")) == 0)
+            ZCCALL(ZM_Label_SetFont, cp, ZuiResDBGetRes(Param2, ZREST_FONT), NULL);
         if (_tcsicmp(Param1, _T("align")) == 0) {
             //横向对齐方式
             if (_tcsicmp(Param2, _T("left")) == 0) {

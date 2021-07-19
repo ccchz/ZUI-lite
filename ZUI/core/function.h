@@ -4,12 +4,13 @@
 #include "tree.h"
 
 extern  ZuiText Global_DefaultFontName;     //系统默认字体名称
-extern  ZuiFont Global_Font;                //默认字体
+extern  ZuiRes Global_Font;                //默认字体
 
 
 
 void Rect_Join(ZRect *rc, ZRect *rc1);
 ZuiBool ZuiIsPointInRect(ZuiRect Rect, ZuiPoint pt);
+void ZuiIntersectRect(ZuiRect rc, ZuiRect rc1);
 /*字符串HASH函数*/
 uint32_t Zui_Hash(wchar_t* str);
 
