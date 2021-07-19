@@ -263,7 +263,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         default:
             break;
         }
-        if (p->m_pParent != NULL && p->m_bMouseEnabled)
+        if (p->m_pParent != NULL)
             ZCCALL(ZM_OnEvent, p->m_pParent, Param1, NULL);
         if (p->m_aAnime)
             p->m_aAnime->OnEvent(p, Param1);

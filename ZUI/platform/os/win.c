@@ -103,18 +103,15 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             ZuiControl cp = p->m_aDelayedCleanup->data[0];
             darray_delete(p->m_aDelayedCleanup, darray_find(p->m_aDelayedCleanup, cp));
             if (cp == p->m_pRoot) {
-                //无焦点窗口不做任何处理
-                if (!p->m_bUnfocusPaintWindow)
-                {
-                    SetFocus(NULL);
-                }
-
                 if (GetActiveWindow() == p->m_hWnd) {
                     HWND hwndParent = GetWindowOwner(p->m_hWnd);
                     //无焦点窗口不做任何处理
                     if (!p->m_bUnfocusPaintWindow)
                     {
-                        if (hwndParent != NULL) SetFocus(hwndParent);
+                        if (hwndParent != NULL)
+                            SetFocus(hwndParent);
+                        else
+                            SetFocus(NULL);
                     }
                 }
             }
@@ -1357,7 +1354,6 @@ ZuiVoid ZuiOsPostMessage(ZuiControl cp, ZuiAny Msg, ZuiAny Param1, ZuiAny Param2
 
 ZEXPORT int ZuiDoModel(ZuiControl cp)
 {
-    int nRet;
     HWND chwnd = cp->m_pOs->m_hWnd;
     HWND phwnd = GetWindowOwner((HWND)chwnd);
     SetWindowPos((HWND)chwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
@@ -1380,10 +1376,8 @@ ZEXPORT int ZuiDoModel(ZuiControl cp)
         }
     }
     //重新开启父窗口
-    nRet = (int)Msg.wParam;
     EnableWindow((HWND)phwnd, TRUE);
-    SetFocus((HWND)phwnd);
-    return nRet;
+    return (int)Msg.wParam;;
 }
 int ZuiOsUtf8ToUnicode(ZuiAny str, int slen, ZuiText out, int olen)
 {
