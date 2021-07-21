@@ -39,11 +39,10 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             return 0;
         }
         //计算每行控件数量。
-        if (rc.right - rc.left == 0) //控件宽度为零时，不进行布局计算。
+        if (rc.right - rc.left < 1) //控件宽度为零时，不进行布局计算。
             return 0;
-        int maxcols = (rc.right - rc.left) / p->m_szGridSize.cx; //最大列数
+        int maxcols = (rc.right - rc.left) / (p->m_szGridSize.cx + op->m_iChildPadding); //最大列数
         if (maxcols < 1) {
-            p->m_szGridSize.cx = rc.right - rc.left;
             maxcols = 1;
         }
         int index ,count, cols, rows;
@@ -55,12 +54,17 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             ZuiControl pControl = (ZuiControl)(op->m_items->data[index]);
             if (!pControl->m_bVisible)
                 continue;
+            if (pControl->m_bFloat) {
+                ZCCALL(ZM_Layout_SetFloatPos, cp, (void*)index, 0);
+                continue;
+            }
+
             cols = count % maxcols;
             count++;
             if (cols == 0)
                 rows++;
-            rcCtrl.left = rc.left + cols * p->m_szGridSize.cx - iposx;
-            rcCtrl.top = rc.top + rows * p->m_szGridSize.cy - iposy;
+            rcCtrl.left = rc.left + cols * (p->m_szGridSize.cx + op->m_iChildPadding)- iposx;
+            rcCtrl.top = rc.top + rows * (p->m_szGridSize.cy + op->m_iChildPadding) - iposy;
             rcCtrl.right = rcCtrl.left + p->m_szGridSize.cx;
             rcCtrl.bottom = rcCtrl.top + p->m_szGridSize.cy;
            

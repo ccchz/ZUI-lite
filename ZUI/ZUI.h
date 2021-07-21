@@ -145,7 +145,7 @@ typedef struct _ZuiInitConfig
 //--------------------------------------------------------------------回调定义
 typedef ZuiControl(ZCALL* FINDCONTROLPROC)(ZuiControl, ZuiAny);
 typedef ZuiAny(ZCALL *ZCtlProc)(int ProcId, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2);
-typedef ZuiAny(ZCALL *ZNotifyProc)(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2);
+typedef ZuiAny(ZCALL *ZNotifyProc)(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2);
 
 //查找控件参数
 #define ZFIND_ALL           0x00000000  //查找全部控件
@@ -261,21 +261,31 @@ enum ZREST
 #define ZM_SetEnabled         64  //设置可用状态
 #define ZM_SetMouseEnabled    65  //设置鼠标响应
 #define ZM_SetFocus           66  //设置焦点
-#define ZM_SetDrag            67  //设置拖拽控件
+#define ZM_KillFocus          67  //设置焦点
+#define ZM_SetDrag            68  //设置拖拽控件
 
 //-------绘图资源
-#define ZM_SetBkColor         68  //设置背景色
-#define ZM_SetBkImage         69 //设置背景图片
-#define ZM_SetBorderColor     70  //设置边框颜色
+#define ZM_SetBkColor         69  //设置背景色
+#define ZM_SetBkImage         70 //设置背景图片
+#define ZM_SetBorderColor     71  //设置边框颜色
 
-#define ZM_SetAnimationType   71  //设置动画类型
-#define	ZM_SetBorderWidth     72
-#define	ZM_GetBorderWidth	  73
-#define ZM_OnClose			  74
-#define ZM_GetEnabled         75
-#define ZM_SetRound           76  //设置圆角
-#define ZM_SetAnimation       77  //设置动画类型
-#define ZM_SetFont            78  //设置缺省字体
+#define ZM_SetAnimationType   72  //设置动画类型
+#define	ZM_SetBorderWidth     73
+#define	ZM_GetBorderWidth	  74
+#define ZM_OnClose			  75
+#define ZM_GetEnabled         76
+#define ZM_SetRound           77  //设置圆角
+#define ZM_SetAnimation       78  //设置动画类型
+#define ZM_SetFont            79  //设置缺省字体
+#define ZM_OnChar             80
+#define ZM_OnClick            81
+#define ZM_OnDbClick          82
+#define ZM_OnLButtonDown      83
+#define ZM_OnRButtonDown      84
+#define ZM_OnMouseEnter       85
+#define ZM_OnMouseLeave       86
+#define ZM_OnMouseMove        87
+#define ZM_OnSelectChanged    88
 //------属性名称
 #define BK_Color        0x00000001 //背景色
 #define Border_Color    0x00000002 //边框颜色
@@ -333,6 +343,7 @@ enum ZREST
 #define ZM_Layout_ProcessScrollBar    133 //调整滚动条位置
 #define ZM_Layout_GetChildAlign       134
 #define ZM_Layout_GetChildVAlign      135
+#define ZM_Layout_SetChildPadding     136
 
 #define ZuiLayoutAdd(p,cp) ZuiControlCall(ZM_Layout_Add,(p),(cp),NULL,NULL)
 

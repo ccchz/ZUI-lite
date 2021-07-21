@@ -214,7 +214,7 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         return NULL;
     }
 	case ZM_OnClose: {
-        if ((int)ZuiControlNotify(_T("onclose"), cp, Param1, Param2) == -1) { //未设置控件m_pNotify的默认处理。
+        if ((int)ZuiControlNotify(ZM_OnClose, cp, Param1, Param2) == -1) { //未设置控件m_pNotify的默认处理。
             ZuiOsAddDelayedCleanup(cp, Param1, Param2);
         }
 		return 0;
@@ -222,7 +222,7 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
     case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
         ZuiAny old_udata = p->old_udata;
-		ZuiControlNotify(_T("ondestroy"), cp, Param1, Param2);
+		ZuiControlNotify(ZM_OnDestroy, cp, Param1, Param2);
 
 		if (cp->m_sName) {
 			ZWindows theNode = { 0 };

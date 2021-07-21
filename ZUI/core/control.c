@@ -196,7 +196,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     case ZM_OnSize: {
         if (p->m_aAnime)
             p->m_aAnime->OnSize(p, Param1, Param2);
-        ZuiControlNotify(_T("onsize"), p, Param1, Param2);
+        ZuiControlNotify(ZM_OnSize, p, Param1, Param2);
         break;
     }
     case ZM_SetOs: {
@@ -227,32 +227,32 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             return 0;
         }
         case ZEVENT_MOUSELEAVE: {
-            ZuiControlNotify(_T("onmouseleave"), p, NULL, NULL);
+            ZuiControlNotify(ZM_OnMouseLeave, p, NULL, NULL);
             break;
 	    }
         case ZEVENT_MOUSEENTER: {
-            ZuiControlNotify(_T("onmouseenter"), p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y));
+            ZuiControlNotify(ZM_OnMouseEnter, p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y));
             break;
 	    }
         case ZEVENT_LBUTTONDOWN: {
-            if(ZuiControlNotify(_T("onlbuttondown"), p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y)) == 1)
-                return 1;
+            if((int)ZuiControlNotify(ZM_OnLButtonDown, p, (ZuiAny)(((TEventUI *)Param1)->ptMouse.x), (ZuiAny)(((TEventUI *)Param1)->ptMouse.y)) == 1)
+                return (ZuiAny)1;
             break;
 	    }
         case ZEVENT_LDBLCLICK: {
-            if (ZuiControlNotify(_T("ondbclick"), p, (ZuiAny)(((TEventUI*)Param1)->ptMouse.x), (ZuiAny)(((TEventUI*)Param1)->ptMouse.y)) ==1 )
-                return 1;
+            if ((int)ZuiControlNotify(ZM_OnDbClick, p, (ZuiAny)(((TEventUI*)Param1)->ptMouse.x), (ZuiAny)(((TEventUI*)Param1)->ptMouse.y)) ==1 )
+                return (ZuiAny)1;
             break;
         }
         case ZEVENT_LBUTTONUP: {
             if (ZuiIsPointInRect(&p->m_rcItem, &((TEventUI*)Param1)->ptMouse)) {
-                if (ZuiControlNotify(_T("onclick"), p, (ZuiAny)(((TEventUI*)Param1)->ptMouse.x), (ZuiAny)(((TEventUI*)Param1)->ptMouse.y)) == 1)
-                    return 1;
+                if ((int)ZuiControlNotify(ZM_OnClick, p, (ZuiAny)(((TEventUI*)Param1)->ptMouse.x), (ZuiAny)(((TEventUI*)Param1)->ptMouse.y)) == 1)
+                    return (ZuiAny)1;
             }
             break;
         }
         case ZEVENT_CHAR: {
-            ZuiControlNotify(_T("onchar"), p, &((TEventUI*)Param1)->wParam, NULL);
+            ZuiControlNotify(ZM_OnChar, p, &((TEventUI*)Param1)->wParam, NULL);
             break;
         }
         case ZEVENT_WINDOWSIZE:
@@ -721,7 +721,7 @@ ZEXPORT ZuiAny ZCALL ZuiControlCall(int ProcId, ZuiControl p, ZuiAny Param1, Zui
     return NULL;
 }
 
-ZEXPORT ZuiAny ZCALL ZuiControlNotify(ZuiText msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZuiAny ZCALL ZuiControlNotify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     if (p->m_pNotify)
     {
         return p->m_pNotify(msg, p, p->m_sUserData, Param1, Param2);

@@ -126,8 +126,8 @@ ZEXPORT ZuiVoid ZCALL ZuiMsgLoop_exit(int nRet) {
 
 
 ZuiControl MsgBox_pRoot;
-ZuiAny ZCALL MsgBox_Notify_ctl(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("onclick")) == 0)
+ZuiAny ZCALL MsgBox_Notify_ctl(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClick)
     {
         if (_tcsicmp(p->m_sName, _T("WindowCtl_clos")) == 0) {
             ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiCANCEL, NULL);
@@ -142,11 +142,11 @@ ZuiAny ZCALL MsgBox_Notify_ctl(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAn
     return 0;
 }
 
-ZuiAny ZCALL Default_NotifyProc(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("onclose")) == 0) {
+ZuiAny ZCALL Default_NotifyProc(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClose) {
         ZuiOsAddDelayedCleanup(p, Param1, Param2);
     }
-    else if (_tcsicmp(msg, _T("ondestroy")) == 0) {
+    else if (msg == ZM_OnDestroy) {
         ZuiMsgLoop_exit((int)Param1);
     }
     return 0;

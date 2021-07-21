@@ -93,7 +93,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 
 
 //发送用户通知
-ZEXPORT ZuiAny ZCALL ZuiControlNotify(ZuiText msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZuiAny ZCALL ZuiControlNotify( int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
 //注册通知函数
 ZEXPORT ZuiVoid ZCALL ZuiControlRegNotify(ZuiControl p, ZNotifyProc pNotify);
 

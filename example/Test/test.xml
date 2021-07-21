@@ -35,12 +35,12 @@
 				<ProgressBar bordercolor="#FF155515" name="pbb" height="20" pbheight="8" pbpos="100" pbrange="400" round="3,3"/>
 				<ProgressBar bordercolor="#FF155515" name="pbb" width="20" pbheight="8" pbpos="100" pbrange="400" round="3,3" pbhorizontal="false"/>
 			</VerticalLayout>
-			<GridLayout name="grid" gridsize="64,64" vscrollbar="true" hscrollbar="true">
-				<Button bordercolor="#FF232323"  foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
+			<GridLayout name="grid" gridsize="64,64" childpadding="2" vscrollbar="true" hscrollbar="true">
+				<Button bordercolor="#FF155515"  foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
 				<Button text="tab1"/>
 				<Button text="tab1"/>
 				<Button text="tab1"/>
-				<Button text="tab1" padding="2,2,2,2"/>
+				<Button text="tab1"/>
 				<Button text="tab1"/>
 				<Button text="tab1"/>
 				<Button text="tab1"/>

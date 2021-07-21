@@ -12,8 +12,8 @@ ZuiText cname[5] = { _T("option0"),
                      _T("option3"), 
                      _T("option4"), };
 
-ZuiAny ZCALL Main_Button_enable(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("onclick")) == 0)
+ZuiAny ZCALL Main_Button_enable(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClick)
     {
         ZuiControl tmp = ZuiControlFindName(win, _T("buttondisable"));
         if (!ZCCALL(ZM_GetEnabled, tmp, 0, 0)) {
@@ -27,24 +27,24 @@ ZuiAny ZCALL Main_Button_enable(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiA
     }
     return 0;
 }
-ZuiAny ZCALL Main_Notify_ctl_clos(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("onclick")) == 0)
+ZuiAny ZCALL Main_Notify_ctl_clos(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClick)
     {
         ZCCALL(ZM_OnClose, win, 0, 0);
     }
     return 0;
 }
 
-ZuiAny ZCALL Main_Notify_ctl_min(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("onclick")) == 0)
+ZuiAny ZCALL Main_Notify_ctl_min(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClick)
     {
         ZCCALL(ZM_Window_SetWindowMin, win, 0, 0);
     }
     return 0;
 }
 
-ZuiAny ZCALL Main_Notify_ctl_max(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("selectchanged")) == 0)
+ZuiAny ZCALL Main_Notify_ctl_max(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnSelectChanged)
     {
 
         if (ZCCALL(ZM_Option_GetSelected, p, 0, 0))
@@ -55,19 +55,19 @@ ZuiAny ZCALL Main_Notify_ctl_max(ZuiText msg, ZuiControl p, ZuiAny UserData, Zui
     }
     return 0;
 }
-ZuiAny ZCALL Main_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("onclose")) == 0)
+ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClose)
     {
         int ret = ZuiMsgBox(win, _T("是否退出程序?"), _T("提示!!"));
         if (ret == ZuiOK) {
             FreeZuiControl(win, 1);
         }
     }
-    else if (_tcsicmp(msg, _T("ondestroy")) == 0)
+    else if (msg == ZM_OnDestroy)
     {
         ZuiMsgLoop_exit(0);
     }
-    else if (_tcsicmp(msg, _T("onsize")) == 0)
+    else if (msg == ZM_OnSize)
     {
         if ((LPARAM)Param1 == 2) {
             ZuiControl pmax = ZuiControlFindName(win, _T("WindowCtl_max"));
@@ -83,8 +83,8 @@ ZuiAny ZCALL Main_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Para
     }
     return 0;
 }
-ZuiAny ZCALL msgbox_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("onclick")) == 0)
+ZuiAny ZCALL msgbox_Notify(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClick)
     {
         //ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
         ZuiControl cp = ZuiControlFindName(win, _T("tab"));
@@ -93,16 +93,16 @@ ZuiAny ZCALL msgbox_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Pa
     return 0;
 }
 
-ZuiAny ZCALL msgbox_Notify1(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("onclick")) == 0)
+ZuiAny ZCALL msgbox_Notify1(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClick)
     {
         ZuiMsgBox(win, _T("Container点击响应。"), _T("提示..."));
     }
     return 0;
 }
 
-ZuiAny ZCALL Option_Notify(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(msg, _T("selectchanged")) == 0 && Param1)
+ZuiAny ZCALL Option_Notify(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnSelectChanged && Param1)
     {
         ZuiText pname = ZCCALL(ZM_GetName, p, 0, 0);
         //ZuiMsgBox(win, pname, _T("提示..."));

@@ -336,6 +336,9 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
         else if (_tcsicmp(Param1, _T("stepsize")) == 0) {
             ZCCALL(ZM_Layout_SetScrollStepSize, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         }
+        else if (_tcsicmp(Param1, _T("childpadding")) == 0) {
+            ZCCALL(ZM_Layout_SetChildPadding, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        }
         else if (_tcsicmp(Param1, _T("valign")) == 0) {
             //纵向对齐方式
             if (_tcsicmp(Param2, _T("top")) == 0) {
@@ -539,6 +542,11 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
         }
         ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
 
+        break;
+    }
+    case ZM_Layout_SetChildPadding: {
+        p->m_iChildPadding = (int)Param1;
+        ZuiControlNeedUpdate(cp);
         break;
     }
     case ZM_Layout_SetInset: {
