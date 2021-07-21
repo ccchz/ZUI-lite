@@ -311,7 +311,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             }
         }
         ZuiControlInvalidate(cp, TRUE);
-        ZuiControlNotify(ZM_OnSelectChanged, cp, (ZuiAny)p->m_bSelected, NULL);
+        ZuiControlDelayedNotify(ZM_OnSelectChanged, cp, (ZuiAny)p->m_bSelected, NULL);
         break;
     }
     case ZM_Option_SetGroup: {

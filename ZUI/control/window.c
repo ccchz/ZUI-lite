@@ -214,7 +214,7 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
         return NULL;
     }
 	case ZM_OnClose: {
-        if ((int)ZuiControlNotify(ZM_OnClose, cp, Param1, Param2) == -1) { //未设置控件m_pNotify的默认处理。
+        if ((int)ZuiControlDelayedNotify(ZM_OnClose, cp, Param1, Param2) == -1) { //未设置控件m_pNotify的默认处理。
             ZuiOsAddDelayedCleanup(cp, Param1, Param2);
         }
 		return 0;

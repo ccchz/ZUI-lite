@@ -6,7 +6,7 @@
 #include <platform\platform.h>
 
 #if (defined PLATFORM_OS_WIN)
-
+#define ZM_APP WM_APP
 
 
 /*系统头文件*/

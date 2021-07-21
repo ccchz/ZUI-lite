@@ -16,6 +16,7 @@
 #define ZTYLE_BOX               1   //单线边框
 #define ZTYLE_BKGColor          2   //具有背景色
 
+#define ZMSG_LEN                32  //通知消息队列长度
 
 //-------控件状态
 #define ZSTATE_FOCUSED      0x00000001
@@ -40,12 +41,23 @@ typedef struct tagFINDSHORTCUT
     ZuiBool bPickNext;
 } FINDSHORTCUT;
 
+typedef struct _ZuiNotifyMsg {
+    int msg;
+    ZuiControl p;
+    ZuiAny Param1;
+    ZuiAny param2;
+} *ZuiNotifyMsg, ZNotifyMsg;
+
+extern ZuiNotifyMsg zMsg;
+extern int zMsg_pos;
+
 typedef struct _ZControl
 {
     //消息处理函数指针
     ZCtlProc call;
     //通知接口地址
     ZNotifyProc m_pNotify;
+    ZuiBool m_bNotifyPop;           //通知向上冒泡（传递）
 
     struct _ZControl* m_pParent;    //父控件
     ZuiOsWindow m_pOs;              //绑定的系统窗口
@@ -91,7 +103,9 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 
 
 
-
+ZEXPORT ZuiBool ZCALL ZuiNotiyMsgInit();
+ZEXPORT ZuiBool ZCALL ZuiNotiyMsgUnInit();
+ZEXPORT ZuiAny ZCALL ZuiControlDelayedNotify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
 //发送用户通知
 ZEXPORT ZuiAny ZCALL ZuiControlNotify( int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
 //注册通知函数

@@ -93,6 +93,7 @@ ZEXPORT ZuiBool ZCALL ZuiInit(ZuiInitConfig config) {
     {
         return FALSE;
     }
+    ZuiNotiyMsgInit();
     return TRUE;
 }
 ZEXPORT ZuiBool ZCALL ZuiUnInit() {
@@ -115,6 +116,7 @@ ZEXPORT ZuiBool ZCALL ZuiUnInit() {
     ZuiOsUnInitialize();
     /*反初始化图形层*/
     ZuiGraphUnInitialize();
+    ZuiNotiyMsgUnInit();
     return TRUE;
 }
 ZEXPORT int ZCALL ZuiMsgLoop() {
@@ -126,7 +128,7 @@ ZEXPORT ZuiVoid ZCALL ZuiMsgLoop_exit(int nRet) {
 
 
 ZuiControl MsgBox_pRoot;
-ZuiAny ZCALL MsgBox_Notify_ctl(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+ZuiAny ZCALL MsgBox_Notify_ctl(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     if (msg == ZM_OnClick)
     {
         if (_tcsicmp(p->m_sName, _T("WindowCtl_clos")) == 0) {
@@ -142,7 +144,7 @@ ZuiAny ZCALL MsgBox_Notify_ctl(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Pa
     return 0;
 }
 
-ZuiAny ZCALL Default_NotifyProc(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+ZuiAny ZCALL Default_NotifyProc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     if (msg == ZM_OnClose) {
         ZuiOsAddDelayedCleanup(p, Param1, Param2);
     }

@@ -145,7 +145,7 @@ typedef struct _ZuiInitConfig
 //--------------------------------------------------------------------回调定义
 typedef ZuiControl(ZCALL* FINDCONTROLPROC)(ZuiControl, ZuiAny);
 typedef ZuiAny(ZCALL *ZCtlProc)(int ProcId, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2);
-typedef ZuiAny(ZCALL *ZNotifyProc)(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2);
+typedef ZuiAny(ZCALL *ZNotifyProc)(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
 
 //查找控件参数
 #define ZFIND_ALL           0x00000000  //查找全部控件
@@ -286,6 +286,9 @@ enum ZREST
 #define ZM_OnMouseLeave       86
 #define ZM_OnMouseMove        87
 #define ZM_OnSelectChanged    88
+#define ZM_OnSetFocus         89  //设置焦点
+#define ZM_OnKillFocus        90
+#define ZM_SetNotifyPop       100  
 //------属性名称
 #define BK_Color        0x00000001 //背景色
 #define Border_Color    0x00000002 //边框颜色

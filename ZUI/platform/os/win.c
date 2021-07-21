@@ -97,6 +97,11 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
     // 事件的自定义处理
     switch (uMsg) {
+    case WM_APP + 2:
+    {
+        //_tprintf(_T("%d....%d...%s>>>>>"), (int)(zMsg+wParam)->msg,wParam, (zMsg + wParam)->p->m_sName);
+        return ZuiControlNotify((zMsg + wParam)->msg, (zMsg + wParam)->p, (zMsg + wParam)->Param1, (zMsg + wParam)->param2);
+    }
     case WM_APP + 1:
     {
         while (darray_len(p->m_aDelayedCleanup)) {
