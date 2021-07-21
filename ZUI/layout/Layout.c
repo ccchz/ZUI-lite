@@ -101,11 +101,11 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
 		//设置新剪裁区
 		ZRect rcClip;
 		MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
-		ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
+		ZuiGraphicsPushClipRect(cp, &rcClip, 0);
 
         //获取当前剪裁区
         ZRect CurBox;
-        ZuiGraphicsGetClipBox((ZuiGraphics)Param1, &CurBox);
+        ZuiGraphicsGetClipBox(cp, &CurBox);
 
 		//通知当前容器绘制
         p->old_call(ProcId, cp, 0, Param1, Param2);
@@ -198,7 +198,7 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
 		ZCCALL(ZM_EndPaint, cp, Param1, Param2);
 
         //恢复剪裁区
-		ZuiGraphicsPopClip((ZuiGraphics)Param1);
+		ZuiGraphicsPopClip(cp);
         return 0;//绘图完毕,不需要默认
     }
     case ZM_SetPos: {

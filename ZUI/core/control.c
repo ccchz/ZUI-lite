@@ -534,33 +534,30 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         break;
     }
     case ZM_OnPaintBkColor: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = (ZRect *)&p->m_rcItem;
         if (p->m_BkgColor) {
             //if (p->m_rRound.cx)
-                ZuiDrawFillRoundRect(gp, p->m_BkgColor, rc, p->m_rRound.cx, p->m_rRound.cy);
+                ZuiDrawFillRoundRect(p, p->m_BkgColor, rc, p->m_rRound.cx, p->m_rRound.cy);
             //else
-            //    ZuiDrawFillRect(gp, p->m_BkgColor, rc);
+            //    ZuiDrawFillRect(p, p->m_BkgColor, rc);
         }
         break;
     }
     case ZM_OnPaintBkImage: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = &p->m_rcItem;
         if (p->m_BkgImg) {
             ZuiImage img = p->m_BkgImg->p;
-            ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+            ZuiDrawImageEx(p, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
         }
         break;
     }
     case ZM_OnPaintBorder: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = &p->m_rcItem;
 	if (p->m_dwBorderColor) {
 	    if(p->m_dwBorderWidth)
-                ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy, p->m_dwBorderWidth);
+                ZuiDrawRoundRect(p, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy, p->m_dwBorderWidth);
 	    else
-                ZuiDrawRoundRect(gp, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy,1);
+                ZuiDrawRoundRect(p, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy,1);
 	    }
         break;
     }
@@ -753,7 +750,7 @@ ZEXPORT ZuiAny ZCALL ZuiControlDelayedNotify(int msg, ZuiControl p, ZuiAny Param
         msgp->p = p;
         msgp->Param1 = Param1;
         msgp->param2 = Param2;
-        ZuiOsPostMessage(p, ZM_APP + 2, (ZuiAny)zMsg_pos, 0);
+        ZuiOsPostMessage(p, (ZuiAny)(ZM_APP + 2), (ZuiAny)zMsg_pos, 0);
         zMsg_pos++;
         zMsg_pos %= ZMSG_LEN;
         return 0;

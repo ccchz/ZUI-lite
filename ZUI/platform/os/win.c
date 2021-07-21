@@ -1082,7 +1082,7 @@ ZuiVoid ZuiOsSetWindowRgn(ZuiOsWindow OsWindow, int w, int h) {
         tmprc.bottom += GetSystemMetrics(SM_CYSIZEFRAME);
         w = h = 0; //最大化时不处理圆角
     }
-    ZuiSetWindowRgn(OsWindow->m_hDcOffscreen, &tmprc, w, h);
+    ZuiSetWindowRgn(OsWindow->m_pRoot, &tmprc, w, h);
 }
 ZuiBool ZuiOsSetWindowNoBox(ZuiOsWindow OsWindow, ZuiBool b) {
     if (OsWindow->m_nobox == b)

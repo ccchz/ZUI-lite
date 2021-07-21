@@ -44,65 +44,62 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         break;
     }
     case ZM_OnPaintBorder: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = (ZRect*)&cp->m_rcItem;
         if (cp->m_dwBorderWidth && !p->m_ResNormal && p->m_dwType > 0) {
-            ZuiDrawRoundRect(gp, cp->m_dwBorderColor2, rc, cp->m_rRound.cx, cp->m_rRound.cy,cp->m_dwBorderWidth);
+            ZuiDrawRoundRect(cp, cp->m_dwBorderColor2, rc, cp->m_rRound.cx, cp->m_rRound.cy,cp->m_dwBorderWidth);
             return 0;
         }
         break;
     }
     case ZM_OnPaintStatusImage: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = (ZRect *)&cp->m_rcItem;
         ZuiImage img;
         if (p->m_dwType == 0) {
             if (p->m_ResNormal) {
                 img = p->m_ResNormal->p;
-                ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
             }
             else {
-                ZuiDrawFillRoundRect(gp, p->m_ColorNormal, rc,cp->m_rRound.cx,cp->m_rRound.cy);
+                ZuiDrawFillRoundRect(cp, p->m_ColorNormal, rc,cp->m_rRound.cx,cp->m_rRound.cy);
             }
         }
         else if (p->m_dwType == 1) {
             if (p->m_ResHot) {
                 img = p->m_ResHot->p;
-                ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
             }
             else {
-                ZuiDrawFillRoundRect(gp, p->m_ColorHot, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                ZuiDrawFillRoundRect(cp, p->m_ColorHot, rc, cp->m_rRound.cx, cp->m_rRound.cy);
             }
         }
         else if (p->m_dwType == 2) {
             if (p->m_ResPushed) {
                 img = p->m_ResPushed->p;
-                ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
             }
             else {
-                ZuiDrawFillRoundRect(gp, p->m_ColorPushed, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                ZuiDrawFillRoundRect(cp, p->m_ColorPushed, rc, cp->m_rRound.cx, cp->m_rRound.cy);
             }
         }
         else {
             if (p->m_ResDisabled) {
                 img = p->m_ResDisabled->p;
-                ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
             }
             else {
-                ZuiDrawFillRoundRect(gp, p->m_ColorDisabled, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                ZuiDrawFillRoundRect(cp, p->m_ColorDisabled, rc, cp->m_rRound.cx, cp->m_rRound.cy);
             }
         }
         return 0;
     }
     case ZM_OnPaintText: { //按钮控件带图片绘制。
         if (p->m_ResForeground) {
-            ZuiGraphics gp = (ZuiGraphics)Param1;
             ZRect rcc = { 0 };
             ZRect* rc = (ZRect*)&cp->m_rcItem;
             ZuiImage img = p->m_ResForeground->p;
             ZuiLabel zb = p->old_udata;
             ZSizeR sr = {0};
-            ZuiMeasureTextSize(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font->p, cp->m_sText, &sr);
+            ZuiMeasureTextSize(cp, zb->m_rFont ? zb->m_rFont->p : Global_Font->p, cp->m_sText, &sr);
 
             if (p->m_dwStyle == 1) { //图片、文本居中上下结构
                 rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;
@@ -129,7 +126,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             rcc.right = rcc.left + img->Width;
             rcc.bottom = rcc.top + img->Height;
             ZuiIntersectRect(&rcc, rc);
-            ZuiDrawImageEx(gp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 0, 0, 0, 0, 255);
+            ZuiDrawImageEx(cp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 0, 0, 0, 0, 255);
             //绘制文本
             if (p->m_dwStyle == 1) { //图片、文本居中上下结构
                 rcc.left = rc->left + cp->m_dwBorderWidth;
@@ -162,7 +159,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             else {
                 tStyle = ZDT_VCENTER | ZDT_SINGLELINE;
             }
-            ZuiDrawString(gp, zb->m_rFont ? zb->m_rFont->p : Global_Font->p,cp->m_sText, _tcslen(cp->m_sText), & rcc, tmpTColor, tStyle);
+            ZuiDrawString(cp, zb->m_rFont ? zb->m_rFont->p : Global_Font->p,cp->m_sText, _tcslen(cp->m_sText), & rcc, tmpTColor, tStyle);
             return 0;
         }
         break;

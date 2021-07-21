@@ -16,7 +16,6 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
             tmpTColor = p->m_cTextColor;
         else
             tmpTColor = p->m_cTextColorDisabled;
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect *rc = &cp->m_rcItem;
         ZRect pt;
         pt.left = rc->left + p->m_rcPadding.left + cp->m_dwBorderWidth;
@@ -24,9 +23,9 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         pt.right = rc->right - p->m_rcPadding.right - cp->m_dwBorderWidth;
         pt.bottom = rc->bottom - p->m_rcPadding.bottom - cp->m_dwBorderWidth;
         if (p->m_rFont)
-            ZuiDrawString(gp, p->m_rFont->p, cp->m_sText, _tcslen(cp->m_sText), &pt, tmpTColor, p->m_uTextStyle);
+            ZuiDrawString(cp, p->m_rFont->p, cp->m_sText, _tcslen(cp->m_sText), &pt, tmpTColor, p->m_uTextStyle);
         else
-            ZuiDrawString(gp, Global_Font->p, cp->m_sText, _tcslen(cp->m_sText), &pt, tmpTColor, p->m_uTextStyle);
+            ZuiDrawString(cp, Global_Font->p, cp->m_sText, _tcslen(cp->m_sText), &pt, tmpTColor, p->m_uTextStyle);
         return 0;
     }
     case ZM_Label_SetFont: {

@@ -317,18 +317,16 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         return 0;
     }
     case ZM_OnPaintBkImage: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = (ZRect*)& cp->m_rcItem;
         ZuiImage img;
         if (p->m_sImageRes) {
             img = p->m_sImageRes->p;
             memcpy(&img->src, &p->m_rcArray[5 * COL_RES - 4], sizeof(ZRect));
-            ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, 0, 0, 0, 0, 255);
+            ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, 0, 0, 0, 0, 255);
         }
         return 0;
     }
     case ZM_OnPaintStatusImage: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = (ZRect*)& cp->m_rcItem;
         ZRect rcc;
         ZuiImage img;
@@ -354,40 +352,40 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
                 if (p->m_sImageRes) {
                     img = p->m_sImageRes->p;
                     memcpy(&img->src, &p->m_rcArray[COL_RES - 1], sizeof(ZRect));
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 }
                 else {
-                        ZuiDrawFilltriangle(gp, p->m_DisableColor, x1, y1, x2, y2, x3, y3);
+                        ZuiDrawFilltriangle(cp, p->m_DisableColor, x1, y1, x2, y2, x3, y3);
                 }
             }
             else if ((p->m_uButton1State & ZSTATE_PUSHED) != 0) {
                 if (p->m_sImageRes) {
                     img = p->m_sImageRes->p;
                     memcpy(&img->src, &p->m_rcArray[COL_RES - 2], sizeof(ZRect));
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 }
                 else {
-                        ZuiDrawFilltriangle(gp, p->m_bPushColor, x1, y1, x2, y2, x3, y3);
+                        ZuiDrawFilltriangle(cp, p->m_bPushColor, x1, y1, x2, y2, x3, y3);
                 }
             }
             else if ((p->m_uButton1State & ZSTATE_HOT) != 0) {
                 if (p->m_sImageRes) {
                     img = p->m_sImageRes->p;
                     memcpy(&img->src, &p->m_rcArray[COL_RES - 3], sizeof(ZRect));
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 }
                 else {
-                        ZuiDrawFilltriangle(gp, p->m_bHotColor, x1, y1, x2, y2, x3, y3);
+                        ZuiDrawFilltriangle(cp, p->m_bHotColor, x1, y1, x2, y2, x3, y3);
                 }
             }
             else {
                 if (p->m_sImageRes) {
                     img = p->m_sImageRes->p;
                     memcpy(&img->src, &p->m_rcArray[COL_RES - 4], sizeof(ZRect));
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 }
                 else {
-                        ZuiDrawFilltriangle(gp, p->m_bNormalColor, x1, y1, x2, y2, x3, y3);
+                        ZuiDrawFilltriangle(cp, p->m_bNormalColor, x1, y1, x2, y2, x3, y3);
                 }
             }
         }
@@ -411,40 +409,40 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
                 if (p->m_sImageRes) {
                     img = p->m_sImageRes->p;
                     memcpy(&img->src, &p->m_rcArray[2 * COL_RES - 1], sizeof(ZRect));
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 }
                 else {
-                        ZuiDrawFilltriangle(gp, p->m_DisableColor, x1, y1, x2, y2, x3, y3);
+                        ZuiDrawFilltriangle(cp, p->m_DisableColor, x1, y1, x2, y2, x3, y3);
                 }
             }
             else if ((p->m_uButton2State & ZSTATE_PUSHED) != 0) {
                 if (p->m_sImageRes) {
                     img = p->m_sImageRes->p;
                     memcpy(&img->src, &p->m_rcArray[2 * COL_RES - 2], sizeof(ZRect));
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 }
                 else {
-                        ZuiDrawFilltriangle(gp, p->m_bPushColor, x1, y1, x2, y2, x3, y3);
+                        ZuiDrawFilltriangle(cp, p->m_bPushColor, x1, y1, x2, y2, x3, y3);
                 }
             }
             else if ((p->m_uButton2State & ZSTATE_HOT) != 0) {
                 if (p->m_sImageRes) {
                     img = p->m_sImageRes->p;
                     memcpy(&img->src, &p->m_rcArray[2 * COL_RES - 3], sizeof(ZRect));
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 }
                 else {
-                        ZuiDrawFilltriangle(gp, p->m_bHotColor, x1, y1, x2, y2, x3, y3);
+                        ZuiDrawFilltriangle(cp, p->m_bHotColor, x1, y1, x2, y2, x3, y3);
                 }
             }
             else {
                 if (p->m_sImageRes) {
                     img = p->m_sImageRes->p;
                     memcpy(&img->src, &p->m_rcArray[2 * COL_RES - 4], sizeof(ZRect));
-                    ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 }
                 else {
-                        ZuiDrawFilltriangle(gp, p->m_bNormalColor, x1, y1, x2, y2, x3, y3);
+                        ZuiDrawFilltriangle(cp, p->m_bNormalColor, x1, y1, x2, y2, x3, y3);
                 }
             }
         }
@@ -458,16 +456,16 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             if (p->m_sImageRes) {
                 img = p->m_sImageRes->p;
                 memcpy(&img->src, &p->m_rcArray[3 * COL_RES - 1], sizeof(ZRect));
-                ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 memcpy(&img->src, &p->m_rcArray[4 * COL_RES - 1], sizeof(ZRect));
                 if (!p->m_bHorizontal)
-                    ZuiDrawImageEx(gp, img, rc->left,
+                    ZuiDrawImageEx(cp, img, rc->left,
                         rc->top + (rc->bottom - rc->top) / 2 - p->m_rcArray[4 * COL_RES - 1].bottom / 2,
                         rc->left + p->m_rcArray[4 * COL_RES - 1].right,
                         rc->top + (rc->bottom - rc->top) / 2 - p->m_rcArray[4 * COL_RES - 1].bottom / 2 + p->m_rcArray[4 * COL_RES - 1].bottom,
                         0, 0, 0, 0, 255);
                 else
-                    ZuiDrawImageEx(gp, img, rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2,
+                    ZuiDrawImageEx(cp, img, rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2,
                         rc->top,
                         rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2 + p->m_rcArray[4 * COL_RES - 1].right,
                         rc->top + p->m_rcArray[4 * COL_RES - 1].bottom,
@@ -476,11 +474,11 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             else {
                 if (!p->m_bHorizontal) {
                     MAKEZRECT(rcc, rc->left + SB_INSET, rc->top, rc->right - SB_INSET, rc->bottom);
-                    ZuiDrawFillRect(gp, p->m_DisableColor, &rcc);
+                    ZuiDrawFillRect(cp, p->m_DisableColor, &rcc);
                 }
                 else {
                     MAKEZRECT(rcc, rc->left, rc->top + SB_INSET, rc->right, rc->bottom - SB_INSET)
-                    ZuiDrawFillRect(gp, p->m_DisableColor, &rcc);
+                    ZuiDrawFillRect(cp, p->m_DisableColor, &rcc);
                 }
             }
         }
@@ -488,16 +486,16 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             if (p->m_sImageRes) {
                 img = p->m_sImageRes->p;
                 memcpy(&img->src, &p->m_rcArray[3 * COL_RES - 2], sizeof(ZRect));
-                ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom , 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom , 0, 0, 0, 0, 255);
                 memcpy(&img->src, &p->m_rcArray[4 * COL_RES - 2], sizeof(ZRect));
                 if (!p->m_bHorizontal)
-                    ZuiDrawImageEx(gp, img, rc->left,
+                    ZuiDrawImageEx(cp, img, rc->left,
                         rc->top + (rc->bottom - rc->top) / 2 - p->m_rcArray[4 * COL_RES - 1].bottom / 2,
                         rc->left + p->m_rcArray[4 * COL_RES - 1].right,
                         rc->top + (rc->bottom - rc->top) / 2 - p->m_rcArray[4 * COL_RES - 1].bottom / 2 + p->m_rcArray[4 * COL_RES - 1].bottom,
                         0, 0, 0, 0, 255);
                 else
-                    ZuiDrawImageEx(gp, img, rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2,
+                    ZuiDrawImageEx(cp, img, rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2,
                         rc->top,
                         rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2 + p->m_rcArray[4 * COL_RES - 1].right,
                         rc->top + p->m_rcArray[4 * COL_RES - 1].bottom,
@@ -506,11 +504,11 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             else {
                 if (!p->m_bHorizontal) {
                     MAKEZRECT(rcc, rc->left + SB_INSET, rc->top, rc->right - SB_INSET, rc->bottom);
-                    ZuiDrawFillRect(gp, p->m_tPushColor, &rcc);
+                    ZuiDrawFillRect(cp, p->m_tPushColor, &rcc);
                 }
                 else {
                     MAKEZRECT(rcc, rc->left, rc->top + SB_INSET, rc->right, rc->bottom - SB_INSET);
-                    ZuiDrawFillRect(gp, p->m_tPushColor, &rcc);
+                    ZuiDrawFillRect(cp, p->m_tPushColor, &rcc);
                 }
             }
         }
@@ -518,16 +516,16 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             if (p->m_sImageRes) {
                 img = p->m_sImageRes->p;
                 memcpy(&img->src, &p->m_rcArray[3 * COL_RES - 3], sizeof(ZRect));
-                ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
                 memcpy(&img->src, &p->m_rcArray[4 * COL_RES - 3], sizeof(ZRect));
                 if (!p->m_bHorizontal)
-                    ZuiDrawImageEx(gp, img, rc->left,
+                    ZuiDrawImageEx(cp, img, rc->left,
                         rc->top + (rc->bottom - rc->top) / 2 - p->m_rcArray[4 * COL_RES - 1].bottom / 2,
                         rc->top + (rc->bottom - rc->top) / 2 - p->m_rcArray[4 * COL_RES - 1].bottom / 2 + rc->left + p->m_rcArray[4 * COL_RES - 1].right,
                         p->m_rcArray[4 * COL_RES - 1].bottom,
                         0, 0, 0, 0, 255);
                 else
-                    ZuiDrawImageEx(gp, img, rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2,
+                    ZuiDrawImageEx(cp, img, rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2,
                         rc->top,
                         rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2 + p->m_rcArray[4 * COL_RES - 1].right,
                         rc->top + p->m_rcArray[4 * COL_RES - 1].bottom,
@@ -536,11 +534,11 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             else {
                 if (!p->m_bHorizontal) {
                     MAKEZRECT(rcc, rc->left + SB_INSET, rc->top, rc->right - SB_INSET, rc->bottom);
-                    ZuiDrawFillRect(gp, p->m_tHotColor, &rcc);
+                    ZuiDrawFillRect(cp, p->m_tHotColor, &rcc);
                 }
                 else {
                     MAKEZRECT(rcc, rc->left, rc->top + SB_INSET, rc->right, rc->bottom - SB_INSET);
-                    ZuiDrawFillRect(gp, p->m_tHotColor, &rcc);
+                    ZuiDrawFillRect(cp, p->m_tHotColor, &rcc);
                 }
             }
         }
@@ -548,16 +546,16 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             if (p->m_sImageRes) {
                 img = p->m_sImageRes->p;
                 memcpy(&img->src, &p->m_rcArray[3 * COL_RES - 4], sizeof(ZRect));
-                ZuiDrawImageEx(gp, img, rc->left, rc->top, rc->right, rc->bottom , 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom , 0, 0, 0, 0, 255);
                 memcpy(&img->src, &p->m_rcArray[4 * COL_RES - 4], sizeof(ZRect));
                 if (!p->m_bHorizontal)
-                    ZuiDrawImageEx(gp, img, rc->left,
+                    ZuiDrawImageEx(cp, img, rc->left,
                         rc->top + (rc->bottom - rc->top) / 2 - p->m_rcArray[4 * COL_RES - 1].bottom / 2,
                         rc->left + p->m_rcArray[4 * COL_RES - 1].right,
                         rc->top + (rc->bottom - rc->top) / 2 - p->m_rcArray[4 * COL_RES - 1].bottom / 2 + p->m_rcArray[4 * COL_RES - 1].bottom,
                         0, 0, 0, 0, 255);
                 else
-                    ZuiDrawImageEx(gp, img, rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2,
+                    ZuiDrawImageEx(cp, img, rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2,
                         rc->top,
                         rc->left + (rc->right - rc->left) / 2 - p->m_rcArray[4 * COL_RES - 1].right / 2 + p->m_rcArray[4 * COL_RES - 1].right,
                         rc->top + p->m_rcArray[4 * COL_RES - 1].bottom,
@@ -566,11 +564,11 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             else {
                 if (!p->m_bHorizontal) {
                     MAKEZRECT(rcc, rc->left + SB_INSET, rc->top, rc->right - SB_INSET, rc->bottom);
-                    ZuiDrawFillRect(gp, p->m_tNormalColor, &rcc);
+                    ZuiDrawFillRect(cp, p->m_tNormalColor, &rcc);
                 }
                 else {
                     MAKEZRECT(rcc, rc->left, rc->top + SB_INSET, rc->right, rc->bottom - SB_INSET);
-                    ZuiDrawFillRect(gp, p->m_tNormalColor, &rcc);
+                    ZuiDrawFillRect(cp, p->m_tNormalColor, &rcc);
                 }
             }
         }

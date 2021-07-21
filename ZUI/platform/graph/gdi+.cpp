@@ -65,7 +65,8 @@ extern "C" {
     }
 
     /*填充矩形*/
-    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
             SolidBrush brush(incolor);
@@ -75,7 +76,8 @@ extern "C" {
         }
     }
     /*画矩形*/
-    ZEXPORT ZuiVoid ZCALL ZuiDrawRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int LineWidth) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int LineWidth) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
@@ -87,7 +89,8 @@ extern "C" {
         }
     }
     //绘制椭圆
-    ZEXPORT ZuiVoid ZCALL ZuiDrawEllipse(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc,int LineWidth) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawEllipse(ZuiControl cp, ZuiColor incolor, ZuiRect rc,int LineWidth) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
             //pen.SetAlignment(PenAlignmentInset);
@@ -102,7 +105,8 @@ extern "C" {
         }
     }
     //填充椭圆
-    ZEXPORT ZuiVoid ZCALL ZuiFillEllipse(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc) {
+    ZEXPORT ZuiVoid ZCALL ZuiFillEllipse(ZuiControl cp, ZuiColor incolor, ZuiRect rc) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
             SolidBrush brush(incolor);
@@ -115,7 +119,8 @@ extern "C" {
         }
     }
     //填充圆角矩形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int w, int h) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int w, int h) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
             REAL left, top, right, bottom;
@@ -147,7 +152,8 @@ extern "C" {
         }
     }
     //绘制圆角矩形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int w, int h, int LineWidth) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int w, int h, int LineWidth) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp) {
             REAL left, top, right, bottom;
             left = (REAL)rc->left;
@@ -177,8 +183,9 @@ extern "C" {
     }
 
     //填充三角形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawFilltriangle(ZuiGraphics gp, ZuiColor incolor, int x1, int y1, int x2, int y2, int x3, int y3)
+    ZEXPORT ZuiVoid ZCALL ZuiDrawFilltriangle(ZuiControl cp, ZuiColor incolor, int x1, int y1, int x2, int y2, int x3, int y3)
     {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
             PointF pt[3];
@@ -198,8 +205,9 @@ extern "C" {
         }
     }
     //绘制三角形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawtriangle(ZuiGraphics gp, ZuiColor incolor, int x1, int y1, int x2, int y2, int x3, int y3, int LineWidth)
+    ZEXPORT ZuiVoid ZCALL ZuiDrawtriangle(ZuiControl cp, ZuiColor incolor, int x1, int y1, int x2, int y2, int x3, int y3, int LineWidth)
     {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
             Point pt[3];
@@ -221,8 +229,9 @@ extern "C" {
         }
     }
     /*画直线*/
-    ZEXPORT ZuiVoid ZCALL ZuiDrawLine(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int LineWidth)
+    ZEXPORT ZuiVoid ZCALL ZuiDrawLine(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int LineWidth)
     {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
             Gdiplus::Graphics gpp(gp->hdc);
@@ -235,12 +244,14 @@ extern "C" {
         }
     }
     /*画文本(按照计算好的坐标)*/
-    ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiGraphics gp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR Pt[]) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiControl cp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR Pt[]) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (String && Font && gp) {
 
         }
     }
-    ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiGraphics gp, ZuiFont Font, ZuiText String, int StrLen, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiControl cp, ZuiFont Font, ZuiText String, int StrLen, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (String && Font && gp) {
             Gdiplus::RectF rf;
             rf.X = (REAL)Rect->left;
@@ -276,8 +287,9 @@ extern "C" {
         }
     }
     /*测量文本大小*/
-    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiGraphics gp, ZuiFont Font, ZuiText String, ZuiSizeR Size)
+    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiControl cp, ZuiFont Font, ZuiText String, ZuiSizeR Size)
     {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (String && Font) {
             Gdiplus::StringFormat sf; //sf.GenericTypographic();
             sf.SetFormatFlags(StringFormatFlagsMeasureTrailingSpaces);
@@ -292,8 +304,9 @@ extern "C" {
         }
     }
     /*画图像缩放*/
-    ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiGraphics gp, ZuiImage Img, int x, int y, int Right, int Bottom, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiControl cp, ZuiImage Img, int x, int y, int Right, int Bottom, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha) {
         int Width, Height;
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if ((gp && Img)) {
             Rect rc(x,y,Right-x,Bottom-y);
             Width = Img->src.right - Img->src.left;
@@ -319,7 +332,8 @@ extern "C" {
         }
     }
     /*清除图形*/
-    ZEXPORT ZuiVoid ZCALL ZuiGraphicsClear(ZuiGraphics gp, ZuiColor incolor) {
+    ZEXPORT ZuiVoid ZCALL ZuiGraphicsClear(ZuiControl cp, ZuiColor incolor) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
 
@@ -420,7 +434,8 @@ extern "C" {
         }
     }
     /*附加到一块内存上*/
-    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiGraphics gp, ZuiAny bits, int Width, int Height, int stride) {
+    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiControl cp, ZuiAny bits, int Width, int Height, int stride) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (!gp) {
             return NULL;
         }
@@ -437,7 +452,8 @@ extern "C" {
         gp->Height = Height;
         return gp;
     }
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsPushClipRect(ZuiGraphics gp, ZuiRect box, int mode) {
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsPushClipRect(ZuiControl cp, ZuiRect box, int mode) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (!gp)
             return FALSE;
         ZuiRect prc = (ZuiRect)malloc(sizeof(ZRect));
@@ -454,7 +470,8 @@ extern "C" {
     }
     //ZEXPORT ZuiVoid ZCALL PushClipRegion(IRegion* pRegion, int mode){}
     /*弹出剪裁区*/
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsPopClip(ZuiGraphics gp) {
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsPopClip(ZuiControl cp) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (!gp)
             return FALSE;
         ZuiRect prc = (ZuiRect)darray_getat(rcDarray, rcDarray->count - 1);
@@ -470,16 +487,16 @@ extern "C" {
     }
 
     //设置剪裁区
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiGraphics gp, ZuiRect rc, int w, int h, int mode) {
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiControl cp, ZuiRect rc, int w, int h, int mode) {
 
         return TRUE;
     }
     //获取剪裁区
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsGetClipBox(ZuiGraphics gp, ZuiRect box) {
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsGetClipBox(ZuiControl cp, ZuiRect box) {
         return FALSE;
     }
     //重置剪裁区
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsResetClip(ZuiGraphics gp) {
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsResetClip(ZuiControl cp) {
         return FALSE;
     }
 
@@ -532,7 +549,8 @@ extern "C" {
         }
     }
 
-    ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiGraphics gp, ZuiRect rc, int w, int h) {
+    ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiControl cp, ZuiRect rc, int w, int h) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         REAL left, top, right, bottom;
         left = (REAL)rc->left-1;
         top = (REAL)rc->top-1;

@@ -171,10 +171,9 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
 		break;
 	}
     case ZM_OnPaintBorder: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = &cp->m_rcItem;
         if (!cp->m_pOs->m_bMax) {
-            ZuiDrawRoundRect(gp, cp->m_pOs->m_bIsActive ? cp->m_dwBorderColor2 : cp->m_dwBorderColor, rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
+            ZuiDrawRoundRect(cp, cp->m_pOs->m_bIsActive ? cp->m_dwBorderColor2 : cp->m_dwBorderColor, rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
         }
         return 0;
     }
@@ -186,10 +185,9 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
 		return 0;
     }
     case ZM_OnPaintBkColor: {
-        ZuiGraphics gp = (ZuiGraphics)Param1;
         ZRect* rc = (ZRect*)&cp->m_rcItem;
         if (cp->m_BkgColor&& cp->m_pOs->m_bMax) {
-            ZuiDrawFillRoundRect(gp, cp->m_BkgColor, rc, 0, 0);
+            ZuiDrawFillRoundRect(cp, cp->m_BkgColor, rc, 0, 0);
             return 0;
         }
         break;

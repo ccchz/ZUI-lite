@@ -43,38 +43,38 @@ extern "C"
     //--------------------Render
 
     //填充矩形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc);
     //绘制矩形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int LineWidth);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int LineWidth);
     //填充圆角矩形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int w, int h);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int w, int h);
     //绘制圆角矩形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int w, int h, int LineWidth);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int w, int h, int LineWidth);
     //绘制椭圆
-    ZEXPORT ZuiVoid ZCALL ZuiDrawEllipse(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc,int LineWidth);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawEllipse(ZuiControl cp, ZuiColor incolor, ZuiRect rc,int LineWidth);
     //填充椭圆
-    ZEXPORT ZuiVoid ZCALL ZuiFillEllipse(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc);
+    ZEXPORT ZuiVoid ZCALL ZuiFillEllipse(ZuiControl cp, ZuiColor incolor, ZuiRect rc);
     //填充三角形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawFilltriangle(ZuiGraphics gp, ZuiColor incolor, int x1, int y1, int x2, int y2, int x3, int y3);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawFilltriangle(ZuiControl cp, ZuiColor incolor, int x1, int y1, int x2, int y2, int x3, int y3);
     //绘制三角形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawtriangle(ZuiGraphics gp, ZuiColor incolor, int x1, int y1, int x2, int y2, int x3, int y3, int LineWidth);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawtriangle(ZuiControl cp, ZuiColor incolor, int x1, int y1, int x2, int y2, int x3, int y3, int LineWidth);
     //绘制路径
-    ZEXPORT ZuiVoid ZCALL ZuiDrawPath(ZuiGraphics gp, ZuiColor incolor, ZuiPointR * point, int count, int LineWidth);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawPath(ZuiControl cp, ZuiColor incolor, ZuiPointR * point, int count, int LineWidth);
     //绘制直线
-    ZEXPORT ZuiVoid ZCALL ZuiDrawLine(ZuiGraphics gp, ZuiColor incolor, ZuiRect rc, int LineWidth);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawLine(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int LineWidth);
     //绘制文本
-    ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiGraphics gp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR Pt[]);
-    ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiGraphics gp, ZuiFont Font, ZuiText String, int StrLens, ZRect * Rect, ZuiColor incolor, unsigned int TextStyle);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiControl cp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR Pt[]);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiControl cp, ZuiFont Font, ZuiText String, int StrLens, ZRect * Rect, ZuiColor incolor, unsigned int TextStyle);
     //测量字符大小
-    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiGraphics gp, ZuiFont Font, ZuiText String, ZuiSizeR Size);
+    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiControl cp, ZuiFont Font, ZuiText String, ZuiSizeR Size);
     //绘制图像
-    ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiGraphics gp, ZuiImage Img, int x, int y, int Width, int Height, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiControl cp, ZuiImage Img, int x, int y, int Width, int Height, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha);
     //复制图形
     ZEXPORT ZuiVoid ZCALL ZuiAlphaBlendEx(ZuiGraphics Dest, int srcX1, int srcY1, int srcX2, int srcY2, int dstX, int dstY, ZuiGraphics Src, ZuiByte Alpha);
     ZEXPORT ZuiVoid ZCALL ZuiAlphaBlend(ZuiGraphics Dest, int x, int y, int Width, int Height, ZuiGraphics Src, int xSrc, int ySrc, ZuiByte Alpha);
     ZEXPORT ZuiVoid ZCALL ZuiBitBltEx(ZuiGraphics Dest, int srcX1, int srcY1, int srcX2, int srcY2, int dstX, int dstY, ZuiGraphics Src);
     //清空图形
-    ZEXPORT ZuiVoid ZCALL ZuiGraphicsClear(ZuiGraphics gp, ZuiColor incolor);
+    ZEXPORT ZuiVoid ZCALL ZuiGraphicsClear(ZuiControl cp, ZuiColor incolor);
     //创建字体
     ZEXPORT ZuiFont ZCALL ZuiCreateFont(ZuiText FontName, int FontSize, ZuiBool Bold, ZuiBool Italic);
     //销毁字体
@@ -83,22 +83,22 @@ extern "C"
     //ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsInMemory(int Width, int Height);
     ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(ZuiOsWindow p, int Width, int Height);
     /*附加到一块内存上*/
-    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiGraphics gp, ZuiAny bits, int Width, int Height, int stride);
+    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiControl cp, ZuiAny bits, int Width, int Height, int stride);
     //销毁图形
     ZEXPORT ZuiVoid ZCALL ZuiDestroyGraphics(ZuiGraphics gp);
 
     //设置剪裁区
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsPushClipRect(ZuiGraphics gp, ZuiRect box, int mode);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsPushClipRect(ZuiControl cp, ZuiRect box, int mode);
     //ZEXPORT ZuiBool ZCALL PushClipRegion(IRegion* pRegion, UINT mode = RGN_AND);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsPopClip(ZuiGraphics gp);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiGraphics gp, ZuiRect box,int width, int height, int mode);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsExcludeClipRect(ZuiGraphics gp, ZuiRect box);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsIntersectClipRect(ZuiGraphics gp, ZuiRect box);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsSaveClip(ZuiGraphics gp, int * pnState);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsRestoreClip(ZuiGraphics gp, int nState);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsPopClip(ZuiControl cp);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiControl cp, ZuiRect box,int width, int height, int mode);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsExcludeClipRect(ZuiControl cp, ZuiRect box);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsIntersectClipRect(ZuiControl cp, ZuiRect box);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsSaveClip(ZuiControl cp, int * pnState);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsRestoreClip(ZuiControl cp, int nState);
     //获取剪裁区
     //ZEXPORT ZuiVoid ZCALL GetClipRegion(IRegion** ppRegion);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsGetClipBox(ZuiGraphics gp, ZuiRect box);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsGetClipBox(ZuiControl cp, ZuiRect box);
 
 
     /** 此函数用作从文件载入图像.
@@ -125,7 +125,7 @@ extern "C"
     * @return 此函数没有返回值.
     */
     ZEXPORT ZuiVoid ZCALL ZuiDestroyImage(ZuiImage Img);
-    ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiGraphics gp, ZuiRect rc, int w, int h);
+    ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiControl cp, ZuiRect rc, int w, int h);
 
 #ifdef __cplusplus
 }
