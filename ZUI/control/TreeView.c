@@ -3,8 +3,8 @@
 #include <core/resdb.h>
 #include <control/List.h>
 #include "core/Register.h"
-ZuiAny ZCALL ZuiTreeViewNotifyProc(ZuiText msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
-    if (_tcsicmp(_T("selectchanged"), msg) == 0) {
+ZuiAny ZCALL ZuiTreeViewNotifyProc(int msg, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnSelectChanged) {
         ////选择
         return (ZuiAny)TRUE;
     }
