@@ -4,13 +4,19 @@
 #include <tchar.h>
 #include "resource.h"
 #include <ZUI.h>
+#include <core/function.h>
+#include <platform/platform.h>
+#include <core/resdb.h>
 
+#define Array_len 6
 ZuiControl win;
-ZuiText cname[5] = { _T("option0"),
+ZuiText cname[Array_len] = { 
+                     _T("option0"),
                      _T("option1"), 
                      _T("option2"), 
                      _T("option3"), 
-                     _T("option4"), };
+                     _T("option4"), 
+                     _T("option5"), };
 
 ZuiAny ZCALL Main_Button_enable(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     if (msg == ZM_OnClick)
@@ -115,6 +121,20 @@ ZuiAny ZCALL Option_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) 
     return 0;
 }
 
+ZuiAny ZCALL Drawpanel_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnPaint)
+    {
+        ZuiText str = _T("DrawPanel控件.");
+        ZuiRect rc = ZCCALL(ZM_GetPos, p, 0, 0);
+        ZPointR ptr;
+        ZuiFillEllipse(p, 0xFF232323, rc);
+        ptr.x = rc->left;
+        ptr.y = rc->top + (rc->bottom - rc->top) / 2;
+        ZuiDrawStringPt(p,(ZuiFont)Global_Font->p,0xFF158815,str,_tcsclen(str),&ptr);
+    }
+    return 0;
+}
+
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     ZInitConfig config = { 0 };
     config.m_hInstance = hInstance;
@@ -145,14 +165,15 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     p = ZuiControlFindName(win, _T("WindowCtl_min"));
     ZuiControlRegNotify(p, Main_Notify_ctl_min);
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < Array_len; i++) {
         p = ZuiControlFindName(win, cname[i]);
         ZuiControlRegNotify(p, Option_Notify);
     }
 
     p = ZuiControlFindName(win, _T("container1"));
     ZuiControlRegNotify(p, msgbox_Notify1);
-
+    p = ZuiControlFindName(win, _T("drawpanel1"));
+    ZuiControlRegNotify(p, Drawpanel_Notify);
 
     ZuiMsgLoop();
     printf("Loop done!!\n");

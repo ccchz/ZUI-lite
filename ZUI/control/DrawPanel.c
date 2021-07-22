@@ -3,6 +3,10 @@
 ZEXPORT ZuiAny ZCALL ZuiDrawPanelProc(int ProcId, ZuiControl cp, ZuiDrawPanel p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
+    case ZM_OnPaint: {
+        p->old_call(ProcId, cp, 0, Param1, Param2);
+        return ZuiControlNotify(ZM_OnPaint, cp, Param1, Param2);
+    }
     case ZM_OnCreate: {
         p = (ZuiDrawPanel)malloc(sizeof(ZDrawPanel));
         memset(p, 0, sizeof(ZuiDrawPanel));

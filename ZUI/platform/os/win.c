@@ -100,7 +100,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     case WM_APP + 2:
     {
         //_tprintf(_T("%d....%d...%s>>>>>"), (int)(zMsg+wParam)->msg,wParam, (zMsg + wParam)->p->m_sName);
-        return ZuiControlNotify((zMsg + wParam)->msg, (zMsg + wParam)->p, (zMsg + wParam)->Param1, (zMsg + wParam)->param2);
+        return (LRESULT)ZuiControlNotify((zMsg + wParam)->msg, (zMsg + wParam)->p, (zMsg + wParam)->Param1, (zMsg + wParam)->param2);
     }
     case WM_APP + 1:
     {
@@ -1037,7 +1037,7 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
     return NULL;
 }
 ZuiVoid ZuiOsDestroyWindow(ZuiOsWindow OsWindow) {
-    if (OsWindow->m_hwndTooltip != NULL) //by jiangdong 修改当父窗体以成员变量形式在窗口类中存在时候,当点击父窗体关闭按钮的时候,提示框内容还停留在页面中，没有销毁。
+    if (OsWindow->m_hwndTooltip != NULL)
     {
         DestroyWindow(OsWindow->m_hwndTooltip);
         OsWindow->m_hwndTooltip = NULL;

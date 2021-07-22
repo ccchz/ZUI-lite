@@ -21,7 +21,9 @@
 			<Option name="option3" text="Container¿Ø¼þ" round="3,3" optionstyle="5" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
 					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
 			<Option name="option4" text="List¿Ø¼þ" round="3,3" optionstyle="5" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
-					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>			
+					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
+			<Option name="option5" text="DrawPanel¿Ø¼þ" round="3,3" optionstyle="5" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
+					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
 		</VerticalLayout>
 		<TabLayout name="tab" tabselect='0' bkcolor="0xFF1A1A1A">
 			<VerticalLayout align="center">
@@ -333,6 +335,7 @@
 			
 					
 					</List>
+			<DrawPanel Name="drawpanel1" />
 		</TabLayout>
 		</HorizontalLayout>
 		<HorizontalLayout name="statusbar" bkcolor="0xFF232323" height="24"><!--×´Ì¬À¸-->

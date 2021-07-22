@@ -1,7 +1,7 @@
 ﻿#ifndef __ZUI_PLATFORM_GRAPH_H__
 #define __ZUI_PLATFORM_GRAPH_H__
-#include <ZUI.h>
 #include <platform/platform.h>
+#include "format.h"
 #if defined(__cplusplus)
 extern "C"
 {
@@ -33,7 +33,6 @@ extern "C"
 #define ZTS_SHADOW			64	//阴影
 
 
-#include "format.h"
 
     /** 此函数用作初始化图形引擎.
     * @return 此函数没有返回值.

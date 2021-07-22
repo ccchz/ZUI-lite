@@ -3,7 +3,7 @@
 /*
 * 平台移植层头文件
 */
-#include <ZUI.h>
+#include <config.h>
 
 
 #if (defined PLATFORM_OS_WIN)
@@ -23,7 +23,7 @@
 #endif
 
 /*移植层接口定义头文件*/
-#include "graph/graph.h"
+#include "graph.h"
 #include "os/os.h"
 
 

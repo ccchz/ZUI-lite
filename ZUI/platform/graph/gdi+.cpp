@@ -1,5 +1,5 @@
 #include "gdi+.h"
-#include "graph.h"
+#include "platform/graph.h"
 #include "core/carray.h"
 #include "stdlib.h"
 #include <VersionHelpers.h>
@@ -247,7 +247,14 @@ extern "C" {
     ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiControl cp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR Pt[]) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (String && Font && gp) {
-
+            Gdiplus::PointF rf;
+            rf.X = Pt->x;
+            rf.Y = Pt->y;
+            Gdiplus::Graphics gpp(gp->hdc);
+            SolidBrush brush(incolor);
+            Gdiplus::StringFormat sf;
+            sf.GenericTypographic();
+            gpp.DrawString(String,StrLens, Font->font->font, rf,&sf, &brush);
         }
     }
     ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiControl cp, ZuiFont Font, ZuiText String, int StrLen, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle) {

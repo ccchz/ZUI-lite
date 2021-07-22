@@ -17,7 +17,6 @@
 #endif
 
 //图形接口定义
-#define PLATFORM_GRAPH_AGG  0
 #define PLATFORM_GRAPH_GDIX 1
 
 #endif

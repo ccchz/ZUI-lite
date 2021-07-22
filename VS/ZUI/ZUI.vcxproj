@@ -326,9 +326,9 @@
     <ClInclude Include="..\..\ZUI\layout\TabLayout.h" />
     <ClInclude Include="..\..\ZUI\layout\TileLayout.h" />
     <ClInclude Include="..\..\ZUI\layout\VerticalLayout.h" />
-    <ClInclude Include="..\..\ZUI\platform\graph\format.h" />
+    <ClInclude Include="..\..\ZUI\platform\format.h" />
+    <ClInclude Include="..\..\ZUI\platform\graph.h" />
     <ClInclude Include="..\..\ZUI\platform\graph\gdi+.h" />
-    <ClInclude Include="..\..\ZUI\platform\graph\graph.h" />
     <ClInclude Include="..\..\ZUI\platform\os\android.h" />
     <ClInclude Include="..\..\ZUI\platform\os\linux.h" />
     <ClInclude Include="..\..\ZUI\platform\os\os.h" />

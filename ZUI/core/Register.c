@@ -18,6 +18,7 @@
 #include <control/List.h>
 #include <control/TreeView.h>
 #include <control/Container.h>
+#include <control/DrawPanel.h>
 
 static int ZClass_Compare(struct _ZClass *e1, struct _ZClass *e2)
 {
@@ -35,23 +36,24 @@ ZuiBool ZuiClassInit()
     Global_ControlClass = (struct _ZClass_Tree *)malloc(sizeof(struct _ZClass_Tree));
     memset(Global_ControlClass, 0, sizeof(struct _ZClass_Tree));
     /*核心组件 不可卸载*/
-    ZuiControlRegisterAdd(ZC_Layout, (ZCtlProc)&ZuiLayoutProc);
-    ZuiControlRegisterAdd(ZC_GridLayout, (ZCtlProc)&ZuiGridLayoutProc);
-    ZuiControlRegisterAdd(ZC_VerticalLayout, (ZCtlProc)&ZuiVerticalLayoutProc);
-    ZuiControlRegisterAdd(ZC_HorizontalLayout, (ZCtlProc)&ZuiHorizontalLayoutProc);
-    ZuiControlRegisterAdd(ZC_TabLayout, (ZCtlProc)&ZuiTabLayoutProc);
-    ZuiControlRegisterAdd(ZC_TileLayout, (ZCtlProc)&ZuiTileLayoutProc);
-    ZuiControlRegisterAdd(ZC_Window, (ZCtlProc)&ZuiWindowProc);
-    ZuiControlRegisterAdd(ZC_ScrollBar, (ZCtlProc)&ZuiScrollBarProc);
-    ZuiControlRegisterAdd(ZC_SplitterBar, (ZCtlProc)&ZuiSplitterBarProc);
-    ZuiControlRegisterAdd(ZC_Label, (ZCtlProc)&ZuiLabelProc);
-    ZuiControlRegisterAdd(ZC_ProgressBar, (ZCtlProc)&ZuiProgressBarProc);
-    ZuiControlRegisterAdd(ZC_Button, (ZCtlProc)&ZuiButtonProc);
-    ZuiControlRegisterAdd(ZC_Option, (ZCtlProc)&ZuiOptionProc);
-    ZuiControlRegisterAdd(ZC_CheckBox, (ZCtlProc)&ZuiCheckBoxProc);
-    ZuiControlRegisterAdd(ZC_List, (ZCtlProc)&ZuiListProc);
-    ZuiControlRegisterAdd(ZC_TreeView, (ZCtlProc)&ZuiTreeViewProc);
-    ZuiControlRegisterAdd(ZC_Container, (ZCtlProc)&ZuiContainerProc);
+    ZuiControlRegisterAdd(ZC_Layout, (ZCtlProc)ZuiLayoutProc);
+    ZuiControlRegisterAdd(ZC_GridLayout, (ZCtlProc)ZuiGridLayoutProc);
+    ZuiControlRegisterAdd(ZC_VerticalLayout, (ZCtlProc)ZuiVerticalLayoutProc);
+    ZuiControlRegisterAdd(ZC_HorizontalLayout, (ZCtlProc)ZuiHorizontalLayoutProc);
+    ZuiControlRegisterAdd(ZC_TabLayout, (ZCtlProc)ZuiTabLayoutProc);
+    ZuiControlRegisterAdd(ZC_TileLayout, (ZCtlProc)ZuiTileLayoutProc);
+    ZuiControlRegisterAdd(ZC_Window, (ZCtlProc)ZuiWindowProc);
+    ZuiControlRegisterAdd(ZC_ScrollBar, (ZCtlProc)ZuiScrollBarProc);
+    ZuiControlRegisterAdd(ZC_SplitterBar, (ZCtlProc)ZuiSplitterBarProc);
+    ZuiControlRegisterAdd(ZC_Label, (ZCtlProc)ZuiLabelProc);
+    ZuiControlRegisterAdd(ZC_ProgressBar, (ZCtlProc)ZuiProgressBarProc);
+    ZuiControlRegisterAdd(ZC_Button, (ZCtlProc)ZuiButtonProc);
+    ZuiControlRegisterAdd(ZC_Option, (ZCtlProc)ZuiOptionProc);
+    ZuiControlRegisterAdd(ZC_CheckBox, (ZCtlProc)ZuiCheckBoxProc);
+    ZuiControlRegisterAdd(ZC_List, (ZCtlProc)ZuiListProc);
+    ZuiControlRegisterAdd(ZC_TreeView, (ZCtlProc)ZuiTreeViewProc);
+    ZuiControlRegisterAdd(ZC_Container, (ZCtlProc)ZuiContainerProc);
+    ZuiControlRegisterAdd(ZC_DrawPanel, (ZCtlProc)ZuiDrawPanelProc);
     
     return TRUE;
 }

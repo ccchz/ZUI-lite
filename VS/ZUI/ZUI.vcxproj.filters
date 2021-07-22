@@ -139,12 +139,6 @@
     <ClInclude Include="..\..\ZUI\core\tree.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ZUI\platform\graph\format.h">
-      <Filter>platform\graph</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ZUI\platform\graph\graph.h">
-      <Filter>platform\graph</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ZUI\core\control.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -237,6 +231,12 @@
     </ClInclude>
     <ClInclude Include="..\..\ZUI\control\Container.h">
       <Filter>control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ZUI\platform\graph.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ZUI\platform\format.h">
+      <Filter>platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
