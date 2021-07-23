@@ -358,8 +358,8 @@ enum ZREST
 #define ZM_GridSetSize                155
 
 //--------Tab
-#define ZM_TabLayout_SelectItem       161    //当前Tab
-#define ZM_TabLayout_SetSelect        162
+#define ZM_TabLayout_SetSelectIndex       161    //当前Tab
+#define ZM_TabLayout_GetSelectIndex        162
 
 #endif // 1
 
@@ -429,9 +429,9 @@ enum ZREST
 #if 1
 #define ZC_List                           _T("List")
 #define ZC_ListBody                       _T("ListBody")
-#define ZC_ListElement                    _T("listElement")
-#define ZC_ListHeader                     _T("listHeader")
-#define ZC_ListHeaderItem                 _T("listHeaderItem")
+#define ZC_ListElement                    _T("ListElement")
+#define ZC_ListHeader                     _T("ListHeader")
+#define ZC_ListHeaderItem                 _T("ListHeaderItem")
 
 
 #define ZM_List_GetHeader                 1400    //取列表头控件

@@ -26,6 +26,25 @@ DArray *m_window_array = NULL;
 ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
+    case ZM_OnEvent: {
+        switch (((TEventUI*)Param1)->Type)
+        {
+        case ZEVENT_WINDOWSIZE:
+        {
+            ZRect rcClient = { 0 };
+            rcClient.right = LPARAM(((TEventUI*)Param1)->lParam);
+            rcClient.bottom = HPARAM(((TEventUI*)Param1)->lParam);
+            //_tprintf(_T("%d...%d...%d..%d..//"), rcClient.left, rcClient.top, rcClient.right, rcClient.bottom);
+            ZCCALL(ZM_SetPos, cp, &rcClient, (ZuiAny)FALSE);
+            ZuiControlInvalidate(cp, TRUE);
+            ZCCALL(ZM_OnSize, cp, (ZuiAny)((TEventUI*)Param1)->wParam, (ZuiAny)((TEventUI*)Param1)->lParam);
+            return 0;
+        }
+        default:
+            break;
+        }
+        break;
+    }
     case ZM_SetText: {
         return (ZuiAny)ZuiOsSetWindowTitle(p->m_osWindow, Param1);
     }

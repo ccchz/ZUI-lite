@@ -13,7 +13,7 @@
 			<NULL height="80" padding="40,0,40,0" bkimage="default:default/zui-256.png"/>
 			
 			<Option name="option0" text="基础控件" round="3,3" optionstyle="5" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
-					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
+					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30" selected="true"/>
 			<Option name="option1" text="进度条控件" round="3,3" optionstyle="5" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
 					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
 			<Option name="option2" text="网格布局控件" round="3,3" optionstyle="5" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
@@ -26,16 +26,17 @@
 					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
 		</VerticalLayout>
 		<TabLayout name="tab" tabselect='0' bkcolor="0xFF1A1A1A">
-			<VerticalLayout align="center">
+			<VerticalLayout name="base" align="center">
 				<Label width="100" height="64" name="wordbreak" bordercolor="#FF636363" text="块是在论坛找的某位大佬的改的。" wordbreak="true"/>
 				<CheckBox name="buttondisable22" text="CheckBox测试2" round="3,3" optionstyle="2" align="left" textpadding="24,0,0,0" width="150" disabledcolor="#FF8c8c8c" height="22"/>
 				<CheckBox name="buttondisable23" text="CheckBox测试3" round="3,3" optionstyle="3" align="left" textpadding="40,0,0,0" width="150" disabledcolor="#FF8c8c8c" height="22"/>
 				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
 				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox0" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
+				<Button name="floatbutton1" bordercolor="#FF155515" text="浮动按钮1" round="20,20" width="100" height="40" float="300,200,0,0" />
 			</VerticalLayout>
-			<VerticalLayout>
+			<VerticalLayout name="progress1">
 				<ProgressBar bordercolor="#FF155515" name="pbb" height="20" pbheight="8" pbpos="100" pbrange="400" round="3,3"/>
-				<ProgressBar bordercolor="#FF155515" name="pbb" width="20" pbheight="8" pbpos="100" pbrange="400" round="3,3" pbhorizontal="false"/>
+				<ProgressBar bordercolor="#FF155515" name="pbb1" width="20" pbheight="8" pbpos="100" pbrange="400" round="3,3" pbhorizontal="false"/>
 			</VerticalLayout>
 			<GridLayout name="grid" gridsize="64,64" childpadding="2" vscrollbar="true" hscrollbar="true">
 				<Button bordercolor="#FF155515"  foregroundimage="default:default/dui.png"  name="msgbox1" buttonstyle="1" text="这个按钮真不错"/>
@@ -49,7 +50,7 @@
 				<Button text="tab1"/>
 				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox2" buttonstyle="1" text="这个按钮真不错"/>
 			</GridLayout>
-			<GridLayout name="grid" gridsize="200,64" vscrollbar="true" hscrollbar="true">
+			<GridLayout name="grid1" gridsize="200,64" vscrollbar="true" hscrollbar="true">
 				<Container name="container1" height="48" bordercolor="#FF155515">
 				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  width="32" height="32" mouseenable="false"/>
 				<VerticalLayout name="22" mouseenable="false">
@@ -58,17 +59,17 @@
 				</VerticalLayout>
 				</Container>
 			</GridLayout>
-			<List name="domainlist" itemshowhtml="true"  itemalign="center" itemaltbk="true" menu="true">
-						<ListHeader height="24" menu="true" name="header1" >
-							<ListHeaderItem text="N o"  width="30" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
-							<ListHeaderItem text="Domain" width="50" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
-							<ListHeaderItem text="Description" width="240" align="right" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868" sepwidth="1"/>
-							<ListHeaderItem text="Domain" listfont="font:size=10:bold=true" width="260" sepwidth="1"  listalign="right" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
-							<ListHeaderItem text="Description" width="240" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
-							<ListHeaderItem text="Domain" width="260" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
-							<ListHeaderItem text="Description" width="240" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
+			<List name="domainlist" >
+						<ListHeader name="header1" height="24" >
+							<ListHeaderItem name="LhI1" text="N o"  width="30" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
+							<ListHeaderItem name="LhI2" text="Domain" width="50" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
+							<ListHeaderItem name="LhI3" text="Description" width="240" align="right" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868" sepwidth="1"/>
+							<ListHeaderItem name="LhI4"text="Domain" listfont="font:size=10:bold=true" width="260" sepwidth="1"  listalign="right" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
+							<ListHeaderItem name="LhI5"text="Description" width="240" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
+							<ListHeaderItem name="LhI6"text="Domain" width="260" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
+							<ListHeaderItem name="LhI7"text="Description" width="240" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
 						</ListHeader>
-						<listbody  vscrollbar="true" hscrollbar="true"  sbbkcolor="#FF484848" stepsize="16"  sbbdisablecolor="#FF282828" sbb2show="true" sbhsrc="0,0,16,16" sbvsrc="0,90,16,16">
+						<listbody  vscrollbar="true" hscrollbar="true"  sbbkcolor="#FF484848" stepsize="16"  sbbdisablecolor="#FF282828"  sbhsrc="0,0,16,16" sbvsrc="0,90,16,16">
 						<listelement height="24">
 							<Label text="11111"/>
 							<Label text="你好"/>
@@ -327,14 +328,12 @@
 							<Label text="你好"/>
 							<Label text="xxx"/>
 							<Label text="listelement"/>
-							<Label text="你好"/>
+							<Label text="你好------------>>>>"/>
 							<Label text="xxx"/>
 							<Label text="==============="/>
 						</listelement>
 						</listbody>	
-			
-					
-					</List>
+			</List>
 			<DrawPanel Name="drawpanel1" />
 		</TabLayout>
 		</HorizontalLayout>

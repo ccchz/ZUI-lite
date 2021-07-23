@@ -31,8 +31,9 @@ void* ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLayo
             rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, op->m_pHorizontalScrollBar, NULL, NULL);
         }
 
+        ZSize SBarSize = { 0 };
         if (darray_len(op->m_items) == 0) {
-            ZCCALL(ZM_Layout_ProcessScrollBar, cp, &rc, 0);
+            ZCCALL(ZM_Layout_ProcessScrollBar, cp, &rc, &SBarSize);
             return 0;
         }
 
@@ -182,7 +183,6 @@ void* ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLayo
         }
         cxNeeded += (nEstimateNum - 1) * op->m_iChildPadding;
 
-        ZSize SBarSize;
         SBarSize.cx = cxNeeded;
         SBarSize.cy = cyNeeded;
         // Process the scrollbar

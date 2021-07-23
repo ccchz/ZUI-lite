@@ -744,11 +744,11 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             }
         }
 
-        if (p->m_pOwner != NULL)
-            ZuiControlNeedUpdate(p->m_pOwner);
-        else
-            ZuiControlNeedParentUpdate(cp);
-        break;
+        //if (p->m_pOwner)
+        //    ZuiControlNeedUpdate(p->m_pOwner);
+        //else
+        //    ZuiControlNeedParentUpdate(cp);
+        return 0;
     }
     case ZM_ScrollBar_SetScrollPos: {
         if (p->m_nScrollPos == (int)Param1)
@@ -768,6 +768,7 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
     }
     case ZM_ScrollBar_SetOwner: {
         p->m_pOwner = Param1;
+        //_tprintf(_T("owner..%p..."), p->m_pOwner);
         break;
     }
     case ZM_ScrollBar_SetScrollRange: {

@@ -34,8 +34,9 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             iposx = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pHorizontalScrollBar, 0, NULL);
         }
 
+        ZSize SBarSize = { 0 };
         if (darray_len(op->m_items) == 0) {
-            ZCCALL(ZM_Layout_ProcessScrollBar, cp, &rc, 0);
+            ZCCALL(ZM_Layout_ProcessScrollBar, cp, &rc, &SBarSize);
             return 0;
         }
         //计算每行控件数量。
@@ -76,7 +77,7 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             rcCtrl.bottom -= rcPadding.bottom;
             ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
         }
-        ZSize SBarSize;
+
         SBarSize.cx = maxcols * p->m_szGridSize.cx;
         SBarSize.cy = (rows + 1) * p->m_szGridSize.cy;
         // Process the scrollbar
@@ -96,7 +97,7 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
     case ZM_GridSetSize: {
         p->m_szGridSize.cx = (int)Param1;
         p->m_szGridSize.cy = (int)Param2;
-        ZuiControlNeedParentUpdate(cp);
+        ZuiControlNeedUpdate(cp);
         break;
     }
     case ZM_OnCreate: {

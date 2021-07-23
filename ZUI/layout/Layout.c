@@ -372,10 +372,10 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
             ZuiControlNeedUpdate(cp);
         }
         else if (_tcsicmp(Param1, _T("vscrollbar")) == 0) {
-            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcscmp(Param2, _T("true")) == 0), (ZuiAny)(ZCCALL(ZM_Layout_GetHorizontalScrollBar, cp, NULL, NULL) != NULL));
+            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0), (ZuiAny)TRUE);
         }
         else if (_tcsicmp(Param1, _T("hscrollbar")) == 0) {
-            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(ZCCALL(ZM_Layout_GetVerticalScrollBar, cp, NULL, NULL) != NULL), (ZuiAny)((_tcscmp(Param2, _T("true"))) == 0));
+            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0), (ZuiAny)FALSE);
         }
         else if ((_tcsicmp(Param1, _T("sbbkcolor")) == 0) ||
                 (_tcsicmp(Param1, _T("sbtnormalcolor")) == 0) ||
@@ -418,22 +418,20 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
 
         if (cp->m_pOs != NULL)
             ZCCALL(ZM_SetOs, (ZuiControl)Param1,cp, (void*)TRUE);
-        if (cp->m_bVisible)
+        darray_append(p->m_items, Param1);
+        if (cp->m_bVisible && !(ZuiBool)Param2)
             ZuiControlNeedUpdate(cp);
-
-        return (void *)darray_append(p->m_items, Param1);
-        break;
+        return (ZuiAny)TRUE;
     }
     case ZM_Layout_AddAt: {
         if (Param1 == NULL) return FALSE;
 
         if (cp->m_pOs != NULL)
             ZCCALL(ZM_SetOs, (ZuiControl)Param1, cp, (void*)TRUE);
-        if (cp->m_bVisible)
+        darray_insert(p->m_items, (int)Param2, (ZuiControl)Param1);
+        if (cp->m_bVisible && !(ZuiBool)Param2)
             ZuiControlNeedUpdate(cp);
-
-        return (void *)darray_insert(p->m_items, (int)Param2, (ZuiControl)Param1);
-        break;
+        return (ZuiAny)TRUE;
     }
     case ZM_Layout_Remove: {
         if (Param1 == NULL)
@@ -441,24 +439,21 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
 
         for (int it = 0; it < darray_len(p->m_items); it++) {
             if ((ZuiControl)(p->m_items->data[it]) == (ZuiControl)Param1) {
-                ZuiControlNeedUpdate(cp);
 				darray_delete(p->m_items, it);
                 //if (!Param2)
                 //   FreeZuiControl((ZuiControl)Param1, FALSE);
+                ZuiControlNeedUpdate(cp);
 				return (ZuiAny)TRUE;
             }
         }
         return FALSE;
-        break;
     }
     case ZM_Layout_RemoveAt: {
         ZuiControl pControl = ZuiLayoutProc(ZM_Layout_GetItemAt, cp, p, Param1, 0);
         if (pControl != NULL) {
             return ZuiLayoutProc(ZM_Layout_Remove, cp, p, pControl, 0);
         }
-
         return FALSE;
-        break;
     }
     case ZM_Layout_RemoveAll: {
         for (int it = 0; it < darray_len(p->m_items); it++) {
@@ -719,33 +714,35 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
         break;
     }
     case ZM_Layout_EnableScrollBar: {
-        BOOL bEnableVertical = (BOOL)Param1;
-        BOOL bEnableHorizontal = (BOOL)Param2;
-        if (bEnableVertical && !p->m_pVerticalScrollBar) {
-            p->m_pVerticalScrollBar = NewZuiControl(_T("scrollbar"), NULL, NULL);//创建滚动条
-            ZCCALL(ZM_ScrollBar_SetOwner, p->m_pVerticalScrollBar, cp, NULL);
-            p->m_pVerticalScrollBar->m_pOs = cp->m_pOs;
-            p->m_pVerticalScrollBar->m_pParent = cp;
-            p->m_pVerticalScrollBar->m_bVisible = FALSE;
+        ZuiBool bEnable = (ZuiBool)Param1;
+        ZuiBool bVerHor = (ZuiBool)Param2;
+        if (bVerHor) {
+            if (bEnable && !p->m_pVerticalScrollBar) {
+                p->m_pVerticalScrollBar = NewZuiControl(_T("scrollbar"), NULL, NULL);//创建滚动条
+                ZCCALL(ZM_ScrollBar_SetOwner, p->m_pVerticalScrollBar, cp, NULL);
+                p->m_pVerticalScrollBar->m_pOs = cp->m_pOs;
+                p->m_pVerticalScrollBar->m_pParent = cp;
+                p->m_pVerticalScrollBar->m_bVisible = FALSE;
+            }
+            else if (!bEnable && p->m_pVerticalScrollBar) {
+                FreeZuiControl(p->m_pVerticalScrollBar, FALSE);
+                p->m_pVerticalScrollBar = NULL;
+            }
         }
-        else if (!bEnableVertical && p->m_pVerticalScrollBar) {
-            FreeZuiControl(p->m_pVerticalScrollBar, FALSE);
-            p->m_pVerticalScrollBar = NULL;
+        else {
+            if (bEnable && !p->m_pHorizontalScrollBar) {
+                p->m_pHorizontalScrollBar = NewZuiControl(_T("scrollbar"), NULL, NULL);//创建滚动条               
+                ZCCALL(ZM_ScrollBar_SetOwner, p->m_pHorizontalScrollBar, cp, NULL);
+                ZCCALL(ZM_ScrollBar_SetHorizontal, p->m_pHorizontalScrollBar, (ZuiAny)TRUE, NULL);
+                p->m_pHorizontalScrollBar->m_pOs = cp->m_pOs;
+                p->m_pHorizontalScrollBar->m_pParent = cp;
+                p->m_pHorizontalScrollBar->m_bVisible = FALSE;
+            }
+            else if (!bEnable && p->m_pHorizontalScrollBar) {
+                FreeZuiControl(p->m_pHorizontalScrollBar, FALSE);
+                p->m_pHorizontalScrollBar = NULL;
+            }
         }
-
-        if (bEnableHorizontal && !p->m_pHorizontalScrollBar) {
-            p->m_pHorizontalScrollBar = NewZuiControl(_T("scrollbar"), NULL, NULL);//创建滚动条
-            ZCCALL(ZM_ScrollBar_SetHorizontal, p->m_pHorizontalScrollBar, (ZuiAny)TRUE, NULL);
-            ZCCALL(ZM_ScrollBar_SetOwner, p->m_pHorizontalScrollBar, cp, NULL);
-            p->m_pHorizontalScrollBar->m_pOs = cp->m_pOs;
-            p->m_pHorizontalScrollBar->m_pParent = cp;
-            p->m_pHorizontalScrollBar->m_bVisible = FALSE;
-        }
-        else if (!bEnableHorizontal && p->m_pHorizontalScrollBar) {
-            FreeZuiControl(p->m_pHorizontalScrollBar, FALSE);
-            p->m_pHorizontalScrollBar = NULL;
-        }
-
         ZuiControlNeedUpdate(cp);
         break;
     }

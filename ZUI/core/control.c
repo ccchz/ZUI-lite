@@ -149,42 +149,17 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     }
     case ZM_SetPos: {// 只有控件为float的时候，外部调用SetPos和Move才是有效的，位置参数是相对父控件的位置
         ZRect *rc = (ZRect *)Param1;
-        BOOL bNeedInvalidate = (BOOL)Param2;
-        ZRect invalidateRc = p->m_rcItem;
         ZuiBool bSize = FALSE;
         if (rc->right < rc->left) rc->right = rc->left;
         if (rc->bottom < rc->top) rc->bottom = rc->top;
 
-        if (IsRectEmpty((RECT *)&invalidateRc)) invalidateRc = *rc;
         //防止不必要的调用
         if (rc->right - rc->left != p->m_rcItem.right - p->m_rcItem.left ||
             rc->bottom - rc->top != p->m_rcItem.bottom - p->m_rcItem.top)
             bSize = TRUE;
 
-        if (p->m_bFloat) {
-            ZuiControl pParent = p->m_pParent;
-            if (pParent != NULL) {
-                ZRect *rcParentPos = (ZRect *)ZCCALL(ZM_GetPos, pParent, NULL, NULL);
-                ZRect rcCtrl = { rcParentPos->left + rc->left, rcParentPos->top + rc->top,
-                    rcParentPos->left + rc->right, rcParentPos->top + rc->bottom };
-                p->m_rcItem = rcCtrl;
-
-/*                int width = rcParentPos->right - rcParentPos->left;
-                int height = rcParentPos->bottom - rcParentPos->top;
-                ZRect rcPercent = { (int)(width*p->m_piFloatPercent.left), (int)(height*p->m_piFloatPercent.top),
-                    (int)(width*p->m_piFloatPercent.right), (int)(height*p->m_piFloatPercent.bottom) };
-                p->m_cXY.cx = rc->left - rcPercent.left;
-                p->m_cXY.cy = rc->top - rcPercent.top;
-                p->m_cxyFixed.cx = rc->right - rcPercent.right - p->m_cXY.cx;
-                p->m_cxyFixed.cy = rc->bottom - rcPercent.bottom - p->m_cXY.cy; */
-            }
-        }
-        else {
             memcpy(&p->m_rcItem, rc, sizeof(ZRect));
-        }
-
-        //wprintf(_T("%s:%d,%d,%d,%d\n", p->m_sName, rc->left, rc->top, rc->right, rc->bottom);
-
+        //}
         if (p->m_pOs == NULL)
             return 0;
 
@@ -195,28 +170,12 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         }
 
         p->m_bUpdateNeeded = FALSE;
-
-        if (bNeedInvalidate && p->m_bVisible) {
-            Rect_Join(&invalidateRc, &p->m_rcItem);
-            ZuiControl pParent = p;
-            ZRect rcTemp;
-            ZRect *rcParent;
-            while (pParent = pParent->m_pParent) {
-                if (!pParent->m_bVisible)
-                    return 0;
-                rcTemp = invalidateRc;
-                rcParent = (ZRect *)ZCCALL(ZM_GetPos, pParent, NULL, NULL);
-                if (!IntersectRect((LPRECT)&invalidateRc, (const RECT *)&rcTemp, (const RECT *)rcParent))
-                    return 0;
-            }
-            ZuiOsInvalidateRect(p->m_pOs, &invalidateRc);
-        }
         break;
     }
     case ZM_OnSize: {
         if (p->m_aAnime)
             p->m_aAnime->OnSize(p, Param1, Param2);
-        ZuiControlDelayedNotify(ZM_OnSize, p, Param1, Param2);
+        ZuiControlNotify(ZM_OnSize, p, Param1, Param2);
         break;
     }
     case ZM_SetOs: {
@@ -272,11 +231,6 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         case ZEVENT_CHAR: {
             ZuiControlDelayedNotify(ZM_OnChar, p, &((TEventUI*)Param1)->wParam, NULL);
             break;
-        }
-        case ZEVENT_WINDOWSIZE:
-        {
-            ZCCALL(ZM_OnSize, p, (ZuiAny)((TEventUI*)Param1)->wParam, (ZuiAny)((TEventUI*)Param1)->lParam);
-            return 0;
         }
         default:
             break;
@@ -790,25 +744,18 @@ ZEXPORT ZuiVoid ZCALL ZuiControlInvalidate(ZuiControl p, ZuiBool ResetAnimation)
 
 ZEXPORT ZuiVoid ZCALL ZuiControlNeedUpdate(ZuiControl p)
 {
-    if (!p->m_bVisible) return;
-    p->m_bUpdateNeeded = TRUE;
-    ZuiControlInvalidate(p, TRUE);
-    if (p->m_pOs != NULL)
-        p->m_pOs->m_bUpdateNeeded = TRUE;
+    if (p) {
+        p->m_bUpdateNeeded = TRUE;
+        ZCCALL(ZM_SetPos, p, &p->m_rcItem, 0);
+        ZuiControlInvalidate(p, TRUE);
+    }
 }
 
 ZEXPORT ZuiVoid ZCALL ZuiControlNeedParentUpdate(ZuiControl p)
 {
-    if (p->m_pParent) {
+    if (p) {
         ZuiControlNeedUpdate(p->m_pParent);
-        ZuiControlInvalidate(p->m_pParent, TRUE);
     }
-    else {
-        ZuiControlNeedUpdate(p);
-    }
-
-    if (p->m_pOs != NULL)
-        p->m_pOs->m_bUpdateNeeded = TRUE;
 }
 
 ZEXPORT ZuiVoid ZCALL ZuiControlEvent(ZuiControl p, TEventUI *event)

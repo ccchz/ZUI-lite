@@ -244,7 +244,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                         rcRoot.bottom -= p->m_rcLayeredInset.bottom;
                     }
                     p->m_pRoot->m_bUpdateNeeded = FALSE;
-                    ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)TRUE);
+                    ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)FALSE);
                 }
                 else {
                     ZuiControl pControl = NULL;
@@ -253,11 +253,11 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                     for (int it = 0; it < darray_len(p->m_aFoundControls); it++) {
                         pControl = (ZuiControl)(p->m_aFoundControls->data[it]);
                         if (!pControl->m_bFloat)
-                            ZCCALL(ZM_SetPos, pControl, (ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL), (void *)TRUE);
+                            ZCCALL(ZM_SetPos, pControl, (ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL), (void *)FALSE);
                         else {
                             RECT rcP;
                             ZCCALL(ZM_GetRelativePos, pControl, &rcP, NULL);
-                            ZCCALL(ZM_SetPos, pControl, &rcP, (void *)TRUE);
+                            ZCCALL(ZM_SetPos, pControl, &rcP, (void *)FALSE);
                         }
                     }
                 }
@@ -281,7 +281,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             rcRoot.top += p->m_rcLayeredInset.top;
             rcRoot.right -= p->m_rcLayeredInset.right;
             rcRoot.bottom -= p->m_rcLayeredInset.bottom;
-            ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)TRUE);
+            ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)FALSE);
         }
         // Set focus to first control?
         if (p->m_bFocusNeeded) {
@@ -421,18 +421,6 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             p->m_bMax = FALSE;
         }
 
-        if (p->m_pRoot != NULL) {
-            TEventUI event = { 0 };
-            event.Type = ZEVENT_WINDOWSIZE;
-            event.pSender = p->m_pFocus;
-            event.wParam = wParam;
-            event.lParam = lParam;
-            event.dwTimestamp = GetTickCount();
-            event.ptMouse = p->m_ptLastMousePos;
-            event.wKeyState = MapKeyState();
-            ZuiControlEvent(p->m_pRoot, &event);
-        }
-
         // 创建缓存图形
         if (p->m_bOffscreenPaint)
         {
@@ -448,10 +436,18 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         }
         p->m_hDcOffscreen->hwnd = p->m_hWnd;
         ZuiOsSetWindowRgn(p, p->m_pRoot->m_rRound.cx, p->m_pRoot->m_rRound.cy);
-        if (p->m_pRoot != NULL)
-            ZuiControlNeedUpdate(p->m_pRoot);
-        //if (p->m_bLayered)
-         //   ZuiOsInvalidate(p);
+
+        if (p->m_pRoot != NULL) {
+            TEventUI event = { 0 };
+            event.Type = ZEVENT_WINDOWSIZE;
+            event.pSender = p->m_pFocus;
+            event.wParam = wParam;
+            event.lParam = lParam;
+            event.dwTimestamp = GetTickCount();
+            event.ptMouse = p->m_ptLastMousePos;
+            event.wKeyState = MapKeyState();
+            ZuiControlEvent(p->m_pRoot, &event);
+        }
         return 0;
     }
     case WM_TIMER:  //时钟事件
@@ -935,6 +931,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     case WM_MOVE:
     {
         GetWindowRect(hWnd, (LPRECT)&p->m_rect);
+        break;
     }
     default:
         return DefWindowProc(hWnd, uMsg, wParam, lParam);

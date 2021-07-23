@@ -93,9 +93,9 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
 ZuiAny ZCALL msgbox_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     if (msg == ZM_OnClick)
     {
-        //ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
-        ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        ZCCALL(ZM_TabLayout_SelectItem, cp, (ZuiAny)2, NULL);
+        ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
+        //ZuiControl cp = ZuiControlFindName(win, _T("tab"));
+        //ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)2, NULL);
     }
     return 0;
 }
@@ -116,7 +116,7 @@ ZuiAny ZCALL Option_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) 
         while (pname && *pname && !isdigit(*pname))
             pname++;
         ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        ZCCALL(ZM_TabLayout_SelectItem, cp, (ZuiAny)_ttoi(pname), NULL);
+        ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)_ttoi(pname), NULL);
     }
     return 0;
 }

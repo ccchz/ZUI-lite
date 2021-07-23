@@ -16,17 +16,16 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
                 op = ZuiDefaultControlProc(ProcId, cp, p, Param1, Param2);;
             return op; 
         }
-        else
-            break;
+        break;
     }
-    case ZM_TabLayout_SetSelect: {
-        p->m_iCurSel = (int)Param1;
-        ZuiControlInvalidate(cp,0);
-        return (ZuiAny)TRUE;
+    case ZM_TabLayout_GetSelectIndex: {
+    //    p->m_iCurSel = (int)Param1;
+    //    ZuiControlInvalidate(cp,0);
+        return (ZuiAny)p->m_iCurSel;
     }
     case ZM_SetAttribute: {
         if (_tcsicmp(Param1, _T("tabselect")) == 0)
-            ZCCALL(ZM_TabLayout_SetSelect, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+            ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)(_ttoi(Param2)), NULL);
         break;
     }
     case ZM_OnPaint: {
@@ -46,7 +45,6 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
         {
             p->m_iCurSel = 0;
         }
-        ZuiControlNeedUpdate(cp);
         return (ZuiAny)ret;
     }
     case ZM_Layout_AddAt: {
@@ -58,7 +56,6 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
         {
             p->m_iCurSel += 1;
         }
-        ZuiControlNeedUpdate(cp);
         return (ZuiAny)ret;
     }
     case ZM_Layout_Remove: {
@@ -74,23 +71,20 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
         {
             p->m_iCurSel -= 1;
         }
-        ZuiControlNeedUpdate(cp);
         return (ZuiAny)1;
     }
     case ZM_Layout_RemoveAll: {
         p->m_iCurSel = -1;
         ZuiLayoutProc(ZM_Layout_RemoveAll, cp, p->old_udata, Param1, Param2);
-        ZuiControlNeedUpdate(cp);
         return 0;
     }
-    case ZM_TabLayout_SelectItem: {
+    case ZM_TabLayout_SetSelectIndex: {
         int iIndex = (int)Param1;
         ZuiLayout op = (ZuiLayout)p->old_udata;
-        if (iIndex < 0 || iIndex >= darray_len(op->m_items))
-            return FALSE;
         if (iIndex == p->m_iCurSel)
             return (ZuiAny)TRUE;
-
+        if (iIndex < 0 || iIndex >= darray_len(op->m_items))
+            return FALSE;
         p->m_iCurSel = iIndex;
         ZuiControlInvalidate(cp, 0);
 

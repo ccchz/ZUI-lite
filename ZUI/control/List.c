@@ -10,28 +10,6 @@
 ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
-    case ZM_SetPos: {
-        //通知父容器调整布局
-        ZuiVerticalLayoutProc(ProcId, cp, p->old_udata, Param1, Param2);
-        if (p->m_pHeader == NULL) return 0;
-        //计算列数量
-        p->m_ListInfo.m_iColumns = (INT)MIN(ZCCALL(ZM_Layout_GetCount, p->m_pHeader, NULL, NULL), (ZuiAny)ZLIST_MAX_COLUMNS);
-
-        if (!p->m_pHeader->m_bVisible) {
-
-        }
-
-        for (int i = 0; i < p->m_ListInfo.m_iColumns; i++) {
-            ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, p->m_pHeader, (ZuiAny)i, NULL);
-            if (!pControl->m_bVisible) continue;
-            if (pControl->m_bFloat) continue;
-            p->m_ListInfo.m_rcColumn[i] = *(ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL);
-        }
-        if (!p->m_pHeader->m_bVisible) {
-
-        }
-        return 0;
-    }
     case ZM_SetAttribute: {
         if (_tcsicmp(Param1, _T("header")) == 0)
             ZCCALL(ZM_SetVisible, p->m_pHeader, (ZuiAny)(_tcsicmp(Param2, _T("hidden")) == 0 ? FALSE : TRUE), NULL);
@@ -92,7 +70,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
                 p->m_pList = Param1;
                 if (cp->m_pOs != NULL)
                     ZCCALL(ZM_SetOs, (ZuiControl)p->m_pList, cp, (ZuiAny)TRUE);
-                ZuiVerticalLayoutProc(ZM_Layout_Add, cp, p->old_udata, p->m_pList, NULL);
+                ZuiVerticalLayoutProc(ZM_Layout_Add, cp, p->old_udata, p->m_pList, Param2);
                 ZCCALL(ZM_ListBody_SetOwner, p->m_pList, cp, NULL);
                 return 0;
             }
@@ -237,18 +215,6 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
         return (ZuiAny)TRUE;
     }
     //直接转发到列表体的消息
-    case ZM_Layout_LineUp:
-    case ZM_Layout_LineDown:
-    case ZM_Layout_PageUp:
-    case ZM_Layout_PageDown:
-    case ZM_Layout_HomeUp:
-    case ZM_Layout_EndDown:
-    case ZM_Layout_LineLeft:
-    case ZM_Layout_LineRight:
-    case ZM_Layout_PageLeft:
-    case ZM_Layout_PageRight:
-    case ZM_Layout_HomeLeft:
-    case ZM_Layout_EndRight:
     case ZM_List_GetCount:
     case ZM_List_GetItemAt:
         return ZCCALL(ProcId, p->m_pList, Param1, Param2);
@@ -261,15 +227,6 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
         p->old_call = (ZCtlProc)&ZuiVerticalLayoutProc;
 
         p->m_aSelItems = darray_create();
-
-        //创建表头
-        p->m_pHeader = NewZuiControl(_T("ListHeader"), NULL, NULL);
-        ZuiVerticalLayoutProc(ZM_Layout_Add, cp, p->old_udata, p->m_pHeader, NULL);
-        ZCCALL(ZM_SetBkColor, p->m_pHeader, (ZuiAny)BK_Color, (ZuiAny)ARGB(255, 111, 222, 200));
-        //创建表主体
-        p->m_pList = NewZuiControl(_T("ListBody"), NULL, NULL);
-        ZuiVerticalLayoutProc(ZM_Layout_Add, cp, p->old_udata, p->m_pList, NULL);
-        ZCCALL(ZM_ListBody_SetOwner, p->m_pList, cp, NULL);
 
         p->m_ListInfo.m_cLineColor = 0xFF686868;
         p->m_ListInfo.m_cHotBkColor = 0xFF888888;

@@ -13,18 +13,30 @@ ZuiRes Global_Font = NULL;                //默认字体
 
 void Rect_Join(ZRect *rc, ZRect *rc1)
 {
-    if (rc1->left < rc->left) rc->left = rc1->left;
-    if (rc1->top < rc->top) rc->top = rc1->top;
-    if (rc1->right > rc->right) rc->right = rc1->right;
-    if (rc1->bottom > rc->bottom) rc->bottom = rc1->bottom;
+    if (rc1->left < rc->left)
+        rc->left = rc1->left;
+    if (rc1->top < rc->top)
+        rc->top = rc1->top;
+    if (rc1->right > rc->right)
+        rc->right = rc1->right;
+    if (rc1->bottom > rc->bottom)
+        rc->bottom = rc1->bottom;
 }
 
-void ZuiIntersectRect(ZuiRect rc, ZuiRect rc1)
+ZuiBool ZuiIntersectRect(ZuiRect rc, ZuiRect rc1)
 {
-    if (rc1->left > rc->left) rc->left = rc1->left;
-    if (rc1->top > rc->top) rc->top = rc1->top;
-    if (rc1->right < rc->right) rc->right = rc1->right;
-    if (rc1->bottom < rc->bottom) rc->bottom = rc1->bottom;
+    if ((rc1->right < rc->left && rc1->bottom < rc->top)
+        || (rc1->left > rc->right && rc1->top > rc->top))
+        return FALSE;
+    if (rc1->left > rc->left)
+        rc->left = rc1->left;
+    if (rc1->top > rc->top)
+        rc->top = rc1->top;
+    if (rc1->right < rc->right)
+        rc->right = rc1->right;
+    if (rc1->bottom < rc->bottom)
+        rc->bottom = rc1->bottom;
+    return TRUE;
 }
 
 uint32_t Zui_Hash(ZuiText str) {
