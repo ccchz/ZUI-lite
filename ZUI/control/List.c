@@ -11,21 +11,22 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
     switch (ProcId)
     {
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("header")) == 0)
-            ZCCALL(ZM_SetVisible, p->m_pHeader, (ZuiAny)(_tcsicmp(Param2, _T("hidden")) == 0 ? FALSE : TRUE), NULL);
-        else if (_tcsicmp(Param1, _T("linecolor")) == 0) {
-            p->m_ListInfo.m_cLineColor = ZuiStr2Color(Param2);
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("header")) == 0)
+            ZCCALL(ZM_SetVisible, p->m_pHeader, (ZuiAny)(_tcsicmp(zAttr->value, _T("hidden")) == 0 ? FALSE : TRUE), Param2);
+        else if (_tcsicmp(zAttr->name, _T("linecolor")) == 0) {
+            p->m_ListInfo.m_cLineColor = ZuiStr2Color(zAttr->value);
             p->m_ListInfo.m_bShowRowLine = TRUE;
         }
-        else if (_tcsicmp(Param1, _T("columncolor")) == 0) {
-            p->m_ListInfo.m_cColumnColor = ZuiStr2Color(Param2);
+        else if (_tcsicmp(zAttr->name, _T("columncolor")) == 0) {
+            p->m_ListInfo.m_cColumnColor = ZuiStr2Color(zAttr->value);
             p->m_ListInfo.m_bShowColumnLine = TRUE;
         }
-        else if (_tcsicmp(Param1, _T("hotbkcolor")) == 0) {
-            p->m_ListInfo.m_cHotBkColor = ZuiStr2Color(Param2);
+        else if (_tcsicmp(zAttr->name, _T("hotbkcolor")) == 0) {
+            p->m_ListInfo.m_cHotBkColor = ZuiStr2Color(zAttr->value);
         }
-        else if (_tcsicmp(Param1, _T("selectedbkcolor")) == 0) {
-            p->m_ListInfo.m_cSelectedBkColor = ZuiStr2Color(Param2);
+        else if (_tcsicmp(zAttr->name, _T("selectedbkcolor")) == 0) {
+            p->m_ListInfo.m_cSelectedBkColor = ZuiStr2Color(zAttr->value);
         }
 
 
@@ -1192,122 +1193,165 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         break;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("dragable")) == 0)
-            ZCCALL(ZM_ListHeaderItem_SetDragable, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcsicmp(Param1, _T("sepwidth")) == 0)
-            ZCCALL(ZM_ListHeaderItem_SetSepWidth, cp, (ZuiAny)_ttoi(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("normalimage")) == 0)
-            ZCCALL(ZM_ListHeaderItem_SetNormalImage, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("hotimage")) == 0)
-            ZCCALL(ZM_ListHeaderItem_SetHotImage, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("pushedimage")) == 0)
-            ZCCALL(ZM_ListHeaderItem_SetPushedImage, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("focusedimage")) == 0)
-            ZCCALL(ZM_ListHeaderItem_SetFocusedImage, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("sepimage")) == 0)
-            ZCCALL(ZM_ListHeaderItem_SetSepImage, cp, ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("normalcolor")) == 0)
-            p->m_cColorNormal = ZuiStr2Color(Param2);
-        else if (_tcsicmp(Param1, _T("hotcolor")) == 0)
-            p->m_cColorHot = ZuiStr2Color(Param2);
-        else if (_tcsicmp(Param1, _T("pushedcolor")) == 0)
-            p->m_cColorPushed = ZuiStr2Color(Param2);
-        else if (_tcsicmp(Param1, _T("focusedcolor")) == 0)
-            p->m_cColorFocused = ZuiStr2Color(Param2);
-        else if (_tcsicmp(Param1, _T("sepcolor")) == 0)
-            p->m_cColorSep = ZuiStr2Color(Param2);
-        else if (_tcsicmp(Param1, _T("font")) == 0) {
-            if (p->m_rFont)
-                ZuiResDBDelRes(p->m_rFont);
-            p->m_rFont = ZuiResDBGetRes(Param2, ZREST_FONT);
-            ZuiControlNeedUpdate(cp);
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("dragable")) == 0)
+            ZCCALL(ZM_ListHeaderItem_SetDragable, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
+        else if (_tcsicmp(zAttr->name, _T("sepwidth")) == 0)
+            ZCCALL(ZM_ListHeaderItem_SetSepWidth, cp, (ZuiAny)_ttoi(zAttr->value), Param2);
+        else if (_tcsicmp(zAttr->name, _T("normalimage")) == 0)
+            ZCCALL(ZM_ListHeaderItem_SetNormalImage, cp, ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcsicmp(zAttr->name, _T("hotimage")) == 0)
+            ZCCALL(ZM_ListHeaderItem_SetHotImage, cp, ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcsicmp(zAttr->name, _T("pushedimage")) == 0)
+            ZCCALL(ZM_ListHeaderItem_SetPushedImage, cp, ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcsicmp(zAttr->name, _T("focusedimage")) == 0)
+            ZCCALL(ZM_ListHeaderItem_SetFocusedImage, cp, ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcsicmp(zAttr->name, _T("sepimage")) == 0)
+            ZCCALL(ZM_ListHeaderItem_SetSepImage, cp, ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcsicmp(zAttr->name, _T("normalcolor")) == 0)
+            p->m_cColorNormal = ZuiStr2Color(zAttr->value);
+        else if (_tcsicmp(zAttr->name, _T("hotcolor")) == 0)
+            p->m_cColorHot = ZuiStr2Color(zAttr->value);
+        else if (_tcsicmp(zAttr->name, _T("pushedcolor")) == 0)
+            p->m_cColorPushed = ZuiStr2Color(zAttr->value);
+        else if (_tcsicmp(zAttr->name, _T("focusedcolor")) == 0)
+            p->m_cColorFocused = ZuiStr2Color(zAttr->value);
+        else if (_tcsicmp(zAttr->name, _T("sepcolor")) == 0)
+            p->m_cColorSep = ZuiStr2Color(zAttr->value);
+        else if (_tcsicmp(zAttr->name, _T("font")) == 0) {
+            ZCCALL(ZM_ListHeaderItem_SetFont, cp, ZuiResDBGetRes(zAttr->value, ZREST_FONT), Param2);
         }
-        else if (_tcsicmp(Param1, _T("listfont")) == 0) {
-            if (p->m_rListFont)
-                ZuiResDBDelRes(p->m_rListFont);
-            p->m_rListFont = ZuiResDBGetRes(Param2, ZREST_FONT);
-            ZuiControlNeedUpdate(cp);
+        else if (_tcsicmp(zAttr->name, _T("listfont")) == 0) {
+            ZCCALL(ZM_ListHeaderItem_SetListFont, cp, ZuiResDBGetRes(zAttr->value, ZREST_FONT), Param2);
         }
-        else if (_tcsicmp(Param1, _T("align")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("align")) == 0) {
             //横向对齐方式
-            if (_tcsicmp(Param2, _T("left")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_CENTER | ZDT_RIGHT);
-                p->m_uTextStyle |= ZDT_LEFT;
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_ListHeaderItem_GetTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("left")) == 0) {
+                tstyle &= ~(ZDT_CENTER | ZDT_RIGHT);
+                tstyle |= ZDT_LEFT;
             }
-            if (_tcsicmp(Param2, _T("center")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_LEFT | ZDT_RIGHT);
-                p->m_uTextStyle |= ZDT_CENTER;
+            if (_tcsicmp(zAttr->value, _T("center")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_RIGHT | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= ZDT_CENTER;
             }
-            if (_tcsicmp(Param2, _T("right")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_LEFT | ZDT_CENTER);
-                p->m_uTextStyle |= ZDT_RIGHT;
+            if (_tcsicmp(zAttr->value, _T("right")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_CENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= ZDT_RIGHT;
             }
-            ZuiControlNeedUpdate(cp);
+            ZCCALL(ZM_ListHeaderItem_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("valign")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("valign")) == 0) {
             //纵向对齐方式
-            if (_tcsicmp(Param2, _T("top")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_BOTTOM | ZDT_VCENTER | ZDT_WORDBREAK);
-                p->m_uTextStyle |= (ZDT_TOP | ZDT_SINGLELINE);
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_ListHeaderItem_GetTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("top")) == 0) {
+                tstyle &= ~(ZDT_BOTTOM | ZDT_VCENTER);
+                tstyle |= (ZDT_TOP | ZDT_SINGLELINE);
             }
-            if (_tcsicmp(Param2, _T("vcenter")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_TOP | ZDT_BOTTOM | ZDT_WORDBREAK);
-                p->m_uTextStyle |= (ZDT_VCENTER | ZDT_SINGLELINE);
+            if (_tcsicmp(zAttr->value, _T("vcenter")) == 0) {
+                tstyle &= ~(ZDT_TOP | ZDT_BOTTOM | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= (ZDT_VCENTER | ZDT_SINGLELINE);
             }
-            if (_tcsicmp(Param2, _T("bottom")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_TOP | ZDT_VCENTER | ZDT_WORDBREAK);
-                p->m_uTextStyle |= (ZDT_BOTTOM | ZDT_SINGLELINE);
+            if (_tcsicmp(zAttr->value, _T("bottom")) == 0) {
+                tstyle &= ~(ZDT_TOP | ZDT_VCENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= (ZDT_BOTTOM | ZDT_SINGLELINE);
             }
-            ZuiControlNeedUpdate(cp);
+            ZCCALL(ZM_ListHeaderItem_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("listalign")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("listalign")) == 0) {
             //横向对齐方式
-            if (_tcsicmp(Param2, _T("left")) == 0) {
-                p->m_uListTextStyle &= ~(ZDT_CENTER | ZDT_RIGHT);
-                p->m_uListTextStyle |= ZDT_LEFT;
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_ListHeaderItem_GetListTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("left")) == 0) {
+                tstyle &= ~(ZDT_CENTER | ZDT_RIGHT);
+                tstyle |= ZDT_LEFT;
             }
-            if (_tcsicmp(Param2, _T("center")) == 0) {
-                p->m_uListTextStyle &= ~(ZDT_LEFT | ZDT_RIGHT);
-                p->m_uListTextStyle |= ZDT_CENTER;
+            if (_tcsicmp(zAttr->value, _T("center")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_RIGHT | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= ZDT_CENTER;
             }
-            if (_tcsicmp(Param2, _T("right")) == 0) {
-                p->m_uListTextStyle &= ~(ZDT_LEFT | ZDT_CENTER);
-                p->m_uListTextStyle |= ZDT_RIGHT;
+            if (_tcsicmp(zAttr->value, _T("right")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_CENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= ZDT_RIGHT;
             }
-            ZuiControlNeedUpdate(cp);
+            ZCCALL(ZM_ListHeaderItem_SetListTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("listvalign")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("listvalign")) == 0) {
             //纵向对齐方式
-            if (_tcsicmp(Param2, _T("top")) == 0) {
-                p->m_uListTextStyle &= ~(ZDT_BOTTOM | ZDT_VCENTER | ZDT_WORDBREAK);
-                p->m_uListTextStyle |= (ZDT_TOP | ZDT_SINGLELINE);
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_ListHeaderItem_GetListTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("top")) == 0) {
+                tstyle &= ~(ZDT_BOTTOM | ZDT_VCENTER);
+                tstyle |= (ZDT_TOP | ZDT_SINGLELINE);
             }
-            if (_tcsicmp(Param2, _T("vcenter")) == 0) {
-                p->m_uListTextStyle &= ~(ZDT_TOP | ZDT_BOTTOM | ZDT_WORDBREAK);
-                p->m_uListTextStyle |= (ZDT_VCENTER | ZDT_SINGLELINE);
+            if (_tcsicmp(zAttr->value, _T("vcenter")) == 0) {
+                tstyle &= ~(ZDT_TOP | ZDT_BOTTOM | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= (ZDT_VCENTER | ZDT_SINGLELINE);
             }
-            if (_tcsicmp(Param2, _T("bottom")) == 0) {
-                p->m_uListTextStyle &= ~(ZDT_TOP | ZDT_VCENTER | ZDT_WORDBREAK);
-                p->m_uListTextStyle |= (ZDT_BOTTOM | ZDT_SINGLELINE);
+            if (_tcsicmp(zAttr->value, _T("bottom")) == 0) {
+                tstyle &= ~(ZDT_TOP | ZDT_VCENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= (ZDT_BOTTOM | ZDT_SINGLELINE);
             }
+            ZCCALL(ZM_ListHeaderItem_SetListTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("textcolor")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("textcolor")) == 0) {
             //字体颜色
-            p->m_cTextColor = ZuiStr2Color(Param2);
-            ZuiControlNeedUpdate(cp);
+            ZuiColor clrColor = ZuiStr2Color(zAttr->value);
+            ZCCALL(ZM_ListHeaderItem_SetTextColor, cp, (ZuiAny)clrColor, Param2);
         }
-        else if (_tcsicmp(Param1, _T("textpadding")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("textpadding")) == 0) {
             //字体边距
             ZRect rcPadding = { 0 };
             ZuiText pstr = NULL;
-            rcPadding.left = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
+            rcPadding.left = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
             rcPadding.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
             rcPadding.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
             rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-            memcpy(&p->m_rcPadding, &rcPadding, sizeof(ZRect));
-            ZuiControlNeedUpdate(cp);
+            ZCCALL(ZM_ListHeaderItem_SetTextPadding, cp, &rcPadding, Param2);
         }
         break;
+    }
+     case ZM_ListHeaderItem_SetTextPadding: {
+         memcpy(&p->m_rcPadding, Param1, sizeof(ZRect));
+         if (!Param2)
+             ZuiControlNeedUpdate(cp);
+         return 0;
+     }
+    case ZM_ListHeaderItem_SetTextColor: {
+        p->m_cTextColor = (ZuiColor)Param1;
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
+        return 0;
+    }
+    case ZM_ListHeaderItem_SetFont: {
+        if (p->m_rFont)
+            ZuiResDBDelRes(p->m_rFont);
+        p->m_rFont = (ZuiRes)Param1;
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
+    }
+    case ZM_ListHeaderItem_SetListFont: {
+        if (p->m_rListFont)
+            ZuiResDBDelRes(p->m_rListFont);
+        p->m_rListFont = (ZuiRes)Param1;
+        if (!Param2 && cp->m_pParent)
+            ZuiControlInvalidate(cp->m_pParent->m_pParent, TRUE);
+    }
+    case ZM_ListHeaderItem_SetListTextStyle: {
+        p->m_uListTextStyle = (unsigned int)Param1;
+        if (!Param2 && cp->m_pParent)
+            ZuiControlInvalidate(cp->m_pParent->m_pParent, TRUE);
+        return 0;
+    }
+    case ZM_ListHeaderItem_GetListTextStyle: {
+        return (ZuiAny)p->m_uListTextStyle;
+    }
+    case ZM_ListHeaderItem_SetTextStyle: {
+         p->m_uTextStyle = (unsigned int)Param1;
+         if (!Param2)
+             ZuiControlInvalidate(cp, TRUE);
+        return 0;
+    }
+    case ZM_ListHeaderItem_GetTextStyle: {
+        return (ZuiAny)p->m_uTextStyle;
     }
     case ZM_ListHeaderItem_SetDragable: {
         p->m_bDragable = (ZuiBool)Param1;

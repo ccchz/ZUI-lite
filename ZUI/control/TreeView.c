@@ -252,7 +252,8 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
         return p->pCheckBox;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("text")) == 0)return ZCCALL(ZM_SetText, p->pItemButton, Param2, NULL);
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("text")) == 0)return ZCCALL(ZM_SetText, p->pItemButton, zAttr->value, Param2);
         break;
     }
     case ZM_OnInit: {

@@ -115,26 +115,31 @@ void* ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, void* 
         return 0;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("itemsize")) == 0) {
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("itemsize")) == 0) {
             ZuiText pstr = NULL;
-            int x = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
-            int y = _tcstol(pstr + 1, &pstr, 10);   ASSERT(pstr);
-            ZCCALL(ZM_TileLayout_SetItemSize, cp, (ZuiAny)x, (ZuiAny)y);
+            ZSize sz = { 0 };
+            sz.cx = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
+            sz.cy = _tcstol(pstr + 1, &pstr, 10);   ASSERT(pstr);
+            ZCCALL(ZM_TileLayout_SetItemSize, cp, &sz, Param2);
         }
-        else if (_tcsicmp(Param1, _T("columns")) == 0) ZCCALL(ZM_TileLayout_SetColumns, cp, (ZuiAny)_ttoi(Param2), NULL);
+        else if (_tcsicmp(zAttr->name, _T("columns")) == 0) 
+            ZCCALL(ZM_TileLayout_SetColumns, cp, (ZuiAny)_ttoi(zAttr->value), Param2);
         break;
     }
     case ZM_TileLayout_SetColumns: {
         if (Param1 <= 0) return 0;
         p->m_nColumns = (int)Param1;
-        ZuiControlNeedUpdate(cp);
+        if (!Param2)
+            ZuiControlNeedUpdate(cp);
         break;
     }
     case ZM_TileLayout_SetItemSize: {
-        if (p->m_szItem.cx != (int)Param1 || p->m_szItem.cy != (int)Param2) {
-            p->m_szItem.cx = (int)Param1;
-            p->m_szItem.cy = (int)Param2;
-            ZuiControlNeedUpdate(cp);
+        if (p->m_szItem.cx != ((ZuiSize)Param1)->cx || p->m_szItem.cy != ((ZuiSize)Param1)->cy) {
+            p->m_szItem.cx = ((ZuiSize)Param1)->cx;
+            p->m_szItem.cy = ((ZuiSize)Param1)->cy;
+            if (!Param2)
+                ZuiControlNeedUpdate(cp);
         }
         break;
     }

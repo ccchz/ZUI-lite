@@ -86,18 +86,21 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
     }
     //设置控件单元尺寸。
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("gridsize")) == 0) {
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("gridsize")) == 0) {
             ZuiText pstr = NULL;
-            int cx = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
-            int cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
-            ZCCALL(ZM_GridSetSize, cp, (ZuiAny)cx, (ZuiAny)cy);
+            ZSize sz = { 0 };
+            sz.cx = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
+            sz.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
+            ZCCALL(ZM_GridSetSize, cp, &sz, Param2);
         }
         break;
     }
     case ZM_GridSetSize: {
-        p->m_szGridSize.cx = (int)Param1;
-        p->m_szGridSize.cy = (int)Param2;
-        ZuiControlNeedUpdate(cp);
+        p->m_szGridSize.cx = ((ZuiSize)Param1)->cx;
+        p->m_szGridSize.cy = ((ZuiSize)Param1)->cy;
+        if (!Param2)
+            ZuiControlNeedUpdate(cp);
         break;
     }
     case ZM_OnCreate: {

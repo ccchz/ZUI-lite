@@ -5,14 +5,6 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_vc6|Win32">
-      <Configuration>Release_vc6</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_vc6|x64">
-      <Configuration>Release_vc6</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -77,15 +69,6 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release_vc6|Win32'">
-    <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release_vc6|x64'">
-    <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -111,18 +94,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_vc6|Win32'">
-    <LibraryWPath />
-    <LibraryPath>$(SolutionDir)..\vc6rt\vc6lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)..\vc6rt\vc6include\wnet;$(SolutionDir)..\vc6rt\vc6include\crt</IncludePath>
-    <OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <ExecutablePath>C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin;$(ExecutablePath)</ExecutablePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_vc6|x64'">
-    <IntDir>$(SolutionDir)..\build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)..\bin\$(Platform)\$(Configuration)\</OutDir>
@@ -180,12 +151,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>../../../example/test;./.;../../../zui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>_USING_V110_SDK71_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(OutDir);$(OutDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <AdditionalDependencies>Userenv.lib;Psapi.lib;Iphlpapi.lib;ws2_32.lib;zui.lib;zlib.lib;Usp10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <MinimumRequiredVersion>5.02</MinimumRequiredVersion>
@@ -211,53 +182,6 @@
       <AdditionalDependencies>Psapi.lib;Iphlpapi.lib;Userenv.lib;ws2_32.lib;usp10.lib;zui.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <MinimumRequiredVersion>5.02</MinimumRequiredVersion>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_vc6|Win32'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\zui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MinSpace</Optimization>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;USING_VC6RT=1;_WIN32_WINNT=0x0500</PreprocessorDefinitions>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
-      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
-      <StringPooling>true</StringPooling>
-      <ExceptionHandling>false</ExceptionHandling>
-      <ProgramDataBaseFileName>$(IntDir)$(ProjectName).pdb</ProgramDataBaseFileName>
-    </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(OutDir);$(OutDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libpng.lib;zui.lib;agg.lib;zlib.lib;duktape.lib;libuv.lib;ws2_32.lib;dukluv.lib;IPHLPAPI.lib;Userenv.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <SubSystem>Windows</SubSystem>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_vc6|x64'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>..\..\..\zui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_vc6|x64'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-    </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(OutDir);$(OutDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>zui.lib;agg.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
-      <MinimumRequiredVersion>5.02</MinimumRequiredVersion>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

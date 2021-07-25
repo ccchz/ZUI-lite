@@ -782,58 +782,57 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         break;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("sbtnormalcolor")) == 0) {
-            ZCCALL(ZM_ScrollBar_SetColor, cp, (ZuiAny)ScrollBar_tN_Color, (ZuiAny)ZuiStr2Color(Param2));
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("sbtnormalcolor")) == 0) {
+            ZCCALL(ZM_ScrollBar_tN_Color, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbthotcolor")) == 0) {
-            ZCCALL(ZM_ScrollBar_SetColor, cp, (ZuiAny)ScrollBar_tH_Color, (ZuiAny)ZuiStr2Color(Param2));
+        else if (_tcsicmp(zAttr->name, _T("sbthotcolor")) == 0) {
+            ZCCALL(ZM_ScrollBar_tH_Color, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbtpushcolor")) == 0) {
-            ZCCALL(ZM_ScrollBar_SetColor, cp, (ZuiAny)ScrollBar_tP_Color, (ZuiAny)ZuiStr2Color(Param2));
+        else if (_tcsicmp(zAttr->name, _T("sbtpushcolor")) == 0) {
+            ZCCALL(ZM_ScrollBar_tP_Color, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbbnormalcolor")) == 0) {
-            ZCCALL(ZM_ScrollBar_SetColor, cp, (ZuiAny)ScrollBar_bN_Color, (ZuiAny)ZuiStr2Color(Param2));
+        else if (_tcsicmp(zAttr->name, _T("sbbnormalcolor")) == 0) {
+            ZCCALL(ZM_ScrollBar_bN_Color, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbbhotcolor")) == 0) {
-            ZCCALL(ZM_ScrollBar_SetColor, cp, (ZuiAny)ScrollBar_bH_Color, (ZuiAny)ZuiStr2Color(Param2));
+        else if (_tcsicmp(zAttr->name, _T("sbbhotcolor")) == 0) {
+            ZCCALL(ZM_ScrollBar_bH_Color, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbbpushcolor")) == 0) {
-            ZCCALL(ZM_ScrollBar_SetColor, cp, (ZuiAny)ScrollBar_bP_Color, (ZuiAny)ZuiStr2Color(Param2));
+        else if (_tcsicmp(zAttr->name, _T("sbbpushcolor")) == 0) {
+            ZCCALL(ZM_ScrollBar_bP_Color, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbdisablecolor")) == 0) {
-            ZCCALL(ZM_ScrollBar_SetColor, cp, (ZuiAny)ScrollBar_Di_Color, (ZuiAny)ZuiStr2Color(Param2));
+        else if (_tcsicmp(zAttr->name, _T("sbdisablecolor")) == 0) {
+            ZCCALL(ZM_ScrollBar_Di_Color, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbbkcolor")) == 0) {
-            ZCCALL(ZM_ScrollBar_SetColor, cp, (ZuiAny)ScrollBar_BK_Color, (ZuiAny)ZuiStr2Color(Param2));
+        else if (_tcsicmp(zAttr->name, _T("sbbkcolor")) == 0) {
+            ZCCALL(ZM_SetBkColor, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbb1show")) == 0) {
-            ZCCALL(ZM_ScrollBar_bShow, cp, (ZuiAny)ScrollBar_B1_Show, (ZuiAny)(_tcscmp(Param2, _T("true")) == 0 ? TRUE : FALSE));
+        else if (_tcsicmp(zAttr->name, _T("sbb1show")) == 0) {
+            ZCCALL(ZM_ScrollBar_B1_Show, cp, (ZuiAny)(_tcscmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbb2show")) == 0) {
-            ZCCALL(ZM_ScrollBar_bShow, cp, (ZuiAny)ScrollBar_B2_Show, (ZuiAny)(_tcscmp(Param2, _T("true")) == 0 ? TRUE : FALSE));
+        else if (_tcsicmp(zAttr->name, _T("sbb2show")) == 0) {
+            ZCCALL(ZM_ScrollBar_B2_Show, cp, (ZuiAny)(_tcscmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbimageres")) == 0) {
-            if (p->m_sImageRes)
-                ZuiResDBDelRes(p->m_sImageRes);
-            p->m_sImageRes = ZuiResDBGetRes(Param2, ZREST_IMG);
+        else if (_tcsicmp(zAttr->name, _T("sbimageres")) == 0) {
+            ZCCALL(ZM_ScrollBar_SetImageRes, cp, ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbvsrc")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("sbvsrc")) == 0) {
             if (p->m_bHorizontal)
                 break;
             ZRect rcTmp = { 0 };
             ZuiText pstr = NULL;
-            rcTmp.left = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
+            rcTmp.left = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
             rcTmp.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
             rcTmp.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
             rcTmp.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
@@ -848,12 +847,12 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
             }
             break;
         }
-        else if (_tcsicmp(Param1, _T("sbhsrc")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("sbhsrc")) == 0) {
             if (!p->m_bHorizontal)
                 break;
             ZRect rcTmp = { 0 };
             ZuiText pstr = NULL;
-            rcTmp.left = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
+            rcTmp.left = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
             rcTmp.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
             rcTmp.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
             rcTmp.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
@@ -870,54 +869,53 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         }
         break;
     }
-    case ZM_ScrollBar_bShow: {
-        if ((int)Param1 == ScrollBar_B1_Show)
-            p->m_bShowButton1 = (ZuiBool)Param2;
-        else if ((int)Param1 == ScrollBar_B2_Show)
-            p->m_bShowButton2 = (ZuiBool)Param2;
-        ZuiControlNeedUpdate(cp);
+    case ZM_ScrollBar_SetImageRes: {
+        if (p->m_sImageRes)
+            ZuiResDBDelRes(p->m_sImageRes);
+        p->m_sImageRes = (ZuiRes)Param1;
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
-    case ZM_ScrollBar_SetColor: {
-        switch ((int)Param1)
-        {
-        case ScrollBar_tN_Color: {
-            p->m_tNormalColor = (ZuiColor)Param2;
-            break;
-        }
-        case ScrollBar_tH_Color: {
-            p->m_tHotColor = (ZuiColor)Param2;
-            break;
-        }
-        case ScrollBar_tP_Color: {
-            p->m_tPushColor = (ZuiColor)Param2;
-            break;
-        }
-        case ScrollBar_bN_Color: {
-            p->m_bNormalColor = (ZuiColor)Param2;
-            break;
-        }
-        case ScrollBar_bH_Color: {
-            p->m_bHotColor = (ZuiColor)Param2;
-            break;
-        }
-        case ScrollBar_bP_Color: {
-            p->m_bPushColor = (ZuiColor)Param2;
-            break;
-        }
-        case ScrollBar_Di_Color: {
-            p->m_DisableColor = (ZuiColor)Param2;
-            break;
-        }
-        case ScrollBar_BK_Color: {
-            ZCCALL(ZM_SetBkColor, cp, (ZuiAny)BK_Color, Param2);
-            break;
-        }
-        default:
-            break;
-        }
-        ZuiControlInvalidate(cp, TRUE);
+    case ZM_ScrollBar_B1_Show: {
+        p->m_bShowButton1 = (ZuiBool)Param1;
+        if(!Param2)
+            ZuiControlNeedUpdate(cp);
         return 0;
+    }
+    case ZM_ScrollBar_B2_Show: {
+        p->m_bShowButton1 = (ZuiBool)Param1;
+        if (!Param2)
+            ZuiControlNeedUpdate(cp);
+        return 0;
+    }
+    case ZM_ScrollBar_tN_Color: {
+        p->m_tNormalColor = (ZuiColor)Param1;
+        break;
+    }
+    case ZM_ScrollBar_tH_Color: {
+        p->m_tHotColor = (ZuiColor)Param1;
+        break;
+    }
+    case ZM_ScrollBar_tP_Color: {
+        p->m_tPushColor = (ZuiColor)Param1;
+        break;
+    }
+    case ZM_ScrollBar_bN_Color: {
+        p->m_bNormalColor = (ZuiColor)Param1;
+        break;
+    }
+    case ZM_ScrollBar_bH_Color: {
+        p->m_bHotColor = (ZuiColor)Param1;
+        break;
+    }
+    case ZM_ScrollBar_bP_Color: {
+        p->m_bPushColor = (ZuiColor)Param1;
+        break;
+    }
+    case ZM_ScrollBar_Di_Color: {
+        p->m_DisableColor = (ZuiColor)Param1;
+        break;
     }
     case ZM_OnCreate: {
         p = (ZuiScrollBar)malloc(sizeof(ZScrollBar));

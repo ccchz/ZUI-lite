@@ -173,6 +173,7 @@ ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp, ZuiText text, ZuiText title) {
         FreeZuiControl(MsgBox_pRoot, FALSE);
         return 0;
     }
+    ZuiControlNeedUpdate(MsgBox_pRoot);
     ZuiControlRegNotify(MsgBox_pRoot, Default_NotifyProc);
     //取消最小化按钮
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_min"));

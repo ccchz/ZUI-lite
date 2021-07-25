@@ -32,108 +32,128 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         if (p->m_rFont)
             ZuiResDBDelRes(p->m_rFont);
         p->m_rFont = Param1;
-        ZuiControlInvalidate(cp,TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Label_SetTextColor: {
         p->m_cTextColor = (ZuiColor)Param1;
-        ZuiControlNeedUpdate(cp);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Label_SetTextColorDisabled: {
         p->m_cTextColorDisabled = (ZuiColor)Param1;
-        ZuiControlNeedUpdate(cp);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Label_SetTextPadding: {
         memcpy(&p->m_rcPadding, Param1, sizeof(ZRect));
-        ZuiControlNeedUpdate(cp);
+        if (!Param2)
+            ZuiControlNeedUpdate(cp);
         return 0;
     }
+    case ZM_Label_SetTextStyle: {
+        p->m_uTextStyle = (unsigned int)Param1;
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
+        return 0;
+    }
+    case ZM_Label_GetTextStyle: {
+        return (ZuiAny)p->m_uTextStyle;
+    }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("font")) == 0)
-            ZCCALL(ZM_Label_SetFont, cp, ZuiResDBGetRes(Param2, ZREST_FONT), NULL);
-        if (_tcsicmp(Param1, _T("align")) == 0) {
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("font")) == 0)
+            ZCCALL(ZM_Label_SetFont, cp, ZuiResDBGetRes(zAttr->value, ZREST_FONT), Param2);
+        if (_tcsicmp(zAttr->name, _T("align")) == 0) {
             //横向对齐方式
-            if (_tcsicmp(Param2, _T("left")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_CENTER | ZDT_RIGHT | ZDT_WORDBREAK | ZDT_EDITCONTROL);
-                p->m_uTextStyle |= ZDT_LEFT;
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_Label_GetTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("left")) == 0) {
+                tstyle &= ~(ZDT_CENTER | ZDT_RIGHT | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= ZDT_LEFT;
             }
-            if (_tcsicmp(Param2, _T("center")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_LEFT | ZDT_RIGHT | ZDT_WORDBREAK | ZDT_EDITCONTROL);
-                p->m_uTextStyle |= ZDT_CENTER;
+            if (_tcsicmp(zAttr->value, _T("center")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_RIGHT | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= ZDT_CENTER;
             }
-            if (_tcsicmp(Param2, _T("right")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_LEFT | ZDT_CENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
-                p->m_uTextStyle |= ZDT_RIGHT;
+            if (_tcsicmp(zAttr->value, _T("right")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_CENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= ZDT_RIGHT;
             }
-            ZuiControlNeedUpdate(cp);
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("valign")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("valign")) == 0) {
             //纵向对齐方式
-            if (_tcsicmp(Param2, _T("top")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_BOTTOM | ZDT_VCENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
-                p->m_uTextStyle |= (ZDT_TOP | ZDT_SINGLELINE);
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_Label_GetTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("top")) == 0) {
+                tstyle &= ~(ZDT_BOTTOM | ZDT_VCENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= (ZDT_TOP | ZDT_SINGLELINE);
             }
-            if (_tcsicmp(Param2, _T("vcenter")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_TOP | ZDT_BOTTOM | ZDT_WORDBREAK | ZDT_EDITCONTROL);
-                p->m_uTextStyle |= (ZDT_VCENTER | ZDT_SINGLELINE);
+            if (_tcsicmp(zAttr->value, _T("vcenter")) == 0) {
+                tstyle &= ~(ZDT_TOP | ZDT_BOTTOM | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= (ZDT_VCENTER | ZDT_SINGLELINE);
             }
-            if (_tcsicmp(Param2, _T("bottom")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_TOP | ZDT_VCENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
-                p->m_uTextStyle |= (ZDT_BOTTOM | ZDT_SINGLELINE);
+            if (_tcsicmp(zAttr->value, _T("bottom")) == 0) {
+                tstyle &= ~(ZDT_TOP | ZDT_VCENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
+                tstyle |= (ZDT_BOTTOM | ZDT_SINGLELINE);
             }
-            ZuiControlNeedUpdate(cp);
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("textcolor")) == 0) {
-            ZuiColor clrColor = ZuiStr2Color(Param2);
-            ZCCALL(ZM_Label_SetTextColor, cp, (ZuiAny)clrColor, NULL);
+        else if (_tcsicmp(zAttr->name, _T("textcolor")) == 0) {
+            ZuiColor clrColor = ZuiStr2Color(zAttr->value);
+            ZCCALL(ZM_Label_SetTextColor, cp, (ZuiAny)clrColor, Param2);
         }
-        else if (_tcsicmp(Param1, _T("textcolordisabled")) == 0) {
-            ZuiColor clrColor = ZuiStr2Color(Param2);
-            ZCCALL(ZM_Label_SetTextColorDisabled, cp, (ZuiAny)clrColor, NULL);
+        else if (_tcsicmp(zAttr->name, _T("textcolordisabled")) == 0) {
+            ZuiColor clrColor = ZuiStr2Color(zAttr->value);
+            ZCCALL(ZM_Label_SetTextColorDisabled, cp, (ZuiAny)clrColor, Param2);
         }
-        else if (_tcsicmp(Param1, _T("textpadding")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("textpadding")) == 0) {
             //字体边距
             ZRect rcPadding = { 0 };
             ZuiText pstr = NULL;
-            rcPadding.left = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
+            rcPadding.left = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
             rcPadding.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
             rcPadding.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
             rcPadding.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-            ZCCALL(ZM_Label_SetTextPadding, cp, &rcPadding, NULL);
+            ZCCALL(ZM_Label_SetTextPadding, cp, &rcPadding, Param2);
         }
-        else if (_tcsicmp(Param1, _T("wordbreak")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("wordbreak")) == 0) {
             //自动换行
-            if (_tcsicmp(Param2, _T("true")) == 0) {
-                p->m_uTextStyle &= 0;  //清除对齐方式。
-                p->m_uTextStyle |= ZDT_WORDBREAK | ZDT_EDITCONTROL;
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_Label_GetTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("true")) == 0) {
+                tstyle &= 0;  //清除对齐方式。
+                tstyle |= ZDT_WORDBREAK | ZDT_EDITCONTROL;
             }
             else {
-                p->m_uTextStyle &= ~ZDT_WORDBREAK & ~ZDT_EDITCONTROL;
-                p->m_uTextStyle |= ZDT_SINGLELINE;
+                tstyle &= ~ZDT_WORDBREAK & ~ZDT_EDITCONTROL;
+                tstyle |= ZDT_SINGLELINE;
             }
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("singleline")) == 0) {
-            if (_tcsicmp(Param2, _T("true")) == 0) {
-                p->m_uTextStyle |= ZDT_SINGLELINE;
+        else if (_tcsicmp(zAttr->name, _T("singleline")) == 0) {
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_Label_GetTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("true")) == 0) {
+                tstyle |= ZDT_SINGLELINE;
             }
             else {
-                p->m_uTextStyle &= ~ZDT_SINGLELINE;
+                tstyle &= ~ZDT_SINGLELINE;
             }
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("endellipsis")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("endellipsis")) == 0) {
             //替换超出部分为...
-            if (_tcsicmp(Param2, _T("true")) == 0) {
-                p->m_uTextStyle &= ~(ZDT_WORDBREAK | ZDT_EDITCONTROL); //自动换行和超出替换互斥。
-                p->m_uTextStyle |= ZDT_END_ELLIPSIS;
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_Label_GetTextStyle, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("true")) == 0) {
+                tstyle &= ~(ZDT_WORDBREAK | ZDT_EDITCONTROL); //自动换行和超出替换互斥。
+                tstyle |= ZDT_END_ELLIPSIS;
             }
-            else p->m_uTextStyle &= ~ZDT_END_ELLIPSIS;
+            else 
+                tstyle &= ~ZDT_END_ELLIPSIS;
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
         }
-        else {
-            break;
-        }
-        return 0;
+        break;
     }
     case ZM_OnCreate: {
         ZuiLabel np = (ZuiLabel)malloc(sizeof(ZLabel));

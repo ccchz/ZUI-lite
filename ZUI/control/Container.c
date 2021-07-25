@@ -42,40 +42,46 @@ ZEXPORT ZuiAny ZCALL ZuiContainerProc(int ProcId, ZuiControl cp, ZuiContainer p,
         }
         case ZM_Container_SetColorNormal: {
             p->m_ColorNormal = (ZuiColor)Param1;
-            ZuiControlInvalidate(cp, TRUE);
+            if (!Param2)
+                ZuiControlInvalidate(cp, TRUE);
             return 0;
         }
         case ZM_Container_SetColorHot: {
             p->m_ColorHot = (ZuiColor)Param1;
-            ZuiControlInvalidate(cp, TRUE);
+            if (!Param2)
+                ZuiControlInvalidate(cp, TRUE);
             return 0;
         }
         case ZM_Container_SetColorPushed: {
             p->m_ColorPushed = (ZuiColor)Param1;
-            ZuiControlInvalidate(cp, TRUE);
+            if (!Param2)
+                ZuiControlInvalidate(cp, TRUE);
             return 0;
         }
         case ZM_Container_SetColorFocused: {
             p->m_ColorFocused = (ZuiColor)Param1;
-            ZuiControlInvalidate(cp, TRUE);
+            if (!Param2)
+                ZuiControlInvalidate(cp, TRUE);
             return 0;
         }
         case ZM_Container_SetColorDisabled: {
             p->m_ColorDisabled = (ZuiColor)Param1;
-            ZuiControlInvalidate(cp, TRUE);
+            if (!Param2)
+                ZuiControlInvalidate(cp, TRUE);
             return 0;
         }
         case ZM_SetAttribute: {
-            if (_tcsicmp(Param1, _T("normalcolor")) == 0)
-                ZCCALL(ZM_Container_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-            else if (_tcsicmp(Param1, _T("hotcolor")) == 0)
-                ZCCALL(ZM_Container_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-            else if (_tcsicmp(Param1, _T("pushedcolor")) == 0)
-                ZCCALL(ZM_Container_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-            else if (_tcsicmp(Param1, _T("focusedcolor")) == 0)
-                ZCCALL(ZM_Button_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-            else if (_tcsicmp(Param1, _T("disabledcolor")) == 0)
-                ZCCALL(ZM_Container_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
+            ZuiAttribute zAttr = (ZuiAttribute)Param1;
+            if (_tcsicmp(zAttr->name, _T("normalcolor")) == 0)
+                ZCCALL(ZM_Container_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            else if (_tcsicmp(zAttr->name, _T("hotcolor")) == 0)
+                ZCCALL(ZM_Container_SetColorHot, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            else if (_tcsicmp(zAttr->name, _T("pushedcolor")) == 0)
+                ZCCALL(ZM_Container_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            else if (_tcsicmp(zAttr->name, _T("focusedcolor")) == 0)
+                ZCCALL(ZM_Button_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            else if (_tcsicmp(zAttr->name, _T("disabledcolor")) == 0)
+                ZCCALL(ZM_Container_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
         case ZM_OnPaintBorder: {

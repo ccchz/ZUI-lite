@@ -89,7 +89,7 @@ ZuiVoid ZuiLoadTemplate(mxml_node_t *n, ZuiControl p, ZuiAny Param1, ZuiAny Para
         }
         else
         {
-            ZCCALL(ZM_SetAttribute, p, node->value.attrs[i].name, node->value.attrs[i].value);
+            ZCCALL(ZM_SetAttribute, p, node->value.attrs + i, TRUE);
         }
     }
 
@@ -102,11 +102,11 @@ ZuiVoid ZuiLoadTemplate(mxml_node_t *n, ZuiControl p, ZuiAny Param1, ZuiAny Para
         if (Control) {
             node->user_data = Control;//保存控件到节点
                                       /*添加到容器*/
-            ZCCALL(ZM_Layout_Add, node->parent->user_data, Control, NULL);
+            ZCCALL(ZM_Layout_Add, node->parent->user_data, Control, TRUE);
             /*解析属性*/
             for (int i = 0; i < node->value.num_attrs; i++)
             {
-                ZCCALL(ZM_SetAttribute, Control, node->value.attrs[i].name, node->value.attrs[i].value);
+                ZCCALL(ZM_SetAttribute, Control, node->value.attrs + i, TRUE);
             }
         }
     }

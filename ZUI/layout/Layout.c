@@ -317,6 +317,18 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
         }
         break;
     }
+    case ZM_Layout_SetChildVAlign: {
+        p->m_iChildVAlign = (unsigned int)Param1;
+        if (!Param2)
+            ZuiControlNeedUpdate(cp);
+        return 0;
+    }
+    case ZM_Layout_SetChildAlign: {
+        p->m_iChildAlign = (unsigned int)Param1;
+        if (!Param2)
+            ZuiControlNeedUpdate(cp);
+        return 0;
+    }
     case ZM_Layout_GetChildVAlign: {
         return (ZuiAny)p->m_iChildVAlign;
     }
@@ -324,72 +336,75 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
         return (ZuiAny)p->m_iChildAlign;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("inset")) == 0) {
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("inset")) == 0) {
             ZRect rcInset = { 0 };
             ZuiText pstr = NULL;
-            rcInset.left = _tcstol(Param2, &pstr, 10);  ASSERT(pstr);
+            rcInset.left = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
             rcInset.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
             rcInset.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
             rcInset.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-            ZCCALL(ZM_Layout_SetInset, cp, &rcInset, NULL);
+            ZCCALL(ZM_Layout_SetInset, cp, &rcInset, Param2);
         }
-        else if (_tcsicmp(Param1, _T("stepsize")) == 0) {
-            ZCCALL(ZM_Layout_SetScrollStepSize, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(zAttr->name, _T("stepsize")) == 0) {
+            ZCCALL(ZM_Layout_SetScrollStepSize, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
         }
-        else if (_tcsicmp(Param1, _T("childpadding")) == 0) {
-            ZCCALL(ZM_Layout_SetChildPadding, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        else if (_tcsicmp(zAttr->name, _T("childpadding")) == 0) {
+            ZCCALL(ZM_Layout_SetChildPadding, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
         }
-        else if (_tcsicmp(Param1, _T("valign")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("valign")) == 0) {
             //纵向对齐方式
-            if (_tcsicmp(Param2, _T("top")) == 0) {
-                p->m_iChildVAlign &= ~(ZDT_BOTTOM | ZDT_VCENTER);
-                p->m_iChildVAlign |= ZDT_TOP;
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_Layout_GetChildVAlign, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("left")) == 0) {
+                tstyle &= ~(ZDT_CENTER | ZDT_RIGHT);
+                tstyle |= ZDT_LEFT;
             }
-            if (_tcsicmp(Param2, _T("vcenter")) == 0) {
-                p->m_iChildVAlign &= ~(ZDT_TOP | ZDT_BOTTOM);
-                p->m_iChildVAlign |= ZDT_VCENTER;
+            if (_tcsicmp(zAttr->value, _T("center")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_RIGHT);
+                tstyle |= ZDT_CENTER;
             }
-            if (_tcsicmp(Param2, _T("bottom")) == 0) {
-                p->m_iChildVAlign &= ~(ZDT_TOP | ZDT_VCENTER);
-                p->m_iChildVAlign |= ZDT_BOTTOM;
+            if (_tcsicmp(zAttr->value, _T("right")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_CENTER);
+                tstyle |= ZDT_RIGHT;
             }
-            ZuiControlNeedUpdate(cp);
+            ZCCALL(ZM_Layout_SetChildVAlign, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("align")) == 0) {
+        else if (_tcsicmp(zAttr->name, _T("align")) == 0) {
             //横向对齐方式
-            if (_tcsicmp(Param2, _T("left")) == 0) {
-                p->m_iChildAlign &= ~(ZDT_RIGHT | ZDT_CENTER);
-                p->m_iChildAlign |= ZDT_LEFT;
+            unsigned int tstyle = (unsigned int)ZCCALL(ZM_Layout_GetChildAlign, cp, 0, 0);
+            if (_tcsicmp(zAttr->value, _T("left")) == 0) {
+                tstyle &= ~(ZDT_CENTER | ZDT_RIGHT);
+                tstyle |= ZDT_LEFT;
             }
-            if (_tcsicmp(Param2, _T("center")) == 0) {
-                p->m_iChildAlign &= ~(ZDT_LEFT | ZDT_RIGHT);
-                p->m_iChildAlign |= ZDT_CENTER;
+            if (_tcsicmp(zAttr->value, _T("center")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_RIGHT);
+                tstyle |= ZDT_CENTER;
             }
-            if (_tcsicmp(Param2, _T("right")) == 0) {
-                p->m_iChildAlign &= ~(ZDT_LEFT | ZDT_CENTER);
-                p->m_iChildAlign |= ZDT_RIGHT;
+            if (_tcsicmp(zAttr->value, _T("right")) == 0) {
+                tstyle &= ~(ZDT_LEFT | ZDT_CENTER);
+                tstyle |= ZDT_RIGHT;
             }
-            ZuiControlNeedUpdate(cp);
+            ZCCALL(ZM_Layout_SetChildAlign, cp, (ZuiAny)tstyle, Param2);
         }
-        else if (_tcsicmp(Param1, _T("vscrollbar")) == 0) {
-            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0), (ZuiAny)TRUE);
+        else if (_tcsicmp(zAttr->name, _T("vscrollbar")) == 0) {
+            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0), (ZuiAny)TRUE);
         }
-        else if (_tcsicmp(Param1, _T("hscrollbar")) == 0) {
-            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0), (ZuiAny)FALSE);
+        else if (_tcsicmp(zAttr->name, _T("hscrollbar")) == 0) {
+            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0), (ZuiAny)FALSE);
         }
-        else if ((_tcsicmp(Param1, _T("sbbkcolor")) == 0) ||
-                (_tcsicmp(Param1, _T("sbtnormalcolor")) == 0) ||
-                (_tcsicmp(Param1, _T("sbthotcolor")) == 0) ||
-                (_tcsicmp(Param1, _T("sbtpushcolor")) == 0) ||
-                (_tcsicmp(Param1, _T("sbbnormalcolor")) == 0) ||
-                (_tcsicmp(Param1, _T("sbbhotcolor")) == 0) ||
-                (_tcsicmp(Param1, _T("sbbpushcolor")) == 0) ||
-                (_tcsicmp(Param1, _T("sbdisablecolor")) == 0) ||
-                (_tcsicmp(Param1, _T("sbb1show")) == 0) ||
-                (_tcsicmp(Param1, _T("sbb2show")) == 0) ||
-                (_tcsicmp(Param1, _T("sbimageres")) == 0) ||
-                (_tcsicmp(Param1, _T("sbvsrc")) == 0) ||
-                (_tcsicmp(Param1, _T("sbhsrc")) == 0)){
+        else if ((_tcsicmp(zAttr->name, _T("sbbkcolor")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbtnormalcolor")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbthotcolor")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbtpushcolor")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbbnormalcolor")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbbhotcolor")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbbpushcolor")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbdisablecolor")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbb1show")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbb2show")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbimageres")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbvsrc")) == 0) ||
+                (_tcsicmp(zAttr->name, _T("sbhsrc")) == 0)){
                 ZCCALL(ProcId, p->m_pVerticalScrollBar, Param1, Param2);
                 ZCCALL(ProcId, p->m_pHorizontalScrollBar, Param1, Param2);
         }
@@ -474,19 +489,17 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
             }
         }
         return (ZuiAny)-1;
-        break;
     }
     case ZM_Layout_SetItemIndex: {
         for (int it = 0; it < darray_len(p->m_items); it++) {
             if (p->m_items->data[it] == Param1) {
-                ZuiControlNeedUpdate(cp);
                 darray_delete(p->m_items, it);
-                return (ZuiAny)darray_insert(p->m_items, (int)Param2, Param1);
+                darray_insert(p->m_items, (int)Param2, Param1);
+                ZuiControlNeedUpdate(cp);
+                break;
             }
         }
-
         return FALSE;
-        break;
     }
     case ZM_Layout_GetItemAt: {
         if ((int)Param1 < 0 || (int)Param1 >= darray_len(p->m_items)) return NULL;
@@ -541,12 +554,14 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
     }
     case ZM_Layout_SetChildPadding: {
         p->m_iChildPadding = (int)Param1;
-        ZuiControlNeedUpdate(cp);
+        if (!Param2)
+            ZuiControlNeedUpdate(cp);
         break;
     }
     case ZM_Layout_SetInset: {
         memcpy(&p->m_rcInset, Param1, sizeof(ZRect));
-        ZuiControlNeedParentUpdate(cp);
+        if(!Param2)
+            ZuiControlNeedUpdate(cp);
         break;
     }
     case ZM_Layout_GetScrollPos: {

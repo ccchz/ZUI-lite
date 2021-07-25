@@ -44,48 +44,55 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
         return 0;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("pbcolor")) == 0)
-            ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("pbbkcolor")) == 0)
-            ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("pbheight")) == 0)
-            ZCCALL(ZM_ProgressBar_SetHeight, cp, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("pbpos")) == 0)
-            ZCCALL(ZM_ProgressBar_SetPos, cp, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("pbrange")) == 0)
-            ZCCALL(ZM_ProgressBar_SetRange, cp, (ZuiAny)(_ttoi(Param2)), NULL);
-        else if (_tcsicmp(Param1, _T("pbhorizontal")) == 0)
-            ZCCALL(ZM_ProgressBar_SetHorizontal, cp, (ZuiAny)(_tcsicmp(Param2,_T("true"))? FALSE : TRUE), NULL);
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("pbcolor")) == 0)
+            ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+        else if (_tcsicmp(zAttr->name, _T("pbbkcolor")) == 0)
+            ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+        else if (_tcsicmp(zAttr->name, _T("pbheight")) == 0)
+            ZCCALL(ZM_ProgressBar_SetHeight, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
+        else if (_tcsicmp(zAttr->name, _T("pbpos")) == 0)
+            ZCCALL(ZM_ProgressBar_SetPos, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
+        else if (_tcsicmp(zAttr->name, _T("pbrange")) == 0)
+            ZCCALL(ZM_ProgressBar_SetRange, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
+        else if (_tcsicmp(zAttr->name, _T("pbhorizontal")) == 0)
+            ZCCALL(ZM_ProgressBar_SetHorizontal, cp, (ZuiAny)(_tcsicmp(zAttr->value,_T("true"))? FALSE : TRUE), Param2);
         break;
     }
     case ZM_ProgressBar_SetPos: {
         p->m_dwPos = (int)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_ProgressBar_SetRange: {
         p->m_dwRange = (int)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_ProgressBar_SetHorizontal: {
         p->m_bHorizontal = (ZuiBool)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_ProgressBar_SetHeight: {
         p->m_dwHeight = (int)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_ProgressBar_SetColor: {
         p->m_cColor = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_ProgressBar_SetBackColor: {
         p->m_cBkColor = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_OnCreate: {

@@ -308,7 +308,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                 }
             }
         }
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         ZuiControlDelayedNotify(ZM_OnSelectChanged, cp, (ZuiAny)p->m_bSelected, NULL);
         break;
     }
@@ -323,60 +324,70 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         if (p->m_ResSelected)
             ZuiResDBDelRes(p->m_ResSelected);
         p->m_ResSelected = Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetResHot: {
         if (p->m_ResSelectedHot)
             ZuiResDBDelRes(p->m_ResSelectedHot);
         p->m_ResSelectedHot = Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetResPushed: {
         if (p->m_ResSelectedPushed)
             ZuiResDBDelRes(p->m_ResSelectedPushed);
         p->m_ResSelectedPushed = Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetResFocused: {
         if (p->m_ResSelectedFocused)
             ZuiResDBDelRes(p->m_ResSelectedFocused);
         p->m_ResSelectedFocused = Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetResDisabled: {
         if (p->m_ResSelectedDisabled)
             ZuiResDBDelRes(p->m_ResSelectedDisabled);
         p->m_ResSelectedDisabled = Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetColorNormal: {
         p->m_ColorSelected = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetColorHot: {
         p->m_ColorSelectedHot = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetColorPushed: {
         p->m_ColorSelectedPushed = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetColorFocused: {
         p->m_ColorSelectedFocused = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetColorDisabled: {
         p->m_ColorSelectedDisabled = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_Option_SetResType: {
@@ -384,32 +395,33 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         return 0;
     }
     case ZM_SetAttribute: {
-        if (_tcscmp(Param1, _T("group")) == 0)
-            ZCCALL(ZM_Option_SetGroup, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcscmp(Param1, _T("selected")) == 0)
-            ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(_tcsicmp(Param2, _T("true")) == 0 ? TRUE : FALSE), NULL);
-        else if (_tcscmp(Param1, _T("selectedimage")) == 0)
-            ZCCALL(ZM_Option_SetResNormal, cp, (ZuiAny)ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcscmp(Param1, _T("selectedhotimage")) == 0)
-            ZCCALL(ZM_Option_SetResHot, cp, (ZuiAny)ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcscmp(Param1, _T("selectedpushedimage")) == 0)
-            ZCCALL(ZM_Option_SetResPushed, cp, (ZuiAny)ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcscmp(Param1, _T("selectedfocusedimage")) == 0)
-            ZCCALL(ZM_Option_SetResFocused, cp, (ZuiAny)ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcscmp(Param1, _T("selecteddisabledimage")) == 0)
-            ZCCALL(ZM_Option_SetResDisabled, cp, (ZuiAny)ZuiResDBGetRes(Param2, ZREST_IMG), NULL);
-        else if (_tcsicmp(Param1, _T("selectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("hotselectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorHot, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("pushedselectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("focusedselectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("disabledselectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(Param2), NULL);
-        else if (_tcsicmp(Param1, _T("optionstyle")) == 0)
-            ZCCALL(ZM_Option_SetResType, cp, (ZuiAny)(_ttoi(Param2)), NULL);
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcscmp(zAttr->name, _T("group")) == 0)
+            ZCCALL(ZM_Option_SetGroup, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
+        else if (_tcscmp(zAttr->name, _T("selected")) == 0)
+            ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
+        else if (_tcscmp(zAttr->name, _T("selectedimage")) == 0)
+            ZCCALL(ZM_Option_SetResNormal, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcscmp(zAttr->name, _T("selectedhotimage")) == 0)
+            ZCCALL(ZM_Option_SetResHot, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcscmp(zAttr->name, _T("selectedpushedimage")) == 0)
+            ZCCALL(ZM_Option_SetResPushed, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcscmp(zAttr->name, _T("selectedfocusedimage")) == 0)
+            ZCCALL(ZM_Option_SetResFocused, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcscmp(zAttr->name, _T("selecteddisabledimage")) == 0)
+            ZCCALL(ZM_Option_SetResDisabled, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcsicmp(zAttr->name, _T("selectedcolor")) == 0)
+            ZCCALL(ZM_Option_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+        else if (_tcsicmp(zAttr->name, _T("hotselectedcolor")) == 0)
+            ZCCALL(ZM_Option_SetColorHot, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+        else if (_tcsicmp(zAttr->name, _T("pushedselectedcolor")) == 0)
+            ZCCALL(ZM_Option_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+        else if (_tcsicmp(zAttr->name, _T("focusedselectedcolor")) == 0)
+            ZCCALL(ZM_Option_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+        else if (_tcsicmp(zAttr->name, _T("disabledselectedcolor")) == 0)
+            ZCCALL(ZM_Option_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+        else if (_tcsicmp(zAttr->name, _T("optionstyle")) == 0)
+            ZCCALL(ZM_Option_SetResType, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
         break;
     }
     case ZM_OnCreate: {

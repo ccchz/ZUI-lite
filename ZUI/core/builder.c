@@ -71,7 +71,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
                 /*解析属性*/
                 for (int i = 0; i < node->value.num_attrs; i++)
                 {
-                    ZCCALL(ZM_SetAttribute, Control, node->value.attrs[i].name, node->value.attrs[i].value);
+                    ZCCALL(ZM_SetAttribute, Control, node->value.attrs + i, (ZuiAny)TRUE);
                 }
                 if (node->parent->user_data && _tcsicmp(ClassName, _T("window")) != 0) {
                     //上级控件已存在且当前欲创建的子窗口不为窗口对象

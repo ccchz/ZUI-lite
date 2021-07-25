@@ -78,17 +78,18 @@ ZEXPORT ZuiAny ZCALL ZuiSplitterBarProc(int ProcId, ZuiControl cp, ZuiSplitterBa
         return 0;
     }
     case ZM_SetAttribute: {
-        if (_tcsicmp(Param1, _T("sepside")) == 0) {
-            if (_tcsicmp(Param2, _T("left")) == 0) {
+        ZuiAttribute zAttr = (ZuiAttribute)Param1;
+        if (_tcsicmp(zAttr->name, _T("sepside")) == 0) {
+            if (_tcsicmp(zAttr->value, _T("left")) == 0) {
                 p->m_dwType = 1;
             }
-            else if (_tcsicmp(Param2, _T("top")) == 0) {
+            else if (_tcsicmp(zAttr->value, _T("top")) == 0) {
                 p->m_dwType = 2;
             }
-            else if (_tcsicmp(Param2, _T("right")) == 0) {
+            else if (_tcsicmp(zAttr->value, _T("right")) == 0) {
                 p->m_dwType = 3;
             }
-            else if (_tcsicmp(Param2, _T("bottom")) == 0) {
+            else if (_tcsicmp(zAttr->value, _T("bottom")) == 0) {
                 p->m_dwType = 4;
             }
         }

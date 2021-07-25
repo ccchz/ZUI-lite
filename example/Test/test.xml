@@ -26,7 +26,7 @@
 					foregroundimage="default:default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30"/>
 		</VerticalLayout>
 		<TabLayout name="tab" tabselect='0' bkcolor="0xFF1A1A1A">
-			<VerticalLayout name="base" align="center">
+			<VerticalLayout name="base" align="center" childpadding="3">
 				<Label width="100" height="64" name="wordbreak" bordercolor="#FF636363" text="块是在论坛找的某位大佬的改的。" wordbreak="true"/>
 				<CheckBox name="buttondisable22" text="CheckBox测试2" round="3,3" optionstyle="2" align="left" textpadding="24,0,0,0" width="150" disabledcolor="#FF8c8c8c" height="22"/>
 				<CheckBox name="buttondisable23" text="CheckBox测试3" round="3,3" optionstyle="3" align="left" textpadding="40,0,0,0" width="150" disabledcolor="#FF8c8c8c" height="22"/>
