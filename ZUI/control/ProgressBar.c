@@ -21,7 +21,7 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
             rc.bottom = cp->m_rcItem.bottom;
         }
         //绘制背景区域。
-        ZuiDrawFillRoundRect(cp, p->m_cBkColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy);
+        ZuiDrawFillRoundRect(cp, p->m_cBkColor, &rc, &cp->m_rRound);
         //计算进度区域。
         if (p->m_bHorizontal) {
             rc.right = cp->m_rcItem.left + ((cp->m_rcItem.right - cp->m_rcItem.left) * percent);
@@ -30,7 +30,7 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
             rc.top = cp->m_rcItem.bottom - ((cp->m_rcItem.bottom - cp->m_rcItem.top) * percent);
         }
         //绘制进度区域。
-        ZuiDrawFillRoundRect(cp, p->m_cColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy);
+        ZuiDrawFillRoundRect(cp, p->m_cColor, &rc, &cp->m_rRound);
         if (cp->m_dwBorderWidth) {
             if (p->m_bHorizontal) {
                 rc.right = cp->m_rcItem.right;
@@ -39,7 +39,7 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
                 rc.top = cp->m_rcItem.top;
             }
             //绘制边框。
-            ZuiDrawRoundRect(cp, cp->m_dwBorderColor, &rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
+            ZuiDrawRoundRect(cp, cp->m_dwBorderColor, &rc, &cp->m_rRound, cp->m_dwBorderWidth);
         }
         return 0;
     }

@@ -70,7 +70,7 @@ typedef struct _ZRect
     int top;    ///顶边
     int right;  ///右边
     int bottom; ///底边
-} *ZuiRect, ZRect;
+} *ZuiRect, ZRect, ZRound;
 /**矩形(浮点)*/
 typedef struct _ZRectR
 {
@@ -273,17 +273,19 @@ enum ZREST
 #define ZM_KillFocus          68  //设置焦点
 #define ZM_SetDrag            69  //设置拖拽控件
 #define ZM_SetRound           70  //设置圆角
-#define ZM_SetAnimation       71  //设置动画类型
-#define ZM_SetAnimationType   72  //设置动画类型
-#define ZM_SetFont            73  //设置缺省字体
-#define ZM_SetBkColor         74  //设置背景色
-#define ZM_SetBkImage         75 //设置背景图片
-#define ZM_SetBorderColor     76  //设置边框颜色
-#define ZM_SetBorderColor2    77  //设置边框颜色
-#define	ZM_SetBorderWidth     78
-#define	ZM_GetBorderWidth	  79
-#define ZM_SetNotifyPop       80 //事件冒泡
-#define ZM_Invalidate         81  //刷新显示
+#define ZM_GetRound           71
+#define ZM_SetAnimation       72  //设置动画类型
+#define ZM_SetAnimationType   73  //设置动画类型
+#define ZM_SetFont            74  //设置缺省字体
+#define ZM_SetBkColor         75  //设置背景色
+#define ZM_SetBkImage         76 //设置背景图片
+#define ZM_SetBorderColor     77  //设置边框颜色
+#define ZM_SetBorderColor2    78  //设置边框颜色
+#define	ZM_SetBorderWidth     79
+#define	ZM_GetBorderWidth	  80
+#define ZM_SetNotifyPop       81 //事件冒泡
+#define ZM_Invalidate         82  //刷新显示
+#define ZM_GetParent          83
 //输入事件
 #define ZM_OnChar             100
 #define ZM_OnClick            101

@@ -99,25 +99,23 @@ void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1,
             return 0;
 
 		//设置新剪裁区
-		ZRect rcClip;
-		MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
-		ZuiGraphicsPushClipRect(cp, &rcClip, 0);
+		ZuiGraphicsPushClipRect(cp, &cp->m_rcItem, 0);
 
         //获取当前剪裁区
-        ZRect CurBox;
-        ZuiGraphicsGetClipBox(cp, &CurBox);
+        //ZRect CurBox;
+        //ZuiGraphicsGetClipBox(cp, &CurBox);
 
 		//通知当前容器绘制
         p->old_call(ProcId, cp, 0, Param1, Param2);
 		//绘制子控件
         if (darray_len(p->m_items) > 0) {
 			//当前控件区域
-            ZRect rc = cp->m_rcItem;
+            ZRect rc = {0};
 			//求出内边距
-            rc.left += p->m_rcInset.left;
-            rc.top += p->m_rcInset.top;
-            rc.right -= p->m_rcInset.right;
-            rc.bottom -= p->m_rcInset.bottom;
+            rc.left = cp->m_rcItem.left + p->m_rcInset.left;
+            rc.top = cp->m_rcItem.top + p->m_rcInset.top;
+            rc.right = cp->m_rcItem.right - p->m_rcInset.right;
+            rc.bottom = cp->m_rcItem.bottom - p->m_rcInset.bottom;
 			//获取滚动条区域,排除滚动条绘制
             if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible)
                 rc.right -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);

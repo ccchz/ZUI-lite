@@ -39,6 +39,10 @@ extern "C" {
 
     DArray* rcDarray;
 
+    struct graphgraphics {
+        Gdiplus::Graphics* ggp;
+    };
+
     struct graphimage {
         Gdiplus::Image *image;
     };
@@ -70,9 +74,8 @@ extern "C" {
         if (gp)
         {
             SolidBrush brush(incolor);
-            Gdiplus::Graphics gpp(gp->hdc);
-            gpp.FillRectangle(&brush,rc->left,rc->top,rc->right-rc->left,rc->bottom-rc->top);
-            //gpp.~Graphics();
+            Gdiplus::Graphics *gpp = gp->ggp->ggp;
+            gpp->FillRectangle(&brush,rc->left,rc->top-1,rc->right-rc->left,rc->bottom-rc->top);
         }
     }
     /*»­¾ØÐÎ*/
@@ -81,11 +84,9 @@ extern "C" {
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
-            Gdiplus::Graphics gpp(gp->hdc);
-            gpp.DrawRectangle(&pen, rc->left, rc->top, rc->right - rc->left-1, rc->bottom - rc->top-1);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            gpp->DrawRectangle(&pen, rc->left, rc->top, rc->right - rc->left-1, rc->bottom - rc->top-1);
             pen.~Pen();
-            //gpp.ReleaseHDC(gp->hdc);
-            //gpp.~Graphics();
         }
     }
     //»æÖÆÍÖÔ²
@@ -94,14 +95,9 @@ extern "C" {
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
             //pen.SetAlignment(PenAlignmentInset);
-            Gdiplus::Graphics gpp(gp->hdc);
-            if (gp->SmoothingMode) {
-                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
-            }
-            gpp.DrawEllipse(&pen, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            gpp->DrawEllipse(&pen, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
             pen.~Pen();
-            //gpp.ReleaseHDC(gp->hdc);
-            //gpp.~Graphics();
         }
     }
     //Ìî³äÍÖÔ²
@@ -110,16 +106,12 @@ extern "C" {
         if (gp)
         {
             SolidBrush brush(incolor);
-            Gdiplus::Graphics gpp(gp->hdc);
-            if (gp->SmoothingMode) {
-                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
-            }
-            gpp.FillEllipse(&brush, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
-            //gpp.~Graphics();
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            gpp->FillEllipse(&brush, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
         }
     }
     //Ìî³äÔ²½Ç¾ØÐÎ
-    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int w, int h) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, ZRound *rd) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
@@ -132,27 +124,23 @@ extern "C" {
             Pen pen(incolor, (REAL)1);
             pen.SetAlignment(PenAlignmentInset);
             SolidBrush brush(incolor);
-            Gdiplus::Graphics gpp(gp->hdc);
-            if (gp->SmoothingMode) {
-                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
-            }
-            path.AddArc(left, top, (REAL)2 * w, (REAL)2 * h, 180, 90);
-            path.AddLine(left + w, top, right - w, top);
-            path.AddArc(right - 2 * w , top, (REAL)2 * w, (REAL)2 * h, 270, 90);
-            path.AddLine(right , top + h, right , bottom - h);
-            path.AddArc(right - 2 * w , bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 0, 90);
-            path.AddLine(left + w, bottom , right - w, bottom );
-            path.AddArc(left, bottom - 2 * h , (REAL)2 * w, (REAL)2 * h, 90, 90);
-            path.AddLine(left, bottom - h , left, top + h);
-            gpp.FillPath(&brush, &path);
-            gpp.DrawPath(&pen, &path);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            path.AddArc(left, top, (REAL)2 * rd->left, (REAL)2 * rd->left, 180, 90);
+            path.AddLine(left + rd->left, top, right - rd->top, top);
+            path.AddArc(right - 2 * rd->top, top, (REAL)2 * rd->top, (REAL)2 * rd->top, 270, 90);
+            path.AddLine(right , top + rd->top, right , bottom - rd->right);
+            path.AddArc(right - 2 * rd->right, bottom - 2 * rd->right, (REAL)2 * rd->right, (REAL)2 * rd->right, 0, 90);
+            path.AddLine(left + rd->bottom, bottom , right - rd->right, bottom );
+            path.AddArc(left, bottom - 2 * rd->bottom, (REAL)2 * rd->bottom, (REAL)2 * rd->bottom, 90, 90);
+            path.AddLine(left, bottom - rd->bottom, left, top + rd->left);
+            gpp->FillPath(&brush, &path);
+            gpp->DrawPath(&pen, &path);
             pen.~Pen();
             path.~GraphicsPath();
-            //gpp.~Graphics();
         }
     }
     //»æÖÆÔ²½Ç¾ØÐÎ
-    ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int w, int h, int LineWidth) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, ZRound *rd, int LineWidth) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp) {
             REAL left, top, right, bottom;
@@ -163,22 +151,18 @@ extern "C" {
             GraphicsPath path;
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
-            Gdiplus::Graphics gpp(gp->hdc);
-            if (gp->SmoothingMode) {
-                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
-            }
-            path.AddArc(left, top, (REAL)2 * w, (REAL)2 * h, 180, 90);
-            path.AddLine(left + w, top, right - w, (REAL)top);
-            path.AddArc(right - 2 * w, top, (REAL)2 * w, (REAL)2 * h, 270, 90);
-            path.AddLine(right, top + h, right, (REAL)bottom - h);
-            path.AddArc(right - 2 * w, bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 0, 90);
-            path.AddLine(left + w, bottom, right - w, bottom);
-            path.AddArc(left, bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 90, 90);
-            path.AddLine(left, bottom - h, left, top + h);
-            gpp.DrawPath(&pen, &path);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            path.AddArc(left, top, (REAL)2 * rd->left, (REAL)2 * rd->left, 180, 90);
+            path.AddLine(left + rd->left, top, right - rd->top, top);
+            path.AddArc(right - 2 * rd->top, top, (REAL)2 * rd->top, (REAL)2 * rd->top, 270, 90);
+            path.AddLine(right, top + rd->top, right, bottom - rd->right);
+            path.AddArc(right - 2 * rd->right, bottom - 2 * rd->right, (REAL)2 * rd->right, (REAL)2 * rd->right, 0, 90);
+            path.AddLine(left + rd->bottom, bottom, right - rd->right, bottom);
+            path.AddArc(left, bottom - 2 * rd->bottom, (REAL)2 * rd->bottom, (REAL)2 * rd->bottom, 90, 90);
+            path.AddLine(left, bottom - rd->bottom, left, top + rd->left);
+            gpp->DrawPath(&pen, &path);
             pen.~Pen();
             path.~GraphicsPath();
-            //gpp.~Graphics();
         }
     }
 
@@ -190,17 +174,14 @@ extern "C" {
         {
             PointF pt[3];
             SolidBrush brush(incolor);
-            Gdiplus::Graphics gpp(gp->hdc);
-            if (gp->SmoothingMode) {
-                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
-            }
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
             pt[0].X = (REAL)x1;
             pt[0].Y = (REAL)y1;
             pt[1].X = (REAL)x2;
             pt[1].Y = (REAL)y2;
             pt[2].X = (REAL)x3;
             pt[2].Y = (REAL)y3;
-            gpp.FillPolygon(&brush, pt, 3);
+            gpp->FillPolygon(&brush, pt, 3);
             //gpp.~Graphics();
         }
     }
@@ -213,17 +194,14 @@ extern "C" {
             Point pt[3];
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
-            Gdiplus::Graphics gpp(gp->hdc);
-            if (gp->SmoothingMode) {
-                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
-            }
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
             pt[0].X = x1;
             pt[0].Y = y1;
             pt[1].X = x2;
             pt[1].Y = y2;
             pt[2].X = x3;
             pt[2].Y = y3;
-            gpp.DrawPolygon(&pen,pt,3);
+            gpp->DrawPolygon(&pen,pt,3);
             pen.~Pen();
             //gpp.~Graphics();
         }
@@ -234,11 +212,8 @@ extern "C" {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
-            Gdiplus::Graphics gpp(gp->hdc);
-            if (gp->SmoothingMode) {
-                gpp.SetSmoothingMode(SmoothingModeAntiAlias);
-            }
-            gpp.DrawLine(&pen,rc->left,rc->top,rc->right,rc->bottom);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            gpp->DrawLine(&pen,rc->left,rc->top,rc->right,rc->bottom);
             pen.~Pen();
             //gpp.~Graphics();
         }
@@ -250,11 +225,11 @@ extern "C" {
             Gdiplus::PointF rf;
             rf.X = Pt->x;
             rf.Y = Pt->y;
-            Gdiplus::Graphics gpp(gp->hdc);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
             SolidBrush brush(incolor);
             Gdiplus::StringFormat sf;
             sf.GenericTypographic();
-            gpp.DrawString(String,StrLens, Font->font->font, rf,&sf, &brush);
+            gpp->DrawString(String,StrLens, Font->font->font, rf,&sf, &brush);
         }
     }
     ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiControl cp, ZuiFont Font, ZuiText String, int StrLen, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle) {
@@ -265,7 +240,7 @@ extern "C" {
             rf.Y = (REAL)Rect->top;
             rf.Width = (REAL)(Rect->right - Rect->left);
             rf.Height = (REAL)(Rect->bottom - Rect->top);
-            Gdiplus::Graphics gpp(gp->hdc);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
             SolidBrush brush(incolor);
             Gdiplus::StringFormat sf;
             sf.GenericTypographic();
@@ -278,11 +253,11 @@ extern "C" {
                 sf1.Height = rf.Height;
                 sf1.Width = rf.Width;
                 int lines;
-                gpp.MeasureString(String, -1, Font->font->font,(const SizeF)sf1,&sf, &sf2,0,&lines);
+                gpp->MeasureString(String, -1, Font->font->font,(const SizeF)sf1,&sf, &sf2,0,&lines);
                
                 if (sf2.Width < rf.Width) {
                     //_tprintf(_T("%f...%f.."), sf2.Height,Font->font->font->GetHeight(&gpp));
-                    sf2.Height = Font->font->font->GetHeight(&gpp);
+                    sf2.Height = Font->font->font->GetHeight(gpp);
                     rf.Y = rf.Y + (( rf.Height - sf2.Height) / 2)+1;
                     rf.Height =  sf2.Height;
                 }
@@ -290,7 +265,7 @@ extern "C" {
             if (TextStyle & ZDT_RIGHT) sf.SetAlignment(StringAlignmentFar);
             if (TextStyle & ZDT_BOTTOM) sf.SetAlignment(StringAlignmentFar);
 
-            gpp.DrawString(String, StrLen, Font->font->font,rf,&sf,&brush);
+            gpp->DrawString(String, StrLen, Font->font->font,rf,&sf,&brush);
         }
     }
     /*²âÁ¿ÎÄ±¾´óÐ¡*/
@@ -303,8 +278,8 @@ extern "C" {
             PointF pf;
             pf.X = 0; pf.Y = 0;
             RectF rf;
-            Gdiplus::Graphics gpp(gp->hdc);
-            gpp.MeasureString(String, -1, Font->font->font, pf,&sf, &rf);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            gpp->MeasureString(String, -1, Font->font->font, pf,&sf, &rf);
             //_tprintf(_T("%f..."), rf.Width);
             Size->cx = rf.Width;
             Size->cy = rf.Height;
@@ -322,9 +297,8 @@ extern "C" {
                 Width = Img->Width;
                 Height = Img->Height;
             }
-            Gdiplus::Graphics gpp(gp->hdc);
-            gpp.DrawImage(Img->image->image, rc, Img->src.left, Img->src.top, Width, Height,UnitPixel);
-            //gpp.~Graphics();
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            gpp->DrawImage(Img->image->image, rc, Img->src.left, Img->src.top, Width, Height,UnitPixel);
         }
     }
     /*¸´ÖÆÎ»Í¼*/
@@ -396,6 +370,11 @@ extern "C" {
             return NULL; 
         }
         memset(gp, 0, sizeof(ZGraphics));
+        gp->ggp = (struct graphgraphics*)malloc(sizeof(struct graphgraphics));
+        if (!gp->ggp) {
+            free(gp); return NULL;
+        }
+        memset(gp->ggp, 0, sizeof(struct graphgraphics));
         if (Width && Height) {
             gp->Width = Width;
             gp->Height = Height;
@@ -415,7 +394,6 @@ extern "C" {
             BitmapInfo.bmiHeader.biPlanes = 1;
             BitmapInfo.bmiHeader.biCompression = BI_RGB;
             gp->HBitmap = CreateDIBSection(gp->hdc, &BitmapInfo, DIB_RGB_COLORS, &gp->Bits, 0, 0);
-            gp->HBitmap = gp->HBitmap;
             if (!gp->HBitmap) {
                 DeleteDC(gp->hdc);
                 return NULL;
@@ -425,7 +403,11 @@ extern "C" {
                 DeleteObject(OldBitmap);
             }
         }
+        gp->ggp->ggp = new Gdiplus::Graphics(gp->hdc);
         gp->SmoothingMode = IsWindowsVistaOrGreater();
+        if (gp->SmoothingMode) {
+            gp->ggp->ggp->SetSmoothingMode(SmoothingModeAntiAlias);
+        }
         return gp;
     }
     /*Ïú»ÙÍ¼ÐÎ*/
@@ -436,6 +418,10 @@ extern "C" {
                 gp->HBitmap = NULL;
                 DeleteDC(gp->hdc);
                 gp->hdc = NULL;
+            }
+            if (gp->ggp) {
+                gp->ggp->ggp->~Graphics();
+                free(gp->ggp);
             }
             free(gp);
         }
@@ -463,33 +449,22 @@ extern "C" {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (!gp)
             return FALSE;
-        ZuiRect prc = (ZuiRect)malloc(sizeof(ZRect));
-        if (!prc)
-            return FALSE;
-        memcpy(prc, &(gp->Clip), sizeof(ZRect));
-        darray_append(rcDarray, prc);
-        memcpy(&(gp->Clip), box, sizeof(ZRect));
+        Gdiplus::GraphicsState gps = gp->ggp->ggp->Save();
+        darray_append(rcDarray, (ZuiAny)gps);
 
-        HRGN hrgn = CreateRectRgn(box->left, box->top, box->right, box->bottom);
-        SelectClipRgn(gp->hdc, hrgn);
+        HRGN hrgn = (HRGN)ZuiGetRgn(cp, box, &cp->m_rRound);
+        //SelectClipRgn(gp->hdc, hrgn);
         DeleteObject(hrgn);
         return TRUE;
     }
-    //ZEXPORT ZuiVoid ZCALL PushClipRegion(IRegion* pRegion, int mode){}
     /*µ¯³ö¼ô²ÃÇø*/
     ZEXPORT ZuiBool ZCALL ZuiGraphicsPopClip(ZuiControl cp) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (!gp)
             return FALSE;
-        ZuiRect prc = (ZuiRect)darray_getat(rcDarray, rcDarray->count - 1);
-        memcpy(&(gp->Clip), prc, sizeof(ZRect));
+        Gdiplus::GraphicsState gps = (Gdiplus::GraphicsState)darray_getat(rcDarray, rcDarray->count - 1);
         darray_delete(rcDarray, rcDarray->count - 1);
-
-        HRGN hrgn = CreateRectRgn(prc->left, prc->top, prc->right, prc->bottom);
-        SelectClipRgn(gp->hdc, hrgn);
-        DeleteObject(hrgn);
-
-        free(prc);
+        gp->ggp->ggp->Restore(gps);
         return TRUE;
     }
 
@@ -556,7 +531,7 @@ extern "C" {
         }
     }
 
-    ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiControl cp, ZuiRect rc, int w, int h) {
+    ZEXPORT ZuiAny ZCALL ZuiGetRgn(ZuiControl cp, ZuiRect rc, ZRound *rd) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         REAL left, top, right, bottom;
         left = (REAL)rc->left-1;
@@ -564,35 +539,30 @@ extern "C" {
         right = (REAL)rc->right;
         bottom = (REAL)rc->bottom;
         GraphicsPath path;
-        Gdiplus::Graphics gpp(gp->hdc);
-        if (gp->SmoothingMode) {
-            gpp.SetSmoothingMode(SmoothingModeAntiAlias);
-        }
-        if(w && h){
-            w+=2; h+=2;
-            path.AddArc(left, top, (REAL)2 * w, (REAL)2 * h, 180, 90);
-            path.AddLine(left + w, top, right - w, top);
-            path.AddArc(right - 2 * w, top, (REAL)2 * w, (REAL)2 * h, 270, 90);
-            path.AddLine(right, top + h, right, bottom - h);
-            path.AddArc(right - 2 * w, bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 0, 90);
-            path.AddLine(left + w, bottom, right - w, bottom);
-            path.AddArc(left, bottom - 2 * h, (REAL)2 * w, (REAL)2 * h, 90, 90);
-            path.AddLine(left, bottom - h, left, top + h);
-        }
-        else {
+        Gdiplus::Graphics* gpp = gp->ggp->ggp;
+        if(cp->m_pOs->m_bMax && (cp == cp->m_pOs->m_pRoot)){
             path.AddLine((REAL)rc->left, (REAL)rc->top, (REAL)rc->right, (REAL)rc->top);
             path.AddLine((REAL)rc->right, (REAL)rc->top, (REAL)rc->right, (REAL)rc->bottom);
-            path.AddLine((REAL)rc->left, (REAL)rc->bottom , (REAL)rc->right, (REAL)rc->bottom );
+            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->right, (REAL)rc->bottom);
             path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->left, (REAL)rc->top);
         }
+        else {
+            path.AddArc(left, top, (REAL)2 * rd->left, (REAL)2 * rd->left, 180, 90);
+            path.AddLine(left + rd->left, top, right - rd->top, top);
+            path.AddArc(right - 2 * rd->top, top, (REAL)2 * rd->top, (REAL)2 * rd->top, 270, 90);
+            path.AddLine(right, top + rd->top, right, bottom - rd->right);
+            path.AddArc(right - 2 * rd->right, bottom - 2 * rd->right, (REAL)2 * rd->right, (REAL)2 * rd->right, 0, 90);
+            path.AddLine(left + rd->bottom, bottom, right - rd->right, bottom);
+            path.AddArc(left, bottom - 2 * rd->bottom, (REAL)2 * rd->bottom, (REAL)2 * rd->bottom, 90, 90);
+            path.AddLine(left, bottom - rd->bottom, left, top + rd->left);
+        }
         Region region(&path);
-        gpp.SetClip(&region);
-        HRGN hrgn = region.GetHRGN(&gpp);
-        SetWindowRgn(gp->hwnd, hrgn, TRUE);
-        DeleteObject(hrgn);
+        gpp->SetClip(&region);
+        HRGN hrgn = region.GetHRGN(gpp);
+
         path.~GraphicsPath();
         region.~Region();
-        //gpp.~Graphics();
+        return hrgn;
     }
 
 #ifdef __cplusplus

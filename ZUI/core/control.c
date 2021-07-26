@@ -122,6 +122,9 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         }
         break;
     }
+    case ZM_GetParent: {
+        return p->m_pParent;
+    }
     case ZM_GetVisible: {
         return (ZuiAny)p->m_bVisible;
     }
@@ -356,11 +359,13 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         break;
     }
     case ZM_SetRound: {
-        p->m_rRound.cx = ((ZuiSize)Param1)->cx;
-        p->m_rRound.cy = ((ZuiSize)Param1)->cy;
+        memcpy(&p->m_rRound, Param1, sizeof(ZRound));
         if (!Param2)
-            ZuiControlNeedUpdate(p);
+            ZuiControlInvalidate(p,TRUE);
         break;
+    }
+    case ZM_GetRound: {
+        return &p->m_rRound;
     }
     case ZM_GetFixedWidth: {
         return (void *)p->m_cxyFixed.cx;
@@ -504,7 +509,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     case ZM_OnPaintBkColor: {
         ZRect *rc = (ZRect *)&p->m_rcItem;
         if (p->m_BkgColor) {
-                ZuiDrawFillRoundRect(p, p->m_BkgColor, rc, p->m_rRound.cx, p->m_rRound.cy);
+                ZuiDrawFillRoundRect(p, p->m_BkgColor, rc, &p->m_rRound);
         }
         break;
     }
@@ -520,9 +525,9 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         ZRect *rc = &p->m_rcItem;
 	if (p->m_dwBorderColor) {
 	    if(p->m_dwBorderWidth)
-                ZuiDrawRoundRect(p, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy, p->m_dwBorderWidth);
+                ZuiDrawRoundRect(p, p->m_dwBorderColor, rc, &p->m_rRound, p->m_dwBorderWidth);
 	    else
-                ZuiDrawRoundRect(p, p->m_dwBorderColor, rc, p->m_rRound.cx, p->m_rRound.cy,1);
+                ZuiDrawRoundRect(p, p->m_dwBorderColor, rc, &p->m_rRound, 1);
 	    }
         break;
     }
@@ -597,10 +602,12 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 		    ZCCALL(ZM_SetMaxHeight, p, (ZuiAny)(_ttoi(zAttr->value)), Param2);
         else if (_tcsicmp(zAttr->name, _T("round")) == 0) {
             ZuiText pstr = NULL;
-            ZSize sz = { 0 };
-            sz.cx = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
-            sz.cy = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
-            ZCCALL(ZM_SetRound, p, (ZuiAny)&sz, Param2);
+            ZRound rd = { 0 };
+            rd.left = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
+            rd.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
+            rd.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
+            rd.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
+            ZCCALL(ZM_SetRound, p, (ZuiAny)&rd, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("bkcolor")) == 0) {
 			ZuiColor clrColor;

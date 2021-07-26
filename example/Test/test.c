@@ -10,6 +10,7 @@
 
 #define Array_len 6
 ZuiControl win;
+ZRound oldrd;
 ZuiText cname[Array_len] = { 
                      _T("option0"),
                      _T("option1"), 
@@ -76,16 +77,25 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     }
     else if (msg == ZM_OnSize)
     {
+        ZRound rd;
         if ((LPARAM)Param1 == 2) { //窗口最大化
             ZuiControl pmax = ZuiControlFindName(win, _T("WindowCtl_max"));
-            if (pmax)
+            if (pmax) {
                 ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)TRUE, NULL);
+                pmax = ZCCALL(ZM_GetParent, pmax, 0, 0);   //更改关闭按钮父级控件圆角属性。
+                memcpy(&oldrd, ZCCALL(ZM_GetRound,pmax,0,0), sizeof(ZRound));
+                rd.left=rd.right=rd.top=rd.bottom  = 0;
+                ZCCALL(ZM_SetRound, pmax, &rd, 1);
+            }
         }
         else if(Param1 == 0)  //窗口还原
         {
             ZuiControl pmax = ZuiControlFindName(p, _T("WindowCtl_max"));
-            if (pmax)
+            if (pmax) {
                 ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)FALSE, NULL);
+                pmax = ZCCALL(ZM_GetParent, pmax, 0, 0); //还原关闭按钮父级控件圆角属性。
+                ZCCALL(ZM_SetRound, pmax, &oldrd, 1);
+            }
         }
     }
     return 0;

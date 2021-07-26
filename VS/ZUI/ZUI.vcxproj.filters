@@ -127,9 +127,6 @@
     <ClInclude Include="..\..\ZUI\platform\platform.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ZUI\platform\os\os.h">
-      <Filter>platform\os</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ZUI\platform\os\win.h">
       <Filter>platform\os</Filter>
     </ClInclude>
@@ -236,6 +233,9 @@
       <Filter>platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ZUI\platform\format.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ZUI\platform\os.h">
       <Filter>platform</Filter>
     </ClInclude>
   </ItemGroup>

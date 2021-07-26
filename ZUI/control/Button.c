@@ -46,7 +46,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
     case ZM_OnPaintBorder: {
         ZRect* rc = (ZRect*)&cp->m_rcItem;
         if (cp->m_dwBorderWidth && !p->m_ResNormal && p->m_dwType > 0) {
-            ZuiDrawRoundRect(cp, cp->m_dwBorderColor2, rc, cp->m_rRound.cx, cp->m_rRound.cy,cp->m_dwBorderWidth);
+            ZuiDrawRoundRect(cp, cp->m_dwBorderColor2, rc, &cp->m_rRound, cp->m_dwBorderWidth);
             return 0;
         }
         break;
@@ -60,7 +60,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
             }
             else {
-                ZuiDrawFillRoundRect(cp, p->m_ColorNormal, rc,cp->m_rRound.cx,cp->m_rRound.cy);
+                ZuiDrawFillRoundRect(cp, p->m_ColorNormal, rc, &cp->m_rRound);
             }
         }
         else if (p->m_dwType == 1) {
@@ -69,7 +69,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
             }
             else {
-                ZuiDrawFillRoundRect(cp, p->m_ColorHot, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                ZuiDrawFillRoundRect(cp, p->m_ColorHot, rc, &cp->m_rRound);
             }
         }
         else if (p->m_dwType == 2) {
@@ -78,7 +78,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
             }
             else {
-                ZuiDrawFillRoundRect(cp, p->m_ColorPushed, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                ZuiDrawFillRoundRect(cp, p->m_ColorPushed, rc, &cp->m_rRound);
             }
         }
         else {
@@ -87,7 +87,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
                 ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
             }
             else {
-                ZuiDrawFillRoundRect(cp, p->m_ColorDisabled, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                ZuiDrawFillRoundRect(cp, p->m_ColorDisabled, rc, &cp->m_rRound);
             }
         }
         return 0;

@@ -19,8 +19,6 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
         break;
     }
     case ZM_TabLayout_GetSelectIndex: {
-    //    p->m_iCurSel = (int)Param1;
-    //    ZuiControlInvalidate(cp,0);
         return (ZuiAny)p->m_iCurSel;
     }
     case ZM_SetAttribute: {
@@ -32,7 +30,7 @@ void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Pa
     case ZM_OnPaint: {
         if (p->m_iCurSel < 0)
             return FALSE;
-        ZuiDefaultControlProc(ProcId, cp, cp, Param1, Param2);
+        ZuiDefaultControlProc(ProcId, cp, 0, Param1, Param2);
         ZuiControl op = ZCCALL(ZM_Layout_GetItemAt, cp, (ZuiAny)p->m_iCurSel, Param2);
         ZCCALL(ZM_OnPaint, op, Param1, Param2);
         return (ZuiAny)TRUE;

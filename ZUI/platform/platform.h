@@ -24,7 +24,7 @@
 
 /*移植层接口定义头文件*/
 #include "graph.h"
-#include "os/os.h"
+#include "os.h"
 
 
 #endif //__ZUI_PLATFORM_H__

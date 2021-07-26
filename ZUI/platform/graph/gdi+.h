@@ -27,6 +27,7 @@ typedef struct _ZGraphics {
     HBITMAP HBitmap;///Î»Í¼¾ä±ú
     BOOL SmoothingMode;
 #endif
+    struct graphgraphics* ggp;
     void* Bits;		///ÄÚ´æÖ¸Õë
 }*ZuiGraphics, ZGraphics;
 

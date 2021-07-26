@@ -87,7 +87,7 @@ ZEXPORT ZuiAny ZCALL ZuiContainerProc(int ProcId, ZuiControl cp, ZuiContainer p,
         case ZM_OnPaintBorder: {
             ZRect* rc = (ZRect*)&cp->m_rcItem;
             if (cp->m_dwBorderWidth && p->m_dwType > 0) {
-                ZuiDrawRoundRect(cp, cp->m_dwBorderColor2, rc, cp->m_rRound.cx, cp->m_rRound.cy, cp->m_dwBorderWidth);
+                ZuiDrawRoundRect(cp, cp->m_dwBorderColor2, rc, &cp->m_rRound, cp->m_dwBorderWidth);
                 return 0;
             }
             break;
@@ -95,16 +95,16 @@ ZEXPORT ZuiAny ZCALL ZuiContainerProc(int ProcId, ZuiControl cp, ZuiContainer p,
         case ZM_OnPaintStatusImage: {
             ZRect* rc = (ZRect*)&cp->m_rcItem;
             if (p->m_dwType == 0) {
-                    ZuiDrawFillRoundRect(cp, p->m_ColorNormal, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                    ZuiDrawFillRoundRect(cp, p->m_ColorNormal, rc, &cp->m_rRound);
             }
             else if (p->m_dwType == 1) {
-                    ZuiDrawFillRoundRect(cp, p->m_ColorHot, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                    ZuiDrawFillRoundRect(cp, p->m_ColorHot, rc, &cp->m_rRound);
             }
             else if (p->m_dwType == 2) {
-                    ZuiDrawFillRoundRect(cp, p->m_ColorPushed, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                    ZuiDrawFillRoundRect(cp, p->m_ColorPushed, rc, &cp->m_rRound);
             }
             else {
-                    ZuiDrawFillRoundRect(cp, p->m_ColorDisabled, rc, cp->m_rRound.cx, cp->m_rRound.cy);
+                    ZuiDrawFillRoundRect(cp, p->m_ColorDisabled, rc, &cp->m_rRound);
             }
             return 0;
         }

@@ -46,9 +46,9 @@ extern "C"
     //绘制矩形
     ZEXPORT ZuiVoid ZCALL ZuiDrawRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int LineWidth);
     //填充圆角矩形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int w, int h);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawFillRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, ZRound *rd);
     //绘制圆角矩形
-    ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int w, int h, int LineWidth);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc,ZRound *rd, int LineWidth);
     //绘制椭圆
     ZEXPORT ZuiVoid ZCALL ZuiDrawEllipse(ZuiControl cp, ZuiColor incolor, ZuiRect rc,int LineWidth);
     //填充椭圆
@@ -124,7 +124,7 @@ extern "C"
     * @return 此函数没有返回值.
     */
     ZEXPORT ZuiVoid ZCALL ZuiDestroyImage(ZuiImage Img);
-    ZEXPORT ZuiVoid ZCALL ZuiSetWindowRgn(ZuiControl cp, ZuiRect rc, int w, int h);
+    ZEXPORT ZuiAny ZCALL ZuiGetRgn(ZuiControl cp, ZuiRect rc, ZRound *rd);
 
 #ifdef __cplusplus
 }

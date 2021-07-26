@@ -435,7 +435,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             }
         }
         p->m_hDcOffscreen->hwnd = p->m_hWnd;
-        ZuiOsSetWindowRgn(p, p->m_pRoot->m_rRound.cx, p->m_pRoot->m_rRound.cy);
+        ZuiOsSetWindowRgn(p);
 
         if (p->m_pRoot != NULL) {
             TEventUI event = { 0 };
@@ -1069,7 +1069,7 @@ ZuiBool ZuiOsSetWindowSize(ZuiOsWindow OsWindow, int w, int h) {
     ZCCALL(ZM_SetFixedHeight, OsWindow->m_pRoot, (ZuiAny)h, NULL);
     return SetWindowPos(OsWindow->m_hWnd, NULL, 0, 0, w, h, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 }
-ZuiVoid ZuiOsSetWindowRgn(ZuiOsWindow OsWindow, int w, int h) {
+ZuiVoid ZuiOsSetWindowRgn(ZuiOsWindow OsWindow) {
     RECT tmprc;
     GetClientRect(OsWindow->m_hWnd, &tmprc);
     if (OsWindow->m_bMax) {
@@ -1077,9 +1077,10 @@ ZuiVoid ZuiOsSetWindowRgn(ZuiOsWindow OsWindow, int w, int h) {
         tmprc.right += GetSystemMetrics(SM_CXSIZEFRAME);
         tmprc.top += GetSystemMetrics(SM_CYSIZEFRAME);
         tmprc.bottom += GetSystemMetrics(SM_CYSIZEFRAME);
-        w = h = 0; //最大化时不处理圆角
     }
-    ZuiSetWindowRgn(OsWindow->m_pRoot, &tmprc, w, h);
+    HRGN hrgn = ZuiGetRgn(OsWindow->m_pRoot, &tmprc,&OsWindow->m_pRoot->m_rRound);
+    SetWindowRgn(OsWindow->m_hWnd, hrgn, TRUE);
+    DeleteObject(hrgn);
 }
 ZuiBool ZuiOsSetWindowNoBox(ZuiOsWindow OsWindow, ZuiBool b) {
     if (OsWindow->m_nobox == b)
