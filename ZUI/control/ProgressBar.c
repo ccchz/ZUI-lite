@@ -24,10 +24,10 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
         ZuiDrawFillRoundRect(cp, p->m_cBkColor, &rc, &cp->m_rRound);
         //计算进度区域。
         if (p->m_bHorizontal) {
-            rc.right = cp->m_rcItem.left + ((cp->m_rcItem.right - cp->m_rcItem.left) * percent);
+            rc.right = cp->m_rcItem.left + (int)((cp->m_rcItem.right - cp->m_rcItem.left) * percent);
         }
         else {
-            rc.top = cp->m_rcItem.bottom - ((cp->m_rcItem.bottom - cp->m_rcItem.top) * percent);
+            rc.top = cp->m_rcItem.bottom - (int)((cp->m_rcItem.bottom - cp->m_rcItem.top) * percent);
         }
         //绘制进度区域。
         ZuiDrawFillRoundRect(cp, p->m_cColor, &rc, &cp->m_rRound);

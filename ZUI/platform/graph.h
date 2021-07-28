@@ -67,7 +67,7 @@ extern "C"
     //测量字符大小
     ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiControl cp, ZuiFont Font, ZuiText String, ZuiSizeR Size);
     //绘制图像
-    ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiControl cp, ZuiImage Img, int x, int y, int Width, int Height, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiControl cp, ZuiImage Img, int x, int y, int Width, int Height, ZuiByte Alpha);
     //复制图形
     ZEXPORT ZuiVoid ZCALL ZuiAlphaBlendEx(ZuiGraphics Dest, int srcX1, int srcY1, int srcX2, int srcY2, int dstX, int dstY, ZuiGraphics Src, ZuiByte Alpha);
     ZEXPORT ZuiVoid ZCALL ZuiAlphaBlend(ZuiGraphics Dest, int x, int y, int Width, int Height, ZuiGraphics Src, int xSrc, int ySrc, ZuiByte Alpha);
@@ -90,7 +90,7 @@ extern "C"
     ZEXPORT ZuiBool ZCALL ZuiGraphicsPushClipRect(ZuiControl cp, ZuiRect box, int mode);
     //ZEXPORT ZuiBool ZCALL PushClipRegion(IRegion* pRegion, UINT mode = RGN_AND);
     ZEXPORT ZuiBool ZCALL ZuiGraphicsPopClip(ZuiControl cp);
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiControl cp, ZuiRect box,int width, int height, int mode);
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiControl cp, ZuiRect box,ZRound* rd, int mode);
     ZEXPORT ZuiBool ZCALL ZuiGraphicsExcludeClipRect(ZuiControl cp, ZuiRect box);
     ZEXPORT ZuiBool ZCALL ZuiGraphicsIntersectClipRect(ZuiControl cp, ZuiRect box);
     ZEXPORT ZuiBool ZCALL ZuiGraphicsSaveClip(ZuiControl cp, int * pnState);

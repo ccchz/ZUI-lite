@@ -3,7 +3,7 @@
 #include <core/control.h>
 #include <stdlib.h>
 
-void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* Param1, void* Param2) {
+ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
     case ZM_SetPos: {
@@ -56,7 +56,7 @@ void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* 
             if (!pControl->m_bVisible)
                 continue;
             if (pControl->m_bFloat) {
-                ZCCALL(ZM_Layout_SetFloatPos, cp, (void*)index, 0);
+                ZCCALL(ZM_Layout_SetFloatPos, cp, (ZuiAny)index, 0);
                 continue;
             }
 

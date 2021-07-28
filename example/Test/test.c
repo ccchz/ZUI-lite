@@ -85,7 +85,7 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
                 pmax = ZCCALL(ZM_GetParent, pmax, 0, 0);   //更改关闭按钮父级控件圆角属性。
                 memcpy(&oldrd, ZCCALL(ZM_GetRound,pmax,0,0), sizeof(ZRound));
                 rd.left=rd.right=rd.top=rd.bottom  = 0;
-                ZCCALL(ZM_SetRound, pmax, &rd, 1);
+                ZCCALL(ZM_SetRound, pmax, &rd, (ZuiAny)1);
             }
         }
         else if(Param1 == 0)  //窗口还原
@@ -94,7 +94,7 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
             if (pmax) {
                 ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)FALSE, NULL);
                 pmax = ZCCALL(ZM_GetParent, pmax, 0, 0); //还原关闭按钮父级控件圆角属性。
-                ZCCALL(ZM_SetRound, pmax, &oldrd, 1);
+                ZCCALL(ZM_SetRound, pmax, &oldrd, (ZuiAny)1);
             }
         }
     }
@@ -138,8 +138,8 @@ ZuiAny ZCALL Drawpanel_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param
         ZuiRect rc = ZCCALL(ZM_GetPos, p, 0, 0);
         ZPointR ptr;
         ZuiFillEllipse(p, 0xFF232323, rc);
-        ptr.x = rc->left;
-        ptr.y = rc->top + (rc->bottom - rc->top) / 2;
+        ptr.x = (ZuiReal)rc->left;
+        ptr.y = (ZuiReal)rc->top + (rc->bottom - rc->top) / 2;
         ZuiDrawStringPt(p,(ZuiFont)Global_Font->p,0xFF158815,str,_tcsclen(str),&ptr);
     }
     return 0;

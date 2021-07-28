@@ -8,6 +8,14 @@
 #endif
 #include <windows.h>
 #endif
+
+#define ZCombineModeReplace       0
+#define ZCombineModeIntersect     1
+#define ZCombineModeUnion         2
+#define ZCombineModeXor           3
+#define ZCombineModeExclude       4
+#define ZCombineModeComplement    5
+
 /**图像*/
 typedef struct _ZImage {
     int Width;
@@ -28,7 +36,7 @@ typedef struct _ZGraphics {
     BOOL SmoothingMode;
 #endif
     struct graphgraphics* ggp;
-    void* Bits;		///内存指针
+    ZuiAny Bits;		///内存指针
 }*ZuiGraphics, ZGraphics;
 
 /**字体*/

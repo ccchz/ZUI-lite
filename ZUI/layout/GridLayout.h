@@ -13,6 +13,6 @@ typedef struct _ZuiGridLayout
     ZuiAny old_udata;
 }*ZuiGridLayout, ZGridLayout;
 
-void* ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, void* Param1, void* Param2);
+ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAny Param1, ZuiAny Param2);
 
 #endif // __GRID_H__

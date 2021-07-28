@@ -1070,8 +1070,8 @@ ZuiBool ZuiOsSetWindowSize(ZuiOsWindow OsWindow, int w, int h) {
     return SetWindowPos(OsWindow->m_hWnd, NULL, 0, 0, w, h, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 }
 ZuiVoid ZuiOsSetWindowRgn(ZuiOsWindow OsWindow) {
-    RECT tmprc;
-    GetClientRect(OsWindow->m_hWnd, &tmprc);
+    ZRect tmprc;
+    GetClientRect(OsWindow->m_hWnd, (LPRECT)&tmprc);
     if (OsWindow->m_bMax) {
         tmprc.left += GetSystemMetrics(SM_CXSIZEFRAME);
         tmprc.right += GetSystemMetrics(SM_CXSIZEFRAME);
@@ -1332,7 +1332,6 @@ ZuiVoid ZuiOsReapObjects(ZuiOsWindow p, ZuiControl pControl) {
 ZuiVoid ZuiOsAddDelayedCleanup(ZuiControl pControl, ZuiAny Param1, ZuiAny Param2)
 {
     ZCCALL(ZM_Layout_Remove, pControl->m_pParent, pControl, (ZuiAny)TRUE);
-    //ZCCALL(ZM_SetOs, pControl, pControl->m_pOs, NULL, (void*)FALSE);
     darray_append(pControl->m_pOs->m_aDelayedCleanup, pControl);
     PostMessage(pControl->m_pOs->m_hWnd, WM_APP + 1, (WPARAM)Param1, (LPARAM)Param2);
 }

@@ -100,7 +100,7 @@ ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Pa
                 FreeZuiControl(p->m_pHeader, FALSE);
                 p->m_pHeader = Param1;
                 if (cp->m_pOs != NULL)
-                    ZCCALL(ZM_SetOs, (ZuiControl)p->m_pHeader, cp, (void*)TRUE);
+                    ZCCALL(ZM_SetOs, (ZuiControl)p->m_pHeader, cp, (ZuiAny)TRUE);
                 p->m_ListInfo.m_iColumns = MIN((int)ZCCALL(ZM_Layout_GetCount, p->m_pHeader, NULL, NULL), ZLIST_MAX_COLUMNS);
                 //表头永远在第一个位置
                 return 0;
@@ -1074,11 +1074,11 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         if ((p->m_uButtonState & ZSTATE_PUSHED) != 0) {
             if (p->m_ResPushed) {
                 img = p->m_ResPushed->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, 255);
             }
             else if (p->m_ResNormal) {
                 img = p->m_ResNormal->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, 255);
             }
             else
                 ZuiDrawFillRect(cp, p->m_cColorPushed, rc);
@@ -1086,11 +1086,11 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         else if ((p->m_uButtonState & ZSTATE_HOT) != 0) {
             if (p->m_ResHot) {
                 img = p->m_ResHot->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else if (p->m_ResNormal) {
                 img = p->m_ResNormal->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else
                 ZuiDrawFillRect(cp, p->m_cColorHot, rc);
@@ -1098,11 +1098,11 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         else if ((p->m_uButtonState & ZSTATE_FOCUSED) != 0) {
             if (p->m_ResFocused) {
                 img = p->m_ResFocused->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else if (p->m_ResNormal) {
                 img = p->m_ResNormal->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else
                 ZuiDrawFillRect(cp, p->m_cColorFocused, rc);
@@ -1110,7 +1110,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         else {
             if (p->m_ResNormal) {
                 img = p->m_ResNormal->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else
                 ZuiDrawFillRect(cp, p->m_cColorNormal, rc);
@@ -1120,7 +1120,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         if (p->m_ResSep) {
             rc = rcThumb;
             img = p->m_ResSep->p;
-            ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+            ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
         }
         else {
             rc = rcThumb;

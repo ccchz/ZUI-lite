@@ -40,13 +40,13 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiControl cp, ZuiOption p, ZuiColor 
             }
             ZuiDrawRoundRect(cp, color, &rcc, &cp->m_rRound, 1);
             line1.left = rcc.left + 3;
-            line1.top = rcc.top + ResSize * 0.5;
-            line1.right = rcc.left + ResSize * 0.4;
+            line1.top = rcc.top + (int)(ResSize * 0.5);
+            line1.right = rcc.left + (int)(ResSize * 0.4);
             line1.bottom = rcc.bottom - 4;
             line2.left = line1.right;
             line2.top = line1.bottom;
             line2.right = rcc.right - 3;
-            line2.bottom = rcc.top + ResSize * 0.3;
+            line2.bottom = rcc.top + (int)(ResSize * 0.3);
             ZuiDrawLine(cp, color, &line1, 1);
             ZuiDrawLine(cp, color, &line2, 1);
         }
@@ -184,7 +184,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             if (button->m_dwType == 0) {
                 if (p->m_ResSelected) {
                     img = p->m_ResSelected->p;
-                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
                 }
                 else{  //绘制Option控件
                     if (p->m_dwOptionStyle > 4)
@@ -197,7 +197,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             else if (button->m_dwType == 1) {
                 if (p->m_ResSelectedHot) {
                     img = p->m_ResSelectedHot->p;
-                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
                 }
                 else {  //绘制Option控件
                     if (p->m_dwOptionStyle > 4)
@@ -210,7 +210,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             else if (button->m_dwType == 2) {
                 if (p->m_ResSelectedPushed) {
                     img = p->m_ResSelectedPushed->p;
-                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
                 }
                 else { //绘制Option控件
                     if (p->m_dwOptionStyle > 4)
@@ -223,7 +223,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             else {
                 if (p->m_ResSelectedDisabled) {
                     img = p->m_ResSelectedDisabled->p;
-                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
                 }
                 else {  //绘制Option控件
                     if (p->m_dwOptionStyle > 4)
@@ -238,7 +238,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             if (button->m_dwType == 0) {
                 if (button->m_ResNormal) {
                     img = button->m_ResNormal->p;
-                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
                 }
                 else {  //绘制Option控件
                     ZuiOptionDrawResStyle(cp, p, button->m_ColorNormal);
@@ -247,7 +247,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             else if (button->m_dwType == 1) {
                 if (button->m_ResHot) {
                     img = button->m_ResHot->p;
-                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
                 }
                 else {  //绘制Option控件
                     ZuiOptionDrawResStyle(cp, p, button->m_ColorHot);
@@ -256,7 +256,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             else if (button->m_dwType == 2) {
                 if (button->m_ResPushed) {
                     img = button->m_ResPushed->p;
-                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
                 }
                 else {  //绘制Option控件
                     ZuiOptionDrawResStyle(cp, p, button->m_ColorPushed);
@@ -265,7 +265,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             else {
                 if (button->m_ResDisabled) {
                     img = button->m_ResDisabled->p;
-                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+                    ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
                 }
                 else {  //绘制Option控件
                     ZuiOptionDrawResStyle(cp, p, button->m_ColorDisabled);

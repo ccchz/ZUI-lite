@@ -26,7 +26,7 @@ typedef struct _ZResDB
 #if (defined PLATFORM_OS_WIN)
     HINSTANCE Instance; //pe句柄
 #endif // PLATFORM_OS_WIN
-    void* uf; //压缩包句柄
+    ZuiAny uf; //压缩包句柄
     ZuiText pass; //压缩包密码
     int type; //资源包类型
 } *ZuiResDB, ZResDB;

@@ -57,7 +57,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         if (p->m_dwType == 0) {
             if (p->m_ResNormal) {
                 img = p->m_ResNormal->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else {
                 ZuiDrawFillRoundRect(cp, p->m_ColorNormal, rc, &cp->m_rRound);
@@ -66,7 +66,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         else if (p->m_dwType == 1) {
             if (p->m_ResHot) {
                 img = p->m_ResHot->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else {
                 ZuiDrawFillRoundRect(cp, p->m_ColorHot, rc, &cp->m_rRound);
@@ -75,7 +75,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         else if (p->m_dwType == 2) {
             if (p->m_ResPushed) {
                 img = p->m_ResPushed->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else {
                 ZuiDrawFillRoundRect(cp, p->m_ColorPushed, rc, &cp->m_rRound);
@@ -84,7 +84,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
         else {
             if (p->m_ResDisabled) {
                 img = p->m_ResDisabled->p;
-                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, 0, 0, 255);
+                ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else {
                 ZuiDrawFillRoundRect(cp, p->m_ColorDisabled, rc, &cp->m_rRound);
@@ -104,7 +104,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             if (p->m_dwStyle == 1) { //图片、文本居中上下结构
                 rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;
                 if (sr.cy) {
-                    rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height - sr.cy - sepSize) / 2;
+                    rcc.top = rc->top + (int)((rc->bottom - rc->top) - img->Height - sr.cy - sepSize) / 2;
                 }
                 else { //没有文本时图片尺寸计算
                     rcc.top = rc->top + ((rc->bottom - rc->top) - img->Height) / 2;
@@ -116,7 +116,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             }
             else { //默认  图片、文本居中左右结构
                 if (sr.cx) {
-                    rcc.left = rc->left + ((rc->right - rc->left) - img->Width - sr.cx - sepSize) / 2;
+                    rcc.left = rc->left + (int)((rc->right - rc->left) - img->Width - sr.cx - sepSize) / 2;
                 }
                 else { //没有文本时图片尺寸计算
                     rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;
@@ -126,7 +126,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             rcc.right = rcc.left + img->Width;
             rcc.bottom = rcc.top + img->Height;
             ZuiIntersectRect(&rcc, rc);
-            ZuiDrawImageEx(cp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 0, 0, 0, 0, 255);
+            ZuiDrawImageEx(cp, img, rcc.left, rcc.top, rcc.right, rcc.bottom, 255);
             //绘制文本
             if (p->m_dwStyle == 1) { //图片、文本居中上下结构
                 rcc.left = rc->left + cp->m_dwBorderWidth;

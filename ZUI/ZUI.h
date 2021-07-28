@@ -55,14 +55,21 @@
 #define HPARAM(a)   (a & 0xFFFF0000) >> 16
 #define LPARAM(a)   a & 0xFFFF
 //--------------------------------------------------------------------基础数据类型
+#if defined _WIN64
+typedef long long Zint;
+typedef unsigned long long ZUint;
+#elif defined _WIN32
+typedef int Zint;
+typedef unsigned int ZUint;
+#endif
 typedef wchar_t *ZuiText;
 typedef wchar_t _ZuiText, ZText;   //内核默认Unicode存储字符
 typedef float           ZuiReal;
-typedef int             ZuiBool;
+typedef unsigned int    ZuiBool;
 typedef void            ZuiVoid;
 typedef void*           ZuiAny;
-typedef uint32_t        ZuiColor;
-typedef unsigned        ZuiByte;
+typedef unsigned int    ZuiColor;
+typedef unsigned char   ZuiByte;
 /**矩形*/
 typedef struct _ZRect
 {

@@ -75,7 +75,7 @@ extern "C" {
         {
             SolidBrush brush(incolor);
             Gdiplus::Graphics *gpp = gp->ggp->ggp;
-            gpp->FillRectangle(&brush,rc->left,rc->top-1,rc->right-rc->left,rc->bottom-rc->top);
+            gpp->FillRectangle(&brush,rc->left,rc->top-1,rc->right-rc->left,rc->bottom-rc->top+1);
         }
     }
     /*画矩形*/
@@ -172,7 +172,7 @@ extern "C" {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
-            PointF pt[3];
+            Gdiplus::PointF pt[3];
             SolidBrush brush(incolor);
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
             pt[0].X = (REAL)x1;
@@ -182,7 +182,6 @@ extern "C" {
             pt[2].X = (REAL)x3;
             pt[2].Y = (REAL)y3;
             gpp->FillPolygon(&brush, pt, 3);
-            //gpp.~Graphics();
         }
     }
     //绘制三角形
@@ -191,19 +190,18 @@ extern "C" {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
-            Point pt[3];
+            Gdiplus::PointF pt[3];
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
-            pt[0].X = x1;
-            pt[0].Y = y1;
-            pt[1].X = x2;
-            pt[1].Y = y2;
-            pt[2].X = x3;
-            pt[2].Y = y3;
+            pt[0].X = (REAL)x1;
+            pt[0].Y = (REAL)y1;
+            pt[1].X = (REAL)x2;
+            pt[1].Y = (REAL)y2;
+            pt[2].X = (REAL)x3;
+            pt[2].Y = (REAL)y3;
             gpp->DrawPolygon(&pen,pt,3);
             pen.~Pen();
-            //gpp.~Graphics();
         }
     }
     /*画直线*/
@@ -249,11 +247,11 @@ extern "C" {
             if (TextStyle & ZDT_CENTER) sf.SetAlignment(StringAlignmentCenter);
             if (TextStyle & ZDT_VCENTER) {
                 sf.SetLineAlignment(StringAlignmentCenter);
-                SizeF sf1,sf2;
+                Gdiplus::SizeF sf1,sf2;
                 sf1.Height = rf.Height;
                 sf1.Width = rf.Width;
                 int lines;
-                gpp->MeasureString(String, -1, Font->font->font,(const SizeF)sf1,&sf, &sf2,0,&lines);
+                gpp->MeasureString(String, -1, Font->font->font,sf1,&sf, &sf2,0,&lines);
                
                 if (sf2.Width < rf.Width) {
                     //_tprintf(_T("%f...%f.."), sf2.Height,Font->font->font->GetHeight(&gpp));
@@ -275,9 +273,9 @@ extern "C" {
         if (String && Font) {
             Gdiplus::StringFormat sf; //sf.GenericTypographic();
             sf.SetFormatFlags(StringFormatFlagsMeasureTrailingSpaces);
-            PointF pf;
+            Gdiplus::PointF pf;
             pf.X = 0; pf.Y = 0;
-            RectF rf;
+            Gdiplus::RectF rf;
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
             gpp->MeasureString(String, -1, Font->font->font, pf,&sf, &rf);
             //_tprintf(_T("%f..."), rf.Width);
@@ -286,11 +284,11 @@ extern "C" {
         }
     }
     /*画图像缩放*/
-    ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiControl cp, ZuiImage Img, int x, int y, int Right, int Bottom, int xSrc, int ySrc, int WidthSrc, int HeightSrc, ZuiByte Alpha) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiControl cp, ZuiImage Img, int x, int y, int Right, int Bottom, ZuiByte Alpha) {
         int Width, Height;
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if ((gp && Img)) {
-            Rect rc(x,y,Right-x,Bottom-y);
+            Gdiplus::Rect rc(x,y,Right-x,Bottom-y);
             Width = Img->src.right - Img->src.left;
             Height = Img->src.bottom - Img->src.top;
             if (Width == 0 && Height == 0) {
@@ -452,9 +450,9 @@ extern "C" {
         Gdiplus::GraphicsState gps = gp->ggp->ggp->Save();
         darray_append(rcDarray, (ZuiAny)gps);
 
-        HRGN hrgn = (HRGN)ZuiGetRgn(cp, box, &cp->m_rRound);
+        ZuiGraphicsSetClip(cp, box, &cp->m_rRound, mode);
         //SelectClipRgn(gp->hdc, hrgn);
-        DeleteObject(hrgn);
+        //DeleteObject(hrgn);
         return TRUE;
     }
     /*弹出剪裁区*/
@@ -469,8 +467,40 @@ extern "C" {
     }
 
     //设置剪裁区
-    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiControl cp, ZuiRect rc, int w, int h, int mode) {
-
+    ZEXPORT ZuiBool ZCALL ZuiGraphicsSetClip(ZuiControl cp, ZuiRect rc, ZRound* rd, int mode) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
+        REAL left, top, right, bottom;
+        ZRound zrd;
+        left = (REAL)rc->left - 1;
+        top = (REAL)rc->top - 1;
+        right = (REAL)rc->right;
+        bottom = (REAL)rc->bottom;
+        memcpy(&zrd, rd, sizeof(ZRound));
+        if (zrd.left) zrd.left += 2;
+        if (zrd.top) zrd.top += 2;
+        if (zrd.right) zrd.right += 2;
+        if (zrd.bottom) zrd.bottom += 2;
+        GraphicsPath path;
+        Gdiplus::Graphics* gpp = gp->ggp->ggp;
+        if (cp->m_pOs->m_bMax && (cp == cp->m_pOs->m_pRoot)) {
+            path.AddLine((REAL)rc->left, (REAL)rc->top, (REAL)rc->right, (REAL)rc->top);
+            path.AddLine((REAL)rc->right, (REAL)rc->top, (REAL)rc->right, (REAL)rc->bottom);
+            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->right, (REAL)rc->bottom);
+            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->left, (REAL)rc->top);
+        }
+        else {
+            path.AddArc(left, top, (REAL)2 * zrd.left, (REAL)2 * zrd.left, 180, 90);
+            path.AddLine(left + zrd.left, top, right - zrd.top, top);
+            path.AddArc(right - 2 * zrd.top, top, (REAL)2 * zrd.top, (REAL)2 * zrd.top, 270, 90);
+            path.AddLine(right, top + zrd.top, right, bottom - zrd.right);
+            path.AddArc(right - 2 * zrd.right, bottom - 2 * zrd.right, (REAL)2 * zrd.right, (REAL)2 * zrd.right, 0, 90);
+            path.AddLine(left + zrd.bottom, bottom, right - zrd.right, bottom);
+            path.AddArc(left, bottom - 2 * zrd.bottom, (REAL)2 * zrd.bottom, (REAL)2 * zrd.bottom, 90, 90);
+            path.AddLine(left, bottom - zrd.bottom, left, top + zrd.left);
+        }
+        Region region(&path);
+        gpp->SetClip(&region,(Gdiplus::CombineMode) mode);
+        region.~Region();
         return TRUE;
     }
     //获取剪裁区
@@ -533,34 +563,13 @@ extern "C" {
 
     ZEXPORT ZuiAny ZCALL ZuiGetRgn(ZuiControl cp, ZuiRect rc, ZRound *rd) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
-        REAL left, top, right, bottom;
-        left = (REAL)rc->left-1;
-        top = (REAL)rc->top-1;
-        right = (REAL)rc->right;
-        bottom = (REAL)rc->bottom;
-        GraphicsPath path;
         Gdiplus::Graphics* gpp = gp->ggp->ggp;
-        if(cp->m_pOs->m_bMax && (cp == cp->m_pOs->m_pRoot)){
-            path.AddLine((REAL)rc->left, (REAL)rc->top, (REAL)rc->right, (REAL)rc->top);
-            path.AddLine((REAL)rc->right, (REAL)rc->top, (REAL)rc->right, (REAL)rc->bottom);
-            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->right, (REAL)rc->bottom);
-            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->left, (REAL)rc->top);
-        }
-        else {
-            path.AddArc(left, top, (REAL)2 * rd->left, (REAL)2 * rd->left, 180, 90);
-            path.AddLine(left + rd->left, top, right - rd->top, top);
-            path.AddArc(right - 2 * rd->top, top, (REAL)2 * rd->top, (REAL)2 * rd->top, 270, 90);
-            path.AddLine(right, top + rd->top, right, bottom - rd->right);
-            path.AddArc(right - 2 * rd->right, bottom - 2 * rd->right, (REAL)2 * rd->right, (REAL)2 * rd->right, 0, 90);
-            path.AddLine(left + rd->bottom, bottom, right - rd->right, bottom);
-            path.AddArc(left, bottom - 2 * rd->bottom, (REAL)2 * rd->bottom, (REAL)2 * rd->bottom, 90, 90);
-            path.AddLine(left, bottom - rd->bottom, left, top + rd->left);
-        }
-        Region region(&path);
-        gpp->SetClip(&region);
-        HRGN hrgn = region.GetHRGN(gpp);
 
-        path.~GraphicsPath();
+        ZuiGraphicsSetClip(cp, rc, rd, ZCombineModeReplace);
+        
+        Region region;
+        gpp->GetClip(&region);
+        HRGN hrgn = region.GetHRGN(gpp);
         region.~Region();
         return hrgn;
     }

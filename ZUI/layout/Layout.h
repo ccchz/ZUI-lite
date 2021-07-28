@@ -23,7 +23,7 @@ typedef struct _ZuiLayout
     ZCtlProc old_call;
 }*ZuiLayout, ZLayout;
 
-void* ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1, ZuiAny Param2);
+ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1, ZuiAny Param2);
 
 
 #endif // __LAYOUT_H__

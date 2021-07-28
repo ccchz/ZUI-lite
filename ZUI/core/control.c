@@ -517,7 +517,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         ZRect *rc = &p->m_rcItem;
         if (p->m_BkgImg) {
             ZuiImage img = p->m_BkgImg->p;
-            ZuiDrawImageEx(p, img, rc->left, rc->top, rc->right, rc->bottom, 0, 0, img->Width, img->Height, 255);
+            ZuiDrawImageEx(p, img, rc->left, rc->top, rc->right, rc->bottom, 255);
         }
         break;
     }

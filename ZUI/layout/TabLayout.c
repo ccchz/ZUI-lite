@@ -4,7 +4,7 @@
 #include <core/builder.h>
 #include <stdlib.h>
 
-void* ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, void* Param1, void* Param2) {
+ZuiAny ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, ZuiAny Param1, ZuiAny Param2) {
     switch (ProcId)
     {
     case ZM_FindControl: {
