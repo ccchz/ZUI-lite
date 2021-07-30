@@ -1,7 +1,6 @@
 ﻿#ifndef __ZUI_PLATFORM_GRAPH_H__
 #define __ZUI_PLATFORM_GRAPH_H__
 #include <platform/platform.h>
-#include "format.h"
 #if defined(__cplusplus)
 extern "C"
 {

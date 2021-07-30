@@ -232,9 +232,6 @@
     <ClInclude Include="..\..\ZUI\platform\graph.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ZUI\platform\format.h">
-      <Filter>platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ZUI\platform\os.h">
       <Filter>platform</Filter>
     </ClInclude>

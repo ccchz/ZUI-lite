@@ -72,6 +72,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiControl cp, ZuiOption p, ZuiColor 
             }
         }
         else {
+            ZuiDrawFillRoundRect(cp, color & 0x33FFFFFF, &rcc, &cp->m_rRound);
             ZuiDrawRoundRect(cp, color, &rcc, &cp->m_rRound, 1);
             if (button->m_dwType < 1) {
                 rcc.left += 4;
@@ -432,8 +433,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         p->old_udata = ZuiButtonProc(ZM_OnCreate, cp, 0, 0, 0);
         p->old_call = (ZCtlProc)&ZuiButtonProc;
         p->m_ColorSelected = 0xFF05AA05;
-        p->m_ColorSelectedHot = 0xFF35AA35;		//选中的点燃状态
-        p->m_ColorSelectedPushed = 0xFF55AA55;	//选中的按下状态
+        p->m_ColorSelectedHot = 0xFF55AA55;		//选中的点燃状态
+        p->m_ColorSelectedPushed = 0xFF75AA75;	//选中的按下状态
         p->m_ColorSelectedDisabled = 0xFF989898;
         return p;
     }

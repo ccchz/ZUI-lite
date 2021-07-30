@@ -75,7 +75,7 @@ extern "C" {
         {
             SolidBrush brush(incolor);
             Gdiplus::Graphics *gpp = gp->ggp->ggp;
-            gpp->FillRectangle(&brush,rc->left,rc->top-1,rc->right-rc->left,rc->bottom-rc->top+1);
+            gpp->FillRectangle(&brush,rc->left-1,rc->top-1,rc->right-rc->left+1,rc->bottom-rc->top+1);
         }
     }
     /*»­¾ØÐÎ*/
@@ -471,15 +471,15 @@ extern "C" {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         REAL left, top, right, bottom;
         ZRound zrd;
-        left = (REAL)rc->left - 1;
-        top = (REAL)rc->top - 1;
+        left = (REAL)rc->left;
+        top = (REAL)rc->top;
         right = (REAL)rc->right;
         bottom = (REAL)rc->bottom;
         memcpy(&zrd, rd, sizeof(ZRound));
-        if (zrd.left) zrd.left += 2;
-        if (zrd.top) zrd.top += 2;
-        if (zrd.right) zrd.right += 2;
-        if (zrd.bottom) zrd.bottom += 2;
+        if (zrd.left) zrd.left -=1;
+        if (zrd.top) zrd.top -= 1;
+        if (zrd.right) zrd.right -= 1;
+        if (zrd.bottom) zrd.bottom -= 1;
         GraphicsPath path;
         Gdiplus::Graphics* gpp = gp->ggp->ggp;
         if (cp->m_pOs->m_bMax && (cp == cp->m_pOs->m_pRoot)) {
@@ -563,12 +563,36 @@ extern "C" {
 
     ZEXPORT ZuiAny ZCALL ZuiGetRgn(ZuiControl cp, ZuiRect rc, ZRound *rd) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
+        REAL left, top, right, bottom;
+        ZRound zrd;
+        left = (REAL)rc->left - 1;
+        top = (REAL)rc->top - 1;
+        right = (REAL)rc->right;
+        bottom = (REAL)rc->bottom;
+        memcpy(&zrd, rd, sizeof(ZRound));
+        if (zrd.left) zrd.left += 2;
+        if (zrd.top) zrd.top += 2;
+        if (zrd.right) zrd.right += 2;
+        if (zrd.bottom) zrd.bottom += 2;
+        GraphicsPath path;
         Gdiplus::Graphics* gpp = gp->ggp->ggp;
-
-        ZuiGraphicsSetClip(cp, rc, rd, ZCombineModeReplace);
-        
-        Region region;
-        gpp->GetClip(&region);
+        if (cp->m_pOs->m_bMax && (cp == cp->m_pOs->m_pRoot)) {
+            path.AddLine((REAL)rc->left, (REAL)rc->top, (REAL)rc->right, (REAL)rc->top);
+            path.AddLine((REAL)rc->right, (REAL)rc->top, (REAL)rc->right, (REAL)rc->bottom);
+            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->right, (REAL)rc->bottom);
+            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->left, (REAL)rc->top);
+        }
+        else {
+            path.AddArc(left, top, (REAL)2 * zrd.left, (REAL)2 * zrd.left, 180, 90);
+            path.AddLine(left + zrd.left, top, right - zrd.top, top);
+            path.AddArc(right - 2 * zrd.top, top, (REAL)2 * zrd.top, (REAL)2 * zrd.top, 270, 90);
+            path.AddLine(right, top + zrd.top, right, bottom - zrd.right);
+            path.AddArc(right - 2 * zrd.right, bottom - 2 * zrd.right, (REAL)2 * zrd.right, (REAL)2 * zrd.right, 0, 90);
+            path.AddLine(left + zrd.bottom, bottom, right - zrd.right, bottom);
+            path.AddArc(left, bottom - 2 * zrd.bottom, (REAL)2 * zrd.bottom, (REAL)2 * zrd.bottom, 90, 90);
+            path.AddLine(left, bottom - zrd.bottom, left, top + zrd.left);
+        }
+        Region region(&path);
         HRGN hrgn = region.GetHRGN(gpp);
         region.~Region();
         return hrgn;

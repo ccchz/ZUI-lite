@@ -236,7 +236,6 @@
     <ClInclude Include="..\..\ZUI\layout\TabLayout.h" />
     <ClInclude Include="..\..\ZUI\layout\TileLayout.h" />
     <ClInclude Include="..\..\ZUI\layout\VerticalLayout.h" />
-    <ClInclude Include="..\..\ZUI\platform\format.h" />
     <ClInclude Include="..\..\ZUI\platform\graph.h" />
     <ClInclude Include="..\..\ZUI\platform\graph\gdi+.h" />
     <ClInclude Include="..\..\ZUI\platform\os.h" />

@@ -69,7 +69,7 @@
 							<ListHeaderItem name="LhI6"text="Domain" width="260" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
 							<ListHeaderItem name="LhI7"text="Description" width="240" sepwidth="1" sepcolor="#FF686868" normalcolor="#FF151515" hotcolor="#FF484848" pushedcolor="#FF686868"/>
 						</ListHeader>
-						<listbody  vscrollbar="true" hscrollbar="true"  sbbkcolor="#FF484848" stepsize="16"  sbbdisablecolor="#FF282828"  sbhsrc="0,0,16,16" sbvsrc="0,90,16,16">
+						<listbody name="listbody1" vscrollbar="true" hscrollbar="true"  sbbkcolor="#FF484848" stepsize="16"  sbbdisablecolor="#FF282828"  sbhsrc="0,0,16,16" sbvsrc="0,90,16,16">
 						<listelement height="24">
 							<Label text="11111"/>
 							<Label text="ÄãºÃ"/>

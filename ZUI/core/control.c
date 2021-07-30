@@ -81,7 +81,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 		    return 0;
 	    else
 	    {
-            ZuiControl pParent = p;
+ /*           ZuiControl pParent = p;
             ZRect rcTemp;
             ZRect *rcParent;
             while (pParent = pParent->m_pParent)
@@ -92,7 +92,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
                 {
                     continue;
                 }
-            }
+            }*/
             //重置动画
             if (Param1 && p->m_aAnime)
                 p->m_aAnime->steup = 0;
@@ -193,11 +193,11 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     case ZM_OnEvent: {
         switch (((TEventUI *)Param1)->Type)
         {
-        case ZEVENT_SETCURSOR:
-        {
-            ZuiOsSetCursor((unsigned int)ZDC_ARROW);
-            return 0;
-        }
+        //case ZEVENT_SETCURSOR:
+        //{
+        //    ZuiOsSetCursor((unsigned int)ZIDC_ARROW);
+        //    return 0;
+        //}
         case ZEVENT_SETFOCUS:
         {
             p->m_bFocused = TRUE;

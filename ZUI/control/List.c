@@ -790,7 +790,7 @@ ZEXPORT ZuiAny ZCALL ZuiListElementProc(int ProcId, ZuiControl cp, ZuiListElemen
             iBackColor = pInfo->m_cDisabledBkColor;
         }
         if (iBackColor != 0) {
-            ZuiDrawFillRect(cp, iBackColor, rc);
+            ZuiDrawFillRoundRect(cp, iBackColor, rc, &cp->m_rRound);
         }
 
         ZRect rcc;
@@ -1029,10 +1029,10 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
             else
                 rcSeparator->right += 4;
             if (cp->m_bEnabled && p->m_bDragable && PtInRect((LPRECT)rcSeparator, *(POINT *)&event->ptMouse)) {
-                ZuiOsSetCursor((unsigned int)IDC_SIZEWE);
+                ZuiOsSetCursor((unsigned int)ZIDC_SIZEWE);
                 return 0;
             }
-            ZuiOsSetCursor((unsigned int)IDC_ARROW);
+            ZuiOsSetCursor((unsigned int)ZIDC_ARROW);
         }
         if (event->Type == ZEVENT_MOUSEENTER)
         {

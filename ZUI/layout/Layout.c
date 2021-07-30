@@ -112,15 +112,16 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
 			//当前控件区域
             ZRect rc = {0};
 			//求出内边距
-            rc.left = cp->m_rcItem.left + p->m_rcInset.left;
-            rc.top = cp->m_rcItem.top + p->m_rcInset.top;
-            rc.right = cp->m_rcItem.right - p->m_rcInset.right;
-            rc.bottom = cp->m_rcItem.bottom - p->m_rcInset.bottom;
+            rc.left = cp->m_rcItem.left + p->m_rcInset.left + cp->m_dwBorderWidth;
+            rc.top = cp->m_rcItem.top + p->m_rcInset.top + cp->m_dwBorderWidth;
+            rc.right = cp->m_rcItem.right - p->m_rcInset.right - cp->m_dwBorderWidth;
+            rc.bottom = cp->m_rcItem.bottom - p->m_rcInset.bottom - cp->m_dwBorderWidth;
 			//获取滚动条区域,排除滚动条绘制
             if (p->m_pVerticalScrollBar && p->m_pVerticalScrollBar->m_bVisible)
                 rc.right -= (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL);
             if (p->m_pHorizontalScrollBar && p->m_pHorizontalScrollBar->m_bVisible)
                 rc.bottom -= (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL);
+            ZuiGraphicsPushClipRect(cp, &rc, ZCombineModeIntersect);
 			//求当前控件的具体交集
             if (IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)&rc)) {
       //          for (int it = 0; it < darray_len(p->m_items); it++) {
@@ -165,13 +166,14 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                         else {
                             IntersectRect((LPRECT)&rcTemp, (const RECT *)Param2, (const RECT *)&rcTemp);
                             //MAKEZRECT(rcClip, rcTemp.left, rcTemp.top, rcTemp.right, rcTemp.bottom);
-							//ZuiGraphicsPushClipRect((ZuiGraphics)Param1, &rcClip, 0);
+							//ZuiGraphicsPushClipRect(cp, &rcTemp, ZCombineModeIntersect);
                             ZCCALL(ZM_OnPaint, pControl, Param1, &rcTemp);
-							//ZuiGraphicsPopClip((ZuiGraphics)Param1);
+							//ZuiGraphicsPopClip(cp);
                         }
                     }
                 }
             }
+            ZuiGraphicsPopClip(cp);
         }
         //绘制滚动条
         if (p->m_pVerticalScrollBar != NULL && p->m_pVerticalScrollBar->m_bVisible) {
