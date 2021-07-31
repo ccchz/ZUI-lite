@@ -768,7 +768,6 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
     }
     case ZM_ScrollBar_SetOwner: {
         p->m_pOwner = Param1;
-        //_tprintf(_T("owner..%p..."), p->m_pOwner);
         break;
     }
     case ZM_ScrollBar_SetScrollRange: {

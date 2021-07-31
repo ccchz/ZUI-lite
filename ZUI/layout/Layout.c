@@ -379,10 +379,12 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
             ZCCALL(ZM_Layout_SetChildAlign, cp, (ZuiAny)tstyle, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("vscrollbar")) == 0) {
-            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0), (ZuiAny)TRUE);
+            ZuiBool zb = (_tcsicmp(zAttr->value, _T("true")) == 0);
+            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(MAKEPARAM(zb,TRUE)), Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("hscrollbar")) == 0) {
-            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0), (ZuiAny)FALSE);
+            ZuiBool zb = (_tcsicmp(zAttr->value, _T("true")) == 0);
+            ZCCALL(ZM_Layout_EnableScrollBar, cp, (ZuiAny)(MAKEPARAM(zb,FALSE)), Param2);
         }
         else if ((_tcsicmp(zAttr->name, _T("sbbkcolor")) == 0) ||
                 (_tcsicmp(zAttr->name, _T("sbtnormalcolor")) == 0) ||
@@ -415,11 +417,11 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
         if (p->m_pHorizontalScrollBar != NULL) ZCCALL(ZM_SetOs, p->m_pHorizontalScrollBar, cp, (ZuiAny)TRUE);
         return 0;
     }
-    case ZM_SetVisible: {
-        p->old_call(ZM_SetVisible, cp, 0, Param1, Param2);
-        return 0;
-        break;
-    }
+    //case ZM_SetVisible: {
+    //    p->old_call(ZM_SetVisible, cp, 0, Param1, Param2);
+    //    return 0;
+    //    break;
+    //}
     case ZM_Layout_Add: {
         if (Param1 == NULL) return FALSE;
 
@@ -721,8 +723,8 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
         break;
     }
     case ZM_Layout_EnableScrollBar: {
-        ZuiBool bEnable = (ZuiBool)Param1;
-        ZuiBool bVerHor = (ZuiBool)Param2;
+        ZuiBool bEnable = LPARAM((ZuiBool)Param1);
+        ZuiBool bVerHor = HPARAM((ZuiBool)Param1);
         if (bVerHor) {
             if (bEnable && !p->m_pVerticalScrollBar) {
                 p->m_pVerticalScrollBar = NewZuiControl(_T("scrollbar"), NULL, NULL);//创建滚动条
@@ -750,7 +752,8 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                 p->m_pHorizontalScrollBar = NULL;
             }
         }
-        ZuiControlNeedUpdate(cp);
+        if(!Param2)
+            ZuiControlNeedUpdate(cp);
         break;
     }
     case ZM_Layout_GetVerticalScrollBar: {

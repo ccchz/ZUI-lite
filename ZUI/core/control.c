@@ -260,18 +260,18 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
         break;
     }
     case ZM_GetBorderWidth: {
-	return (void *)p->m_dwBorderWidth;
-	break;
+	    return (void *)p->m_dwBorderWidth;
+	    break;
 	}
     case ZM_SetBorderWidth: {
-	if (p->m_dwBorderWidth == (int)Param1)
-		return 0;
-	if ((int)Param1 < 0)
-		return 0;
-	p->m_dwBorderWidth = (int)Param1;
-    if (!Param2)
-        ZuiControlNeedParentUpdate(p);
-	break;
+	    if (p->m_dwBorderWidth == (int)Param1)
+		    return 0;
+	    if ((int)Param1 < 0)
+		    return 0;
+	    p->m_dwBorderWidth = (int)Param1;
+        if (!Param2)
+            ZuiControlNeedParentUpdate(p);
+	    break;
     }
     case ZM_GetMaxWidth: {
         return (void *)p->m_cxyMax.cx;
@@ -774,7 +774,7 @@ ZEXPORT ZuiVoid ZCALL ZuiControlNeedUpdate(ZuiControl p)
 ZEXPORT ZuiVoid ZCALL ZuiControlNeedParentUpdate(ZuiControl p)
 {
     if (p) {
-        ZuiControlNeedUpdate(p->m_pParent);
+       ZuiControlNeedUpdate(p->m_pParent);
     }
 }
 

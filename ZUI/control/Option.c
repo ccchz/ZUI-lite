@@ -286,7 +286,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL),ZC_Option);
                     if (pControl != cp && !isoption)
                     {
-                        ZCCALL(ZM_Option_SetSelected, pControl, FALSE, NULL);
+                        ZCCALL(ZM_Option_SetSelected, pControl, FALSE, Param2);
                     }
 
                 }
@@ -393,6 +393,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
     }
     case ZM_Option_SetResType: {
         p->m_dwOptionStyle = (int)Param1;
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_SetAttribute: {

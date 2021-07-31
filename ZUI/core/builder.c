@@ -68,11 +68,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
             }
             else if (!node->user_data) {//当前节点还未创建
                 Control = NewZuiControl(ClassName, NULL, NULL);
-                /*解析属性*/
-                for (int i = 0; i < node->value.num_attrs; i++)
-                {
-                    ZCCALL(ZM_SetAttribute, Control, node->value.attrs + i, (ZuiAny)TRUE);
-                }
+
                 if (node->parent->user_data && _tcsicmp(ClassName, _T("window")) != 0) {
                     //上级控件已存在且当前欲创建的子窗口不为窗口对象
                     if (Control) {
@@ -93,9 +89,16 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
                     if (Control) {
                         node->user_data = Control;//保存控件到节点
                         win = Control;
+                        //创建宿主窗口
+                        ZuiOsCreateWindow(win, TRUE, 0);
                     }
                     else
                         break;//窗口创建失败就没必要继续下去了
+                }
+                /*解析属性*/
+                for (int i = 0; i < node->value.num_attrs; i++)
+                {
+                    ZCCALL(ZM_SetAttribute, Control, node->value.attrs + i, (ZuiAny)TRUE);
                 }
             }
         }

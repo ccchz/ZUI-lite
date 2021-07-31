@@ -168,7 +168,7 @@ ZuiAny ZCALL Default_NotifyProc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Par
 
 ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp, ZuiText text, ZuiText title) {
     ZuiControl p;
-    MsgBox_pRoot = NewZuiControl(_T("MessageBox"), NULL, rp);
+    MsgBox_pRoot = NewZuiControl(_T("MessageBox"), (ZuiAny)TRUE, rp);
     if (!MsgBox_pRoot->m_pOs) {
         FreeZuiControl(MsgBox_pRoot, FALSE);
         return 0;
@@ -177,10 +177,10 @@ ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp, ZuiText text, ZuiText title) {
     ZuiControlRegNotify(MsgBox_pRoot, Default_NotifyProc);
     //取消最小化按钮
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_min"));
-    ZCCALL(ZM_SetVisible, p, FALSE, NULL);
+    ZCCALL(ZM_SetVisible, p, FALSE, (ZuiAny)TRUE);
     //取消最大化按钮
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_max"));
-    ZCCALL(ZM_SetVisible, p, FALSE, NULL);
+    ZCCALL(ZM_SetVisible, p, FALSE, (ZuiAny)TRUE);
     //挂接关闭按钮事件
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_clos"));
     ZuiControlRegNotify(p, MsgBox_Notify_ctl);
@@ -192,9 +192,9 @@ ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp, ZuiText text, ZuiText title) {
     ZuiControlRegNotify(p, MsgBox_Notify_ctl);
 
     p = ZuiControlFindName(MsgBox_pRoot, _T("text"));
-    ZCCALL(ZM_SetText, p, text, NULL);
+    ZCCALL(ZM_SetText, p, text, (ZuiAny)TRUE);
     p = ZuiControlFindName(MsgBox_pRoot, _T("title"));
-    ZCCALL(ZM_SetText, p, title, NULL);
+    ZCCALL(ZM_SetText, p, title, (ZuiAny)TRUE);
 
     return ZuiDoModel(MsgBox_pRoot);
 }

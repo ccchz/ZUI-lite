@@ -1025,7 +1025,7 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         OsWindow->m_hDcPaint = GetDC(OsWindow->m_hWnd);
 
         //是否立即显示
-        if (!show)
+        if (show)
             ShowWindow(OsWindow->m_hWnd, SW_SHOW);
         else
             ShowWindow(OsWindow->m_hWnd, SW_HIDE);
@@ -1065,9 +1065,7 @@ ZuiBool ZuiOsSetWindowRestor(ZuiOsWindow OsWindow) {
     return ShowWindow(OsWindow->m_hWnd, SW_RESTORE);
 }
 ZuiBool ZuiOsSetWindowSize(ZuiOsWindow OsWindow, int w, int h) {
-    ZCCALL(ZM_SetFixedWidth, OsWindow->m_pRoot, (ZuiAny)w, NULL);
-    ZCCALL(ZM_SetFixedHeight, OsWindow->m_pRoot, (ZuiAny)h, NULL);
-    return SetWindowPos(OsWindow->m_hWnd, NULL, 0, 0, w, h, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+    return SetWindowPos(OsWindow->m_hWnd, NULL, 0, 0, w, h, SWP_NOMOVE | SWP_NOACTIVATE);
 }
 ZuiVoid ZuiOsSetWindowRgn(ZuiOsWindow OsWindow) {
     ZRect tmprc;

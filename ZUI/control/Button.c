@@ -245,7 +245,8 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
     }
     case ZM_Button_SetColorDisabled: {
         p->m_ColorDisabled = (ZuiColor)Param1;
-        ZuiControlInvalidate(cp, TRUE);
+        if (!Param2)
+            ZuiControlInvalidate(cp, TRUE);
         return 0;
     }
     case ZM_SetAnimation: {
