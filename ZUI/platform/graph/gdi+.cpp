@@ -471,24 +471,32 @@ extern "C" {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         REAL left, top, right, bottom;
         ZRound zrd;
-        left = (REAL)rc->left;
-        top = (REAL)rc->top;
+        if (cp == cp->m_pOs->m_pRoot) {
+            left = (REAL)rc->left - 1;
+            top = (REAL)rc->top - 1;
+        }
+        else {
+            left = (REAL)rc->left;
+            top = (REAL)rc->top;
+        }
         right = (REAL)rc->right;
         bottom = (REAL)rc->bottom;
         memcpy(&zrd, rd, sizeof(ZRound));
-        if (zrd.left) zrd.left -=1;
-        if (zrd.top) zrd.top -= 1;
-        if (zrd.right) zrd.right -= 1;
-        if (zrd.bottom) zrd.bottom -= 1;
+        if (zrd.left) zrd.left +=1;
+        if (zrd.top) zrd.top += 1;
+        if (zrd.right) zrd.right += 1;
+        if (zrd.bottom) zrd.bottom += 1;
         GraphicsPath path;
         Gdiplus::Graphics* gpp = gp->ggp->ggp;
         if (cp->m_pOs->m_bMax && (cp == cp->m_pOs->m_pRoot)) {
-            path.AddLine((REAL)rc->left, (REAL)rc->top, (REAL)rc->right, (REAL)rc->top);
-            path.AddLine((REAL)rc->right, (REAL)rc->top, (REAL)rc->right, (REAL)rc->bottom);
-            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->right, (REAL)rc->bottom);
-            path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->left, (REAL)rc->top);
+            //path.AddLine((REAL)rc->left, (REAL)rc->top, (REAL)rc->right, (REAL)rc->top);
+            //path.AddLine((REAL)rc->right, (REAL)rc->top, (REAL)rc->right, (REAL)rc->bottom);
+            //path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->right, (REAL)rc->bottom);
+            //path.AddLine((REAL)rc->left, (REAL)rc->bottom, (REAL)rc->left, (REAL)rc->top);
+            right++; bottom++;
+            zrd.left = zrd.right = zrd.top = zrd.bottom = 0;
         }
-        else {
+        //else {
             path.AddArc(left, top, (REAL)2 * zrd.left, (REAL)2 * zrd.left, 180, 90);
             path.AddLine(left + zrd.left, top, right - zrd.top, top);
             path.AddArc(right - 2 * zrd.top, top, (REAL)2 * zrd.top, (REAL)2 * zrd.top, 270, 90);
@@ -497,7 +505,7 @@ extern "C" {
             path.AddLine(left + zrd.bottom, bottom, right - zrd.right, bottom);
             path.AddArc(left, bottom - 2 * zrd.bottom, (REAL)2 * zrd.bottom, (REAL)2 * zrd.bottom, 90, 90);
             path.AddLine(left, bottom - zrd.bottom, left, top + zrd.left);
-        }
+        //}
         Region region(&path);
         gpp->SetClip(&region,(Gdiplus::CombineMode) mode);
         region.~Region();

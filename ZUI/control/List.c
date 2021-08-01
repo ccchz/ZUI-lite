@@ -958,14 +958,14 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
             return 0;
         }
 
-        if (event->Type == ZEVENT_SETFOCUS)
-        {
-            ZuiControlInvalidate(cp, TRUE);
-        }
-        if (event->Type == ZEVENT_KILLFOCUS)
-        {
-            ZuiControlInvalidate(cp, TRUE);
-        }
+        //if (event->Type == ZEVENT_SETFOCUS)
+        //{
+        //    ZuiControlInvalidate(cp, TRUE);
+        //}
+        //if (event->Type == ZEVENT_KILLFOCUS)
+        //{
+        //    ZuiControlInvalidate(cp, TRUE);
+        //}
         if (event->Type == ZEVENT_LBUTTONDOWN || event->Type == ZEVENT_LDBLCLICK)
         {
             if (!cp->m_bEnabled)

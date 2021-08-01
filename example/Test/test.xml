@@ -2,7 +2,7 @@
 <Window nobox="true" bordercolor="#FF155515" bordercolor2="#FF05AA05" round="7,7,7,7" bkcolor="0xFF131313" size="960,600" text="ZUI-lite演示" mininfo="300,200" 
         center="true"  name="window_main" tooltip="主窗口">
 		<include src="default:default_ctl.xml" />
-		<HorizontalLayout name="head" drag="true" height="26"><!--标题栏-->
+		<HorizontalLayout name="head" drag="true" height="26" bkcolor="0xFF135513"><!--标题栏-->
 			<NULL width="16" padding="10,5,0,5" bkimage="default:default/zui-256.png"/>
 			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:name='微软雅黑':size=10:bold=true" drag="true"/>
 			<Include src="file:itest.xml" />
@@ -337,8 +337,8 @@
 			<DrawPanel Name="drawpanel1" />
 		</TabLayout>
 		</HorizontalLayout>
-		<HorizontalLayout name="statusbar" height="24" round="0,0,7,7"><!--状态栏-->
+		<VerticalLayout name="statusbar" height="24" bkcolor="0xFF135513"><!--状态栏-->
 			<Label  name="statustxt" padding="10,4,0,4" text="就绪" tooltip="状态栏"/>
-		</HorizontalLayout>	
+		</VerticalLayout>	
 		<Button name="floatbutton" bordercolor="#FF155515" text="浮动按钮" round="20,20,20,20" width="100" height="40" float="300,200,0,0" />
 </Window>

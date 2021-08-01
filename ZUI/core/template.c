@@ -87,7 +87,7 @@ ZuiVoid ZuiLoadTemplate(mxml_node_t *n, ZuiControl p, ZuiAny Param1, ZuiAny Para
                 p->call = cnode->cb;
             }
             if (_tcsicmp(Layout, _T("window")) == 0)
-                ZuiOsCreateWindow(p, Param1, Param2);
+                ZuiOsCreateWindow(p, (ZuiBool)Param1, Param2);
         }
         else
         {

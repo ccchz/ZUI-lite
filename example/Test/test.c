@@ -81,6 +81,7 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
         if ((LPARAM)Param1 == 2) { //窗口最大化
             ZuiControl pmax = ZuiControlFindName(win, _T("WindowCtl_max"));
             if (pmax) {
+                printf("max..");
                 ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)TRUE, NULL);
                 pmax = ZCCALL(ZM_GetParent, pmax, 0, 0);   //更改关闭按钮父级控件圆角属性。
                 memcpy(&oldrd, ZCCALL(ZM_GetRound,pmax,0,0), sizeof(ZRound));
