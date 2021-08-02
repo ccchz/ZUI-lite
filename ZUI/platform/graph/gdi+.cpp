@@ -96,7 +96,7 @@ extern "C" {
             Pen pen(incolor, (REAL)LineWidth);
             //pen.SetAlignment(PenAlignmentInset);
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
-            gpp->DrawEllipse(&pen, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
+            gpp->DrawEllipse(&pen, rc->left, rc->top, rc->right - rc->left-1, rc->bottom - rc->top-1);
             pen.~Pen();
         }
     }
@@ -107,7 +107,7 @@ extern "C" {
         {
             SolidBrush brush(incolor);
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
-            gpp->FillEllipse(&brush, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top);
+            gpp->FillEllipse(&brush, rc->left, rc->top, rc->right - rc->left-1, rc->bottom - rc->top-1);
         }
     }
     //Ìî³äÔ²½Ç¾ØÐÎ
@@ -482,7 +482,7 @@ extern "C" {
         right = (REAL)rc->right;
         bottom = (REAL)rc->bottom;
         memcpy(&zrd, rd, sizeof(ZRound));
-        if (zrd.left) zrd.left +=1;
+        if (zrd.left) zrd.left += 1;
         if (zrd.top) zrd.top += 1;
         if (zrd.right) zrd.right += 1;
         if (zrd.bottom) zrd.bottom += 1;

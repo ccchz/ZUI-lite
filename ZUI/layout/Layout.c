@@ -231,7 +231,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                 rcCtrl.top = rc.top;
                 rcCtrl.right = rc.left + sz.cx;
                 rcCtrl.bottom = rc.top + sz.cy;
-                ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
+                ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
             }
         }
         break;
@@ -542,7 +542,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
         else {
             rcCtrl.bottom = (int)(rcCtrl.top + height * pControl->m_piFloatPercent.bottom + sz.cy);
         }
-        ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
+        ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
 
         break;
     }
@@ -605,7 +605,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
             rcPos.right -= cx;
             rcPos.top -= cy;
             rcPos.bottom -= cy;
-            ZCCALL(ZM_SetPos, pControl, &rcPos, NULL);
+            ZCCALL(ZM_SetPos, pControl, &rcPos, (ZuiAny)ZuiOnSize);
         }
 
         ZuiControlInvalidate(cp, TRUE);
@@ -776,7 +776,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                 ZCCALL(ZM_ScrollBar_SetScrollRange, p->m_pHorizontalScrollBar, (ZuiAny)(cxRequired - (rc->right - rc->left)), NULL);
                 ZCCALL(ZM_ScrollBar_SetScrollPos, p->m_pHorizontalScrollBar, 0, NULL);
                 p->m_bScrollProcess = TRUE;
-                ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, FALSE);
+                ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
                 p->m_bScrollProcess = FALSE;
                 return 0;   //垂直滚动条在 重新布局中刷新，本次数据计算垂直滚动条已经不正确。
             }
@@ -789,13 +789,13 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                 p->m_pHorizontalScrollBar->m_bVisible = FALSE;
                 ZCCALL(ZM_ScrollBar_SetScrollPos, p->m_pHorizontalScrollBar, 0, NULL);
                 ZCCALL(ZM_ScrollBar_SetScrollRange, p->m_pHorizontalScrollBar, 0, NULL);
-                ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, FALSE);
+                ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
                 return 0;
             }
             else
             {
                 ZRect rcScrollBarPos = { rc->left, rc->bottom, rc->right, rc->bottom + (int)ZCCALL(ZM_GetFixedHeight, p->m_pHorizontalScrollBar, NULL, NULL) };
-                ZCCALL(ZM_SetPos, p->m_pHorizontalScrollBar, &rcScrollBarPos, FALSE);
+                ZCCALL(ZM_SetPos, p->m_pHorizontalScrollBar, &rcScrollBarPos, (ZuiAny)ZuiOnSize);
 
                 if (ZCCALL(ZM_ScrollBar_GetScrollRange, p->m_pHorizontalScrollBar, NULL, NULL) != (ZuiAny)cxScroll) {
                     int iScrollPos = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pHorizontalScrollBar, NULL, NULL);
@@ -805,7 +805,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                         ZCCALL(ZM_ScrollBar_SetScrollPos, p->m_pHorizontalScrollBar, 0, NULL);
                     }
                     if ((ZuiAny)iScrollPos > ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pHorizontalScrollBar, NULL, NULL)) {
-                        ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, FALSE);
+                        ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
                     }
                 }
             }
@@ -819,7 +819,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                 ZCCALL(ZM_ScrollBar_SetScrollRange, p->m_pVerticalScrollBar, (ZuiAny)(cyRequired - (rc->bottom - rc->top)), NULL);
                 ZCCALL(ZM_ScrollBar_SetScrollPos, p->m_pVerticalScrollBar, 0, NULL);
                 p->m_bScrollProcess = TRUE;
-                ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, FALSE);
+                ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
                 p->m_bScrollProcess = FALSE;
                 break;
             }
@@ -832,12 +832,12 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                 p->m_pVerticalScrollBar->m_bVisible = FALSE;
                 ZCCALL(ZM_ScrollBar_SetScrollPos, p->m_pVerticalScrollBar, 0, NULL);
                 ZCCALL(ZM_ScrollBar_SetScrollRange, p->m_pVerticalScrollBar, 0, NULL);
-                ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, FALSE);
+                ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
             }
             else
             {
                 ZRect rcScrollBarPos = { rc->right, rc->top, rc->right + (int)ZCCALL(ZM_GetFixedWidth, p->m_pVerticalScrollBar, NULL, NULL), rc->bottom };
-                ZCCALL(ZM_SetPos, p->m_pVerticalScrollBar, &rcScrollBarPos, FALSE);
+                ZCCALL(ZM_SetPos, p->m_pVerticalScrollBar, &rcScrollBarPos, (ZuiAny)ZuiOnSize);
 
                 if (ZCCALL(ZM_ScrollBar_GetScrollRange, p->m_pVerticalScrollBar, NULL, NULL) != (ZuiAny)cyScroll) {
                     int iScrollPos = (int)ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pVerticalScrollBar, NULL, NULL);
@@ -847,7 +847,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                         ZCCALL(ZM_ScrollBar_SetScrollPos, p->m_pVerticalScrollBar, 0, NULL);
                     }
                     if ((ZuiAny)iScrollPos > ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pVerticalScrollBar, NULL, NULL)) {
-                        ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, FALSE);
+                        ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
                     }
                 }
             }

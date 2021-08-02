@@ -197,6 +197,7 @@ enum ZREST
 #define ZLOG_TYPE_WARNING   2
 #define ZLOG_TYPE_INFO      3
 
+#define ZuiOnSize  -1
 #define ZuiOK		1
 #define ZuiCANCEL	2
 #define ZuiYES		3

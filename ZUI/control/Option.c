@@ -7,7 +7,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiControl cp, ZuiOption p, ZuiColor 
     ZRect rcc = { 0 }, line1 = { 0 }, line2 = { 0 };
     ZuiButton button = p->old_udata;
     ZRound rd = { 1,1,1,1 };
-    rcc.left = rc->left + ((rc->bottom - rc->top) - ResSize) / 2;
+    rcc.left = rc->left + (ResSize) / 4;
     rcc.top = rc->top + ((rc->bottom - rc->top) - ResSize) / 2;
     rcc.right = rcc.left + ResSize;
     rcc.bottom = rcc.top + ResSize;

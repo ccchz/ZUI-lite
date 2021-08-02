@@ -157,7 +157,7 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
                     iPosY -= (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pVerticalScrollBar, 0, NULL);
                 }
                 ZRect rcCtrl = { iPosX + rcPadding.left, iPosY - sz.cy / 2, iPosX + sz.cx + rcPadding.left, iPosY + sz.cy - sz.cy / 2 };
-                ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
+                ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
             }
             else if (iChildAlign == ZDT_BOTTOM) {
                 int iPosY = rc.bottom;
@@ -166,7 +166,7 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
                     iPosY -= (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pVerticalScrollBar, 0, NULL);
                 }
                 ZRect rcCtrl = { iPosX + rcPadding.left, iPosY - rcPadding.bottom - sz.cy, iPosX + sz.cx + rcPadding.left, iPosY - rcPadding.bottom };
-                ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
+                ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
             }
             else {
                 int iPosY = rc.top;
@@ -174,7 +174,7 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
                     iPosY -= (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pVerticalScrollBar, 0, NULL);
                 }
                 ZRect rcCtrl = { iPosX + rcPadding.left, iPosY + rcPadding.top, iPosX + sz.cx + rcPadding.left, iPosY + sz.cy + rcPadding.top };
-                ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
+                ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
             }
 
             iPosX += sz.cx + op->m_iChildPadding + rcPadding.left + rcPadding.right;

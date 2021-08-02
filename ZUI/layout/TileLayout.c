@@ -101,7 +101,7 @@ ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAn
             if (szTile.cy > (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0)) { szTile.cy = (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0); }
             ZRect rcPos = { (rcTile.left + rcTile.right - szTile.cx) / 2, (rcTile.top + rcTile.bottom - szTile.cy) / 2,
                 (rcTile.left + rcTile.right - szTile.cx) / 2 + szTile.cx, (rcTile.top + rcTile.bottom - szTile.cy) / 2 + szTile.cy };
-            ZCCALL(ZM_SetPos, pControl, &rcPos, FALSE);
+            ZCCALL(ZM_SetPos, pControl, &rcPos, (ZuiAny)ZuiOnSize);
             if ((++iCount % p->m_nColumns) == 0) {
                 ptTile.x = iPosX;
                 ptTile.y += cyHeight + op->m_iChildPadding;

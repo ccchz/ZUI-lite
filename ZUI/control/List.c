@@ -395,11 +395,11 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
                 {
                     int nOffset = (LONG)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pHorizontalScrollBar, NULL, NULL);
                     rcHeader.left = rc.left - nOffset; rcHeader.top = rc.top; rcHeader.right = rc.right; rcHeader.bottom = rc.top + ph;
-                    ZCCALL(ZM_SetPos, pHeader, &rcHeader, FALSE);
+                    ZCCALL(ZM_SetPos, pHeader, &rcHeader, (ZuiAny)ZuiOnSize);
                 }
                 else {
                     rcHeader.left = rc.left; rcHeader.top = rc.top; rcHeader.right = rc.right; rcHeader.bottom = rc.top + ph;
-                    ZCCALL(ZM_SetPos, pHeader, &rcHeader, FALSE);
+                    ZCCALL(ZM_SetPos, pHeader, &rcHeader, (ZuiAny)ZuiOnSize);
                 }
             }
         }
@@ -468,7 +468,7 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
                 sz.cx = (LONG)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0);
 
             ZRect rcCtrl = { iPosX + rcPadding->left, iPosY + rcPadding->top, iPosX + rcPadding->left + sz.cx, iPosY + sz.cy + rcPadding->top + rcPadding->bottom };
-            ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
+            ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
 
             iPosY += sz.cy + op->m_iChildPadding + rcPadding->top + rcPadding->bottom;
             cyNeeded += sz.cy + rcPadding->top + rcPadding->bottom;
@@ -521,7 +521,7 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
                 rcPos = *(ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL);
                 rcPos.left -= cx;
                 rcPos.right -= cx;
-                ZCCALL(ZM_SetPos, pControl, &rcPos, (ZuiAny)TRUE);
+                ZCCALL(ZM_SetPos, pControl, &rcPos, (ZuiAny)ZuiOnSize);
                 pInfo->m_rcColumn[i] = *(ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL);
             }
             //将列表元素的移动调整到头移动完成后
@@ -535,7 +535,7 @@ ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, Z
                 rcPos.right -= cx;
                 rcPos.top -= cy;
                 rcPos.bottom -= cy;
-                ZCCALL(ZM_SetPos, pControl, &rcPos, (ZuiAny)TRUE);
+                ZCCALL(ZM_SetPos, pControl, &rcPos, (ZuiAny)ZuiOnSize);
             }
         }
         ZuiControlInvalidate(cp, TRUE);
@@ -759,7 +759,7 @@ ZEXPORT ZuiAny ZCALL ZuiListElementProc(int ProcId, ZuiControl cp, ZuiListElemen
                 rt.left = rcHeaderItem->left;
                 rt.right = rcHeaderItem->right;
 
-                ZCCALL(ZM_SetPos, pListItem, &rt, FALSE);
+                ZCCALL(ZM_SetPos, pListItem, &rt, (ZuiAny)ZuiOnSize);
             }
         }
         ZuiControl tmpHeaderItem = ZCCALL(ZM_Layout_GetItemAt, pHeader, (ZuiAny)((int)ZCCALL(ZM_Layout_GetCount, pHeader, NULL, NULL) - 1), NULL);

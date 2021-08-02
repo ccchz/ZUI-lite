@@ -34,8 +34,7 @@ ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAn
             ZRect rcClient = { 0 };
             rcClient.right = LPARAM(((TEventUI*)Param1)->lParam);
             rcClient.bottom = HPARAM(((TEventUI*)Param1)->lParam);
-            ZCCALL(ZM_SetPos, cp, &rcClient, (ZuiAny)FALSE);
-            ZCCALL(ZM_OnSize, cp, (ZuiAny)((TEventUI*)Param1)->wParam, (ZuiAny)((TEventUI*)Param1)->lParam);
+            ZCCALL(ZM_SetPos, cp, &rcClient, (ZuiAny)((TEventUI*)Param1)->wParam);
             ZuiControlInvalidate(cp, TRUE);
             return 0;
         }

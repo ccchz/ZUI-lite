@@ -75,7 +75,7 @@ ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAn
             rcCtrl.top += rcPadding.top;
             rcCtrl.right -= rcPadding.right;
             rcCtrl.bottom -= rcPadding.bottom;
-            ZCCALL(ZM_SetPos, pControl, &rcCtrl, FALSE);
+            ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
         }
 
         SBarSize.cx = maxcols * p->m_szGridSize.cx;

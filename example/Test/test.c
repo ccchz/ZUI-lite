@@ -81,7 +81,6 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
         if ((LPARAM)Param1 == 2) { //窗口最大化
             ZuiControl pmax = ZuiControlFindName(win, _T("WindowCtl_max"));
             if (pmax) {
-                printf("max..");
                 ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)TRUE, NULL);
                 pmax = ZCCALL(ZM_GetParent, pmax, 0, 0);   //更改关闭按钮父级控件圆角属性。
                 memcpy(&oldrd, ZCCALL(ZM_GetRound,pmax,0,0), sizeof(ZRound));
@@ -138,7 +137,7 @@ ZuiAny ZCALL Drawpanel_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param
         ZuiText str = _T("DrawPanel控件.");
         ZuiRect rc = ZCCALL(ZM_GetPos, p, 0, 0);
         ZPointR ptr;
-        ZuiFillEllipse(p, 0xFF232323, rc);
+        ZuiDrawEllipse(p, 0xFFff0000, rc,1);
         ptr.x = (ZuiReal)rc->left;
         ptr.y = (ZuiReal)rc->top + (rc->bottom - rc->top) / 2;
         ZuiDrawStringPt(p,(ZuiFont)Global_Font->p,0xFF158815,str,_tcsclen(str),&ptr);

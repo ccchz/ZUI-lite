@@ -170,7 +170,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
 
         if (!p->m_bSetPos && bSize) {
             p->m_bSetPos = TRUE;
-            ZCCALL(ZM_OnSize, p, (ZuiAny)-1,(ZuiAny)(MAKEPARAM((p->m_rcItem.right - p->m_rcItem.left),(p->m_rcItem.bottom - p->m_rcItem.top))));
+            ZCCALL(ZM_OnSize, p, Param2,(ZuiAny)(MAKEPARAM((p->m_rcItem.right - p->m_rcItem.left),(p->m_rcItem.bottom - p->m_rcItem.top))));
             p->m_bSetPos = FALSE;
         }
 
@@ -766,7 +766,7 @@ ZEXPORT ZuiVoid ZCALL ZuiControlNeedUpdate(ZuiControl p)
 {
     if (p) {
         p->m_bUpdateNeeded = TRUE;
-        ZCCALL(ZM_SetPos, p, &p->m_rcItem, 0);
+        ZCCALL(ZM_SetPos, p, &p->m_rcItem, (ZuiAny)ZuiOnSize);
         ZuiControlInvalidate(p, TRUE);
     }
 }

@@ -757,7 +757,7 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         p->m_nScrollPos = (int)Param1;
         if (p->m_nScrollPos < 0) p->m_nScrollPos = 0;
         if (p->m_nScrollPos > p->m_nRange) p->m_nScrollPos = p->m_nRange;
-        ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, NULL);
+        ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
         break;
     }
     case ZM_ScrollBar_GetScrollPos: {
@@ -777,7 +777,7 @@ ZEXPORT ZuiAny ZCALL ZuiScrollBarProc(int ProcId, ZuiControl cp, ZuiScrollBar p,
         p->m_nRange = (int)Param1;
         if (p->m_nRange < 0) p->m_nRange = 0;
         if (p->m_nScrollPos > p->m_nRange) p->m_nScrollPos = p->m_nRange;
-        ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, NULL);
+        ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
         break;
     }
     case ZM_SetAttribute: {

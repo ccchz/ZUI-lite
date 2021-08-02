@@ -244,7 +244,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                         rcRoot.bottom -= p->m_rcLayeredInset.bottom;
                     }
                     p->m_pRoot->m_bUpdateNeeded = FALSE;
-                    ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)FALSE);
+                    ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)ZuiOnSize);
                 }
                 else {
                     ZuiControl pControl = NULL;
@@ -253,11 +253,11 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                     for (int it = 0; it < darray_len(p->m_aFoundControls); it++) {
                         pControl = (ZuiControl)(p->m_aFoundControls->data[it]);
                         if (!pControl->m_bFloat)
-                            ZCCALL(ZM_SetPos, pControl, (ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL), (void *)FALSE);
+                            ZCCALL(ZM_SetPos, pControl, (ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL), (void *)ZuiOnSize);
                         else {
                             RECT rcP;
                             ZCCALL(ZM_GetRelativePos, pControl, &rcP, NULL);
-                            ZCCALL(ZM_SetPos, pControl, &rcP, (void *)FALSE);
+                            ZCCALL(ZM_SetPos, pControl, &rcP, (void *)ZuiOnSize);
                         }
                     }
                 }
@@ -281,7 +281,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             rcRoot.top += p->m_rcLayeredInset.top;
             rcRoot.right -= p->m_rcLayeredInset.right;
             rcRoot.bottom -= p->m_rcLayeredInset.bottom;
-            ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)FALSE);
+            ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)ZuiOnSize);
         }
         // Set focus to first control?
         if (p->m_bFocusNeeded) {
