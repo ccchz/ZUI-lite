@@ -1081,7 +1081,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
                 ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, 255);
             }
             else
-                ZuiDrawFillRect(cp, p->m_cColorPushed, rc);
+                ZuiDrawFillRoundRect(cp, p->m_cColorPushed, rc, 0);
         }
         else if ((p->m_uButtonState & ZSTATE_HOT) != 0) {
             if (p->m_ResHot) {
@@ -1093,7 +1093,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
                 ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else
-                ZuiDrawFillRect(cp, p->m_cColorHot, rc);
+                ZuiDrawFillRoundRect(cp, p->m_cColorHot, rc, 0);
         }
         else if ((p->m_uButtonState & ZSTATE_FOCUSED) != 0) {
             if (p->m_ResFocused) {
@@ -1105,7 +1105,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
                 ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else
-                ZuiDrawFillRect(cp, p->m_cColorFocused, rc);
+                ZuiDrawFillRoundRect(cp, p->m_cColorFocused, rc, 0);
         }
         else {
             if (p->m_ResNormal) {
@@ -1113,7 +1113,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
                 ZuiDrawImageEx(cp, img, rc->left, rc->top, rc->right, rc->bottom, 255);
             }
             else
-                ZuiDrawFillRect(cp, p->m_cColorNormal, rc);
+                ZuiDrawFillRoundRect(cp, p->m_cColorNormal, rc, 0);
         }
 
         ZRect *rcThumb = ZCCALL(ZM_ListHeaderItem_GetThumbRect, cp, NULL, NULL);
@@ -1124,7 +1124,7 @@ ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHea
         }
         else {
             rc = rcThumb;
-            ZuiDrawFillRect(cp, p->m_cColorSep, rc);
+            ZuiDrawFillRoundRect(cp, p->m_cColorSep, rc, 0);
         }
         return 0;
     }

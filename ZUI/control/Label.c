@@ -192,7 +192,3 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
     }
     return p->old_call(ProcId, cp, 0, Param1, Param2);
 }
-
-
-
-

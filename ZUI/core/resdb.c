@@ -374,127 +374,124 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
         }
         if (buf == 0 || buflen == 0)
             return NULL;
-        {
-            //创建对应的资源类型
-            ZuiRes res = malloc(sizeof(ZRes));
-            if (!res)
-                return NULL;
-            memset(res, 0, sizeof(ZRes));
-            res->type = type;
-            if (type == ZREST_IMG) {
-                ZuiImage img = ZuiLoadImageFromBinary(buf, buflen);
-                res->p = img;
-                //释放缓冲
-                free(buf);
-                if (!res->p) {
-                    free(res);
-                    return NULL;
-                }
-                for (int i = 2; i < arrnum; i++)
-                {
-                    if (_tcsnicmp(arr[i], _T("src='"), 5) == 0) {
-                        ZuiText pstr = NULL;
-                        img->src.left = _tcstol(arr[i] + 5, &pstr, 10);  ASSERT(pstr);
-                        img->src.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
-                        img->src.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
-                        img->src.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
-                    }
-                }
-
-            }
-            else if (type == ZREST_TXT) {
-                int bufsize;
-                wchar_t *txtbuf;
-                if (ZuiStingIsUtf8(buf, buflen))
-                {
-                    bufsize = ZuiUtf8ToUnicode(buf, -1, 0, 0) * sizeof(wchar_t);
-                    txtbuf = malloc(bufsize + 2);
-                    bufsize = ZuiUtf8ToUnicode(buf, buflen, txtbuf, bufsize);
-                    txtbuf[bufsize] = 0;
-                }
-                else
-                {
-                    bufsize = ZuiAsciiToUnicode(buf, -1, 0, 0) * sizeof(wchar_t);
-                    txtbuf = malloc(bufsize + 2);
-                    bufsize = ZuiAsciiToUnicode(buf, buflen, txtbuf, bufsize);
-                    txtbuf[bufsize] = 0;
-                }
-                free(buf);
-                res->p = txtbuf;
-            }
-            else if (type == ZREST_ZIP)
-            {
-                res->p = ZuiResDBCreateFromBuf(buf, buflen, 0);
-                free(buf);
-                if (!res->p) {
-                    free(res);
-                    return NULL;
-                }
-                if (res->type > 0) {
-                    //是资源包 不由Res管理
-                    free(res);
-                    return NULL;
-                }
-            }
-            else if (type == ZREST_STREAM) {
-                res->p = buf;
-                res->plen = buflen;
-            }
-            else if (type == ZREST_FONT)
-            {
-                ZuiText name = Global_DefaultFontName;//字体名字
-                ZuiColor color = ARGB(254, 0, 0, 0);
-                unsigned int size = 12;
-                ZuiBool bold = FALSE;
-                ZuiBool italic = FALSE;
-                for (int i = 1; i < arrnum; i++)
-                {
-                    if (_tcsnicmp(arr[i], _T("name='"), 6) == 0) {
-                        if (arr[i][_tcslen(arr[i])-1] == '\'')
-                        {
-                            name = arr[i] + 6;
-                            name[_tcslen(name)-1] = 0;
-                        }
-                    }
-                    else if (_tcsnicmp(arr[i], _T("size="), 5) == 0)
-                    {
-                        size = _ttoi(arr[i] + 5);
-                    }
-                    else if (_tcsnicmp(arr[i], _T("bold="), 5) == 0)
-                    {
-                        //粗体
-                        if (_tcsnicmp(arr[i] + 5, _T("true"), 4) == 0)
-                        {
-                            bold = TRUE;
-                        }
-                    }
-                    else if (_tcsnicmp(arr[i], _T("italic="), 7) == 0)
-                    {
-                        //斜体
-                        if (_tcsnicmp(arr[i] + 7, _T("true"), 4) == 0)
-                        {
-                            italic = TRUE;
-                        }
-                    }
-                }
-                res->p = ZuiCreateFont(name, size, bold, italic);
-            }
+        //创建对应的资源类型
+        ZuiRes res = malloc(sizeof(ZRes));
+        if (!res)
+            return NULL;
+        memset(res, 0, sizeof(ZRes));
+        res->type = type;
+        if (type == ZREST_IMG) {
+            ZuiImage img = ZuiLoadImageFromBinary(buf, buflen);
+            res->p = img;
+            //释放缓冲
+            free(buf);
             if (!res->p) {
                 free(res);
                 return NULL;
             }
-            //保存到资源map
-            res->ref++;////增加引用计数
-			if (db->type == ZRESDBT_STREAM) {			//从字节流添加资源stream:name:address:size 后，
-				TCHAR * pstr = _tcschr(Path, _T(':'));	//使用stream:name 引用资源 address:size 不需要一直保存。
-				pstr = _tcschr(++pstr, _T(':'));
-				if (pstr)
-					*pstr = 0;
-			}
-			res->hash = Zui_Hash(Path);
-            RB_INSERT(_ZRes_Tree, &Global_ResDB->res, res);
-            return res;
+            for (int i = 2; i < arrnum; i++)
+            {
+                if (_tcsnicmp(arr[i], _T("src='"), 5) == 0) {
+                    ZuiText pstr = NULL;
+                    img->src.left = _tcstol(arr[i] + 5, &pstr, 10);  ASSERT(pstr);
+                    img->src.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
+                    img->src.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
+                    img->src.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
+                }
+            }
+
         }
+        else if (type == ZREST_TXT) {
+            int bufsize;
+            wchar_t *txtbuf;
+            if (ZuiStingIsUtf8(buf, buflen))
+            {
+                bufsize = ZuiUtf8ToUnicode(buf, -1, 0, 0) * sizeof(wchar_t);
+                txtbuf = malloc(bufsize + 2);
+                bufsize = ZuiUtf8ToUnicode(buf, buflen, txtbuf, bufsize);
+                txtbuf[bufsize] = 0;
+            }
+            else
+            {
+                bufsize = ZuiAsciiToUnicode(buf, -1, 0, 0) * sizeof(wchar_t);
+                txtbuf = malloc(bufsize + 2);
+                bufsize = ZuiAsciiToUnicode(buf, buflen, txtbuf, bufsize);
+                txtbuf[bufsize] = 0;
+            }
+            free(buf);
+            res->p = txtbuf;
+        }
+        else if (type == ZREST_ZIP)
+        {
+            res->p = ZuiResDBCreateFromBuf(buf, buflen, 0);
+            free(buf);
+            if (!res->p) {
+                free(res);
+                return NULL;
+            }
+            if (res->type > 0) {
+                //是资源包 不由Res管理
+                free(res);
+                return NULL;
+            }
+        }
+        else if (type == ZREST_STREAM) {
+            res->p = buf;
+            res->plen = buflen;
+        }
+        else if (type == ZREST_FONT)
+        {
+            ZuiText name = NULL;//字体名字
+            unsigned int size = 10; //默认字体大小
+            ZuiBool bold = FALSE;
+            ZuiBool italic = FALSE;
+            for (int i = 1; i < arrnum; i++)
+            {
+                if (_tcsnicmp(arr[i], _T("fontfamily='"), 12) == 0) {
+                    if (arr[i][_tcslen(arr[i])-1] == '\'')
+                    {
+                        name = arr[i] + 12;
+                        name[_tcslen(name)-1] = 0;
+                    }
+                }
+                else if (_tcsnicmp(arr[i], _T("size="), 5) == 0)
+                {
+                    size = _ttoi(arr[i] + 5);
+                }
+                else if (_tcsnicmp(arr[i], _T("bold="), 5) == 0)
+                {
+                    //粗体
+                    if (_tcsnicmp(arr[i] + 5, _T("true"), 4) == 0)
+                    {
+                        bold = TRUE;
+                    }
+                }
+                else if (_tcsnicmp(arr[i], _T("italic="), 7) == 0)
+                {
+                    //斜体
+                    if (_tcsnicmp(arr[i] + 7, _T("true"), 4) == 0)
+                    {
+                        italic = TRUE;
+                    }
+                }
+            }
+            res->p = ZuiCreateFont(name, size, bold, italic);
+        }
+        if (!res->p) {
+            free(res);
+            return NULL;
+        }
+        //保存到资源map
+        res->ref++;////增加引用计数
+		if (db->type == ZRESDBT_STREAM) {			//从字节流添加资源stream:name:address:size 后，
+			TCHAR * pstr = _tcschr(Path, _T(':'));	//使用stream:name 引用资源 address:size 不需要一直保存。
+			pstr = _tcschr(++pstr, _T(':'));
+			if (pstr)
+				*pstr = 0;
+		}
+		res->hash = Zui_Hash(Path);
+        RB_INSERT(_ZRes_Tree, &Global_ResDB->res, res);
+        return res;
     }
     return NULL;
 }

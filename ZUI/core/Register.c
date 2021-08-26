@@ -10,6 +10,7 @@
 #include <control/Window.h>
 #include <control/ScrollBar.h>
 #include <control/Label.h>
+#include <control/Edit.h>
 #include <control/Button.h>
 #include <control/Option.h>
 #include <control/CheckBox.h>
@@ -46,6 +47,7 @@ ZuiBool ZuiClassInit()
     ZuiControlRegisterAdd(ZC_ScrollBar, (ZCtlProc)ZuiScrollBarProc);
     ZuiControlRegisterAdd(ZC_SplitterBar, (ZCtlProc)ZuiSplitterBarProc);
     ZuiControlRegisterAdd(ZC_Label, (ZCtlProc)ZuiLabelProc);
+    ZuiControlRegisterAdd(ZC_Edit, (ZCtlProc)ZuiEditProc);
     ZuiControlRegisterAdd(ZC_ProgressBar, (ZCtlProc)ZuiProgressBarProc);
     ZuiControlRegisterAdd(ZC_Button, (ZCtlProc)ZuiButtonProc);
     ZuiControlRegisterAdd(ZC_Option, (ZCtlProc)ZuiOptionProc);

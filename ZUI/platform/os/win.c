@@ -1,6 +1,7 @@
 ﻿#include <core/control.h>
 #include <core/builder.h>
 #include <core/function.h>
+#include <ShellScalingAPI.h>
 #include "win.h"
 #if (defined PLATFORM_OS_WIN)
 #pragma comment(lib, "Imm32.lib")
@@ -109,15 +110,15 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             darray_delete(p->m_aDelayedCleanup, darray_find(p->m_aDelayedCleanup, cp));
             if (cp == p->m_pRoot) {
                 if (GetActiveWindow() == p->m_hWnd) {
-                    HWND hwndParent = GetWindowOwner(p->m_hWnd);
+                    //HWND hwndParent = GetWindowOwner(p->m_hWnd);
                     //无焦点窗口不做任何处理
-                    if (!p->m_bUnfocusPaintWindow)
-                    {
-                        if (hwndParent != NULL)
-                            SetFocus(hwndParent);
-                        else
+                    //if (!p->m_bUnfocusPaintWindow)
+                    //{
+                        //if (hwndParent != NULL)
+                            //SetFocus(hwndParent);
+                        //else
                             SetFocus(NULL);
-                    }
+                    //}
                 }
             }
             if (darray_len(p->m_aDelayedCleanup) == 0) {
@@ -192,6 +193,10 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         ZuiOsInvalidate(p);
         return 1;
     }
+    case WM_DPICHANGED:
+    {
+        return 0;
+    }
     case WM_PAINT:  //绘制
     {
         //_tprintf(_T("paint..."));
@@ -204,6 +209,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
         RECT rcClient = { 0 };
         GetClientRect(p->m_hWnd, &rcClient);
+        //_tprintf(_T("%d,%d..>>"), rcClient.right, rcClient.bottom);
         if (rcClient.right - rcClient.left == 0 || rcClient.bottom - rcClient.top == 0)
         {
             BeginPaint(p->m_hWnd, &ps);
@@ -425,7 +431,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         if (p->m_bOffscreenPaint)
         {
             ZuiDestroyGraphics(p->m_hDcOffscreen);
-            //_tprintf(_T("%d...%d...//"), LOWORD(lParam), HIWORD(lParam));
+            _tprintf(_T("%d...%d...//"), LOWORD(lParam), HIWORD(lParam));
             p->m_hDcOffscreen = ZuiCreateGraphics(p,LOWORD(lParam),HIWORD(lParam));
         }
         else {
@@ -619,17 +625,18 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             pControl = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (void *)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
         if (pControl == NULL) break;
         if (pControl->m_pOs != p) break;
+        ZCCALL(ZM_SetFocus, pControl, 0, 0);
         if (pControl->m_drag) {
-            TEventUI event = { 0 };
-            event.Type = ZEVENT_KILLFOCUS;
-            event.pSender = pControl;
-            event.dwTimestamp = GetTickCount();
-            ZuiControlEvent(p->m_pFocus, &event);
-            p->m_pFocus = NULL;
+            //TEventUI event = { 0 };
+            //event.Type = ZEVENT_SETFOCUS;
+            //event.pSender = pControl;
+            //event.dwTimestamp = GetTickCount();
+            //ZuiControlEvent(p->m_pFocus, &event);
+            //p->m_pFocus = NULL;
             return SendMessage(pControl->m_pOs->m_hWnd, WM_NCLBUTTONDOWN, HTCAPTION, 0);
         }
         p->m_pEventClick = pControl;
-        ZCCALL(ZM_SetFocus, pControl, 0, 0);
+        
         ZuiOsSetCapture(p);
         TEventUI event = { 0 };
         event.Type = ZEVENT_LBUTTONDOWN;
@@ -934,16 +941,50 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         break;
     }
     default:
-        return DefWindowProc(hWnd, uMsg, wParam, lParam);
+        break;
     }
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
+ZEXPORT ZuiVoid ZuiBeep(unsigned int type)
+{
+    MessageBeep(type);
+}
+ZuiBool ZuiIsWindowsVersionOrGreater(DWORD wMajorVersion, DWORD wMinorVersion, DWORD wServicePackMajor)
+{
+    RTL_OSVERSIONINFOEXW verInfo = { 0 };
+    verInfo.dwOSVersionInfoSize = sizeof(verInfo);
+    HMODULE h = GetModuleHandle(_T("ntdll.dll"));
+    typedef HRESULT(WINAPI* fnGetVersion)(PRTL_OSVERSIONINFOW lpVersionInformation);
+    fnGetVersion RtlGetVersion = (fnGetVersion)GetProcAddress(h, "RtlGetVersion");
+
+    if (RtlGetVersion != NULL && RtlGetVersion((PRTL_OSVERSIONINFOW)&verInfo) == 0)
+    {
+        if (verInfo.dwMajorVersion > wMajorVersion)
+            return TRUE;
+        else if (verInfo.dwMajorVersion == wMajorVersion
+            && verInfo.dwMinorVersion > wMinorVersion)
+            return TRUE;
+        else if(verInfo.dwMajorVersion == wMajorVersion
+            && verInfo.dwMinorVersion == wMinorVersion
+            && verInfo.wServicePackMajor >= wServicePackMajor)
+            return TRUE;
+        return FALSE;
+    }
+    return FALSE;
+}
+
 ZuiBool ZuiOsInitialize(ZuiInitConfig config) {
     // 关闭DPI缩放 ,UI库自己实现缩放
-    FARPROC spdpia = GetProcAddress(GetModuleHandle(TEXT("user32")), "SetProcessDPIAware");
-    if (spdpia != NULL)
-        spdpia();
+    HMODULE m = LoadLibrary(_T("Shcore.dll"));
+    if (m) {
+        typedef HRESULT(WINAPI* SPDPIA)(int value);
+        SPDPIA spdpia = (SPDPIA)GetProcAddress(m, "SetProcessDpiAwareness");
+        if (spdpia != NULL && ZuiIsWindowsVersionOrGreater((DWORD)6, (DWORD)3, (DWORD)0) ) {
+            spdpia(PROCESS_PER_MONITOR_DPI_AWARE);
+        }
+        FreeLibrary(m);
+    }
     // 获取DPI  
     HDC hdc = GetDC(NULL);
     if (hdc != NULL) {
@@ -1020,7 +1061,7 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
 
         OsWindow->m_hIMC = ImmGetContext(OsWindow->m_hWnd);//获取系统的输入法
                                              /*屏蔽输入法*/
-        ImmAssociateContext(OsWindow->m_hWnd, NULL);
+        //ImmAssociateContext(OsWindow->m_hWnd, NULL);
 
         OsWindow->m_hDcPaint = GetDC(OsWindow->m_hWnd);
 
@@ -1367,7 +1408,7 @@ ZEXPORT int ZuiDoModel(ZuiControl cp)
         {
             nRet = (int)Msg.wParam;
             EnableWindow((HWND)phwnd, TRUE);
-            SetFocus((HWND)phwnd);
+            //SetFocus((HWND)phwnd);
         }
         TranslateMessage(&Msg);
         DispatchMessage(&Msg);
@@ -1375,6 +1416,10 @@ ZEXPORT int ZuiDoModel(ZuiControl cp)
     //重新开启父窗口
     EnableWindow((HWND)phwnd, TRUE);
     return nRet;
+}
+ZEXPORT ZuiBool ZuiOsIsZoomed(ZuiControl p)
+{
+    return p->m_pOs->m_bMax;
 }
 int ZuiOsUtf8ToUnicode(ZuiAny str, int slen, ZuiText out, int olen)
 {

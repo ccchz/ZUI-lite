@@ -62,8 +62,7 @@ typedef unsigned long long ZUint;
 typedef int Zint;
 typedef unsigned int ZUint;
 #endif
-typedef wchar_t *ZuiText;
-typedef wchar_t _ZuiText, ZText;   //内核默认Unicode存储字符
+typedef TCHAR *ZuiText, _ZuiText, ZText;  //内核默认Unicode存储字符
 typedef float           ZuiReal;
 typedef unsigned int    ZuiBool;
 typedef void            ZuiVoid;
@@ -236,7 +235,7 @@ enum ZREST
 //----控件属性
 #define ZM_SetAttribute       25  //解析属性
 #define ZM_GetAttribute       26  //取属性
-#define ZM_GetControlFlags    27  //
+#define ZM_InActivate         27  //不活动
 #define ZM_Activate           28  //活动
 #define ZM_SetVisible         29  //设置是否可视
 #define ZM_GetVisible         30  //是否可视
@@ -294,6 +293,8 @@ enum ZREST
 #define ZM_SetNotifyPop       81 //事件冒泡
 #define ZM_Invalidate         82  //刷新显示
 #define ZM_GetParent          83
+#define ZM_GetControlFlags    84  //
+
 //输入事件
 #define ZM_OnChar             100
 #define ZM_OnClick            101
@@ -590,6 +591,13 @@ enum ZREST
 #define ZM_TreeNode_GetFolderButton       527
 #define ZM_TreeNode_GetCheckBox           528
 #endif // 1
+
+//--------------------------------------------------------------------Edit类
+#define ZC_Edit                          _T("Edit")
+#define ZM_Edit_SetFont                  550     //设置字体
+#define ZM_Edit_SetTextColor             551     //设置文本颜色
+#define ZM_Edit_SetTextPadding           552     //字体边距
+#define ZM_Edit_SetTextColorDisabled     553
 //--------------------------------------------------------------------内部函数导出表
 //zui引擎
 #define ZuiFuncsVersion                     0x00010001

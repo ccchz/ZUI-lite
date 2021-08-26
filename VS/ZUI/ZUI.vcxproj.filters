@@ -120,6 +120,9 @@
     <ClCompile Include="..\..\ZUI\control\Container.c">
       <Filter>control</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ZUI\control\Edit.c">
+      <Filter>control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ZUI\ZUI.h" />
@@ -234,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="..\..\ZUI\platform\os.h">
       <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ZUI\control\Edit.h">
+      <Filter>control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

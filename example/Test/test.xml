@@ -2,11 +2,14 @@
 <Window nobox="true" bordercolor="#FF155515" bordercolor2="#FF058805" round="7,7,7,7" bkcolor="0xFF131313" size="960,600" text="ZUI-lite演示" mininfo="300,200" 
         center="true"  name="window_main" tooltip="主窗口">
 		<include src="default:default_ctl.xml" />
-		<HorizontalLayout name="head" drag="true" height="26" bkcolor="0xFF055505"><!--标题栏-->
+		<HorizontalLayout name="head" drag="true" height="26" round="7,7,0,0"><!--标题栏-->
 			<NULL width="16" padding="10,5,0,5" bkimage="default:default/zui-256.png"/>
-			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:name='微软雅黑':size=10:bold=true" drag="true"/>
+			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font:fontfamily='微软雅黑':size=10:bold=true" drag="true"/>
 			<Include src="file:itest.xml" />
-			<WindowCtl name="ctl"/>
+			<Button name="WindowCtl_min" width="30" height="26" tooltip="最小化" normalimage="default:default/11.png" hotimage="default:default/12.png" pushedimage="default:default/13.png" />
+			<Option name="WindowCtl_max" width="30" height="26" tooltip="最大化" normalimage="default:default/5.png" hotimage="default:default/6.png" pushedimage="default:default/7.png" 
+			selectedimage="default:default/8.png" selectedhotimage="default:default/9.png" selectedpushedimage="default:default/10.png" />
+			<Button name="WindowCtl_clos" width="32" height="26" tooltip="关闭" normalimage="default:default/1.png" hotimage="default:default/2.png" pushedimage="default:default/3.png"/>
 		</HorizontalLayout>	
 		<HorizontalLayout>
 		<VerticalLayout width="200" name="leftsiedBAR" vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848">
@@ -32,8 +35,9 @@
 				<CheckBox name="buttondisable23" text="CheckBox测试3" round="8,8,8,8" optionstyle="3" align="left" textpadding="40,0,0,0" width="150" disabledcolor="#FF8c8c8c" height="22"/>
 				<Option name="option0" text="基础控件" optionstyle="1" textpadding="24,0,0,0" disabledcolor="#FF8c8c8c"  align="left" width="150" height="30" />
 				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
-				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox0" buttonstyle="1" text="这个按钮真不错"  width="96" height="64"/>
-				<Button name="floatbutton1" bordercolor="#FF155515" text="浮动按钮1" round="20,20,20,20" width="100" height="40" float="300,200,0,0" />
+				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox0" buttonstyle="1" text="这个按钮"  width="96" height="64"/>
+				<Button name="floatbutton1" bordercolor="#FF155515" text="浮动按钮1" round="20,20,20,20" width="100" height="40" float="500,200,0,0" />
+				<Edit name="edit1" width="200" height="60" bordercolor="#FF636363"/>
 			</VerticalLayout>
 			<VerticalLayout name="progress1">
 				<ProgressBar bordercolor="#FF155515" name="pbb" height="20" pbheight="8" pbpos="100" pbrange="400" round="3,3,3,3"/>
@@ -52,11 +56,11 @@
 				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  name="msgbox2" buttonstyle="1" text="这个按钮真不错"/>
 			</GridLayout>
 			<GridLayout name="grid1" gridsize="200,64" vscrollbar="true" hscrollbar="true">
-				<Container name="container1" height="48" bordercolor="#FF155515">
-				<Button bordercolor="#FF155515"   foregroundimage="default:default/dui.png"  width="32" height="32" mouseenable="false"/>
+				<Container name="container1" height="48" valign="center" bordercolor="#FF155515">
+				<Button foregroundimage="default:default/dui.png"  width="32" height="32" mouseenable="false"/>
 				<VerticalLayout name="22" mouseenable="false">
 					<label text="容器控件标题" mouseenable="false"/>
-					<label text="容器控件的介绍容器控件的介绍容器控件的介绍容器控件的介绍" font="font:name='微软雅黑':size=8" wordbreak="true" name="ll11" mouseenable="false"/>
+					<label text="容器控件的介绍容器控件的介绍容器控件的介绍容器控件的介绍" font="font:fontfamily='微软雅黑':size=8" wordbreak="true" name="ll11" mouseenable="false"/>
 				</VerticalLayout>
 				</Container>
 			</GridLayout>

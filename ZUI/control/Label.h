@@ -2,7 +2,7 @@
 #define __LABEL_H__
 #include <ZUI.h>
 
-/**按钮控件结构*/
+/**Label控件结构*/
 typedef struct _ZLabel
 {
 	ZRect		m_rcPadding;
@@ -13,6 +13,4 @@ typedef struct _ZLabel
     ZCtlProc old_call;
 }*ZuiLabel, ZLabel;
 ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny Param1, ZuiAny Param2);
-
-
 #endif	//__LABEL_H__

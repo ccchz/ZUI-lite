@@ -99,7 +99,7 @@ ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAn
             ZuiImage img = p->m_ResForeground->p;
             ZuiLabel zb = p->old_udata;
             ZSizeR sr = {0};
-            ZuiMeasureTextSize(cp, zb->m_rFont ? zb->m_rFont->p : Global_Font->p, cp->m_sText, &sr);
+            ZuiMeasureTextSize(cp, zb->m_rFont ? zb->m_rFont->p : Global_Font->p, cp->m_sText, -1, &sr);
 
             if (p->m_dwStyle == 1) { //图片、文本居中上下结构
                 rcc.left = rc->left + ((rc->right - rc->left) - img->Width) / 2;

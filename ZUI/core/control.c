@@ -193,15 +193,16 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     case ZM_OnEvent: {
         switch (((TEventUI *)Param1)->Type)
         {
-        //case ZEVENT_SETCURSOR:
-        //{
-        //    ZuiOsSetCursor((unsigned int)ZIDC_ARROW);
-        //    return 0;
-        //}
+        case ZEVENT_SETCURSOR:
+        {
+            ZuiOsSetCursor((unsigned int)ZIDC_ARROW);
+            return 0;
+        }
         case ZEVENT_SETFOCUS:
         {
             p->m_bFocused = TRUE;
             ZuiControlInvalidate(p, TRUE);
+            ZuiControlDelayedNotify(ZM_OnSetFocus, p, NULL, NULL);
             return 0;
         }
         case ZEVENT_KILLFOCUS:
@@ -552,7 +553,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             p->m_cXY.cx = p->m_cXY.cy = 0;
             p->m_cxyFixed.cx = p->m_cxyFixed.cy = 0;
             p->m_cxyMin.cx = p->m_cxyMin.cy = 0;
-            p->m_cxyMax.cx = p->m_cxyMax.cy = 9999;
+            p->m_cxyMax.cx = p->m_cxyMax.cy = 999999;
 
 
             p->m_piFloatPercent.left = p->m_piFloatPercent.top = p->m_piFloatPercent.right = p->m_piFloatPercent.bottom = 0.0f;

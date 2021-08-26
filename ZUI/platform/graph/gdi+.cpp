@@ -1,11 +1,10 @@
-#include "gdi+.h"
 #include "platform/graph.h"
+#if PLATFORM_GRAPH_GDIX
+#include "gdi+.h"
 #include "core/carray.h"
 #include "stdlib.h"
-#include <VersionHelpers.h>
 #include <core/control.h>
 #include <comdef.h>
-#if PLATFORM_GRAPH_GDIX
 #include "gdiplus.h"
 #pragma comment(lib, "Gdiplus.lib")
 using namespace Gdiplus;
@@ -75,7 +74,7 @@ extern "C" {
         {
             SolidBrush brush(incolor);
             Gdiplus::Graphics *gpp = gp->ggp->ggp;
-            gpp->FillRectangle(&brush,rc->left-1,rc->top-1,rc->right-rc->left+1,rc->bottom-rc->top+1);
+            gpp->FillRectangle(&brush,rc->left,rc->top,rc->right-rc->left,rc->bottom-rc->top);
         }
     }
     /*画矩形*/
@@ -83,7 +82,7 @@ extern "C" {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp) {
             Pen pen(incolor, (REAL)LineWidth);
-            pen.SetAlignment(PenAlignmentInset);
+            //pen.SetAlignment(PenAlignmentInset);
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
             gpp->DrawRectangle(&pen, rc->left, rc->top, rc->right - rc->left-1, rc->bottom - rc->top-1);
             pen.~Pen();
@@ -115,7 +114,10 @@ extern "C" {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp)
         {
+            ZRound zrd = { 0 };
             REAL left, top, right, bottom;
+            if(rd)
+                memcpy(&zrd, rd, sizeof(ZRound));
             left = (REAL)rc->left;
             top = (REAL)rc->top;
             right = (REAL)rc->right-1;
@@ -125,14 +127,14 @@ extern "C" {
             pen.SetAlignment(PenAlignmentInset);
             SolidBrush brush(incolor);
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
-            path.AddArc(left, top, (REAL)2 * rd->left, (REAL)2 * rd->left, 180, 90);
-            path.AddLine(left + rd->left, top, right - rd->top, top);
-            path.AddArc(right - 2 * rd->top, top, (REAL)2 * rd->top, (REAL)2 * rd->top, 270, 90);
-            path.AddLine(right , top + rd->top, right , bottom - rd->right);
-            path.AddArc(right - 2 * rd->right, bottom - 2 * rd->right, (REAL)2 * rd->right, (REAL)2 * rd->right, 0, 90);
-            path.AddLine(left + rd->bottom, bottom , right - rd->right, bottom );
-            path.AddArc(left, bottom - 2 * rd->bottom, (REAL)2 * rd->bottom, (REAL)2 * rd->bottom, 90, 90);
-            path.AddLine(left, bottom - rd->bottom, left, top + rd->left);
+            path.AddArc(left, top, (REAL)2 * zrd.left, (REAL)2 * zrd.left, 180, 90);
+            path.AddLine(left + zrd.left, top, right - zrd.top, top);
+            path.AddArc(right - 2 * zrd.top, top, (REAL)2 * zrd.top, (REAL)2 * zrd.top, 270, 90);
+            path.AddLine(right, top + zrd.top, right, bottom - zrd.right);
+            path.AddArc(right - 2 * zrd.right, bottom - 2 * zrd.right, (REAL)2 * zrd.right, (REAL)2 * zrd.right, 0, 90);
+            path.AddLine(left + zrd.bottom, bottom, right - zrd.right, bottom);
+            path.AddArc(left, bottom - 2 * zrd.bottom, (REAL)2 * zrd.bottom, (REAL)2 * zrd.bottom, 90, 90);
+            path.AddLine(left, bottom - zrd.bottom, left, top + zrd.left);
             gpp->FillPath(&brush, &path);
             gpp->DrawPath(&pen, &path);
             pen.~Pen();
@@ -143,7 +145,10 @@ extern "C" {
     ZEXPORT ZuiVoid ZCALL ZuiDrawRoundRect(ZuiControl cp, ZuiColor incolor, ZuiRect rc, ZRound *rd, int LineWidth) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (gp) {
+            ZRound zrd = { 0 };
             REAL left, top, right, bottom;
+            if (rd)
+                memcpy(&zrd, rd, sizeof(ZRound));
             left = (REAL)rc->left;
             top = (REAL)rc->top;
             right = (REAL)rc->right-1;
@@ -152,14 +157,14 @@ extern "C" {
             Pen pen(incolor, (REAL)LineWidth);
             pen.SetAlignment(PenAlignmentInset);
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
-            path.AddArc(left, top, (REAL)2 * rd->left, (REAL)2 * rd->left, 180, 90);
-            path.AddLine(left + rd->left, top, right - rd->top, top);
-            path.AddArc(right - 2 * rd->top, top, (REAL)2 * rd->top, (REAL)2 * rd->top, 270, 90);
-            path.AddLine(right, top + rd->top, right, bottom - rd->right);
-            path.AddArc(right - 2 * rd->right, bottom - 2 * rd->right, (REAL)2 * rd->right, (REAL)2 * rd->right, 0, 90);
-            path.AddLine(left + rd->bottom, bottom, right - rd->right, bottom);
-            path.AddArc(left, bottom - 2 * rd->bottom, (REAL)2 * rd->bottom, (REAL)2 * rd->bottom, 90, 90);
-            path.AddLine(left, bottom - rd->bottom, left, top + rd->left);
+            path.AddArc(left, top, (REAL)2 * zrd.left, (REAL)2 * zrd.left, 180, 90);
+            path.AddLine(left + zrd.left, top, right - zrd.top, top);
+            path.AddArc(right - 2 * zrd.top, top, (REAL)2 * zrd.top, (REAL)2 * zrd.top, 270, 90);
+            path.AddLine(right, top + zrd.top, right, bottom - zrd.right);
+            path.AddArc(right - 2 * zrd.right, bottom - 2 * zrd.right, (REAL)2 * zrd.right, (REAL)2 * zrd.right, 0, 90);
+            path.AddLine(left + zrd.bottom, bottom, right - zrd.right, bottom);
+            path.AddArc(left, bottom - 2 * zrd.bottom, (REAL)2 * zrd.bottom, (REAL)2 * zrd.bottom, 90, 90);
+            path.AddLine(left, bottom - zrd.bottom, left, top + zrd.left);
             gpp->DrawPath(&pen, &path);
             pen.~Pen();
             path.~GraphicsPath();
@@ -213,11 +218,10 @@ extern "C" {
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
             gpp->DrawLine(&pen,rc->left,rc->top,rc->right,rc->bottom);
             pen.~Pen();
-            //gpp.~Graphics();
         }
     }
     /*画文本(按照计算好的坐标)*/
-    ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiControl cp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR Pt[]) {
+    ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiControl cp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR *Pt) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (String && Font && gp) {
             Gdiplus::PointF rf;
@@ -242,43 +246,88 @@ extern "C" {
             SolidBrush brush(incolor);
             Gdiplus::StringFormat sf;
             sf.GenericTypographic();
-            if (TextStyle & ZDT_SINGLELINE) sf.SetFormatFlags(StringFormatFlagsNoWrap);
+            if (TextStyle & ZDT_SINGLELINE) { sf.SetFormatFlags(StringFormatFlagsNoWrap); sf.SetTrimming(StringTrimmingNone);}
             if (TextStyle & ZDT_END_ELLIPSIS) sf.SetTrimming(StringTrimmingEllipsisCharacter);
             if (TextStyle & ZDT_CENTER) sf.SetAlignment(StringAlignmentCenter);
             if (TextStyle & ZDT_VCENTER) {
                 sf.SetLineAlignment(StringAlignmentCenter);
-                Gdiplus::SizeF sf1,sf2;
-                sf1.Height = rf.Height;
-                sf1.Width = rf.Width;
-                int lines;
-                gpp->MeasureString(String, -1, Font->font->font,sf1,&sf, &sf2,0,&lines);
-               
-                if (sf2.Width < rf.Width) {
-                    //_tprintf(_T("%f...%f.."), sf2.Height,Font->font->font->GetHeight(&gpp));
-                    sf2.Height = Font->font->font->GetHeight(gpp);
-                    rf.Y = rf.Y + (( rf.Height - sf2.Height) / 2)+1;
-                    rf.Height =  sf2.Height;
+                ZSizeR szf;
+                ZuiMeasureTextSize(cp, Font, String, -1, &szf);
+                if (szf.cx < rf.Width && szf.cy < rf.Height) {
+                    //_tprintf(_T("%s..%f...%f.."),cp->m_sName, rf.Height,Font->font->font->GetHeight(gpp));
+                    rf.Y = rf.Y + ((rf.Height - szf.cy) / 2);
+                    rf.Height = szf.cy;
                 }
             }
             if (TextStyle & ZDT_RIGHT) sf.SetAlignment(StringAlignmentFar);
             if (TextStyle & ZDT_BOTTOM) sf.SetAlignment(StringAlignmentFar);
 
-            gpp->DrawString(String, StrLen, Font->font->font,rf,&sf,&brush);
+            gpp->DrawString(String, StrLen, Font->font->font, rf, &sf, &brush);
         }
     }
+    ZEXPORT ZuiVoid ZCALL ZuiDrawString2(ZuiControl cp, ZuiFont Font, ZuiText String, int StrLen, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle) {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
+        if (String && Font && gp) {
+            Gdiplus::RectF rf;
+            rf.X = (REAL)Rect->left;
+            rf.Y = (REAL)Rect->top;
+            rf.Width = (REAL)(Rect->right - Rect->left);
+            rf.Height = (REAL)(Rect->bottom - Rect->top);
+            Gdiplus::Graphics* gpp = gp->ggp->ggp;
+            SolidBrush brush(incolor);
+            Gdiplus::StringFormat *sf, *sf1 = (Gdiplus::StringFormat*)Gdiplus::StringFormat::GenericTypographic();
+            sf = sf1->Clone();
+            if (TextStyle & ZDT_SINGLELINE) sf->SetFormatFlags(StringFormatFlagsNoWrap);
+            if (TextStyle & ZDT_END_ELLIPSIS) sf->SetTrimming(StringTrimmingEllipsisCharacter);
+            if (TextStyle & ZDT_CENTER) sf->SetAlignment(StringAlignmentCenter);
+            if (TextStyle & ZDT_VCENTER) {
+                sf->SetLineAlignment(StringAlignmentCenter);
+                ZSizeR szf;
+                ZuiMeasureTextSize(cp, Font, String, -1, &szf);
+                if (szf.cx < rf.Width && szf.cy < rf.Height) {
+                    //_tprintf(_T("%s..%f...%f.."),cp->m_sName, rf.Height,Font->font->font->GetHeight(gpp));
+                    rf.Y = rf.Y + ((rf.Height - szf.cy) / 2);
+                    rf.Height = szf.cy;
+                }
+            }
+            if (TextStyle & ZDT_RIGHT) sf->SetAlignment(StringAlignmentFar);
+            if (TextStyle & ZDT_BOTTOM) sf->SetLineAlignment(StringAlignmentFar);
+
+            gpp->DrawString(String, StrLen, Font->font->font, rf, sf, &brush);
+        }
+    }
+    //字体大小
+    ZEXPORT int ZCALL ZuiFontSize(ZuiFont Font)
+    {
+        // 获取DPI  
+        HDC hdc = GetDC(NULL);
+        if (hdc != NULL) {
+            int g_dpix = GetDeviceCaps(hdc, LOGPIXELSX);
+            ReleaseDC(NULL, hdc);
+            return (int)(Font->font->font->GetSize() * g_dpix / 72);
+        }
+        return 0;
+    }
+    //字体行高
+    ZEXPORT int ZCALL ZuiFontHeight(ZuiControl cp, ZuiFont Font)
+    {
+        ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
+        Gdiplus::Graphics* gpp = gp->ggp->ggp;
+        return (int)Font->font->font->GetHeight(gpp);
+    }
     /*测量文本大小*/
-    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiControl cp, ZuiFont Font, ZuiText String, ZuiSizeR Size)
+    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiControl cp, ZuiFont Font, ZuiText String,int length, ZuiSizeR Size)
     {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (String && Font) {
-            Gdiplus::StringFormat sf; //sf.GenericTypographic();
-            sf.SetFormatFlags(StringFormatFlagsMeasureTrailingSpaces);
+            Gdiplus::StringFormat *sf = (Gdiplus::StringFormat*)Gdiplus::StringFormat::GenericTypographic();
+            sf->SetFormatFlags(StringFormatFlagsMeasureTrailingSpaces);
             Gdiplus::PointF pf;
             pf.X = 0; pf.Y = 0;
             Gdiplus::RectF rf;
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
-            gpp->MeasureString(String, -1, Font->font->font, pf,&sf, &rf);
-            //_tprintf(_T("%f..."), rf.Width);
+            gpp->MeasureString(String, length, Font->font->font, pf,sf, &rf);
+            //_tprintf(_T("%f..."), rf.Height);
             Size->cx = rf.Width;
             Size->cy = rf.Height;
         }
@@ -402,7 +451,7 @@ extern "C" {
             }
         }
         gp->ggp->ggp = new Gdiplus::Graphics(gp->hdc);
-        gp->SmoothingMode = IsWindowsVistaOrGreater();
+        gp->SmoothingMode = ZuiIsWindowsVersionOrGreater((DWORD)6, (DWORD)0, (DWORD)0);
         if (gp->SmoothingMode) {
             gp->ggp->ggp->SetSmoothingMode(SmoothingModeAntiAlias);
         }
@@ -482,10 +531,10 @@ extern "C" {
         right = (REAL)rc->right;
         bottom = (REAL)rc->bottom;
         memcpy(&zrd, rd, sizeof(ZRound));
-        if (zrd.left) zrd.left += 1;
-        if (zrd.top) zrd.top += 1;
-        if (zrd.right) zrd.right += 1;
-        if (zrd.bottom) zrd.bottom += 1;
+        if (zrd.left) zrd.left += 0;
+        if (zrd.top) zrd.top += 0;
+        if (zrd.right) zrd.right += 0;
+        if (zrd.bottom) zrd.bottom += 0;
         GraphicsPath path;
         Gdiplus::Graphics* gpp = gp->ggp->ggp;
         if (cp->m_pOs->m_bMax && (cp == cp->m_pOs->m_pRoot)) {

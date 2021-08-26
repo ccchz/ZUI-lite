@@ -53,12 +53,22 @@ ZuiAny ZCALL Main_Notify_ctl_min(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Pa
 ZuiAny ZCALL Main_Notify_ctl_max(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     if (msg == ZM_OnSelectChanged)
     {
-
-        if (ZCCALL(ZM_Option_GetSelected, p, 0, 0))
-            ZCCALL(ZM_Window_SetWindowMax, win, 0, 0);
-        else
-            ZCCALL(ZM_Window_SetWindowRestor, win, 0, 0);
-
+        ZuiControl pmax;
+        ZRound rd;
+        if (Param1) {
+            if (!ZuiOsIsZoomed(p))
+                ZCCALL(ZM_Window_SetWindowMax, win, 0, 0);
+            pmax = ZCCALL(ZM_GetParent, p, 0, 0);   //更改关闭按钮父级控件圆角属性。
+            memcpy(&oldrd, ZCCALL(ZM_GetRound, pmax, 0, 0), sizeof(ZRound));
+            rd.left = rd.right = rd.top = rd.bottom = 0;
+            ZCCALL(ZM_SetRound, pmax, &rd, (ZuiAny)1);
+        }
+        else {
+            if (ZuiOsIsZoomed(p))
+                ZCCALL(ZM_Window_SetWindowRestor, win, 0, 0);
+            pmax = ZCCALL(ZM_GetParent, p, 0, 0); //还原关闭按钮父级控件圆角属性。
+            ZCCALL(ZM_SetRound, pmax, &oldrd, (ZuiAny)1);
+        }
     }
     return 0;
 }
@@ -77,24 +87,18 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     }
     else if (msg == ZM_OnSize)
     {
-        ZRound rd;
-        if ((LPARAM)Param1 == 2) { //窗口最大化
+       
+        if ((int)Param1 == 2) { //窗口最大化
             ZuiControl pmax = ZuiControlFindName(win, _T("WindowCtl_max"));
             if (pmax) {
-                ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)TRUE, NULL);
-                pmax = ZCCALL(ZM_GetParent, pmax, 0, 0);   //更改关闭按钮父级控件圆角属性。
-                memcpy(&oldrd, ZCCALL(ZM_GetRound,pmax,0,0), sizeof(ZRound));
-                rd.left=rd.right=rd.top=rd.bottom  = 0;
-                ZCCALL(ZM_SetRound, pmax, &rd, (ZuiAny)1);
+                ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)TRUE, (ZuiAny)TRUE);
             }
         }
         else if(Param1 == 0)  //窗口还原
         {
             ZuiControl pmax = ZuiControlFindName(p, _T("WindowCtl_max"));
             if (pmax) {
-                ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)FALSE, NULL);
-                pmax = ZCCALL(ZM_GetParent, pmax, 0, 0); //还原关闭按钮父级控件圆角属性。
-                ZCCALL(ZM_SetRound, pmax, &oldrd, (ZuiAny)1);
+                ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)FALSE, (ZuiAny)TRUE);
             }
         }
     }
@@ -150,7 +154,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     config.m_hInstance = hInstance;
     config.hicon = LoadIcon(config.m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
     config.default_res = _T("file:default.zip");
-    config.default_font = _T("font:name='微软雅黑':size=10");
+    config.default_font = _T("font:fontfamily='微软雅黑':size=10");
     if (!ZuiInit(&config)) return 0;
 
     ZuiRes	res = ZuiResDBGetRes(_T("default:default_msgbox.xml"), ZREST_STREAM);

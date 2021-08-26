@@ -19,7 +19,7 @@ enum EVENTTYPE_UI
     ZEVENT_MOUSEENTER,      //鼠标进入
     ZEVENT_MOUSEHOVER,      //鼠标悬停
     ZEVENT_LBUTTONDOWN,     //
-    ZEVENT_LBUTTONUP,       
+    ZEVENT_LBUTTONUP,
     ZEVENT_RBUTTONDOWN,
     ZEVENT_LDBLCLICK,
     ZEVENT_CONTEXTMENU,
@@ -70,7 +70,8 @@ ZuiBool ZuiOsSetWindowNoBox(ZuiOsWindow OsWindow, ZuiBool b);
 ZuiBool ZuiOsSetWindowComBo(ZuiOsWindow OsWindow, ZuiBool b);
 ZuiBool ZuiOsSetWindowTool(ZuiOsWindow OsWindow, ZuiBool b);
 ZuiVoid ZuiOsSetWindowRgn(ZuiOsWindow OsWindow);
-
+ZEXPORT ZuiBool ZuiOsIsZoomed(ZuiControl p);
+ZEXPORT ZuiBool ZuiIsWindowsVersionOrGreater(DWORD wMajorVersion, DWORD wMinorVersion, DWORD wServicePackMajor);
 //此函数用作设置窗口可视状态.
 ZuiVoid ZuiOsSetWindowVisible(ZuiOsWindow OsWindow, ZuiBool Visible);
 ZuiVoid ZuiOsWindowPopup(ZuiOsWindow OsWindow, ZuiPoint pt);
@@ -107,8 +108,8 @@ ZEXPORT ZuiVoid ZuiOsPostMessage(ZuiControl cp, ZuiAny Msg, ZuiAny Param1, ZuiAn
 ZEXPORT int ZuiDoModel(ZuiControl cp);
 //退出系统消息循环
 ZuiVoid ZuiOsMsgLoopExit(int nRet);
-//投递一个任务到UI线程
-
+//系统声音
+ZEXPORT ZuiVoid ZuiBeep(unsigned int type);
 int ZuiOsUtf8ToUnicode(ZuiAny str, int slen, ZuiText out, int olen);
 int ZuiOsAsciiToUnicode(ZuiAny str, int slen, ZuiText out, int olen);
 int ZuiOsUnicodeToAscii(ZuiText str, int slen, ZuiAny out, int olen);

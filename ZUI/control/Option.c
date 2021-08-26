@@ -311,8 +311,8 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         }
         if (!Param2)
             ZuiControlInvalidate(cp, TRUE);
-        ZuiControlDelayedNotify(ZM_OnSelectChanged, cp, (ZuiAny)p->m_bSelected, NULL);
-        break;
+        ZuiControlNotify(ZM_OnSelectChanged, cp, (ZuiAny)p->m_bSelected, NULL);
+        return 0;
     }
     case ZM_Option_SetGroup: {
         p->m_bGroup = (ZuiBool)Param1;

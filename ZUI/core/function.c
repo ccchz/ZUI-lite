@@ -8,7 +8,7 @@
 #include "template.h"
 #include "builder.h"
 #include "export.h"
-ZuiText Global_DefaultFontName = _T("font:name='微软雅黑':size=10");   //系统默认字体名称
+ZuiText Global_DefaultFontName = _T("font:fontfamily='微软雅黑':size=10");   //系统默认字体名称
 ZuiRes Global_Font = NULL;                //默认字体
 
 void Rect_Join(ZRect *rc, ZRect *rc1)

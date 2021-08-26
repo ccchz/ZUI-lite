@@ -351,7 +351,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                 tstyle &= ~(ZDT_VCENTER | ZDT_BOTTOM);
                 tstyle |= ZDT_TOP;
             }
-            if (_tcsicmp(zAttr->value, _T("vcenter")) == 0) {
+            if (_tcsicmp(zAttr->value, _T("center")) == 0) {
                 tstyle &= ~(ZDT_TOP | ZDT_BOTTOM);
                 tstyle |= ZDT_VCENTER;
             }

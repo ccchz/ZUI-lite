@@ -62,9 +62,14 @@ extern "C"
     ZEXPORT ZuiVoid ZCALL ZuiDrawLine(ZuiControl cp, ZuiColor incolor, ZuiRect rc, int LineWidth);
     //绘制文本
     ZEXPORT ZuiVoid ZCALL ZuiDrawStringPt(ZuiControl cp, ZuiFont Font, ZuiColor incolor, ZuiText String, int StrLens, ZPointR Pt[]);
-    ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiControl cp, ZuiFont Font, ZuiText String, int StrLens, ZRect * Rect, ZuiColor incolor, unsigned int TextStyle);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawString(ZuiControl cp, ZuiFont Font, ZuiText String, int StrLens, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle);
+    ZEXPORT ZuiVoid ZCALL ZuiDrawString2(ZuiControl cp, ZuiFont Font, ZuiText String, int StrLens, ZRect* Rect, ZuiColor incolor, unsigned int TextStyle);
     //测量字符大小
-    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiControl cp, ZuiFont Font, ZuiText String, ZuiSizeR Size);
+    ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiControl cp, ZuiFont Font, ZuiText String, int lenght, ZuiSizeR Size);
+    //字体大小
+    ZEXPORT int ZCALL ZuiFontSize(ZuiFont Font);
+    //字体行高
+    ZEXPORT int ZCALL ZuiFontHeight(ZuiControl cp, ZuiFont Font);
     //绘制图像
     ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiControl cp, ZuiImage Img, int x, int y, int Width, int Height, ZuiByte Alpha);
     //复制图形
