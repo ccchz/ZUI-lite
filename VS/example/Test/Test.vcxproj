@@ -42,6 +42,9 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\example\Test\resource.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\example\Test\zui.ico" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FC6DEDCA-36B7-4D4C-91EF-23B730031188}</ProjectGuid>

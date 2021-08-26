@@ -153,17 +153,17 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     ZInitConfig config = { 0 };
     config.m_hInstance = hInstance;
     config.hicon = LoadIcon(config.m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
-    config.default_res = _T("file:default.zip");
-    config.default_font = _T("font:fontfamily='微软雅黑':size=10");
+    config.default_res = _T("file:///default.zip");
+    config.default_font = _T("font://fontfamily='微软雅黑':size=10");
     if (!ZuiInit(&config)) return 0;
 
-    ZuiRes	res = ZuiResDBGetRes(_T("default:default_msgbox.xml"), ZREST_STREAM);
+    ZuiRes	res = ZuiResDBGetRes(_T("default://default_msgbox.xml"), ZREST_STREAM);
     int	len = 0;
     ZuiAny	xml = ZuiResGetData(res, &len);
     ZuiLayoutLoad(xml, len);
 
 
-    res = ZuiResDBGetRes(_T("file:test.xml"), ZREST_STREAM);
+    res = ZuiResDBGetRes(_T("file:///test.xml"), ZREST_STREAM);
     len = 0;
     xml = ZuiResGetData(res, &len);
     win = ZuiLayoutLoad(xml, len);

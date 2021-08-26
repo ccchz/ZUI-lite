@@ -51,7 +51,7 @@ ZuiBool ZuiResDBInit() {
         memset(p, 0, sizeof(ZResDB));
         p->type = ZRESDBT_PE;
         p->Instance = m_hInstance;
-        p->key = Zui_Hash(_T("pe_zui"));
+        p->key = Zui_Hash(_T("pe"));
         RB_INSERT(_ZResDB_Tree, &Global_ResDB->resdb, p);
 #endif
         p = (ZuiResDB)malloc(sizeof(ZResDB));
@@ -61,7 +61,7 @@ ZuiBool ZuiResDBInit() {
         RB_INSERT(_ZResDB_Tree, &Global_ResDB->resdb, p);
 
         //加载默认资源包
-        //ZuiResDBGetRes(_T("pe_zui:zip:6666"), ZREST_ZIP);
+        //ZuiResDBGetRes(_T("pe://zip:6666"), ZREST_ZIP);
         return TRUE;
     }
     return FALSE;
@@ -179,7 +179,7 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
         int arrnum = 20;
         memset(pathbuf, 0, 1024 * sizeof(_ZuiText));
         _tcsncpy(pathbuf, Path, 1023);
-        ZuiStingSplit(pathbuf, _T(":"), arr, &arrnum);
+        ZuiStingSplit(pathbuf, _T("://"), arr, &arrnum);
         if (arrnum < 2)
             return NULL;
         //先查找已经加载过的资源里面是否存在
@@ -200,12 +200,13 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
         //找到对应的资源包并提取资源
         ZuiAny buf = 0;
         int buflen = 0;
+        ZuiStingSplit(arr[1], _T(":"), arr, &arrnum); //分离属性字段。
         /*压缩*/if (db->type == ZRESDBT_ZIP_FILE || db->type == ZRESDBT_ZIP_STREAM)
         {
             //转换路径编码
-            int len = ZuiUnicodeToAscii(arr[1], -1, 0, 0);
+            int len = ZuiUnicodeToAscii(arr[0], -1, 0, 0);
             ZuiAny n = malloc(len);
-            ZuiUnicodeToAscii(arr[1], len, n, len);
+            ZuiUnicodeToAscii(arr[0], len, n, len);
             unz_file_info64 info;
             int ret = unzLocateFile(db->uf, n, 0);
             if (ret == 0)
@@ -217,14 +218,14 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
                 ret = unzReadCurrentFile(db->uf, buf, (int)info.uncompressed_size);
                 if (ret < 0) {
                     free(buf);
-		    buf = NULL;
-		    buflen = 0;
+		            buf = NULL;
+		            buflen = 0;
                 }
             }
             free(n);
         }
         /*文件*/else if (db->type == ZRESDBT_FILE) {
-            FILE*f = _wfopen(arr[1], _T("rb"));
+            FILE* f = _tfopen(++(arr[1]), _T("rb"));
             if (f) {
                 fseek(f, 0L, SEEK_END);
                 buflen = ftell(f); /* 得到文件大小 */
@@ -235,11 +236,11 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
             }
         }
         /*字节*/else if (db->type == ZRESDBT_STREAM) {
-			if (arrnum < 4)
+			if (arrnum < 3)
 				return NULL;
-            buflen = _wtoi(arr[3]);
+            buflen = _wtoi(arr[2]);
             buf = malloc(buflen);
-            memcpy(buf, (void *)_wtoi(arr[2]), buflen);
+            memcpy(buf, (void *)_wtoi(arr[1]), buflen);
         }
 #if (defined PLATFORM_OS_WIN)
         /*网络*/else if (db->type == ZRESDBT_URL) {
@@ -339,7 +340,7 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
         /*PE*/else if (db->type == ZRESDBT_PE)
         {
             //定位我们的自定义资源，这里因为我们是从本模块定位资源，所以将句柄简单地置为NULL即可
-            HRSRC hRsrc = FindResource(db->Instance, (LPCWSTR)_wtoi(arr[2]), arr[1]);
+            HRSRC hRsrc = FindResource(db->Instance, (LPCWSTR)_wtoi(arr[1]), arr[0]);
             if (hRsrc) {
                 //获取资源的大小
                 buflen = SizeofResource(db->Instance, hRsrc);
@@ -389,7 +390,7 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
                 free(res);
                 return NULL;
             }
-            for (int i = 2; i < arrnum; i++)
+            for (int i = 1; i < arrnum; i++)
             {
                 if (_tcsnicmp(arr[i], _T("src='"), 5) == 0) {
                     ZuiText pstr = NULL;
@@ -483,8 +484,8 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
         }
         //保存到资源map
         res->ref++;////增加引用计数
-		if (db->type == ZRESDBT_STREAM) {			//从字节流添加资源stream:name:address:size 后，
-			TCHAR * pstr = _tcschr(Path, _T(':'));	//使用stream:name 引用资源 address:size 不需要一直保存。
+		if (db->type == ZRESDBT_STREAM) {			//从字节流添加资源stream://name:address:size 后，
+			TCHAR * pstr = _tcschr(Path, _T(':'));	//使用stream://name 引用资源 address:size 不需要一直保存。
 			pstr = _tcschr(++pstr, _T(':'));
 			if (pstr)
 				*pstr = 0;

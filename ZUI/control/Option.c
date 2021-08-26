@@ -59,25 +59,25 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiControl cp, ZuiOption p, ZuiColor 
 
         break;
     }
-    case 3: {
+    case 3: { //椭圆样式
         rcc.right += ResSize;
         if (p->m_bSelected) {
             ZuiDrawFillRoundRect(cp, color, &rcc, &cp->m_rRound);
             if (button->m_dwType < 1) {
-                rcc.right -= 4;
-                rcc.top += 4;
-                rcc.bottom -= 4;
+                rcc.right -= 2;
+                rcc.top += 2;
+                rcc.bottom -= 2;
                 rcc.left = rcc.right - rcc.bottom + rcc.top;
-                ZuiFillEllipse(cp, 0xFF000000, &rcc);
+                ZuiFillEllipse(cp, 0xDD000000, &rcc);
             }
         }
         else {
-            ZuiDrawFillRoundRect(cp, color & 0x33FFFFFF, &rcc, &cp->m_rRound);
+            //ZuiDrawFillRoundRect(cp, color & 0xDDFFFFFF, &rcc, &cp->m_rRound);
             ZuiDrawRoundRect(cp, color, &rcc, &cp->m_rRound, 1);
             if (button->m_dwType < 1) {
-                rcc.left += 4;
-                rcc.top += 4;
-                rcc.bottom -= 4;
+                rcc.left += 2;
+                rcc.top += 2;
+                rcc.bottom -= 2;
                 rcc.right = rcc.left + rcc.bottom - rcc.top;
                 ZuiFillEllipse(cp, 0x99FFFFFF, &rcc);
             }
