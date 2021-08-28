@@ -17,7 +17,6 @@ uint32_t Zui_Hash(wchar_t* str);
 ZuiText ZuiCharNext(ZuiText str);
 
 //消息框
-ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp,ZuiText text,ZuiText title);
 
 
 

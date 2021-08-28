@@ -79,7 +79,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiControl cp, ZuiOption p, ZuiColor 
                 rcc.top += 2;
                 rcc.bottom -= 2;
                 rcc.right = rcc.left + rcc.bottom - rcc.top;
-                ZuiFillEllipse(cp, 0x99FFFFFF, &rcc);
+                ZuiFillEllipse(cp, 0x77FFFFFF, &rcc);
             }
         }
         break;

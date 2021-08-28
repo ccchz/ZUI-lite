@@ -34,6 +34,67 @@ ZuiAny ZCALL Main_Button_enable(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Par
     }
     return 0;
 }
+
+ZuiAny ZCALL msgbox_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClick)
+    {
+        ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
+        //ZuiControl cp = ZuiControlFindName(win, _T("tab"));
+        //ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)2, NULL);
+    }
+    return 0;
+}
+
+ZuiAny ZCALL dialog_proc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClose) {
+        FreeZuiControl(p, 1);
+    }
+    else if (msg == ZM_OnCreate) {
+        ZText zstr[1024] = { 0 };
+        _sntprintf_s(zstr, 1023, 1023, _T("%-29s %d.%d\r\n%-25s%s %s\r\n%-25sMSVC 2019"),
+            _T("版本:"), (ZuiVersion >> 16), ZuiVersion & 0xFFFF,
+            _T("编译日期:"), _T(__DATE__), _T(__TIME__),
+            _T("编译工具:"));
+        ZuiControl rp = ZuiControlFindName(p, _T("text"));
+        ZCCALL(ZM_SetText, rp, zstr, 0);
+    }
+    return 0;
+}
+
+ZuiAny ZCALL msgbox_Notify1(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnClick)
+    {
+        //ZuiMsgBox(win, _T("Container点击响应。"), _T("提示..."));
+        ZuiDialogBox(win, _T("default://about.xml"), dialog_proc, 1);
+    }
+    return 0;
+}
+ZuiAny ZCALL Option_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnSelectChanged && Param1)
+    {
+        ZuiText pname = ZCCALL(ZM_GetName, p, 0, 0);
+        //ZuiMsgBox(win, pname, _T("提示..."));
+        while (pname && *pname && !isdigit(*pname))
+            pname++;
+        ZuiControl cp = ZuiControlFindName(win, _T("tab"));
+        ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)_ttoi(pname), NULL);
+    }
+    return 0;
+}
+
+ZuiAny ZCALL Drawpanel_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+    if (msg == ZM_OnPaint)
+    {
+        ZuiText str = _T("DrawPanel控件.");
+        ZuiRect rc = ZCCALL(ZM_GetPos, p, 0, 0);
+        ZPointR ptr;
+        ZuiDrawEllipse(p, 0xFFff0000, rc, 1);
+        ptr.x = (ZuiReal)rc->left;
+        ptr.y = (ZuiReal)rc->top + (rc->bottom - rc->top) / 2;
+        ZuiDrawStringPt(p, (ZuiFont)Global_Font->p, 0xFF158815, str, _tcsclen(str), &ptr);
+    }
+    return 0;
+}
 ZuiAny ZCALL Main_Notify_ctl_clos(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     if (msg == ZM_OnClick)
     {
@@ -72,7 +133,7 @@ ZuiAny ZCALL Main_Notify_ctl_max(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Pa
     }
     return 0;
 }
-ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZuiAny ZCALL Main_Notify(int msg, ZuiControl cp, ZuiAny Param1, ZuiAny Param2) {
     if (msg == ZM_OnClose)
     {
         int ret = ZuiMsgBox(win, _T("是否退出程序?"), _T("提示!!"));
@@ -80,6 +141,26 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
             
             FreeZuiControl(win, 1);
         }
+    }
+    else if (msg == ZM_OnCreate) {
+        ZuiControl p = ZuiControlFindName(cp, _T("WindowCtl_clos"));
+        ZuiControlRegNotify(p, Main_Notify_ctl_clos);
+
+        p = ZuiControlFindName(cp, _T("WindowCtl_max"));
+        ZuiControlRegNotify(p, Main_Notify_ctl_max);
+
+        p = ZuiControlFindName(cp, _T("WindowCtl_min"));
+        ZuiControlRegNotify(p, Main_Notify_ctl_min);
+
+        for (int i = 0; i < Array_len; i++) {
+            p = ZuiControlFindName(cp, cname[i]);
+            ZuiControlRegNotify(p, Option_Notify);
+        }
+
+        p = ZuiControlFindName(cp, _T("container1"));
+        ZuiControlRegNotify(p, msgbox_Notify1);
+        p = ZuiControlFindName(cp, _T("drawpanel1"));
+        ZuiControlRegNotify(p, Drawpanel_Notify);
     }
     else if (msg == ZM_OnDestroy)
     {
@@ -96,55 +177,11 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
         }
         else if(Param1 == 0)  //窗口还原
         {
-            ZuiControl pmax = ZuiControlFindName(p, _T("WindowCtl_max"));
+            ZuiControl pmax = ZuiControlFindName(cp, _T("WindowCtl_max"));
             if (pmax) {
                 ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)FALSE, (ZuiAny)TRUE);
             }
         }
-    }
-    return 0;
-}
-ZuiAny ZCALL msgbox_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
-    if (msg == ZM_OnClick)
-    {
-        ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
-        //ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        //ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)2, NULL);
-    }
-    return 0;
-}
-
-ZuiAny ZCALL msgbox_Notify1(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
-    if (msg == ZM_OnClick)
-    {
-        ZuiMsgBox(win, _T("Container点击响应。"), _T("提示..."));
-    }
-    return 0;
-}
-
-ZuiAny ZCALL Option_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
-    if (msg == ZM_OnSelectChanged && Param1)
-    {
-        ZuiText pname = ZCCALL(ZM_GetName, p, 0, 0);
-        //ZuiMsgBox(win, pname, _T("提示..."));
-        while (pname && *pname && !isdigit(*pname))
-            pname++;
-        ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)_ttoi(pname), NULL);
-    }
-    return 0;
-}
-
-ZuiAny ZCALL Drawpanel_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
-    if (msg == ZM_OnPaint)
-    {
-        ZuiText str = _T("DrawPanel控件.");
-        ZuiRect rc = ZCCALL(ZM_GetPos, p, 0, 0);
-        ZPointR ptr;
-        ZuiDrawEllipse(p, 0xFFff0000, rc,1);
-        ptr.x = (ZuiReal)rc->left;
-        ptr.y = (ZuiReal)rc->top + (rc->bottom - rc->top) / 2;
-        ZuiDrawStringPt(p,(ZuiFont)Global_Font->p,0xFF158815,str,_tcsclen(str),&ptr);
     }
     return 0;
 }
@@ -155,39 +192,15 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     config.hicon = LoadIcon(config.m_hInstance, MAKEINTRESOURCE(IDI_ICON1));
     config.default_res = _T("file:///default.zip");
     config.default_font = _T("font://fontfamily='微软雅黑':size=10");
-    if (!ZuiInit(&config)) return 0;
+    if (!ZuiInit(&config))
+        return 0;
 
-    ZuiRes	res = ZuiResDBGetRes(_T("default://default_msgbox.xml"), ZREST_STREAM);
-    int	len = 0;
-    ZuiAny	xml = ZuiResGetData(res, &len);
-    ZuiLayoutLoad(xml, len);
+    ZuiLoadXml(_T("default://default_msgbox.xml"));
 
+    win = NewZuiControlFromXml(NULL, _T("file:///test.xml"), Main_Notify);
+    if (!win)
+        return 0;
 
-    res = ZuiResDBGetRes(_T("file:///test.xml"), ZREST_STREAM);
-    len = 0;
-    xml = ZuiResGetData(res, &len);
-    win = ZuiLayoutLoad(xml, len);
-    if (!win) return 0;
-    ZuiControlRegNotify(win, Main_Notify);
-
-    ZuiControl p = ZuiControlFindName(win, _T("WindowCtl_clos"));
-    ZuiControlRegNotify(p, Main_Notify_ctl_clos);
-
-    p = ZuiControlFindName(win, _T("WindowCtl_max"));
-    ZuiControlRegNotify(p, Main_Notify_ctl_max);
-
-    p = ZuiControlFindName(win, _T("WindowCtl_min"));
-    ZuiControlRegNotify(p, Main_Notify_ctl_min);
-
-    for (int i = 0; i < Array_len; i++) {
-        p = ZuiControlFindName(win, cname[i]);
-        ZuiControlRegNotify(p, Option_Notify);
-    }
-
-    p = ZuiControlFindName(win, _T("container1"));
-    ZuiControlRegNotify(p, msgbox_Notify1);
-    p = ZuiControlFindName(win, _T("drawpanel1"));
-    ZuiControlRegNotify(p, Drawpanel_Notify);
 
     ZuiMsgLoop();
     printf("Loop done!!\n");

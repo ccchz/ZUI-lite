@@ -4,11 +4,11 @@
 #include <core/resdb.h>
 #include <core/template.h>
 
-static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
+static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl p) {
     mxml_node_t *node;
     ZuiText ClassName = NULL;
     ZuiBool Visible = FALSE, Enabled = TRUE;
-    ZuiControl Control;
+    ZuiControl Control,win=NULL;
     for (node = mxmlFindElement(tree, tree, NULL, NULL, NULL, MXML_DESCEND); node != NULL; node = mxmlWalkNext(node, NULL, MXML_DESCEND))
         {
             LoadNodeBedin:
@@ -90,7 +90,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
                         node->user_data = Control;//保存控件到节点
                         win = Control;
                         //创建宿主窗口
-                        ZuiOsCreateWindow(win, TRUE, 0);
+                        ZuiOsCreateWindow(win, TRUE, p);
                     }
                     else
                         break;//窗口创建失败就没必要继续下去了
@@ -102,13 +102,12 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl win) {
                 }
             }
         }
-    ZuiControlNeedUpdate(win);
     return win;
 }
-ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiAny xml, int len) {
+ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiControl ParentControl, ZuiAny xml, int len) {
     mxml_node_t *tree;
     tree = mxmlLoadString(NULL, xml, len);
-    ZuiControl win = ZuiLayoutLoadNode(tree, NULL);
+    ZuiControl win = ZuiLayoutLoadNode(tree, ParentControl);
     /*解析完成后释放xml树*/
     mxmlDelete(tree);
     return win;

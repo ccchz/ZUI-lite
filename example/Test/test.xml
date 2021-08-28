@@ -60,7 +60,7 @@
 				<Button foregroundimage="default://default/dui.png"  width="32" height="32" mouseenable="false"/>
 				<VerticalLayout name="22" mouseenable="false">
 					<label text="容器控件标题" mouseenable="false"/>
-					<label text="容器控件的介绍容器控件的介绍容器控件的介绍容器控件的介绍" font="font://fontfamily='微软雅黑':size=8" wordbreak="true" name="ll11" mouseenable="false"/>
+					<label text="容器控件的介绍容器控件的介绍容器控件的介绍容器控件的介绍" font="font://size=8" wordbreak="true" name="ll11" mouseenable="false"/>
 				</VerticalLayout>
 				</Container>
 			</GridLayout>

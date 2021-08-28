@@ -5,7 +5,7 @@ static ZuiFuncs *func;
 ZuiBool ZuiInitZuiFunc() {
     ZuiFuncs *p = (ZuiFuncs *)malloc(sizeof(ZuiFuncs));
     p->size = sizeof(ZuiFuncs);
-    p->version = ZuiFuncsVersion;
+    p->version = ZuiVersion;
      
     p->ZuiMsgLoop = &ZuiMsgLoop;
     p->ZuiMsgLoop_exit = &ZuiMsgLoop_exit;

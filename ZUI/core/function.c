@@ -160,15 +160,59 @@ ZuiAny ZCALL Default_NotifyProc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Par
     if (msg == ZM_OnClose) {
         ZuiOsAddDelayedCleanup(p, Param1, Param2);
     }
-    else if (msg == ZM_OnDestroy) {
-        ZuiMsgLoop_exit((int)Param1);
-    }
     return 0;
 }
 
-ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp, ZuiText text, ZuiText title) {
+ZEXPORT ZuiVoid ZCALL ZuiLoadXml(ZuiText resname) {
+    ZuiRes res = ZuiResDBGetRes(resname, ZREST_STREAM);
+    if (res) {
+        int len = 0;
+        ZuiAny xml = ZuiResGetData(res, &len);
+        ZuiControl mp;
+        mp = ZuiLayoutLoad(NULL, xml, len);
+    }
+}
+
+ZEXPORT ZuiControl ZCALL NewZuiControlFromXml(ZuiControl ParentControl, ZuiText resname, ZNotifyProc ctrlproc) {
+    ZuiRes res = ZuiResDBGetRes(resname, ZREST_STREAM);
+    if (res) {
+        int len = 0;
+        ZuiAny xml = ZuiResGetData(res, &len);
+        ZuiControl mp;
+        mp = ZuiLayoutLoad(ParentControl, xml, len);
+        if (mp) {
+            ZuiControlRegNotify(mp, ctrlproc);
+            ZuiControlNotify(ZM_OnCreate, mp, 0, 0);
+            ZuiControlNeedUpdate(mp);
+            return mp;
+        }
+    }
+    return NULL;
+}
+
+ZEXPORT int ZCALL ZuiDialogBox(ZuiControl ParentControl, ZuiText resname,ZNotifyProc dialogproc, ZuiBool model) {
+    ZuiControl mp,p;
+    mp = NewZuiControlFromXml(ParentControl, resname, dialogproc);
+    if (mp) {
+        //挂接关闭按钮事件
+        p = ZuiControlFindName(mp, _T("WindowCtl_clos"));
+        ZuiControlRegNotify(p, MsgBox_Notify_ctl);
+        //挂接确认按钮事件
+        p = ZuiControlFindName(mp, _T("ok"));
+        ZuiControlRegNotify(p, MsgBox_Notify_ctl);
+        //挂接取消按钮事件
+        p = ZuiControlFindName(mp, _T("cancel"));
+        ZuiControlRegNotify(p, MsgBox_Notify_ctl);
+        if (model)
+            return ZuiDoModel(mp);
+        else
+            return 0;
+        }
+    return -1;
+}
+ZEXPORT int ZCALL ZuiMsgBox(ZuiControl ParentControl, ZuiText text, ZuiText title) {
     ZuiControl p;
-    MsgBox_pRoot = NewZuiControl(_T("MessageBox"), (ZuiAny)TRUE, rp);
+    MsgBox_pRoot = NewZuiControl(_T("MessageBox"), (ZuiAny)TRUE, ParentControl);
     if (!MsgBox_pRoot->m_pOs) {
         FreeZuiControl(MsgBox_pRoot, FALSE);
         return 0;

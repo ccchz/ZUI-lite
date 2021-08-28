@@ -446,7 +446,7 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
             unsigned int size = 10; //默认字体大小
             ZuiBool bold = FALSE;
             ZuiBool italic = FALSE;
-            for (int i = 1; i < arrnum; i++)
+            for (int i = 0; i < arrnum; i++)
             {
                 if (_tcsnicmp(arr[i], _T("fontfamily='"), 12) == 0) {
                     if (arr[i][_tcslen(arr[i])-1] == '\'')

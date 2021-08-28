@@ -44,16 +44,16 @@
 #endif
 
 #define lengthof(x) (sizeof(x)/sizeof(*x))
-#define MAX max
-#define MIN min
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define CLAMP(x,a,b) (MIN(b,MAX(a,x)))
 #ifndef ASSERT
 #define ASSERT(expr)  _ASSERTE(expr)
 #endif
 
-#define MAKEPARAM(a, b)  ((b & 0xFFFF) << 16) | (a & 0xFFFF)
-#define HPARAM(a)   (a & 0xFFFF0000) >> 16
-#define LPARAM(a)   a & 0xFFFF
+#define MAKEPARAM(a, b)  (((b) & 0xFFFF) << 16) | ((a) & 0xFFFF)
+#define HPARAM(a)   ((a) & 0xFFFF0000) >> 16
+#define LPARAM(a)   (a) & 0xFFFF
 //--------------------------------------------------------------------基础数据类型
 #if defined _WIN64
 typedef long long Zint;
@@ -306,7 +306,7 @@ enum ZREST
 #define ZM_OnMouseMove        107
 #define ZM_OnSelectChanged    108
 #define ZM_OnSetFocus         109  //设置焦点
-#define ZM_OnKillFocus        100
+#define ZM_OnKillFocus        110
  
 
 
@@ -600,7 +600,7 @@ enum ZREST
 #define ZM_Edit_SetTextColorDisabled     553
 //--------------------------------------------------------------------内部函数导出表
 //zui引擎
-#define ZuiFuncsVersion                     0x00010001
+#define ZuiVersion                     0x00010001
 typedef struct _ZuiFuncs {
     int size;      //结构大小
     int version;   //结构版本
@@ -628,14 +628,17 @@ extern "C"
     ZEXPORT ZuiVoid ZCALL ZuiMsgLoop_exit(int nRet);
     
     ZEXPORT ZuiControl ZCALL NewZuiControl(ZuiText classname, ZuiAny Param1, ZuiAny Param2);//创建控件
+    ZEXPORT ZuiControl ZCALL NewZuiControlFromXml(ZuiControl ParentControl, ZuiText resname, ZNotifyProc ctrlproc);
     ZEXPORT ZuiVoid ZCALL FreeZuiControl(ZuiControl p, ZuiBool Delayed);//销毁控件
     ZEXPORT ZuiAny ZCALL ZuiControlCall(int ProcId, ZuiControl p, ZuiAny Param1, ZuiAny Param2);//调用控件处理函数
     ZEXPORT ZuiControl ZCALL ZuiControlFindName(ZuiControl p, ZuiText Name);
     ZEXPORT ZuiVoid ZCALL ZuiControlRegNotify(ZuiControl p, ZNotifyProc pNotify);
-    ZEXPORT int ZCALL ZuiMsgBox(ZuiControl rp, ZuiText text, ZuiText title);
+    ZEXPORT int ZCALL ZuiMsgBox(ZuiControl ParentControl, ZuiText text, ZuiText title);
+    ZEXPORT int ZCALL ZuiDialogBox(ZuiControl ParentControl, ZuiText resname, ZNotifyProc dialogproc, ZuiBool model);
+    ZEXPORT ZuiVoid ZCALL ZuiLoadXml(ZuiText resname);
 
     //载入布局窗口
-    ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiAny xml, int len);
+    ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiControl ParentControl,ZuiAny xml, int len);
 
     //资源包
     ZEXPORT ZuiResDB ZCALL ZuiResDBCreateFromBuf(ZuiAny data, int len, ZuiText Pass);

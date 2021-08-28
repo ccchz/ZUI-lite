@@ -1408,7 +1408,7 @@ ZEXPORT int ZuiDoModel(ZuiControl cp)
         {
             nRet = (int)Msg.wParam;
             EnableWindow((HWND)phwnd, TRUE);
-            //SetFocus((HWND)phwnd);
+            PostQuitMessage(0);
         }
         TranslateMessage(&Msg);
         DispatchMessage(&Msg);

@@ -613,7 +613,7 @@ extern "C" {
     /*Ïú»ÙÍ¼Ïñ*/
     ZEXPORT ZuiVoid ZCALL ZuiDestroyImage(ZuiImage Img) {
         if (Img) {
-            Img->image->image->~Image();
+            //Img->image->image->~Image();
             delete Img->image->image;
             free(Img->image);
             free(Img);
