@@ -54,7 +54,7 @@ ZuiBool ZuiOsInitialize(ZuiInitConfig);
 //此函数用作反初始化Os.
 ZuiBool ZuiOsUnInitialize();
 //此函数用作创建ZuiOsWindow对象.
-ZuiOsWindow ZuiOsCreateWindow(ZuiControl root,ZuiBool show, ZuiAny pcontrol);
+ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiAny parentcontrol, ZuiBool show, unsigned int zstyle);
 // 此函数用作销毁由ZuiOsCreateWindow创建的对象.
 ZuiVoid ZuiOsDestroyWindow(ZuiOsWindow OsWindow);
 //此函数用作设置窗口标题.

@@ -8,6 +8,9 @@
 
 #if (defined PLATFORM_OS_WIN)
 #include "os/win.h"
+//窗口样式
+#define Z_APPWINDOW					 WS_OVERLAPPEDWINDOW | WS_VISIBLE
+#define Z_POPWINDOW					 WS_POPUPWINDOW | WS_VISIBLE
 
 //字体对齐格式
 #define ZDT_TOP                  DT_TOP                   //顶对齐

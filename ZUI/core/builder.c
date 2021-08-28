@@ -90,7 +90,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl p) {
                         node->user_data = Control;//保存控件到节点
                         win = Control;
                         //创建宿主窗口
-                        ZuiOsCreateWindow(win, TRUE, p);
+                        ZuiOsCreateWindow(win, p, TRUE, Z_APPWINDOW);
                     }
                     else
                         break;//窗口创建失败就没必要继续下去了

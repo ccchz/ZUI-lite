@@ -212,7 +212,7 @@ ZEXPORT int ZCALL ZuiDialogBox(ZuiControl ParentControl, ZuiText resname,ZNotify
 }
 ZEXPORT int ZCALL ZuiMsgBox(ZuiControl ParentControl, ZuiText text, ZuiText title) {
     ZuiControl p;
-    MsgBox_pRoot = NewZuiControl(_T("MessageBox"), (ZuiAny)TRUE, ParentControl);
+    MsgBox_pRoot = NewZuiControl(_T("MessageBox"), ParentControl, (ZuiAny)TRUE);
     if (!MsgBox_pRoot->m_pOs) {
         FreeZuiControl(MsgBox_pRoot, FALSE);
         return 0;

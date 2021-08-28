@@ -1021,12 +1021,12 @@ ZuiBool ZuiOsUnInitialize() {
     return TRUE;
 }
 
-ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
+ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiAny parentcontrol, ZuiBool show, unsigned int zstyle) {
     /*保存相关参数到ZOsWindow*/
     ZuiOsWindow OsWindow = (ZuiOsWindow)malloc(sizeof(ZOsWindow));
     HWND tmphwnd = NULL;
-    if (pcontrol)
-        tmphwnd = ((ZuiControl)pcontrol)->m_pOs->m_hWnd;
+    if (parentcontrol)
+        tmphwnd = ((ZuiControl)parentcontrol)->m_pOs->m_hWnd;
     if (OsWindow)
     {
         memset(OsWindow, 0, sizeof(ZOsWindow));
@@ -1054,7 +1054,7 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiBool show, ZuiAny pcontrol) {
         //darray_append(m_aPreMessages, p);
         
         OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI-lite"), 0,
-            WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+            zstyle,
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
             tmphwnd, NULL, GetModuleHandle(NULL),
             OsWindow);

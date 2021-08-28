@@ -16,13 +16,6 @@ uint32_t Zui_Hash(wchar_t* str);
 
 ZuiText ZuiCharNext(ZuiText str);
 
-//消息框
-
-
-
-
-
-
 /** 此函数用作分割文本.
 * @param src 将被分割的字符串,需要内存可写
 * @param pSeparator 用作分割的文本
