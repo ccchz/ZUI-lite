@@ -69,12 +69,12 @@ ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAn
             rcCtrl.right = rcCtrl.left + p->m_szGridSize.cx;
             rcCtrl.bottom = rcCtrl.top + p->m_szGridSize.cy;
            
-            //处理控件 padding 尺寸。
-            ZRect rcPadding = *(ZRect*)(ZCCALL(ZM_GetPadding, pControl, 0, 0));
-            rcCtrl.left += rcPadding.left;
-            rcCtrl.top += rcPadding.top;
-            rcCtrl.right -= rcPadding.right;
-            rcCtrl.bottom -= rcPadding.bottom;
+            //处理控件 Margin 尺寸。
+            ZRect rcMargin = *(ZRect*)(ZCCALL(ZM_GetMargin, pControl, 0, 0));
+            rcCtrl.left += rcMargin.left;
+            rcCtrl.top += rcMargin.top;
+            rcCtrl.right -= rcMargin.right;
+            rcCtrl.bottom -= rcMargin.bottom;
             ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
         }
 

@@ -3,7 +3,7 @@
         center="true"  name="window_main" tooltip="主窗口">
 		<include src="default://default_ctl.xml" />
 		<HorizontalLayout name="head" drag="true" height="26" round="7,7,0,0"><!--标题栏-->
-			<NULL width="16" padding="10,5,0,5" bkimage="default://default/zui-256.png"/>
+			<NULL width="16" margin="10,5,0,5" bkimage="default://default/zui-256.png"/>
 			<Label  name="titletxt" text="你好Hello" tooltip="标题栏" font="font://fontfamily='微软雅黑':size=10:bold=true" drag="true"/>
 			<Include src="file:///itest.xml" />
 			<Button name="WindowCtl_min" width="30" height="26" tooltip="最小化" normalimage="default://default/11.png" hotimage="default://default/12.png" pushedimage="default://default/13.png" />
@@ -13,7 +13,7 @@
 		</HorizontalLayout>	
 		<HorizontalLayout>
 		<VerticalLayout width="200" name="leftsiedBAR" vscrollbar="true" hscrollbar="true" align="center" sbbkcolor="#FF484848">
-			<NULL height="80" padding="40,0,40,0" bkimage="default://default/zui-256.png"/>
+			<NULL height="80" margin="40,0,40,0" bkimage="default://default/zui-256.png"/>
 			
 			<Option name="option0" text="基础控件" round="3,3,3,3" optionstyle="5" buttonstyle="2" imagepadding="16,0,0,0" textpadding="40,0,0,0"
 					foregroundimage="default://default/dui.png" group="true" disabledcolor="#FF8c8c8c" height="30" selected="true"/>
@@ -343,7 +343,7 @@
 		</TabLayout>
 		</HorizontalLayout>
 		<VerticalLayout name="statusbar" height="24"><!--状态栏-->
-			<Label  name="statustxt" padding="10,4,0,4" text="就绪" tooltip="状态栏"/>
+			<Label  name="statustxt" margin="10,4,0,4" text="就绪" tooltip="状态栏"/>
 		</VerticalLayout>	
 		<Button name="floatbutton" bordercolor="#FF155515" text="浮动按钮" round="20,20,20,20" width="100" height="40" float="300,200,0,0" />
 </Window>

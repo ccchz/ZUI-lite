@@ -63,7 +63,8 @@ typedef struct _ZControl
     ZuiOsWindow m_pOs;              //绑定的系统窗口
     ZuiBool m_bUpdateNeeded;        //是否需要更新布局
     ZRect m_rcItem;                 //控件矩形
-    ZRect m_rcPadding;              //控件
+    ZRect m_rcMargin;              //控件外包空白
+    ZRect m_rcPadding;              //控件内部填充
     ZSize m_cXY;                     //预设的左上角坐标
     ZSize m_cxyFixed;                //预设的控件大小
     ZSize m_cxyMin;                  //控件最小大小

@@ -338,9 +338,17 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             ZuiControlNeedParentUpdate(p);
         break;
     }
+    case ZM_GetMargin: {
+        return (void*)&p->m_rcMargin;
+    }
+    case ZM_SetMargin: {
+        memcpy(&p->m_rcMargin, Param1, sizeof(ZRect));
+        if (!Param2)
+            ZuiControlNeedParentUpdate(p);
+        break;
+    }
     case ZM_GetPadding: {
         return (void *)&p->m_rcPadding;
-        break;
     }
     case ZM_SetPadding: {
         memcpy(&p->m_rcPadding, Param1, sizeof(ZRect));
@@ -350,7 +358,6 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     }
     case ZM_GetFixedXY: {
         return (void *)&p->m_cXY;
-        break;
     }
     case ZM_SetFixedXY: {
         p->m_cXY.cx = ((ZuiRect)Param1)->left;
@@ -370,7 +377,6 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     }
     case ZM_GetFixedWidth: {
         return (void *)p->m_cxyFixed.cx;
-        break;
     }
     case ZM_SetFixedWidth: {
         if ((int)Param1 < 0)
@@ -382,7 +388,6 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
     }
     case ZM_GetFixedHeight: {
         return (void *)p->m_cxyFixed.cy;
-        break;
     }
     case ZM_SetFixedHeight: {
         if ((int)Param1 < 0)
@@ -621,6 +626,15 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             ZCCALL(ZM_SetMouseEnabled, p, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
         else if (_tcsicmp(zAttr->name, _T("bkimage")) == 0)
 		    ZCCALL(ZM_SetBkImage, p, ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+        else if (_tcsicmp(zAttr->name, _T("margin")) == 0) {
+            ZRect rcMargin = { 0 };
+            ZuiText pstr = NULL;
+            rcMargin.left = _tcstol(zAttr->value, &pstr, 10);  ASSERT(pstr);
+            rcMargin.top = _tcstol(pstr + 1, &pstr, 10);    ASSERT(pstr);
+            rcMargin.right = _tcstol(pstr + 1, &pstr, 10);  ASSERT(pstr);
+            rcMargin.bottom = _tcstol(pstr + 1, &pstr, 10); ASSERT(pstr);
+            ZCCALL(ZM_SetMargin, p, &rcMargin, Param2);
+        }
         else if (_tcsicmp(zAttr->name, _T("padding")) == 0) {
             ZRect rcPadding = { 0 };
             ZuiText pstr = NULL;

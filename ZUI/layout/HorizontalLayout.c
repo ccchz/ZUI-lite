@@ -57,8 +57,8 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
             if (!pControl->m_bVisible) continue;
             if (pControl->m_bFloat) continue;
             szControlAvailable = szAvailable;
-            ZRect rcPadding = *(ZRect *)(ZCCALL(ZM_GetPadding, pControl, 0, 0));
-            szControlAvailable.cy -= rcPadding.top + rcPadding.bottom;
+            ZRect rcMargin = *(ZRect *)(ZCCALL(ZM_GetMargin, pControl, 0, 0));
+            szControlAvailable.cy -= rcMargin.top + rcMargin.bottom;
             iControlMaxWidth = (int)ZCCALL(ZM_GetFixedWidth, pControl, 0, 0);
             iControlMaxHeight = (int)ZCCALL(ZM_GetFixedHeight, pControl, 0, 0);
             if (iControlMaxWidth <= 0) iControlMaxWidth = (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0);
@@ -74,12 +74,12 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
                 if (sz.cx < (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0)) sz.cx = (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0);
                 if (sz.cx > (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0)) sz.cx = (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0);
             }
-            cxFixed += sz.cx + ((ZRect *)(ZCCALL(ZM_GetPadding, pControl, 0, 0)))->left + ((ZRect *)(ZCCALL(ZM_GetPadding, pControl, 0, 0)))->right;
+            cxFixed += sz.cx + rcMargin.left + rcMargin.right;
 
             sz.cy = MAX(sz.cy, 0);
             if (sz.cy < (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0)) sz.cy = (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0);
             if (sz.cy > (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0)) sz.cy = (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0);
-            cyNeeded = MAX(cyNeeded, sz.cy + rcPadding.top + rcPadding.bottom);
+            cyNeeded = MAX(cyNeeded, sz.cy + rcMargin.top + rcMargin.bottom);
             //记录需要做相对布局的子控件的数量
             nEstimateNum++;
         }
@@ -112,18 +112,18 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
             }
 
             iEstimate += 1;
-            ZRect rcPadding = *(ZRect *)(ZCCALL(ZM_GetPadding, pControl, 0, 0));
-            szRemaining.cx -= rcPadding.left;
+            ZRect rcMargin = *(ZRect *)(ZCCALL(ZM_GetMargin, pControl, 0, 0));
+            szRemaining.cx -= rcMargin.left;
 
             szControlAvailable = szRemaining;
-            szControlAvailable.cy -= rcPadding.top + rcPadding.bottom;
+            szControlAvailable.cy -= rcMargin.top + rcMargin.bottom;
             iControlMaxWidth = (int)ZCCALL(ZM_GetFixedWidth, pControl, 0, 0);
             iControlMaxHeight = (int)ZCCALL(ZM_GetFixedHeight, pControl, 0, 0);
             if (iControlMaxWidth <= 0) iControlMaxWidth = (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0);
             if (iControlMaxHeight <= 0) iControlMaxHeight = (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0);
             if (szControlAvailable.cx > iControlMaxWidth) szControlAvailable.cx = iControlMaxWidth;
             if (szControlAvailable.cy > iControlMaxHeight) szControlAvailable.cy = iControlMaxHeight;
-            cxFixedRemaining = cxFixedRemaining - (rcPadding.left + rcPadding.right);
+            cxFixedRemaining = cxFixedRemaining - (rcMargin.left + rcMargin.right);
             if (iEstimate > 1) cxFixedRemaining = cxFixedRemaining - op->m_iChildPadding;
             ZSize sz = *(ZSize *)ZCCALL(ZM_EstimateSize, pControl, (void *)&szControlAvailable, 0);
             if (sz.cx == 0) {
@@ -132,7 +132,7 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
                 // Distribute remaining to last element (usually round-off left-overs)
                 // 这里判断如果是最后一个需要自动计算宽度的元素则做出不同的处理
                 if (iAdjustable == nAdjustables) {
-                    sz.cx = MAX(0, szRemaining.cx - rcPadding.right - cxFixedRemaining);
+                    sz.cx = MAX(0, szRemaining.cx - rcMargin.right - cxFixedRemaining);
                 }
                 if (sz.cx < (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0)) sz.cx = (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0);
                 if (sz.cx >(int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0)) sz.cx = (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0);
@@ -144,7 +144,7 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
             }
 
             sz.cy = (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0);
-            if (sz.cy == 0) sz.cy = szAvailable.cy - rcPadding.top - rcPadding.bottom;
+            if (sz.cy == 0) sz.cy = szAvailable.cy - rcMargin.top - rcMargin.bottom;
             if (sz.cy < 0) sz.cy = 0;
             if (sz.cy > szControlAvailable.cy) sz.cy = szControlAvailable.cy;
             if (sz.cy < (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0)) sz.cy = (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0);
@@ -156,7 +156,7 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
                     iPosY += cyNeeded - rc.bottom + rc.top / 2;
                     iPosY -= (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pVerticalScrollBar, 0, NULL);
                 }
-                ZRect rcCtrl = { iPosX + rcPadding.left, iPosY - sz.cy / 2, iPosX + sz.cx + rcPadding.left, iPosY + sz.cy - sz.cy / 2 };
+                ZRect rcCtrl = { iPosX + rcMargin.left, iPosY - sz.cy / 2, iPosX + sz.cx + rcMargin.left, iPosY + sz.cy - sz.cy / 2 };
                 ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
             }
             else if (iChildAlign == ZDT_BOTTOM) {
@@ -165,7 +165,7 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
                     iPosY += cyNeeded - rc.bottom + rc.top;
                     iPosY -= (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pVerticalScrollBar, 0, NULL);
                 }
-                ZRect rcCtrl = { iPosX + rcPadding.left, iPosY - rcPadding.bottom - sz.cy, iPosX + sz.cx + rcPadding.left, iPosY - rcPadding.bottom };
+                ZRect rcCtrl = { iPosX + rcMargin.left, iPosY - rcMargin.bottom - sz.cy, iPosX + sz.cx + rcMargin.left, iPosY - rcMargin.bottom };
                 ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
             }
             else {
@@ -173,13 +173,13 @@ ZuiAny ZCALL ZuiHorizontalLayoutProc(int ProcId, ZuiControl cp, ZuiHorizontalLay
                 if (op->m_pVerticalScrollBar && op->m_pVerticalScrollBar->m_bVisible) {
                     iPosY -= (int)ZCCALL(ZM_ScrollBar_GetScrollPos, op->m_pVerticalScrollBar, 0, NULL);
                 }
-                ZRect rcCtrl = { iPosX + rcPadding.left, iPosY + rcPadding.top, iPosX + sz.cx + rcPadding.left, iPosY + sz.cy + rcPadding.top };
+                ZRect rcCtrl = { iPosX + rcMargin.left, iPosY + rcMargin.top, iPosX + sz.cx + rcMargin.left, iPosY + sz.cy + rcMargin.top };
                 ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
             }
 
-            iPosX += sz.cx + op->m_iChildPadding + rcPadding.left + rcPadding.right;
-            cxNeeded += sz.cx + rcPadding.left + rcPadding.right;
-            szRemaining.cx -= sz.cx + op->m_iChildPadding + rcPadding.right;
+            iPosX += sz.cx + op->m_iChildPadding + rcMargin.left + rcMargin.right;
+            cxNeeded += sz.cx + rcMargin.left + rcMargin.right;
+            szRemaining.cx -= sz.cx + op->m_iChildPadding + rcMargin.right;
         }
         cxNeeded += (nEstimateNum - 1) * op->m_iChildPadding;
 

@@ -53,8 +53,8 @@ ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAn
                     if (!pLineControl->m_bVisible) continue;
                     if (pLineControl->m_bFloat) continue;
 
-                    ZRect *rcPadding = (ZRect *)(ZCCALL(ZM_GetPadding, pLineControl, 0, 0));
-                    ZSize szAvailable = { rcTile.right - rcTile.left - rcPadding->left - rcPadding->right, 9999 };
+                    ZRect *rcMargin = (ZRect *)(ZCCALL(ZM_GetMargin, pLineControl, 0, 0));
+                    ZSize szAvailable = { rcTile.right - rcTile.left - rcMargin->left - rcMargin->right, 9999 };
 
                     if (szAvailable.cx < (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0)) { szAvailable.cx = (int)ZCCALL(ZM_GetMinWidth, pControl, 0, 0); }
                     if (szAvailable.cx > (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0)) { szAvailable.cx = (int)ZCCALL(ZM_GetMaxWidth, pControl, 0, 0); }
@@ -71,18 +71,18 @@ ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAn
                     if (szTile.cy < (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0)) szTile.cy = (int)ZCCALL(ZM_GetMinHeight, pControl, 0, 0);
                     if (szTile.cy > (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0)) szTile.cy = (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0);
 
-                    cyHeight = MAX(cyHeight, szTile.cy + rcPadding->top + rcPadding->bottom);
+                    cyHeight = MAX(cyHeight, szTile.cy + rcMargin->top + rcMargin->bottom);
                     if ((++iIndex % p->m_nColumns) == 0) break;
                 }
             }
 
-            ZRect *rcPadding = (ZRect *)(ZCCALL(ZM_GetPadding, pControl, 0, 0));
+            ZRect *rcMargin = (ZRect *)(ZCCALL(ZM_GetMargin, pControl, 0, 0));
 
-            rcTile.left += rcPadding->left;
-            rcTile.right -= rcPadding->right;
+            rcTile.left += rcMargin->left;
+            rcTile.right -= rcMargin->right;
 
             // Set position
-            rcTile.top = ptTile.y + rcPadding->top;
+            rcTile.top = ptTile.y + rcMargin->top;
             rcTile.bottom = ptTile.y + cyHeight;
 
             ZSize szAvailable = { rcTile.right - rcTile.left, rcTile.bottom - rcTile.top };

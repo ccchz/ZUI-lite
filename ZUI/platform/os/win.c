@@ -217,103 +217,104 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             return 0;
         }
         RECT rcPaint = { 0 };
-        if (p->m_bLayered) {
-            p->m_bOffscreenPaint = TRUE;
-            rcPaint.bottom = p->m_rcLayeredUpdate.bottom;
-            rcPaint.left = p->m_rcLayeredUpdate.left;
-            rcPaint.right = p->m_rcLayeredUpdate.right;
-            rcPaint.top = p->m_rcLayeredUpdate.top;
-            if (IsRectEmpty((LPRECT)&p->m_rcLayeredUpdate)) {
-                BeginPaint(p->m_hWnd, &ps);
-                EndPaint(p->m_hWnd, &ps);
+        //if (p->m_bLayered) {
+        //    p->m_bOffscreenPaint = TRUE;
+        //    rcPaint.bottom = p->m_rcLayeredUpdate.bottom;
+        //    rcPaint.left = p->m_rcLayeredUpdate.left;
+        //    rcPaint.right = p->m_rcLayeredUpdate.right;
+        //    rcPaint.top = p->m_rcLayeredUpdate.top;
+        //    if (IsRectEmpty((LPRECT)&p->m_rcLayeredUpdate)) {
+        //        BeginPaint(p->m_hWnd, &ps);
+        //        EndPaint(p->m_hWnd, &ps);
+        //        return TRUE;
+        //    }
+        //    if (rcPaint.right > rcClient.right) rcPaint.right = rcClient.right;
+        //    if (rcPaint.bottom > rcClient.bottom) rcPaint.bottom = rcClient.bottom;
+        //    memset(&p->m_rcLayeredUpdate, 0, sizeof(p->m_rcLayeredUpdate));
+        //}
+        //else {
+            if (!GetUpdateRect(p->m_hWnd, &rcPaint, FALSE))
                 return TRUE;
-            }
-            if (rcPaint.right > rcClient.right) rcPaint.right = rcClient.right;
-            if (rcPaint.bottom > rcClient.bottom) rcPaint.bottom = rcClient.bottom;
-            memset(&p->m_rcLayeredUpdate, 0, sizeof(p->m_rcLayeredUpdate));
-        }
-        else {
-            if (!GetUpdateRect(p->m_hWnd, &rcPaint, FALSE)) return TRUE;
-        }
+       // }
         p->m_bIsPainting = TRUE;
         //是否需要更新控件布局
-        if (p->m_bUpdateNeeded) {	//更新控件布局
-            //_tprintf(_T("winsetpos.."));
-            p->m_bUpdateNeeded = FALSE;
-            if (!IsRectEmpty(&rcClient)) {
-                if (p->m_pRoot->m_bUpdateNeeded) {
-                    RECT rcRoot = rcClient;
-                    if (p->m_bLayered) {
-                        rcRoot.left += p->m_rcLayeredInset.left;
-                        rcRoot.top += p->m_rcLayeredInset.top;
-                        rcRoot.right -= p->m_rcLayeredInset.right;
-                        rcRoot.bottom -= p->m_rcLayeredInset.bottom;
-                    }
-                    p->m_pRoot->m_bUpdateNeeded = FALSE;
-                    ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)ZuiOnSize);
-                }
-                else {
-                    ZuiControl pControl = NULL;
-                    darray_empty(p->m_aFoundControls);
-                    ZCCALL(ZM_FindControl, p->m_pRoot, NULL, (void *)(ZFIND_FROM_UPDATE | ZFIND_VISIBLE | ZFIND_ME_FIRST | ZFIND_UPDATETEST));
-                    for (int it = 0; it < darray_len(p->m_aFoundControls); it++) {
-                        pControl = (ZuiControl)(p->m_aFoundControls->data[it]);
-                        if (!pControl->m_bFloat)
-                            ZCCALL(ZM_SetPos, pControl, (ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL), (void *)ZuiOnSize);
-                        else {
-                            RECT rcP;
-                            ZCCALL(ZM_GetRelativePos, pControl, &rcP, NULL);
-                            ZCCALL(ZM_SetPos, pControl, &rcP, (void *)ZuiOnSize);
-                        }
-                    }
-                }
-                // We'll want to notify the window when it is first initialized
-                // with the correct layout. The window form would take the time
-                // to submit swipes/animations.
-                if (p->m_bFirstLayout) {
-                    p->m_bFirstLayout = FALSE;
-                    //第一次更新布局完成 相当于窗口初始化完成
-                    if (p->m_bLayered && p->m_bLayeredChanged) {
-                        ZuiOsInvalidate(p);
-                        p->m_bIsPainting = FALSE;
-                        return TRUE;
-                    }
-                }
-            }
-        }
-        else if (p->m_bLayered && p->m_bLayeredChanged) {
-            RECT rcRoot = rcClient;
-            rcRoot.left += p->m_rcLayeredInset.left;
-            rcRoot.top += p->m_rcLayeredInset.top;
-            rcRoot.right -= p->m_rcLayeredInset.right;
-            rcRoot.bottom -= p->m_rcLayeredInset.bottom;
-            ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)ZuiOnSize);
-        }
+        //if (p->m_bUpdateNeeded) {	//更新控件布局
+        //    //_tprintf(_T("winsetpos.."));
+        //    p->m_bUpdateNeeded = FALSE;
+        //    if (!IsRectEmpty(&rcClient)) {
+        //        if (p->m_pRoot->m_bUpdateNeeded) {
+        //            RECT rcRoot = rcClient;
+        //            if (p->m_bLayered) {
+        //                rcRoot.left += p->m_rcLayeredInset.left;
+        //                rcRoot.top += p->m_rcLayeredInset.top;
+        //                rcRoot.right -= p->m_rcLayeredInset.right;
+        //                rcRoot.bottom -= p->m_rcLayeredInset.bottom;
+        //            }
+        //            p->m_pRoot->m_bUpdateNeeded = FALSE;
+        //            ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)ZuiOnSize);
+        //        }
+        //        else {
+        //            ZuiControl pControl = NULL;
+        //            darray_empty(p->m_aFoundControls);
+        //            ZCCALL(ZM_FindControl, p->m_pRoot, NULL, (void *)(ZFIND_FROM_UPDATE | ZFIND_VISIBLE | ZFIND_ME_FIRST | ZFIND_UPDATETEST));
+        //            for (int it = 0; it < darray_len(p->m_aFoundControls); it++) {
+        //                pControl = (ZuiControl)(p->m_aFoundControls->data[it]);
+        //                if (!pControl->m_bFloat)
+        //                    ZCCALL(ZM_SetPos, pControl, (ZRect *)ZCCALL(ZM_GetPos, pControl, NULL, NULL), (void *)ZuiOnSize);
+        //                else {
+        //                    RECT rcP;
+        //                    ZCCALL(ZM_GetRelativePos, pControl, &rcP, NULL);
+        //                    ZCCALL(ZM_SetPos, pControl, &rcP, (void *)ZuiOnSize);
+        //                }
+        //            }
+        //        }
+        //        // We'll want to notify the window when it is first initialized
+        //        // with the correct layout. The window form would take the time
+        //        // to submit swipes/animations.
+        //        if (p->m_bFirstLayout) {
+        //            p->m_bFirstLayout = FALSE;
+        //            //第一次更新布局完成 相当于窗口初始化完成
+        //            if (p->m_bLayered && p->m_bLayeredChanged) {
+        //                ZuiOsInvalidate(p);
+        //                p->m_bIsPainting = FALSE;
+        //                return TRUE;
+        //            }
+        //        }
+        //    }
+        //}
+        //else if (p->m_bLayered && p->m_bLayeredChanged) {
+        //    RECT rcRoot = rcClient;
+        //    rcRoot.left += p->m_rcLayeredInset.left;
+        //    rcRoot.top += p->m_rcLayeredInset.top;
+        //    rcRoot.right -= p->m_rcLayeredInset.right;
+        //    rcRoot.bottom -= p->m_rcLayeredInset.bottom;
+        //    ZCCALL(ZM_SetPos, p->m_pRoot, &rcRoot, (void *)ZuiOnSize);
+        //}
         // Set focus to first control?
-        if (p->m_bFocusNeeded) {
-            // If we're in the process of restructuring the layout we can delay the
-            // focus calulation until the next repaint.
-            if (p->m_bUpdateNeeded) {
-                p->m_bFocusNeeded = TRUE;
-                InvalidateRect(p->m_hWnd, NULL, FALSE);
-                return TRUE;
-            }
-            // Find next/previous tabbable control
-            FINDTABINFO info1 = { 0 };
-            info1.pFocus = p->m_pFocus;
-            info1.bForward = TRUE;
-            ZuiControl pControl = (ZuiControl)ZCCALL(ZM_FindControl, p->m_pRoot, &info1, (void *)(ZFIND_FROM_TAB | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_ME_FIRST));
-            if (pControl == NULL) {
-                // Wrap around
-                FINDTABINFO info2 = { 0 };
-                info2.pFocus = NULL;
-                info2.bForward = TRUE;
-                pControl = (ZuiControl)ZCCALL(ZM_FindControl, p->m_pRoot, &info2, (void *)(ZFIND_FROM_TAB | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_ME_FIRST));
-            }
-            if (pControl != NULL) ZuiOsSetFocus(p, pControl, TRUE);
-            p->m_bFocusNeeded = FALSE;
-            return TRUE;
-        }
+        //if (p->m_bFocusNeeded) {
+        //    // If we're in the process of restructuring the layout we can delay the
+        //    // focus calulation until the next repaint.
+        //    if (p->m_bUpdateNeeded) {
+        //        p->m_bFocusNeeded = TRUE;
+        //        InvalidateRect(p->m_hWnd, NULL, FALSE);
+        //        return TRUE;
+        //    }
+        //    // Find next/previous tabbable control
+        //    FINDTABINFO info1 = { 0 };
+        //    info1.pFocus = p->m_pFocus;
+        //    info1.bForward = TRUE;
+        //    ZuiControl pControl = (ZuiControl)ZCCALL(ZM_FindControl, p->m_pRoot, &info1, (void *)(ZFIND_FROM_TAB | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_ME_FIRST));
+        //    if (pControl == NULL) {
+        //        // Wrap around
+        //        FINDTABINFO info2 = { 0 };
+        //        info2.pFocus = NULL;
+        //        info2.bForward = TRUE;
+        //        pControl = (ZuiControl)ZCCALL(ZM_FindControl, p->m_pRoot, &info2, (void *)(ZFIND_FROM_TAB | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_ME_FIRST));
+        //    }
+        //    if (pControl != NULL) ZuiOsSetFocus(p, pControl, TRUE);
+        //    p->m_bFocusNeeded = FALSE;
+        //    return TRUE;
+        //}
         //
         // 渲染屏幕
         //
@@ -373,7 +374,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
         p->m_bIsPainting = FALSE;
         p->m_bLayeredChanged = FALSE;
-        if (p->m_bUpdateNeeded) ZuiOsInvalidate(p);
+        //if (p->m_bUpdateNeeded) ZuiOsInvalidate(p);
         return TRUE;
     }
     case WM_PRINTCLIENT:

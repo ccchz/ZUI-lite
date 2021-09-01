@@ -294,6 +294,8 @@ enum ZREST
 #define ZM_Invalidate         82  //刷新显示
 #define ZM_GetParent          83
 #define ZM_GetControlFlags    84  //
+#define ZM_GetMargin          85
+#define ZM_SetMargin          86 
 
 //输入事件
 #define ZM_OnChar             100
