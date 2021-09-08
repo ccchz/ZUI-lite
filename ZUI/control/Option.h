@@ -8,9 +8,10 @@
 typedef struct _ZOption
 {
     ZuiBool m_bSelected;        //是否选择
-    ZuiBool m_bGroup;           //
-    ZuiBool m_bCheck;
+    ZuiBool m_bGroup;           //是否组成员
+    ZuiBool m_bCheck;           //是否CheckBox
     int m_dwOptionStyle;     //绘制图形样式
+    int m_dwResSize;         //绘制图形尺寸
 
     //控件继承自按钮控件
     ZuiRes      m_ResSelected;          //选中的普通状态

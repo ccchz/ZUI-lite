@@ -163,8 +163,7 @@ ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny User
             rc->bottom - rc->top != p->m_rcItem.bottom - p->m_rcItem.top)
             bSize = TRUE;
 
-            memcpy(&p->m_rcItem, rc, sizeof(ZRect));
-        //}
+        memcpy(&p->m_rcItem, rc, sizeof(ZRect));
         if (p->m_pOs == NULL)
             return 0;
 

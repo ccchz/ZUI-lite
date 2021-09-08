@@ -886,8 +886,8 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         COMPOSITIONFORM.dwStyle = CFS_POINT | CFS_FORCE_POSITION;
         if (pt)
         {
-            COMPOSITIONFORM.ptCurrentPos.x = pt->x + p->m_pFocus->m_rcItem.left;
-            COMPOSITIONFORM.ptCurrentPos.y = pt->y + p->m_pFocus->m_rcItem.top;
+            COMPOSITIONFORM.ptCurrentPos.x = pt->x;
+            COMPOSITIONFORM.ptCurrentPos.y = pt->y;
         }
 
         ImmSetCompositionWindow(p->m_hIMC, &COMPOSITIONFORM);

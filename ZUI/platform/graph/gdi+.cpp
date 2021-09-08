@@ -318,7 +318,7 @@ extern "C" {
             Gdiplus::RectF rf;
             Gdiplus::Graphics* gpp = gp->ggp->ggp;
             gpp->MeasureString(String, length, Font->font->font, pf,sf, &rf);
-            //_tprintf(_T("%f..."), rf.Height);
+            //_tprintf(_T("%f..."), rf.Width);
             Size->cx = rf.Width;
             Size->cy = rf.Height;
             sf->~StringFormat();

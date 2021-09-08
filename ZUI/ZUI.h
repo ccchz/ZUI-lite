@@ -535,6 +535,7 @@ enum ZREST
 #define ZM_Option_SetColorDisabled        481
 #define ZM_Option_SetGroup                482    //设置到组
 #define ZM_Option_SetResType              483
+#define ZM_Option_SetResSize              484
 #endif // 1
 
 //--------------------------------------------------------------------ScrollBar类
@@ -600,6 +601,8 @@ enum ZREST
 #define ZM_Edit_SetTextColor             551     //设置文本颜色
 #define ZM_Edit_SetTextPadding           552     //字体边距
 #define ZM_Edit_SetTextColorDisabled     553
+#define ZM_Edit_GetTextStyle             554
+#define ZM_Edit_SetTextStyle             555
 //--------------------------------------------------------------------内部函数导出表
 //zui引擎
 #define ZuiVersion                     0x00010001
