@@ -69,7 +69,7 @@ extern "C"
     //字体大小
     ZEXPORT int ZCALL ZuiFontSize(ZuiFont Font);
     //字体行高
-    ZEXPORT int ZCALL ZuiFontHeight(ZuiControl cp, ZuiFont Font);
+    ZEXPORT ZuiReal ZCALL ZuiFontHeight(ZuiControl cp, ZuiFont Font);
     //绘制图像
     ZEXPORT ZuiVoid ZCALL ZuiDrawImageEx(ZuiControl cp, ZuiImage Img, int x, int y, int Width, int Height, ZuiByte Alpha);
     //复制图形

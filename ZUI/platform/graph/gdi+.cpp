@@ -300,11 +300,11 @@ extern "C" {
         return 0;
     }
     //字体行高
-    ZEXPORT int ZCALL ZuiFontHeight(ZuiControl cp, ZuiFont Font)
+    ZEXPORT ZuiReal ZCALL ZuiFontHeight(ZuiControl cp, ZuiFont Font)
     {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         Gdiplus::Graphics* gpp = gp->ggp->ggp;
-        return (int)Font->font->font->GetHeight(gpp);
+        return Font->font->font->GetHeight(gpp);
     }
     /*测量文本大小*/
     ZEXPORT ZuiVoid ZCALL ZuiMeasureTextSize(ZuiControl cp, ZuiFont Font, ZuiText String,int length, ZuiSizeR Size)

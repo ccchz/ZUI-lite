@@ -38,7 +38,8 @@
 				<Button bordercolor="#FF155515"   foregroundimage="default://default/dui.png"  name="msgbox" text="选择"  width="150" height="23"/>
 				<Button bordercolor="#FF155515"   foregroundimage="default://default/dui.png"  name="msgbox0" buttonstyle="1" text="这个按钮"  width="96" height="64"/>
 				<Button name="floatbutton1" bordercolor="#FF155515" text="浮动按钮1" round="20,20,20,20" width="100" height="40" float="500,200,0,0" />
-				<Edit name="edit1" width="200" height="60" singleline="true" bordercolor="#FF636363"/>
+				<Edit name="edit1" width="200" height="22" singleline="true" bordercolor="#FF636363"/>
+				<Edit name="edit2" width="200" height="160" bordercolor="#FF636363"/>
 			</VerticalLayout>
 			<VerticalLayout name="progress1">
 				<ProgressBar bordercolor="#FF155515" name="pbb" height="20" pbheight="8" pbpos="100" pbrange="400" round="3,3,3,3"/>

@@ -599,10 +599,9 @@ enum ZREST
 #define ZC_Edit                          _T("Edit")
 #define ZM_Edit_SetFont                  550     //设置字体
 #define ZM_Edit_SetTextColor             551     //设置文本颜色
-#define ZM_Edit_SetTextPadding           552     //字体边距
-#define ZM_Edit_SetTextColorDisabled     553
-#define ZM_Edit_GetTextStyle             554
-#define ZM_Edit_SetTextStyle             555
+#define ZM_Edit_SetTextColorDisabled     552
+#define ZM_Edit_GetTextStyle             553
+#define ZM_Edit_SetTextStyle             554
 //--------------------------------------------------------------------内部函数导出表
 //zui引擎
 #define ZuiVersion                     0x00010001
