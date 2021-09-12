@@ -54,13 +54,18 @@
 #define MAKEPARAM(a, b)  (((b) & 0xFFFF) << 16) | ((a) & 0xFFFF)
 #define HPARAM(a)   ((a) & 0xFFFF0000) >> 16
 #define LPARAM(a)   (a) & 0xFFFF
+#ifdef _DEBUG
+#define D_PRINT(...) _ftprintf(stderr,__VA_ARGS__)
+#else
+#define D_PRINT(...)
+#endif
 //--------------------------------------------------------------------基础数据类型
 #if defined _WIN64
-typedef long long Zint;
-typedef unsigned long long ZUint;
+typedef long long ZINT;
+typedef unsigned long long UZINT;
 #elif defined _WIN32
-typedef int Zint;
-typedef unsigned int ZUint;
+typedef int ZINT;
+typedef unsigned int UZINT;
 #endif
 typedef TCHAR *ZuiText, _ZuiText, ZText;  //内核默认Unicode存储字符
 typedef float           ZuiReal;

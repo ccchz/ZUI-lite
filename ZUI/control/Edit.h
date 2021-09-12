@@ -20,7 +20,7 @@ typedef struct _ZEdit
     int         m_dwCols; //光标列位置
     ZuiBool     m_bChangeLines;
     int         m_dwOldCols;
-    ZPointR     m_ptCaret;//光标位置
+    ZPoint     m_ptCaret;//光标位置
     ZCtlProc old_call;
 } *ZuiEdit, ZEdit;
 ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Param1, ZuiAny Param2);

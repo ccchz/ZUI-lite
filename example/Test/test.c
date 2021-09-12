@@ -203,7 +203,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
     ZuiMsgLoop();
-    printf("Loop done!!\n");
+    D_PRINT(_T("Loop done!!\n"));
     Sleep(2000);
     ZuiUnInit();
     return 0;

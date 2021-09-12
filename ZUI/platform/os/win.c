@@ -195,6 +195,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     }
     case WM_DPICHANGED:
     {
+        //_tprintf(_T("DPI changed..."));
         return 0;
     }
     case WM_PAINT:  //绘制
@@ -432,7 +433,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         if (p->m_bOffscreenPaint)
         {
             ZuiDestroyGraphics(p->m_hDcOffscreen);
-            _tprintf(_T("%d...%d...//"), LOWORD(lParam), HIWORD(lParam));
+            D_PRINT(_T("%d...%d...//"), LOWORD(lParam), HIWORD(lParam));
             p->m_hDcOffscreen = ZuiCreateGraphics(p,LOWORD(lParam),HIWORD(lParam));
         }
         else {
@@ -886,8 +887,8 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         COMPOSITIONFORM.dwStyle = CFS_POINT | CFS_FORCE_POSITION;
         if (pt)
         {
-            COMPOSITIONFORM.ptCurrentPos.x = pt->x;
-            COMPOSITIONFORM.ptCurrentPos.y = pt->y;
+            COMPOSITIONFORM.ptCurrentPos.x = (int)pt->x;
+            COMPOSITIONFORM.ptCurrentPos.y = (int)pt->y;
         }
 
         ImmSetCompositionWindow(p->m_hIMC, &COMPOSITIONFORM);

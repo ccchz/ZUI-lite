@@ -32,30 +32,48 @@ ZEXPORT int ZCALL ZEditCharStep(ZuiEdit p, int direction) {
         if (p->m_dwCaretPos)
             count++;
 #ifdef UNICODE
-        if (((p->buffer[p->m_dwCaretPos - 1] >= 0xdc00) && (p->buffer[p->m_dwCaretPos - 1] <= 0xdfff)) ||
-            p->buffer[p->m_dwCaretPos - 1] == _T('\n')) {
-            count++;
-        }
+            if ((p->buffer[p->m_dwCaretPos - 1] >= 0xdc00)
+                && (p->buffer[p->m_dwCaretPos - 1] <= 0xdfff)) {
+                count++;
+            }
+            else if (p->buffer[p->m_dwCaretPos - 1] == _T('\n')
+                && (p->m_dwCaretPos - 2)
+                && p->buffer[p->m_dwCaretPos - 2] == _T('\r')) {
+                count++;
+            }
 #else
-        if ((p->buffer[p->m_dwCaretPos - 1] >= 0x80 ||
-            p->buffer[p->m_dwCaretPos - 1] == _T('\n')) {
-            count++;
-        }
+            if ((p->buffer[p->m_dwCaretPos - 1] >= 0x80) {
+                count++;
+            }
+            else if (p->buffer[p->m_dwCaretPos - 1] == _T('\n')
+                && (p->m_dwCaretPos - 2)
+                && p->buffer[p->m_dwCaretPos - 2] == _T('\r')) {
+                count++;
+            }
 #endif
     }
     else if (direction == 1) {
         if (p->m_dwCaretPos < p->m_dwLastPos)
             count++;
 #ifdef UNICODE
-        if (((p->buffer[p->m_dwCaretPos] >= 0xd800) && (p->buffer[p->m_dwCaretPos] <= 0xdBff)) ||
-            p->buffer[p->m_dwCaretPos] == _T('\r')) {
-            count++;
-        }
+            if ((p->buffer[p->m_dwCaretPos] >= 0xd800)
+                && (p->buffer[p->m_dwCaretPos] <= 0xdBff)) {
+                count++;
+            }
+            else if (p->buffer[p->m_dwCaretPos] == _T('\r')
+                && (p->m_dwCaretPos + 1 < p->m_dwLastPos)
+                && p->buffer[p->m_dwCaretPos + 1] == _T('\n')) {
+                count++;
+            }
 #else
-        if ((p->buffer[p->m_dwCaretPos] >= 0x80 ||
-            p->buffer[p->m_dwCaretPos] == _T('\r')) {
-            count++;
-        }
+            if ((p->buffer[p->m_dwCaretPos] >= 0x80) {
+                count++;
+            }
+            else if (p->buffer[p->m_dwCaretPos] == _T('\r')
+                && (p->m_dwCaretPos + 1 < p->m_dwLastPos)
+                && p->buffer[p->m_dwCaretPos + 1] == _T('\n')) {
+                count++;
+            }
 #endif
     }
     return count;
@@ -93,7 +111,7 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
             return 0;
         }
         case ZEVENT_KEYDOWN: {
-            _tprintf(_T("down %x.."), event->chKey);
+            D_PRINT(_T("down %x.."), event->chKey);
             if (event->chKey == VK_UP) {
                 if (p->m_dwCaretPos && !(p->m_uTextStyle & ZDT_SINGLELINE)) {
                     if (!p->m_bChangeLines) {  //开始改变字符行位置，保存字符列位置
@@ -103,42 +121,42 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                     int startPos = p->m_dwCaretPos;
                     ZuiBool lineflag = FALSE; //换行符标记
                     while (startPos) {  //查找上一行尾部
-                        if (p->buffer[--startPos] == _T('\r')) {
+                        if (p->buffer[--startPos] == _T('\n')) {
                             lineflag = TRUE;
                             break;
                         }
                     }
                     if (lineflag) {
-                        if (p->m_dwLines)
-                            p->m_dwLines--;
                         int count = 0;
                         lineflag = FALSE;
                         while (startPos) { //查找本行头部
-                            if (p->buffer[--startPos] == _T('\r')) {
+                            if (p->buffer[--startPos] == _T('\n')) {
                                 lineflag = TRUE;
                                 break;
                             }
+                            if (p->buffer[startPos] == _T('\r'))
+                                continue;
                             count++;
                         }
                         if (lineflag) { //修正位置
-                            startPos += 2;
-                            count--;
+                            startPos += 1;
                         }
+                        p->m_dwLines--;
                         //光标位置计算
                         p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
-                        p->m_ptCaret.y -= p->m_dwLineHeight;
+                        p->m_ptCaret.y = cp->m_rcItem.top + cp->m_dwBorderWidth + cp->m_rcPadding.top + (p->m_dwLines -1) * p->m_dwLineHeight;
                         ZSizeR sz;
                         if (count < p->m_dwOldCols) {
                             p->m_dwCaretPos = startPos + count;
                             p->m_dwCols = count;
                             ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + startPos, count, &sz);
-                            p->m_ptCaret.x += sz.cx;
+                            p->m_ptCaret.x += (int)(sz.cx + 1);
                         }
                         else {
                             p->m_dwCaretPos = startPos + p->m_dwOldCols;
                             p->m_dwCols = p->m_dwOldCols;
                             ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + startPos, p->m_dwCols, &sz);
-                            p->m_ptCaret.x += sz.cx;
+                            p->m_ptCaret.x += (int)(sz.cx + 1);
                         }
                     }
                 }
@@ -152,35 +170,36 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                     int startPos = p->m_dwCaretPos;
                     ZuiBool lineflag = FALSE; //换行符标记
                     while (startPos < p->m_dwLastPos) {  //查找下一行头部
-                        if (p->buffer[startPos++] == _T('\r')) {
+                        if (p->buffer[startPos++] == _T('\n')) {
                             lineflag = TRUE;
                             break;
                         }
                     }
                     if (lineflag) {
-                        p->m_dwCaretPos = ++startPos;
-                        p->m_dwLines++;
+                        p->m_dwCaretPos = startPos;
                         int count = 0;
                         while (startPos < p->m_dwLastPos) { //查找本行尾部部
-                            if (p->buffer[startPos++] == _T('\r'))
+                            if (p->buffer[startPos++] == _T('\n'))
                                 break;
+                            if (p->buffer[startPos] == _T('\r'))
+                                continue;
                             count++;
                         }
+                        p->m_dwLines++;
                         //光标位置计算
                         p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
-                        p->m_ptCaret.y += p->m_dwLineHeight;
+                        p->m_ptCaret.y = cp->m_rcItem.top + cp->m_dwBorderWidth + cp->m_rcPadding.top + (p->m_dwLines - 1) * p->m_dwLineHeight;
                         ZSizeR sz;
                         if (count < p->m_dwOldCols) {
                             
                             ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + p->m_dwCaretPos, count, &sz);
-                            p->m_ptCaret.x += sz.cx;
+                            p->m_ptCaret.x += (int)(sz.cx + 1);
                             p->m_dwCaretPos += count;
                             p->m_dwCols = count;
                         }
                         else {
-                           
                             ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + p->m_dwCaretPos, p->m_dwOldCols, &sz);
-                            p->m_ptCaret.x += sz.cx;
+                            p->m_ptCaret.x += (int)(sz.cx + 1);
                             p->m_dwCaretPos += p->m_dwOldCols;
                             p->m_dwCols = p->m_dwOldCols;
                         }
@@ -198,29 +217,29 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                     int startPos = p->m_dwCaretPos;
                     int length = 1;
                     //遇到换行符时光标位置计算
-                    if (p->buffer[p->m_dwCaretPos] == _T('\r')) {
-                        p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
-                        p->m_ptCaret.y -= p->m_dwLineHeight;
+                    if (p->buffer[p->m_dwCaretPos] == _T('\n') || p->buffer[p->m_dwCaretPos] == _T('\r')) {
                         //查找上一行开始字符位置
                         ZuiBool lineflag = FALSE;
                         while (startPos) {
-                            if (p->buffer[--startPos] == _T('\r')) {
+                            if (p->buffer[--startPos] == _T('\n')) {
                                 lineflag = TRUE;
                                 break;
                             }
                         }
                         if (lineflag)
-                            startPos += 2;
+                            startPos += 1;
                         length = p->m_dwCaretPos - startPos;
                         p->m_dwLines--;
                         p->m_dwCols = length;
+                        p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
+                        p->m_ptCaret.y = cp->m_rcItem.top + cp->m_dwBorderWidth + cp->m_rcPadding.top + (p->m_dwLines - 1) * p->m_dwLineHeight;
                         ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + startPos, length, &sz);                       
-                        p->m_ptCaret.x += sz.cx;
+                        p->m_ptCaret.x += (int)(sz.cx + 1);
                     }
                     //正常字符时光标位置计算
                     else {
                         ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + startPos, length, &sz);
-                        p->m_ptCaret.x -= sz.cx;
+                        p->m_ptCaret.x -= (int)(sz.cx + 1);
                         p->m_dwCols--;
                     }
                 }
@@ -230,17 +249,17 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                 p->m_bChangeLines = FALSE;
                 if (count) {
                     //遇到换行符时光标位置计算
-                    if (p->buffer[p->m_dwCaretPos] == _T('\r')) {
-                        p->m_ptCaret.y += p->m_dwLineHeight;
-                        p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
+                    if (p->buffer[p->m_dwCaretPos] == _T('\r') || p->buffer[p->m_dwCaretPos] == _T('\n')) {
                         p->m_dwLines++;
                         p->m_dwCols = 0;
+                        p->m_ptCaret.y = cp->m_rcItem.top + cp->m_dwBorderWidth + cp->m_rcPadding.top + (p->m_dwLines - 1) * p->m_dwLineHeight;
+                        p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
                     }
                     //正常字符时光标位置计算
                     else {
                         ZSizeR sz;
                         ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + p->m_dwCaretPos, 1, &sz);
-                        p->m_ptCaret.x += sz.cx;
+                        p->m_ptCaret.x += (int)(sz.cx + 1);
                         p->m_dwCols++;
                     }
                     p->m_dwCaretPos += count;
@@ -264,7 +283,7 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
             return 0;
         }
         case ZEVENT_CHAR: {
-            _tprintf(_T("%x.."), event->chKey);
+            D_PRINT(_T("%x.."), event->chKey);
             p->m_bChangeLines = FALSE;
             if (event->chKey == VK_RETURN) {
                 if (!(p->m_uTextStyle & ZDT_SINGLELINE)) { //是否单行
@@ -288,7 +307,7 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                     p->m_dwLines++;
                     p->m_dwCols = 0;
                     //重新计算光标位置
-                    p->m_ptCaret.y += p->m_dwLineHeight;
+                    p->m_ptCaret.y = cp->m_rcItem.top + cp->m_dwBorderWidth + cp->m_rcPadding.top + (p->m_dwLines - 1) * p->m_dwLineHeight;
                     p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
                 }
             }
@@ -301,30 +320,30 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                     int startPos = p->m_dwCaretPos - count;
                     int length = 1;
                     //遇到换行字符的光标位置计算
-                    if (p->buffer[startPos] == _T('\r')) {
-                        p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
-                        p->m_ptCaret.y -= p->m_dwLineHeight;
+                    if (p->buffer[startPos] == _T('\r') || p->buffer[startPos] == _T('\n')) {
                         //查找上一行开始位置
                         ZuiBool lineflag = FALSE;
                         while (startPos) {
-                            if (p->buffer[--startPos] == _T('\r')) {
+                            if (p->buffer[--startPos] == _T('\n')) {
                                 lineflag = TRUE;
                                 break;
                             }
                         }
                         if (lineflag)
-                            startPos += 2;
+                            startPos += 1;
                         length = p->m_dwCaretPos - count - startPos;
                         p->m_dwLines--;
                         p->m_dwCols = length;
+                        p->m_ptCaret.x = cp->m_rcItem.left + cp->m_dwBorderWidth + cp->m_rcPadding.left;
+                        p->m_ptCaret.y = cp->m_rcItem.top + cp->m_dwBorderWidth + cp->m_rcPadding.top + (p->m_dwLines - 1) * p->m_dwLineHeight;
                         ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + startPos, length, &sz);
-                        p->m_ptCaret.x += sz.cx;
+                        p->m_ptCaret.x += (int)(sz.cx + 1);
                     }
                     //正常字符的光标位置计算
                     else {
                         p->m_dwCols--;
                         ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + startPos, length, &sz);
-                        p->m_ptCaret.x -= sz.cx;
+                        p->m_ptCaret.x -= (int)(sz.cx + 1);
                     }
                     //删除前一个字符
                     startPos = p->m_dwCaretPos;
@@ -361,7 +380,7 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                 //重新计算光标位置
                 ZSizeR sz;
                 ZuiMeasureTextSize(cp, p->m_rFont ? p->m_rFont->p : Global_Font->p, p->buffer + p->m_dwCaretPos, 1, & sz);
-                p->m_ptCaret.x += sz.cx;
+                p->m_ptCaret.x += (int)(sz.cx + 1);
                 p->m_dwCaretPos++;
                 p->m_dwLastPos++;
                 p->m_dwCols++;
