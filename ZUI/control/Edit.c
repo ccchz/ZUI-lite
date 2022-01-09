@@ -295,15 +295,23 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                     //光标不在尾部，移出字符空间
                     int startPos = p->m_dwLastPos;
                     while (startPos > p->m_dwCaretPos) {
+#if defined _WIN32 || _WIN64
                         p->buffer[startPos + 1] = p->buffer[startPos - 1];
+#else
+                        p->buffer[startPos] = p->buffer[startPos - 1];
+#endif
                         startPos--;
                     }
+#if defined _WIN32 || _WIN64 || _MAC
                     p->buffer[p->m_dwCaretPos] = event->chKey;
                     p->m_dwCaretPos++;
                     p->m_dwLastPos++;
+#endif
+#if defined __linux__ || _WIN32 || _WIN64 || __ANDROID__
                     p->buffer[p->m_dwCaretPos] = _T('\n');
                     p->m_dwCaretPos++;
                     p->m_dwLastPos++;
+#endif
                     p->m_dwLines++;
                     p->m_dwCols = 0;
                     //重新计算光标位置
@@ -486,7 +494,6 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
 
         np->buffer = (ZuiText)malloc(BUFFERSIZE);
         memset(np->buffer, 0, BUFFERSIZE);
-        np->m_bSingleline = FALSE;
         np->m_dwLength = BUFFERSIZE;
         np->m_dwLastPos = 0;
         np->m_dwCaretPos = 0;

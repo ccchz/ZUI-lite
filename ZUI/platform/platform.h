@@ -6,7 +6,7 @@
 #include <config.h>
 
 
-#if (defined PLATFORM_OS_WIN)
+#if defined PLATFORM_OS_WIN
 #include "os/win.h"
 //窗口样式
 #define Z_APPWINDOW					 WS_OVERLAPPEDWINDOW | WS_VISIBLE
@@ -69,9 +69,8 @@
 #include "os/android.h"
 #endif
 
-#if (defined PLATFORM_GRAPH_AGG)&&(PLATFORM_GRAPH_AGG == 1)
-	#include "graph/agg.h"
-#elif (defined PLATFORM_GRAPH_GDIX)&&(PLATFORM_GRAPH_GDIX == 1)
+
+#if (defined PLATFORM_GRAPH_GDIX)&&(PLATFORM_GRAPH_GDIX == 1)
     #include "graph/gdi+.h"
 #endif
 

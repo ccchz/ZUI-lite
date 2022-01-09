@@ -4,10 +4,10 @@
 //config
 
 //运行平台配置
-#ifdef _WIN32
+#if defined _WIN32
     #define PLATFORM_OS_WIN
 #elif defined _WIN64
-    #define PLATFORM_OS_WIN
+	#define PLATFORM_OS_WIN
 #elif defined __linux__
     #define PLATFORM_OS_LINUX
 #elif defined MACX

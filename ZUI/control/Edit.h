@@ -10,7 +10,7 @@ typedef struct _ZEdit
     unsigned int     m_uTextStyle;    //字体控制
     ZuiColor    m_cTextColor;   //字体颜色
     ZuiColor    m_cTextColorDisabled;
-    ZuiBool     m_bSingleline;  //是否单行
+    ZuiBool     m_bAutoBreak;   //是否自动换行
     ZuiText     buffer; //字符缓冲区
     ZuiReal     m_dwLineHeight; //行高
     int         m_dwLength; //字符缓冲区长度

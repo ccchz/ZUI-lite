@@ -806,6 +806,7 @@ ZuiAny ZCALL ZuiLayoutProc(int ProcId, ZuiControl cp, ZuiLayout p, ZuiAny Param1
                     }
                     if ((ZuiAny)iScrollPos > ZCCALL(ZM_ScrollBar_GetScrollPos, p->m_pHorizontalScrollBar, NULL, NULL)) {
                         ZCCALL(ZM_SetPos, cp, &cp->m_rcItem, (ZuiAny)ZuiOnSize);
+                        return 0;
                     }
                 }
             }

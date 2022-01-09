@@ -51,10 +51,10 @@ ZuiAny ZCALL dialog_proc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     }
     else if (msg == ZM_OnCreate) {
         ZText zstr[1024] = { 0 };
-        _sntprintf_s(zstr, 1023, 1023, _T("%-29s %d.%d\r\n%-25s%s %s\r\n%-25sMSVC 2019"),
+        _sntprintf_s(zstr, 1023, 1023, _T("%-29s %d.%d\r\n%-25s%s %s\r\n%-25s VisualStudio-%d"),
             _T("版本:"), (ZuiVersion >> 16), ZuiVersion & 0xFFFF,
             _T("编译日期:"), _T(__DATE__), _T(__TIME__),
-            _T("编译工具:"));
+            _T("编译工具:"), _MSC_VER);
         ZuiControl rp = ZuiControlFindName(p, _T("text"));
         ZCCALL(ZM_SetText, rp, zstr, 0);
     }

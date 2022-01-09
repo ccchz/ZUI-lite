@@ -1054,7 +1054,8 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiAny parentcontrol, ZuiBool sho
         OsWindow->m_aFoundControls = darray_create();
         OsWindow->m_aDelayedCleanup = darray_create();
         //darray_append(m_aPreMessages, p);
-        
+        OsWindow->m_hDcOffscreen = ZuiCreateGraphics(OsWindow, 0, 0);
+
         OsWindow->m_hWnd = CreateWindowEx(0, _T("ZUI-lite"), 0,
             zstyle,
             CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -1066,6 +1067,7 @@ ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiAny parentcontrol, ZuiBool sho
         //ImmAssociateContext(OsWindow->m_hWnd, NULL);
 
         OsWindow->m_hDcPaint = GetDC(OsWindow->m_hWnd);
+
 
         //是否立即显示
         if (show)

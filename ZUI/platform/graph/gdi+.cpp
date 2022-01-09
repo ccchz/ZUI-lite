@@ -421,7 +421,7 @@ extern "C" {
             gp->Clip.top = 1;
             gp->Clip.right = Width;
             gp->Clip.bottom = Height;
-            HDC tempdc = GetDC(p->m_hWnd);
+            HDC tempdc = GetDC(0);
             gp->hdc = CreateCompatibleDC(tempdc);
             ReleaseDC(0, tempdc);
             BITMAPINFO BitmapInfo;
