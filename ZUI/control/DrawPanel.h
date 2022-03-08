@@ -7,7 +7,7 @@ typedef struct _ZDrawPanel
 {
     ZCtlProc old_call;
 }*ZuiDrawPanel, ZDrawPanel;
-ZEXPORT ZuiAny ZCALL ZuiDrawPanelProc(int ProcId, ZuiControl cp, ZuiDrawPanel p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiDrawPanelProc(ZINT ProcId, ZuiControl cp, ZuiDrawPanel p, ZPARAM Param1, ZPARAM Param2);
 
 
 #endif	//__LABEL_H__

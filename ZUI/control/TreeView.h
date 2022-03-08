@@ -25,7 +25,7 @@ typedef struct _ZTreeNode
     DArray              *mTreeNodes;        //子节点数组
 
     ZCtlProc old_call;
-    ZuiAny old_udata;
+    ZVoid old_udata;
 }*ZuiTreeNode, ZTreeNode;
 /**树形框结构*/
 typedef struct _ZTreeView
@@ -35,9 +35,9 @@ typedef struct _ZTreeView
     ZuiBool m_bVisibleCheckBtn;
 
     ZCtlProc old_call;
-    ZuiAny old_udata;
+    ZVoid old_udata;
 }*ZuiTreeView, ZTreeView;
-ZEXPORT ZuiAny ZCALL ZuiTreeViewProc(int ProcId, ZuiControl cp, ZuiTreeView p, ZuiAny Param1, ZuiAny Param2);
-ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiTreeViewProc(ZINT ProcId, ZuiControl cp, ZuiTreeView p, ZPARAM Param1, ZPARAM Param2);
+ZEXPORT ZINT ZCALL ZuiTreeNodeProc(ZINT ProcId, ZuiControl cp, ZuiTreeNode p, ZPARAM Param1, ZPARAM Param2);
 
 #endif	//__TREE_H__

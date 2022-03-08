@@ -54,7 +54,7 @@ ZuiBool ZuiOsInitialize(ZuiInitConfig);
 //此函数用作反初始化Os.
 ZuiBool ZuiOsUnInitialize();
 //此函数用作创建ZuiOsWindow对象.
-ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiAny parentcontrol, ZuiBool show, unsigned int zstyle);
+ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZPARAM parentcontrol, ZuiBool show, unsigned int zstyle);
 // 此函数用作销毁由ZuiOsCreateWindow创建的对象.
 ZuiVoid ZuiOsDestroyWindow(ZuiOsWindow OsWindow);
 //此函数用作设置窗口标题.
@@ -101,19 +101,19 @@ ZuiVoid ZuiOsSetFocus(ZuiOsWindow p, ZuiControl pControl, ZuiBool bFocusWnd);
 //移除控件在系统层的对象
 ZuiVoid ZuiOsReapObjects(ZuiOsWindow p, ZuiControl pControl);
 //延迟销毁控件
-ZuiVoid ZuiOsAddDelayedCleanup(ZuiControl pControl,ZuiAny Param1,ZuiAny Param2);
+ZuiVoid ZuiOsAddDelayedCleanup(ZuiControl pControl,ZPARAM Param1,ZPARAM Param2);
 //系统消息循环
 int ZuiOsMsgLoop();
-ZEXPORT ZuiVoid ZuiOsPostMessage(ZuiControl cp, ZuiAny Msg, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZuiVoid ZuiOsPostMessage(ZuiControl cp, ZPARAM Msg, ZPARAM Param1, ZPARAM Param2);
 ZEXPORT int ZuiDoModel(ZuiControl cp);
 //退出系统消息循环
 ZuiVoid ZuiOsMsgLoopExit(int nRet);
 //系统声音
 ZEXPORT ZuiVoid ZuiBeep(unsigned int type);
-int ZuiOsUtf8ToUnicode(ZuiAny str, int slen, ZuiText out, int olen);
-int ZuiOsAsciiToUnicode(ZuiAny str, int slen, ZuiText out, int olen);
-int ZuiOsUnicodeToAscii(ZuiText str, int slen, ZuiAny out, int olen);
-int ZuiOsUnicodeToUtf8(ZuiText str, int slen, ZuiAny out, int olen);
+int ZuiOsUtf8ToUnicode(ZPARAM str, int slen, ZuiText out, int olen);
+int ZuiOsAsciiToUnicode(ZPARAM str, int slen, ZuiText out, int olen);
+int ZuiOsUnicodeToAscii(ZuiText str, int slen, ZPARAM out, int olen);
+int ZuiOsUnicodeToUtf8(ZuiText str, int slen, ZPARAM out, int olen);
 
 ZuiVoid ZuiOsClientToScreen(ZuiControl p, ZuiPoint pt);
 ZuiVoid ZuiOsScreenToClient(ZuiControl p, ZuiPoint pt);

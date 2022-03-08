@@ -1,7 +1,7 @@
 ﻿#include "ProgressBar.h"
 #include <core/control.h>
 #include <core/resdb.h>
-ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBar p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZINT ZCALL ZuiProgressBarProc(ZINT ProcId, ZuiControl cp, ZuiProgressBar p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_OnPaint: {
@@ -46,17 +46,17 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
     case ZM_SetAttribute: {
         ZuiAttribute zAttr = (ZuiAttribute)Param1;
         if (_tcsicmp(zAttr->name, _T("pbcolor")) == 0)
-            ZCCALL(ZM_Button_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            ZCCALL(ZM_Button_SetColorNormal, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
         else if (_tcsicmp(zAttr->name, _T("pbbkcolor")) == 0)
-            ZCCALL(ZM_Button_SetColorHot, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            ZCCALL(ZM_Button_SetColorHot, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
         else if (_tcsicmp(zAttr->name, _T("pbheight")) == 0)
-            ZCCALL(ZM_ProgressBar_SetHeight, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
+            ZCCALL(ZM_ProgressBar_SetHeight, cp, (ZPARAM)(_ttoi(zAttr->value)), Param2);
         else if (_tcsicmp(zAttr->name, _T("pbpos")) == 0)
-            ZCCALL(ZM_ProgressBar_SetPos, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
+            ZCCALL(ZM_ProgressBar_SetPos, cp, (ZPARAM)(_ttoi(zAttr->value)), Param2);
         else if (_tcsicmp(zAttr->name, _T("pbrange")) == 0)
-            ZCCALL(ZM_ProgressBar_SetRange, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
+            ZCCALL(ZM_ProgressBar_SetRange, cp, (ZPARAM)(_ttoi(zAttr->value)), Param2);
         else if (_tcsicmp(zAttr->name, _T("pbhorizontal")) == 0)
-            ZCCALL(ZM_ProgressBar_SetHorizontal, cp, (ZuiAny)(_tcsicmp(zAttr->value,_T("true"))? FALSE : TRUE), Param2);
+            ZCCALL(ZM_ProgressBar_SetHorizontal, cp, (ZPARAM)(_tcsicmp(zAttr->value,_T("true"))? FALSE : TRUE), Param2);
         break;
     }
     case ZM_ProgressBar_SetPos: {
@@ -118,15 +118,15 @@ ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBa
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)ZC_ProgressBar) == 0)
-            return (ZuiAny)p;
+        if (_tcsicmp(Param1, (ZPARAM)ZC_ProgressBar) == 0)
+            return (ZPARAM)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)ZC_ProgressBar;
+        return (ZPARAM)ZC_ProgressBar;
     case ZM_CoreInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
-        return (ZuiAny)NULL;
+        return (ZPARAM)NULL;
     default:
         break;
     }

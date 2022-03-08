@@ -2,8 +2,8 @@
 #define __ZUI_CORE_ANIMATION_H__
 #include <ZUI.h>
 #include <platform/platform.h>
-typedef ZuiVoid(ZCALL *ZAnimeProcOnPaint)(ZuiControl p, ZuiAny gp, ZuiAny rc);
-typedef ZuiVoid(ZCALL *ZAnimeProcOnSize)(ZuiControl p, ZuiAny w, ZuiAny h);
+typedef ZuiVoid(ZCALL *ZAnimeProcOnPaint)(ZuiControl p, ZPARAM gp, ZPARAM rc);
+typedef ZuiVoid(ZCALL *ZAnimeProcOnSize)(ZuiControl p, ZPARAM w, ZPARAM h);
 typedef ZuiVoid(ZCALL *ZAnimeProcOnEvent)(ZuiControl p, TEventUI *event);
 typedef struct _ZAnimation
 {
@@ -14,6 +14,6 @@ typedef struct _ZAnimation
     ZAnimeProcOnSize    OnSize;     //大小被改变
 }*ZuiAnimation, ZAnimation;
 
-ZuiAnimation ZuiAnimationNew(ZuiAny Param1, ZuiAny Param2);
+ZuiAnimation ZuiAnimationNew(ZPARAM Param1, ZPARAM Param2);
 ZuiVoid ZuiAnimationFree(ZuiAnimation p);
 #endif	//__ZUI_CORE_ANIMATION_H__

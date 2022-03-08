@@ -968,7 +968,7 @@ error:
     return (WEOF);
 }
 //加载XML字符串 返回XML树
-mxml_node_t *mxmlLoadString(mxml_node_t *top, ZuiAny s, int len)
+mxml_node_t *mxmlLoadString(mxml_node_t *top, ZPARAM s, int len)
 {
     mxml_node_t *node, /* Current node */
         *first, /* First node added */

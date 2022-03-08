@@ -36,7 +36,7 @@ typedef struct _ZGraphics {
     BOOL SmoothingMode;
 #endif
     struct graphgraphics* ggp;
-    ZuiAny Bits;		///内存指针
+    void* Bits;		///内存指针
 }*ZuiGraphics, ZGraphics;
 
 /**字体*/

@@ -5,7 +5,7 @@
 #include <core/builder.h>
 #include <platform/platform.h>
 #include <stdlib.h>
-ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZINT ZCALL ZuiLabelProc(ZINT ProcId, ZuiControl cp, ZuiLabel p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_OnPaintText: {
@@ -61,7 +61,7 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         return 0;
     }
     case ZM_Label_GetTextStyle: {
-        return (ZuiAny)p->m_uTextStyle;
+        return (ZPARAM)p->m_uTextStyle;
     }
     case ZM_SetAttribute: {
         ZuiAttribute zAttr = (ZuiAttribute)Param1;
@@ -82,7 +82,7 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
                 tstyle &= ~(ZDT_LEFT | ZDT_CENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
                 tstyle |= ZDT_RIGHT;
             }
-            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZPARAM)tstyle, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("valign")) == 0) {
             //纵向对齐方式
@@ -99,15 +99,15 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
                 tstyle &= ~(ZDT_TOP | ZDT_VCENTER | ZDT_WORDBREAK | ZDT_EDITCONTROL);
                 tstyle |= (ZDT_BOTTOM | ZDT_SINGLELINE);
             }
-            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZPARAM)tstyle, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("textcolor")) == 0) {
             ZuiColor clrColor = ZuiStr2Color(zAttr->value);
-            ZCCALL(ZM_Label_SetTextColor, cp, (ZuiAny)clrColor, Param2);
+            ZCCALL(ZM_Label_SetTextColor, cp, (ZPARAM)clrColor, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("textcolordisabled")) == 0) {
             ZuiColor clrColor = ZuiStr2Color(zAttr->value);
-            ZCCALL(ZM_Label_SetTextColorDisabled, cp, (ZuiAny)clrColor, Param2);
+            ZCCALL(ZM_Label_SetTextColorDisabled, cp, (ZPARAM)clrColor, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("textpadding")) == 0) {
             //字体边距
@@ -130,7 +130,7 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
                 tstyle &= ~ZDT_WORDBREAK & ~ZDT_EDITCONTROL;
                 tstyle |= ZDT_SINGLELINE;
             }
-            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZPARAM)tstyle, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("singleline")) == 0) {
             unsigned int tstyle = (unsigned int)ZCCALL(ZM_Label_GetTextStyle, cp, 0, 0);
@@ -140,7 +140,7 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
             else {
                 tstyle &= ~ZDT_SINGLELINE;
             }
-            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZPARAM)tstyle, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("endellipsis")) == 0) {
             //替换超出部分为...
@@ -151,7 +151,7 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
             }
             else 
                 tstyle &= ~ZDT_END_ELLIPSIS;
-            ZCCALL(ZM_Label_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
+            ZCCALL(ZM_Label_SetTextStyle, cp, (ZPARAM)tstyle, Param2);
         }
         break;
     }
@@ -178,15 +178,15 @@ ZEXPORT ZuiAny ZCALL ZuiLabelProc(int ProcId, ZuiControl cp, ZuiLabel p, ZuiAny 
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)ZC_Label) == 0)
-            return (ZuiAny)p;
+        if (_tcsicmp(Param1, (ZPARAM)ZC_Label) == 0)
+            return (ZPARAM)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)ZC_Label;
+        return (ZPARAM)ZC_Label;
     case ZM_CoreInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
-        return (ZuiAny)NULL;
+        return (ZPARAM)NULL;
     default:
         break;
     }

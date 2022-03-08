@@ -10,7 +10,7 @@ typedef struct _ZuiTileLayout
     void *old_udata;
 }*ZuiTileLayout, ZTileLayout;
 
-ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAny Param1, ZuiAny Param2);
+ZINT ZCALL ZuiTileLayoutProc(ZINT ProcId, ZuiControl cp, ZuiTileLayout p, ZPARAM Param1, ZPARAM Param2);
 
 
 #endif // __UITILELAYOUT_H__

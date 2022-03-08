@@ -4,7 +4,7 @@
 #include <core/builder.h>
 #include <platform/platform.h>
 #include <layout/HorizontalLayout.h>
-ZEXPORT ZuiAny ZCALL ZuiContainerProc(int ProcId, ZuiControl cp, ZuiContainer p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZINT ZCALL ZuiContainerProc(ZINT ProcId, ZuiControl cp, ZuiContainer p, ZPARAM Param1, ZPARAM Param2) {
     switch(ProcId){
         case ZM_OnEvent: {
             TEventUI* event = (TEventUI*)Param1;
@@ -73,15 +73,15 @@ ZEXPORT ZuiAny ZCALL ZuiContainerProc(int ProcId, ZuiControl cp, ZuiContainer p,
         case ZM_SetAttribute: {
             ZuiAttribute zAttr = (ZuiAttribute)Param1;
             if (_tcsicmp(zAttr->name, _T("normalcolor")) == 0)
-                ZCCALL(ZM_Container_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+                ZCCALL(ZM_Container_SetColorNormal, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
             else if (_tcsicmp(zAttr->name, _T("hotcolor")) == 0)
-                ZCCALL(ZM_Container_SetColorHot, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+                ZCCALL(ZM_Container_SetColorHot, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
             else if (_tcsicmp(zAttr->name, _T("pushedcolor")) == 0)
-                ZCCALL(ZM_Container_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+                ZCCALL(ZM_Container_SetColorPushed, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
             else if (_tcsicmp(zAttr->name, _T("focusedcolor")) == 0)
-                ZCCALL(ZM_Button_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+                ZCCALL(ZM_Button_SetColorFocused, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
             else if (_tcsicmp(zAttr->name, _T("disabledcolor")) == 0)
-                ZCCALL(ZM_Container_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+                ZCCALL(ZM_Container_SetColorDisabled, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
             break;
         }
         case ZM_OnPaintBorder: {
@@ -126,7 +126,7 @@ ZEXPORT ZuiAny ZCALL ZuiContainerProc(int ProcId, ZuiControl cp, ZuiContainer p,
         }
         case ZM_OnDestroy: {
             ZCtlProc old_call = p->old_call;
-            ZuiAny old_udata = p->old_udata;
+            ZVoid old_udata = p->old_udata;
             old_call(ProcId, cp, old_udata, Param1, Param2);
 
             free(p);
@@ -134,15 +134,15 @@ ZEXPORT ZuiAny ZCALL ZuiContainerProc(int ProcId, ZuiControl cp, ZuiContainer p,
             return 0;
         }
         case ZM_GetObject:
-            if (_tcsicmp(Param1, (ZuiAny)ZC_Container) == 0)
-                return (ZuiAny)p;
+            if (_tcsicmp(Param1, (ZPARAM)ZC_Container) == 0)
+                return (ZPARAM)p;
             break;
         case ZM_GetType:
-            return (ZuiAny)ZC_Container;
+            return (ZPARAM)ZC_Container;
         case ZM_CoreInit:
-            return (ZuiAny)TRUE;
+            return (ZPARAM)TRUE;
         case ZM_CoreUnInit:
-            return (ZuiAny)TRUE;
+            return (ZPARAM)TRUE;
         default:
             break;
     }

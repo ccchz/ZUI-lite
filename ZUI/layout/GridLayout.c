@@ -3,7 +3,7 @@
 #include <core/control.h>
 #include <stdlib.h>
 
-ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL ZuiGridLayoutProc(ZINT ProcId, ZuiControl cp, ZuiGridLayout p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_SetPos: {
@@ -56,7 +56,7 @@ ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAn
             if (!pControl->m_bVisible)
                 continue;
             if (pControl->m_bFloat) {
-                ZCCALL(ZM_Layout_SetFloatPos, cp, (ZuiAny)index, 0);
+                ZCCALL(ZM_Layout_SetFloatPos, cp, (ZPARAM)index, 0);
                 continue;
             }
 
@@ -75,7 +75,7 @@ ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAn
             rcCtrl.top += rcMargin.top;
             rcCtrl.right -= rcMargin.right;
             rcCtrl.bottom -= rcMargin.bottom;
-            ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZuiAny)ZuiOnSize);
+            ZCCALL(ZM_SetPos, pControl, &rcCtrl, (ZPARAM)ZuiOnSize);
         }
 
         SBarSize.cx = maxcols * p->m_szGridSize.cx;
@@ -115,7 +115,7 @@ ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAn
     }
     case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
-        ZuiAny old_udata = p->old_udata;
+        ZVoid old_udata = p->old_udata;
 
         old_call(ProcId, cp, old_udata, Param1, Param2);
 
@@ -124,13 +124,13 @@ ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAn
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)ZC_GridLayout) == 0)
-            return (ZuiAny)p;
+        if (_tcsicmp(Param1, (ZPARAM)ZC_GridLayout) == 0)
+            return (ZPARAM)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)ZC_GridLayout;
+        return (ZPARAM)ZC_GridLayout;
     case ZM_CoreInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
         return NULL;
     default:

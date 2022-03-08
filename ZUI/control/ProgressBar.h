@@ -16,7 +16,7 @@ typedef struct _ZProgressBar
 
     ZCtlProc old_call;
 }*ZuiProgressBar, ZProgressBar;
-ZEXPORT ZuiAny ZCALL ZuiProgressBarProc(int ProcId, ZuiControl cp, ZuiProgressBar p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiProgressBarProc(ZINT ProcId, ZuiControl cp, ZuiProgressBar p, ZPARAM Param1, ZPARAM Param2);
 
 
 #endif	//__ProgressBar_H__

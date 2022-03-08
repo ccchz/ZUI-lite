@@ -19,12 +19,12 @@ ZuiText cname[Array_len] = {
                      _T("option4"), 
                      _T("option5"), };
 
-ZuiAny ZCALL Main_Button_enable(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL Main_Button_enable(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClick)
     {
         ZuiControl tmp = ZuiControlFindName(win, _T("buttondisable"));
         if (!ZCCALL(ZM_GetEnabled, tmp, 0, 0)) {
-            ZCCALL(ZM_SetEnabled, tmp, (ZuiAny)1, 0);
+            ZCCALL(ZM_SetEnabled, tmp, (ZPARAM)1, 0);
             ZCCALL(ZM_SetText, p, _T("禁用"),  0);
         }
         else {
@@ -35,17 +35,17 @@ ZuiAny ZCALL Main_Button_enable(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Par
     return 0;
 }
 
-ZuiAny ZCALL msgbox_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL msgbox_Notify(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClick)
     {
         ZuiMsgBox(win, _T("HELLO WORLD!!"), _T("Hello World!!"));
         //ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        //ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)2, NULL);
+        //ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZPARAM)2, NULL);
     }
     return 0;
 }
 
-ZuiAny ZCALL dialog_proc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL dialog_proc(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClose) {
         FreeZuiControl(p, 1);
     }
@@ -61,7 +61,7 @@ ZuiAny ZCALL dialog_proc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     return 0;
 }
 
-ZuiAny ZCALL msgbox_Notify1(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL msgbox_Notify1(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClick)
     {
         //ZuiMsgBox(win, _T("Container点击响应。"), _T("提示..."));
@@ -69,24 +69,24 @@ ZuiAny ZCALL msgbox_Notify1(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2)
     }
     return 0;
 }
-ZuiAny ZCALL Option_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL Option_Notify(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnSelectChanged && Param1)
     {
-        ZuiText pname = ZCCALL(ZM_GetName, p, 0, 0);
+        ZuiText pname = (ZuiText)ZCCALL(ZM_GetName, p, 0, 0);
         //ZuiMsgBox(win, pname, _T("提示..."));
         while (pname && *pname && !isdigit(*pname))
             pname++;
         ZuiControl cp = ZuiControlFindName(win, _T("tab"));
-        ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZuiAny)_ttoi(pname), NULL);
+        ZCCALL(ZM_TabLayout_SetSelectIndex, cp, (ZPARAM)_ttoi(pname), NULL);
     }
     return 0;
 }
 
-ZuiAny ZCALL Drawpanel_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL Drawpanel_Notify(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnPaint)
     {
         ZuiText str = _T("DrawPanel控件.");
-        ZuiRect rc = ZCCALL(ZM_GetPos, p, 0, 0);
+        ZuiRect rc = (ZuiRect)ZCCALL(ZM_GetPos, p, 0, 0);
         ZPointR ptr;
         ZuiDrawEllipse(p, 0xFFff0000, rc, 1);
         ptr.x = (ZuiReal)rc->left;
@@ -95,7 +95,7 @@ ZuiAny ZCALL Drawpanel_Notify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param
     }
     return 0;
 }
-ZuiAny ZCALL Main_Notify_ctl_clos(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL Main_Notify_ctl_clos(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClick)
     {
         ZCCALL(ZM_OnClose, win, 0, 0);
@@ -103,7 +103,7 @@ ZuiAny ZCALL Main_Notify_ctl_clos(int msg, ZuiControl p, ZuiAny Param1, ZuiAny P
     return 0;
 }
 
-ZuiAny ZCALL Main_Notify_ctl_min(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL Main_Notify_ctl_min(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClick)
     {
         ZCCALL(ZM_Window_SetWindowMin, win, 0, 0);
@@ -111,7 +111,7 @@ ZuiAny ZCALL Main_Notify_ctl_min(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Pa
     return 0;
 }
 
-ZuiAny ZCALL Main_Notify_ctl_max(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL Main_Notify_ctl_max(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnSelectChanged)
     {
         ZuiControl pmax;
@@ -122,18 +122,18 @@ ZuiAny ZCALL Main_Notify_ctl_max(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Pa
             pmax = ZCCALL(ZM_GetParent, p, 0, 0);   //更改关闭按钮父级控件圆角属性。
             memcpy(&oldrd, ZCCALL(ZM_GetRound, pmax, 0, 0), sizeof(ZRound));
             rd.left = rd.right = rd.top = rd.bottom = 0;
-            ZCCALL(ZM_SetRound, pmax, &rd, (ZuiAny)1);
+            ZCCALL(ZM_SetRound, pmax, &rd, (ZPARAM)1);
         }
         else {
             if (ZuiOsIsZoomed(p))
                 ZCCALL(ZM_Window_SetWindowRestor, win, 0, 0);
             pmax = ZCCALL(ZM_GetParent, p, 0, 0); //还原关闭按钮父级控件圆角属性。
-            ZCCALL(ZM_SetRound, pmax, &oldrd, (ZuiAny)1);
+            ZCCALL(ZM_SetRound, pmax, &oldrd, (ZPARAM)1);
         }
     }
     return 0;
 }
-ZuiAny ZCALL Main_Notify(int msg, ZuiControl cp, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL Main_Notify(int msg, ZuiControl cp, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClose)
     {
         int ret = ZuiMsgBox(win, _T("是否退出程序?"), _T("提示!!"));
@@ -172,14 +172,14 @@ ZuiAny ZCALL Main_Notify(int msg, ZuiControl cp, ZuiAny Param1, ZuiAny Param2) {
         if ((int)Param1 == 2) { //窗口最大化
             ZuiControl pmax = ZuiControlFindName(win, _T("WindowCtl_max"));
             if (pmax) {
-                ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)TRUE, (ZuiAny)TRUE);
+                ZCCALL(ZM_Option_SetSelected, pmax, (ZPARAM)TRUE, (ZPARAM)TRUE);
             }
         }
         else if(Param1 == 0)  //窗口还原
         {
             ZuiControl pmax = ZuiControlFindName(cp, _T("WindowCtl_max"));
             if (pmax) {
-                ZCCALL(ZM_Option_SetSelected, pmax, (ZuiAny)FALSE, (ZuiAny)TRUE);
+                ZCCALL(ZM_Option_SetSelected, pmax, (ZPARAM)FALSE, (ZPARAM)TRUE);
             }
         }
     }

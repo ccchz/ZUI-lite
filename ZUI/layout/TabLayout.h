@@ -7,9 +7,9 @@ typedef struct _ZuiTabLayout
 {
     int m_iCurSel;//当前选择夹
     ZCtlProc old_call;
-    ZuiAny old_udata;
+    ZVoid old_udata;
 }*ZuiTabLayout, ZTabLayout;
 
-ZuiAny ZCALL ZuiTabLayoutProc(int ProcId, ZuiControl cp, ZuiTabLayout p, ZuiAny Param1, ZuiAny Param2);
+ZINT ZCALL ZuiTabLayoutProc(ZINT ProcId, ZuiControl cp, ZuiTabLayout p, ZPARAM Param1, ZPARAM Param2);
 
 #endif // __UITABLAYOUT_H__

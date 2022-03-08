@@ -79,7 +79,7 @@ ZEXPORT int ZCALL ZEditCharStep(ZuiEdit p, int direction) {
     return count;
 }
 
-ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZINT ZCALL ZuiEditProc(ZINT ProcId, ZuiControl cp, ZuiEdit p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_OnEvent: {
@@ -455,7 +455,7 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
         return 0;
     }
     case ZM_Edit_GetTextStyle: {
-        return (ZuiAny)p->m_uTextStyle;
+        return (ZPARAM)p->m_uTextStyle;
     }
     case ZM_SetAttribute: {
         ZuiAttribute zAttr = (ZuiAttribute)Param1;
@@ -463,11 +463,11 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
             ZCCALL(ZM_Edit_SetFont, cp, ZuiResDBGetRes(zAttr->value, ZREST_FONT), Param2);
         else if (_tcsicmp(zAttr->name, _T("textcolor")) == 0) {
             ZuiColor clrColor = ZuiStr2Color(zAttr->value);
-            ZCCALL(ZM_Edit_SetTextColor, cp, (ZuiAny)clrColor, Param2);
+            ZCCALL(ZM_Edit_SetTextColor, cp, (ZPARAM)clrColor, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("textcolordisabled")) == 0) {
             ZuiColor clrColor = ZuiStr2Color(zAttr->value);
-            ZCCALL(ZM_Edit_SetTextColorDisabled, cp, (ZuiAny)clrColor, Param2);
+            ZCCALL(ZM_Edit_SetTextColorDisabled, cp, (ZPARAM)clrColor, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("singleline")) == 0) {
             unsigned int tstyle = (unsigned int)ZCCALL(ZM_Edit_GetTextStyle, cp, 0, 0);
@@ -479,12 +479,12 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
                 tstyle &= ~ZDT_SINGLELINE;
                 tstyle &= ~ZDT_VCENTER;
             }
-            ZCCALL(ZM_Edit_SetTextStyle, cp, (ZuiAny)tstyle, Param2);
+            ZCCALL(ZM_Edit_SetTextStyle, cp, (ZPARAM)tstyle, Param2);
         }
         break;
     }
     case ZM_GetControlFlags: {
-        return (ZuiAny)ZFLAG_SETCURSOR;//需要设置鼠标
+        return (ZPARAM)ZFLAG_SETCURSOR;//需要设置鼠标
     }
     case ZM_OnCreate: {
         ZuiEdit np = (ZuiEdit)malloc(sizeof(ZEdit));
@@ -514,15 +514,15 @@ ZEXPORT ZuiAny ZCALL ZuiEditProc(int ProcId, ZuiControl cp, ZuiEdit p, ZuiAny Pa
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)ZC_Edit) == 0)
-            return (ZuiAny)p;
+        if (_tcsicmp(Param1, (ZPARAM)ZC_Edit) == 0)
+            return (ZPARAM)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)ZC_Edit;
+        return (ZPARAM)ZC_Edit;
     case ZM_CoreInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
-        return (ZuiAny)NULL;
+        return (ZPARAM)NULL;
     default:
         break;
     }

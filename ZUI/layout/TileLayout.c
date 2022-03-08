@@ -3,7 +3,7 @@
 #include <core/control.h>
 #include <stdlib.h>
 
-ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL ZuiTileLayoutProc(ZINT ProcId, ZuiControl cp, ZuiTileLayout p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_SetPos: {
@@ -39,7 +39,7 @@ ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAn
             ZuiControl pControl = (ZuiControl)(op->m_items->data[it1]);
             if (!pControl->m_bVisible) continue;
             if (pControl->m_bFloat) {
-                ZCCALL(ZM_Layout_SetFloatPos, cp, (ZuiAny)it1, 0);
+                ZCCALL(ZM_Layout_SetFloatPos, cp, (ZPARAM)it1, 0);
                 continue;
             }
 
@@ -101,7 +101,7 @@ ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAn
             if (szTile.cy > (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0)) { szTile.cy = (int)ZCCALL(ZM_GetMaxHeight, pControl, 0, 0); }
             ZRect rcPos = { (rcTile.left + rcTile.right - szTile.cx) / 2, (rcTile.top + rcTile.bottom - szTile.cy) / 2,
                 (rcTile.left + rcTile.right - szTile.cx) / 2 + szTile.cx, (rcTile.top + rcTile.bottom - szTile.cy) / 2 + szTile.cy };
-            ZCCALL(ZM_SetPos, pControl, &rcPos, (ZuiAny)ZuiOnSize);
+            ZCCALL(ZM_SetPos, pControl, &rcPos, (ZPARAM)ZuiOnSize);
             if ((++iCount % p->m_nColumns) == 0) {
                 ptTile.x = iPosX;
                 ptTile.y += cyHeight + op->m_iChildPadding;
@@ -124,7 +124,7 @@ ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAn
             ZCCALL(ZM_TileLayout_SetItemSize, cp, &sz, Param2);
         }
         else if (_tcsicmp(zAttr->name, _T("columns")) == 0) 
-            ZCCALL(ZM_TileLayout_SetColumns, cp, (ZuiAny)_ttoi(zAttr->value), Param2);
+            ZCCALL(ZM_TileLayout_SetColumns, cp, (ZPARAM)_ttoi(zAttr->value), Param2);
         break;
     }
     case ZM_TileLayout_SetColumns: {
@@ -154,16 +154,16 @@ ZuiAny ZCALL ZuiTileLayoutProc(int ProcId, ZuiControl cp, ZuiTileLayout p, ZuiAn
     }
     case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
-        ZuiAny old_udata = p->old_udata;
+        ZVoid old_udata = p->old_udata;
 
         free(p);
 
         return old_call(ProcId, cp, old_udata, Param1, Param2);
     }
     case ZM_GetType:
-        return (ZuiAny)ZC_TileLayout;
+        return (ZPARAM)ZC_TileLayout;
     case ZM_CoreInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
         return NULL;
     default:

@@ -86,7 +86,7 @@ extern "C"
     //ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsInMemory(int Width, int Height);
     ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(ZuiOsWindow p, int Width, int Height);
     /*附加到一块内存上*/
-    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiControl cp, ZuiAny bits, int Width, int Height, int stride);
+    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiControl cp, void* bits, int Width, int Height, int stride);
     //销毁图形
     ZEXPORT ZuiVoid ZCALL ZuiDestroyGraphics(ZuiGraphics gp);
 
@@ -114,7 +114,7 @@ extern "C"
     * @param len 长度
     * @return 成功返回ZuiImage对象.
     */
-    ZEXPORT ZuiImage ZCALL ZuiLoadImageFromBinary(ZuiAny buf, size_t len);
+    ZEXPORT ZuiImage ZCALL ZuiLoadImageFromBinary(void *buf, size_t len);
 
 
     /*取图像帧数*/
@@ -127,8 +127,8 @@ extern "C"
     * @param Image ZuiImage对象
     * @return 此函数没有返回值.
     */
-    ZEXPORT ZuiVoid ZCALL ZuiDestroyImage(ZuiImage Img);
-    ZEXPORT ZuiAny ZCALL ZuiGetRgn(ZuiControl cp, ZuiRect rc, ZRound *rd);
+    ZEXPORT void ZCALL ZuiDestroyImage(ZuiImage Img);
+    ZEXPORT void * ZCALL ZuiGetRgn(ZuiControl cp, ZuiRect rc, ZRound *rd);
 
 #ifdef __cplusplus
 }

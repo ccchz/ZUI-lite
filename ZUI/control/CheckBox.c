@@ -2,7 +2,7 @@
 #include <core/control.h>
 #include "Option.h"
 
-ZEXPORT ZuiAny ZCALL ZuiCheckBoxProc(int ProcId, ZuiControl cp, ZuiCheckBox p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZINT ZCALL ZuiCheckBoxProc(ZINT ProcId, ZuiControl cp, ZuiCheckBox p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_OnCreate: {
@@ -11,15 +11,15 @@ ZEXPORT ZuiAny ZCALL ZuiCheckBoxProc(int ProcId, ZuiControl cp, ZuiCheckBox p, Z
         return zop;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)ZC_CheckBox) == 0)
-            return (ZuiAny)p;
+        if (_tcsicmp(Param1, (ZPARAM)ZC_CheckBox) == 0)
+            return (ZPARAM)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)ZC_CheckBox;
+        return (ZPARAM)ZC_CheckBox;
     case ZM_CoreInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
-        return (ZuiAny)NULL;
+        return (ZPARAM)NULL;
     default:
         break;
     }

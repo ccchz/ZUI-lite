@@ -10,9 +10,9 @@ typedef struct _ZuiGridLayout
     ZSize m_szGridSize;
 
     ZCtlProc old_call;
-    ZuiAny old_udata;
+    ZVoid old_udata;
 }*ZuiGridLayout, ZGridLayout;
 
-ZuiAny ZCALL ZuiGridLayoutProc(int ProcId, ZuiControl cp, ZuiGridLayout p, ZuiAny Param1, ZuiAny Param2);
+ZINT ZCALL ZuiGridLayoutProc(ZINT ProcId, ZuiControl cp, ZuiGridLayout p, ZPARAM Param1, ZPARAM Param2);
 
 #endif // __GRID_H__

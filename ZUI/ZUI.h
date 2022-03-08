@@ -62,16 +62,18 @@
 //--------------------------------------------------------------------基础数据类型
 #if defined _WIN64
 typedef long long ZINT;
-typedef unsigned long long UZINT;
+typedef unsigned long long ZUINT;
+typedef unsigned long long ZPARAM;
 #elif defined _WIN32
 typedef int ZINT;
-typedef unsigned int UZINT;
+typedef unsigned int ZUINT;
+typedef unsigned long long ZPARAM;
 #endif
 typedef TCHAR *ZuiText, _ZuiText, ZText;  //内核默认Unicode存储字符
 typedef float           ZuiReal;
 typedef unsigned int    ZuiBool;
 typedef void            ZuiVoid;
-typedef void*           ZuiAny;
+typedef void *          ZVoid;
 typedef unsigned int    ZuiColor;
 typedef unsigned char   ZuiByte;
 /**矩形*/
@@ -160,9 +162,9 @@ typedef struct _ZuiInitConfig
 } *ZuiInitConfig, ZInitConfig;
 
 //--------------------------------------------------------------------回调定义
-typedef ZuiControl(ZCALL* FINDCONTROLPROC)(ZuiControl, ZuiAny);
-typedef ZuiAny(ZCALL *ZCtlProc)(int ProcId, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2);
-typedef ZuiAny(ZCALL *ZNotifyProc)(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
+typedef ZuiControl(ZCALL* FINDCONTROLPROC)(ZuiControl, ZVoid);
+typedef ZINT(ZCALL *ZCtlProc)(ZINT ProcId, ZuiControl p, ZVoid UserData, ZPARAM Param1, ZPARAM Param2);
+typedef ZINT(ZCALL *ZNotifyProc)(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2);
 
 #define ZuiLayoutAdd(p,cp) ZuiControlCall(ZM_Layout_Add,(p),(cp),NULL,NULL)
 #define ZuiControlSetDrag(p,b)  ZuiControlCall(ZM_SetDrag,(p),(b),NULL,NULL)
@@ -616,9 +618,9 @@ typedef struct _ZuiFuncs {
 
     int(ZCALL *ZuiMsgLoop)();
     ZuiVoid(ZCALL *ZuiMsgLoop_exit)(int nRet);
-    ZuiControl(ZCALL *NewZuiControl)(ZuiText classname, ZuiAny Param1, ZuiAny Param2);
+    ZuiControl(ZCALL *NewZuiControl)(ZuiText classname, ZPARAM Param1, ZPARAM Param2);
     ZuiVoid(ZCALL *FreeZuiControl)(ZuiControl p, ZuiBool Delayed);
-    ZuiAny(ZCALL *ZuiControlCall)(int ProcId, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
+    ZPARAM(ZCALL *ZuiControlCall)(ZINT ProcId, ZuiControl p, ZPARAM Param1, ZPARAM Param2);
 
 }ZuiFuncs;
 
@@ -636,10 +638,10 @@ extern "C"
     //退出Zui消息循环.
     ZEXPORT ZuiVoid ZCALL ZuiMsgLoop_exit(int nRet);
     
-    ZEXPORT ZuiControl ZCALL NewZuiControl(ZuiText classname, ZuiAny Param1, ZuiAny Param2);//创建控件
+    ZEXPORT ZuiControl ZCALL NewZuiControl(ZuiText classname, ZPARAM Param1, ZPARAM Param2);//创建控件
     ZEXPORT ZuiControl ZCALL NewZuiControlFromXml(ZuiControl ParentControl, ZuiText resname, ZNotifyProc ctrlproc);
     ZEXPORT ZuiVoid ZCALL FreeZuiControl(ZuiControl p, ZuiBool Delayed);//销毁控件
-    ZEXPORT ZuiAny ZCALL ZuiControlCall(int ProcId, ZuiControl p, ZuiAny Param1, ZuiAny Param2);//调用控件处理函数
+    ZEXPORT ZINT ZCALL ZuiControlCall(ZINT ProcId, ZuiControl p, ZPARAM Param1, ZPARAM Param2);//调用控件处理函数
     ZEXPORT ZuiControl ZCALL ZuiControlFindName(ZuiControl p, ZuiText Name);
     ZEXPORT ZuiVoid ZCALL ZuiControlRegNotify(ZuiControl p, ZNotifyProc pNotify);
     ZEXPORT int ZCALL ZuiMsgBox(ZuiControl ParentControl, ZuiText text, ZuiText title);
@@ -647,19 +649,19 @@ extern "C"
     ZEXPORT ZuiVoid ZCALL ZuiLoadXml(ZuiText resname);
 
     //载入布局窗口
-    ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiControl ParentControl,ZuiAny xml, int len);
+    ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiControl ParentControl,ZPARAM xml, int len);
 
     //资源包
-    ZEXPORT ZuiResDB ZCALL ZuiResDBCreateFromBuf(ZuiAny data, int len, ZuiText Pass);
+    ZEXPORT ZuiResDB ZCALL ZuiResDBCreateFromBuf(ZPARAM data, int len, ZuiText Pass);
     ZEXPORT ZuiResDB ZCALL ZuiResDBCreateFromFile(ZuiText Path, ZuiText Pass);
     ZEXPORT ZuiVoid ZCALL ZuiResDBDestroy(ZuiResDB db);
     //资源
-    ZEXPORT ZuiRes ZCALL ZuiResDBNewTempRes(ZuiAny b, int buflen, int type);
+    ZEXPORT ZuiRes ZCALL ZuiResDBNewTempRes(ZPARAM b, int buflen, int type);
     ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type);//获取一个资源
     ZEXPORT ZuiVoid ZCALL ZuiResDBDelRes(ZuiRes res);//释放一个资源
-    ZEXPORT ZuiAny ZCALL ZuiResGetData(ZuiRes res,int *plen);//获取资源中的数据
+    ZEXPORT ZINT ZCALL ZuiResGetData(ZuiRes res,int *plen);//获取资源中的数据
 #ifdef PLATFORM_OS_WIN
-    ZEXPORT ZuiBool ZCALL ZuiResDBAddPE(ZuiText name, ZuiAny hInstance);//添加一个PE文件到资源池
+    ZEXPORT ZuiBool ZCALL ZuiResDBAddPE(ZuiText name, ZPARAM hInstance);//添加一个PE文件到资源池
 #endif // PLATFORM_OS_WIN
 
 

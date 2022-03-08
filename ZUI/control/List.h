@@ -30,7 +30,7 @@ typedef struct _ZListHeaderItem
 	ZRect		m_rcPadding;
 
     ZRect m_rcThumb;
-    ZuiAny old_udata;
+    ZVoid old_udata;
     ZCtlProc old_call;
 }*ZuiListHeaderItem, ZListHeaderItem;
 
@@ -38,7 +38,7 @@ typedef struct _ZListHeaderItem
 typedef struct _ZListHeader
 {
     ZSize m_szXY;  //表头大小
-    ZuiAny old_udata;
+    ZVoid old_udata;
     ZCtlProc old_call;
 }*ZuiListHeader, ZListHeader;
 
@@ -46,7 +46,7 @@ typedef struct _ZListHeader
 typedef struct _ZListBody
 {
     ZuiControl m_pOwner;//宿主列表
-    ZuiAny old_udata;
+    ZVoid old_udata;
     ZCtlProc old_call;
 }*ZuiListBody, ZListBody;
 
@@ -58,7 +58,7 @@ typedef struct _ZListElement
     unsigned int m_uButtonState;    //列状态
     ZuiControl m_pOwner;    //宿主
 
-    ZuiAny old_udata;
+    ZVoid old_udata;
     ZCtlProc old_call;
 }*ZuiListElement, ZListElement;
 
@@ -95,14 +95,14 @@ typedef struct _ZList
 
     ZListInfo m_ListInfo;   //列表属性
 
-    ZuiAny old_udata;
+    ZVoid old_udata;
     ZCtlProc old_call;
 }*ZuiList, ZList;
-ZEXPORT ZuiAny ZCALL ZuiListProc(int ProcId, ZuiControl cp, ZuiList p, ZuiAny Param1, ZuiAny Param2);
-ZEXPORT ZuiAny ZCALL ZuiListBodyProc(int ProcId, ZuiControl cp, ZuiListBody p, ZuiAny Param1, ZuiAny Param2);
-ZEXPORT ZuiAny ZCALL ZuiListElementProc(int ProcId, ZuiControl cp, ZuiListElement p, ZuiAny Param1, ZuiAny Param2);
-ZEXPORT ZuiAny ZCALL ZuiListHeaderProc(int ProcId, ZuiControl cp, ZuiListHeader p, ZuiAny Param1, ZuiAny Param2);
-ZEXPORT ZuiAny ZCALL ZuiListHeaderItemProc(int ProcId, ZuiControl cp, ZuiListHeaderItem p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiListProc(ZINT ProcId, ZuiControl cp, ZuiList p, ZPARAM Param1, ZPARAM Param2);
+ZEXPORT ZINT ZCALL ZuiListBodyProc(ZINT ProcId, ZuiControl cp, ZuiListBody p, ZPARAM Param1, ZPARAM Param2);
+ZEXPORT ZINT ZCALL ZuiListElementProc(ZINT ProcId, ZuiControl cp, ZuiListElement p, ZPARAM Param1, ZPARAM Param2);
+ZEXPORT ZINT ZCALL ZuiListHeaderProc(ZINT ProcId, ZuiControl cp, ZuiListHeader p, ZPARAM Param1, ZPARAM Param2);
+ZEXPORT ZINT ZCALL ZuiListHeaderItemProc(ZINT ProcId, ZuiControl cp, ZuiListHeaderItem p, ZPARAM Param1, ZPARAM Param2);
 
 
 #endif  //__LIST_H__

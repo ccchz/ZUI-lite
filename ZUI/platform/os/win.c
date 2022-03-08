@@ -122,11 +122,11 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
                 }
             }
             if (darray_len(p->m_aDelayedCleanup) == 0) {
-                ZCCALL(ZM_OnDestroy, cp, (ZuiAny)wParam, (ZuiAny)lParam);
+                ZCCALL(ZM_OnDestroy, cp, (ZPARAM)wParam, (ZPARAM)lParam);
                 break;
             }
             else
-                ZCCALL(ZM_OnDestroy, cp, (ZuiAny)wParam, (ZuiAny)lParam);
+                ZCCALL(ZM_OnDestroy, cp, (ZPARAM)wParam, (ZPARAM)lParam);
         };
         return 0;
     }
@@ -570,7 +570,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         p->m_ptLastMousePos = pt;
         ZuiControl pNewHover = NULL;
         if (p->m_pRoot)
-            pNewHover = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (void *)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
+            pNewHover = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (ZPARAM)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
         if (pNewHover != NULL && pNewHover->m_pOs != p) break;
         TEventUI event = { 0 };
         event.ptMouse = pt;
@@ -581,7 +581,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         if (!p->m_bMouseCapture) {
             pNewHover = NULL;
             if (p->m_pRoot)
-                pNewHover = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (void *)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
+                pNewHover = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (ZPARAM)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
             if (pNewHover != NULL && pNewHover->m_pOs != p) break;
             if (pNewHover != p->m_pEventHover && p->m_pEventHover != NULL) {
                 event.Type = ZEVENT_MOUSELEAVE;
@@ -624,7 +624,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         p->m_ptLastMousePos = pt;
         ZuiControl pControl = NULL;
         if (p->m_pRoot)
-            pControl = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (void *)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
+            pControl = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (ZPARAM)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
         if (pControl == NULL) break;
         if (pControl->m_pOs != p) break;
         ZCCALL(ZM_SetFocus, pControl, 0, 0);
@@ -662,7 +662,7 @@ static LRESULT WINAPI __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         p->m_ptLastMousePos = pt;
         ZuiControl pControl = NULL;
         if (p->m_pRoot)
-            pControl = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (void *)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
+            pControl = p->m_pRoot->call(ZM_FindControl, p->m_pRoot, p->m_pRoot->m_sUserData, &pt, (ZPARAM)(ZFIND_FROM_POINT | ZFIND_VISIBLE | ZFIND_ENABLED | ZFIND_HITTEST | ZFIND_TOP_FIRST));
         if (pControl == NULL) break;
         if (pControl->m_pOs != p) break;
         ZuiOsSetCapture(p);
@@ -1023,7 +1023,7 @@ ZuiBool ZuiOsUnInitialize() {
     return TRUE;
 }
 
-ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZuiAny parentcontrol, ZuiBool show, unsigned int zstyle) {
+ZuiOsWindow ZuiOsCreateWindow(ZuiControl root, ZPARAM parentcontrol, ZuiBool show, unsigned int zstyle) {
     /*保存相关参数到ZOsWindow*/
     ZuiOsWindow OsWindow = (ZuiOsWindow)malloc(sizeof(ZOsWindow));
     HWND tmphwnd = NULL;
@@ -1372,9 +1372,9 @@ ZuiVoid ZuiOsReapObjects(ZuiOsWindow p, ZuiControl pControl) {
     ZuiOsKillTimer(pControl);
 }
 
-ZuiVoid ZuiOsAddDelayedCleanup(ZuiControl pControl, ZuiAny Param1, ZuiAny Param2)
+ZuiVoid ZuiOsAddDelayedCleanup(ZuiControl pControl, ZPARAM Param1, ZPARAM Param2)
 {
-    ZCCALL(ZM_Layout_Remove, pControl->m_pParent, pControl, (ZuiAny)TRUE);
+    ZCCALL(ZM_Layout_Remove, pControl->m_pParent, pControl, (ZPARAM)TRUE);
     darray_append(pControl->m_pOs->m_aDelayedCleanup, pControl);
     PostMessage(pControl->m_pOs->m_hWnd, WM_APP + 1, (WPARAM)Param1, (LPARAM)Param2);
 }
@@ -1393,7 +1393,7 @@ int ZuiOsMsgLoop() {
 ZuiVoid ZuiOsMsgLoopExit(int nRet) {
     PostQuitMessage(nRet);
 }
-ZuiVoid ZuiOsPostMessage(ZuiControl cp, ZuiAny Msg, ZuiAny Param1, ZuiAny Param2) {
+ZuiVoid ZuiOsPostMessage(ZuiControl cp, ZPARAM Msg, ZPARAM Param1, ZPARAM Param2) {
     PostMessage(cp->m_pOs->m_hWnd, (UINT)Msg, (WPARAM)Param1, (LPARAM)Param2);
 }
 
@@ -1425,22 +1425,22 @@ ZEXPORT ZuiBool ZuiOsIsZoomed(ZuiControl p)
 {
     return p->m_pOs->m_bMax;
 }
-int ZuiOsUtf8ToUnicode(ZuiAny str, int slen, ZuiText out, int olen)
+int ZuiOsUtf8ToUnicode(ZuiText str, int slen, ZuiText out, int olen)
 {
     return MultiByteToWideChar(CP_UTF8, 0, str, slen, out, olen);
 }
 
-int ZuiOsAsciiToUnicode(ZuiAny str, int slen, ZuiText out, int olen)
+int ZuiOsAsciiToUnicode(ZuiText str, int slen, ZuiText out, int olen)
 {
     return MultiByteToWideChar(CP_ACP, 0, str, slen, out, olen);
 }
 
-int ZuiOsUnicodeToAscii(ZuiText str, int slen, ZuiAny out, int olen)
+int ZuiOsUnicodeToAscii(ZuiText str, int slen, ZuiText out, int olen)
 {
     return WideCharToMultiByte(CP_ACP, 0, str, slen, out, olen, NULL, NULL);
 }
 
-int ZuiOsUnicodeToUtf8(ZuiText str, int slen, ZuiAny out, int olen)
+int ZuiOsUnicodeToUtf8(ZuiText str, int slen, ZuiText out, int olen)
 {
     return WideCharToMultiByte(CP_UTF8, 0, str, slen, out, olen, NULL, NULL);
 }

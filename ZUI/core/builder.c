@@ -74,7 +74,7 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl p) {
                     if (Control) {
                         node->user_data = Control;//保存控件到节点
                                                   /*添加到容器*/
-                        ZCCALL(ZM_Layout_Add, node->parent->user_data, Control, (ZuiAny)TRUE);
+                        ZCCALL(ZM_Layout_Add, node->parent->user_data, Control, (ZPARAM)TRUE);
                     }
                     else {
                         /*当前控件创建失败 子控件肯定创建不了 删除节点*/
@@ -98,13 +98,13 @@ static  ZuiControl ZuiLayoutLoadNode(mxml_node_t *tree, ZuiControl p) {
                 /*解析属性*/
                 for (int i = 0; i < node->value.num_attrs; i++)
                 {
-                    ZCCALL(ZM_SetAttribute, Control, node->value.attrs + i, (ZuiAny)TRUE);
+                    ZCCALL(ZM_SetAttribute, Control, node->value.attrs + i, (ZPARAM)TRUE);
                 }
             }
         }
     return win;
 }
-ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiControl ParentControl, ZuiAny xml, int len) {
+ZEXPORT ZuiControl ZCALL ZuiLayoutLoad(ZuiControl ParentControl, ZPARAM xml, int len) {
     mxml_node_t *tree;
     tree = mxmlLoadString(NULL, xml, len);
     ZuiControl win = ZuiLayoutLoadNode(tree, ParentControl);

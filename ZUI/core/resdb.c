@@ -81,7 +81,7 @@ ZuiVoid ZuiResDBUnInit() {
     }
     free(Global_ResDB);
 }
-ZEXPORT ZuiResDB ZCALL ZuiResDBCreateFromBuf(ZuiAny data, int len, ZuiText Pass)
+ZEXPORT ZuiResDB ZCALL ZuiResDBCreateFromBuf(ZPARAM data, int len, ZuiText Pass)
 {
     ZuiResDB p = (ZuiResDB)malloc(sizeof(ZResDB));
     if (p)
@@ -198,14 +198,14 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
             return NULL;
         }
         //找到对应的资源包并提取资源
-        ZuiAny buf = 0;
+        ZPARAM buf = 0;
         int buflen = 0;
         ZuiStingSplit(arr[1], _T(":"), arr, &arrnum); //分离属性字段。
         /*压缩*/if (db->type == ZRESDBT_ZIP_FILE || db->type == ZRESDBT_ZIP_STREAM)
         {
             //转换路径编码
             int len = ZuiUnicodeToAscii(arr[0], -1, 0, 0);
-            ZuiAny n = malloc(len);
+            ZPARAM n = malloc(len);
             ZuiUnicodeToAscii(arr[0], len, n, len);
             unz_file_info64 info;
             int ret = unzLocateFile(db->uf, n, 0);
@@ -370,7 +370,7 @@ ZEXPORT ZuiRes ZCALL ZuiResDBGetRes(ZuiText Path, int type) {
 #endif
         /*字体*/else if (db->type == ZRESDBT_FONT)
         {
-			buf = (ZuiAny)-1;
+			buf = (ZPARAM)-1;
 			buflen = -1;
         }
         if (buf == 0 || buflen == 0)
@@ -519,21 +519,21 @@ ZEXPORT ZuiVoid ZCALL ZuiResDBDelRes(ZuiRes res) {
     }
 }
 
-ZEXPORT ZuiAny ZCALL ZuiResGetData(ZuiRes res, int *plen) {
+ZEXPORT ZINT ZCALL ZuiResGetData(ZuiRes res, int *plen) {
     if (res && plen) {
         *plen = res->plen;
         return res->p;
     }
     return NULL;
 }
-ZEXPORT ZuiRes ZCALL ZuiResDBNewTempRes(ZuiAny b, int buflen, int type) {
+ZEXPORT ZuiRes ZCALL ZuiResDBNewTempRes(ZPARAM b, int buflen, int type) {
     //创建对应的资源类型
     ZuiRes res = malloc(sizeof(ZRes));
     if (!res)
         return NULL;
     memset(res, 0, sizeof(ZRes));
     res->type = type;
-    ZuiAny buf = malloc(buflen);
+    ZPARAM buf = malloc(buflen);
     memcpy(buf, b, buflen);
     if (type == ZREST_IMG) {
         ZuiImage img = ZuiLoadImageFromBinary(buf, buflen);
@@ -587,7 +587,7 @@ ZEXPORT ZuiRes ZCALL ZuiResDBNewTempRes(ZuiAny b, int buflen, int type) {
     return res;
 }
 #if (defined PLATFORM_OS_WIN)
-ZEXPORT ZuiBool ZCALL ZuiResDBAddPE(ZuiText name, ZuiAny hInstance) {
+ZEXPORT ZuiBool ZCALL ZuiResDBAddPE(ZuiText name, ZPARAM hInstance) {
     ZuiResDB p = (ZuiResDB)malloc(sizeof(ZResDB));
     memset(p, 0, sizeof(ZResDB));
     p->type = ZRESDBT_PE;

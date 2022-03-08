@@ -23,14 +23,14 @@ ZuiText ZuiCharNext(ZuiText str);
 * @param num 目标数组大小
 * @return 此函数没有返回值.
 */
-ZuiColor ZuiStr2Color(ZuiAny str);
+ZuiColor ZuiStr2Color(ZuiText str);
 ZuiVoid ZuiStingSplitA(char* src, char* pSeparator, char **dest, int *num);
 ZuiVoid ZuiStingSplit(ZuiText src, ZuiText pSeparator, ZuiText *dest, int *num);
-ZuiBool ZuiStingIsUtf8(ZuiAny str, int length);
-int ZuiUtf8ToUnicode(ZuiAny str, int slen, ZuiText out, int olen);
-int ZuiAsciiToUnicode(ZuiAny str, int slen, ZuiText out, int olen);
-int ZuiUnicodeToAscii(ZuiText str, int slen, ZuiAny out, int olen);
-int ZuiUnicodeToUtf8(ZuiText str, int slen, ZuiAny out, int olen);
+ZuiBool ZuiStingIsUtf8(ZuiText str, int length);
+int ZuiUtf8ToUnicode(ZuiText str, int slen, ZuiText out, int olen);
+int ZuiAsciiToUnicode(ZuiText str, int slen, ZuiText out, int olen);
+int ZuiUnicodeToAscii(ZuiText str, int slen, ZuiText out, int olen);
+int ZuiUnicodeToUtf8(ZuiText str, int slen, ZuiText out, int olen);
 
 
 #endif //__ZUI_CORE_FUNCTION_H__

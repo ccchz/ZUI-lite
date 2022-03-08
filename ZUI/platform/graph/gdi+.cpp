@@ -403,7 +403,7 @@ extern "C" {
         }
     }
     /*创建图形*/
-    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(ZuiOsWindow p,int Width, int Height) {
+    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphics(ZuiOsWindow p, int Width, int Height) {
         ZuiGraphics gp = (ZuiGraphics)malloc(sizeof(ZGraphics));
         if (!gp) {
             return NULL; 
@@ -474,7 +474,7 @@ extern "C" {
         }
     }
     /*附加到一块内存上*/
-    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiControl cp, ZuiAny bits, int Width, int Height, int stride) {
+    ZEXPORT ZuiGraphics ZCALL ZuiCreateGraphicsAttach(ZuiControl cp, void* bits, int Width, int Height, int stride) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         if (!gp) {
             return NULL;
@@ -497,7 +497,7 @@ extern "C" {
         if (!gp)
             return FALSE;
         Gdiplus::GraphicsState gps = gp->ggp->ggp->Save();
-        darray_append(rcDarray, (ZuiAny)gps);
+        darray_append(rcDarray, (void *)gps);
 
         ZuiGraphicsSetClip(cp, box, &cp->m_rRound, mode);
         //SelectClipRgn(gp->hdc, hrgn);
@@ -572,7 +572,7 @@ extern "C" {
 
 
     /*加载图像自内存*/
-    ZEXPORT ZuiImage ZCALL ZuiLoadImageFromBinary(ZuiAny buf, size_t len) {
+    ZEXPORT ZuiImage ZCALL ZuiLoadImageFromBinary(void *buf, size_t len) {
         ZuiImage Img = (ZuiImage)malloc(sizeof(ZImage));
         if (!Img) {
             return NULL;
@@ -620,7 +620,7 @@ extern "C" {
         }
     }
 
-    ZEXPORT ZuiAny ZCALL ZuiGetRgn(ZuiControl cp, ZuiRect rc, ZRound *rd) {
+    ZEXPORT void * ZCALL ZuiGetRgn(ZuiControl cp, ZuiRect rc, ZRound *rd) {
         ZuiGraphics gp = cp->m_pOs->m_hDcOffscreen;
         REAL left, top, right, bottom;
         ZRound zrd;

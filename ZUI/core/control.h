@@ -44,8 +44,8 @@ typedef struct tagFINDSHORTCUT
 typedef struct _ZuiNotifyMsg {
     int msg;
     ZuiControl p;
-    ZuiAny Param1;
-    ZuiAny param2;
+    ZPARAM Param1;
+    ZPARAM param2;
 } *ZuiNotifyMsg, ZNotifyMsg;
 
 extern ZuiNotifyMsg zMsg;
@@ -83,7 +83,7 @@ typedef struct _ZControl
     ZuiText m_sName;                //控件名 主要用于查找xml对象
     ZuiText m_sToolTip;             //提示文本
     _ZuiText m_chShortcut;          //快捷键
-    ZuiAny m_sUserData;              //
+    ZVoid m_sUserData;              //
 
     //控件默认样式-------------------
     int m_dwType;                  //控件风格
@@ -100,15 +100,15 @@ typedef struct _ZControl
 }*ZuiControl, ZControl;
 
 //控件默认处理函数
-ZEXPORT ZuiAny ZCALL ZuiDefaultControlProc(int ProcId, ZuiControl p, ZuiAny UserData, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiDefaultControlProc(ZINT ProcId, ZuiControl p, ZVoid UserData, ZPARAM Param1, ZPARAM Param2);
 
 
 
 ZEXPORT ZuiBool ZCALL ZuiNotiyMsgInit();
 ZEXPORT ZuiBool ZCALL ZuiNotiyMsgUnInit();
-ZEXPORT ZuiAny ZCALL ZuiControlDelayedNotify(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiControlDelayedNotify(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2);
 //发送用户通知
-ZEXPORT ZuiAny ZCALL ZuiControlNotify( int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiControlNotify( int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2);
 //注册通知函数
 ZEXPORT ZuiVoid ZCALL ZuiControlRegNotify(ZuiControl p, ZNotifyProc pNotify);
 
@@ -123,11 +123,11 @@ ZEXPORT ZuiVoid ZCALL ZuiControlNeedUpdate(ZuiControl p);                       
 ZEXPORT ZuiVoid ZCALL ZuiControlNeedParentUpdate(ZuiControl p);                             //更新父控件布局
 ZEXPORT ZuiVoid ZCALL ZuiControlEvent(ZuiControl p, TEventUI *event);                       //发送事件
 
-ZuiControl ZCALL __FindControlFromCount(ZuiControl pThis, ZuiAny pData);//计算控件数量
-ZuiControl ZCALL __FindControlFromPoint(ZuiControl pThis, ZuiAny pData);//根据点是否在区域中，查询控件
-ZuiControl ZCALL __FindControlFromTab(ZuiControl pThis, ZuiAny pData);//通过Tab信息查询控件
-ZuiControl ZCALL __FindControlFromShortcut(ZuiControl pThis, ZuiAny pData);//从快捷键查询控件
-ZuiControl ZCALL __FindControlFromName(ZuiControl pThis, ZuiAny pData);// 通过名称比较查询控件
-ZuiControl ZCALL __FindControlsFromUpdate(ZuiControl pThis, ZuiAny pData);
+ZuiControl ZCALL __FindControlFromCount(ZuiControl pThis, ZVoid pData);//计算控件数量
+ZuiControl ZCALL __FindControlFromPoint(ZuiControl pThis, ZVoid pData);//根据点是否在区域中，查询控件
+ZuiControl ZCALL __FindControlFromTab(ZuiControl pThis, ZVoid pData);//通过Tab信息查询控件
+ZuiControl ZCALL __FindControlFromShortcut(ZuiControl pThis, ZVoid pData);//从快捷键查询控件
+ZuiControl ZCALL __FindControlFromName(ZuiControl pThis, ZVoid pData);// 通过名称比较查询控件
+ZuiControl ZCALL __FindControlsFromUpdate(ZuiControl pThis, ZVoid pData);
 
 #endif // __CONTROL_H__

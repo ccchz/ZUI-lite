@@ -140,23 +140,23 @@ ZEXPORT ZuiVoid ZCALL ZuiMsgLoop_exit(int nRet) {
 
 
 ZuiControl MsgBox_pRoot;
-ZuiAny ZCALL MsgBox_Notify_ctl(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL MsgBox_Notify_ctl(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClick)
     {
         if (_tcsicmp(p->m_sName, _T("WindowCtl_clos")) == 0) {
-            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiCANCEL, NULL);
+            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZPARAM)ZuiCANCEL, NULL);
         }
         else if (_tcsicmp(p->m_sName, _T("ok")) == 0) {
-            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiOK, NULL);
+            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZPARAM)ZuiOK, NULL);
         }
         else if (_tcsicmp(p->m_sName, _T("cancel")) == 0) {
-            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZuiAny)ZuiCANCEL, NULL);
+            ZCCALL(ZM_OnClose, p->m_pOs->m_pRoot, (ZPARAM)ZuiCANCEL, NULL);
         }
     }
     return 0;
 }
 
-ZuiAny ZCALL Default_NotifyProc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL Default_NotifyProc(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnClose) {
         ZuiOsAddDelayedCleanup(p, Param1, Param2);
     }
@@ -167,7 +167,7 @@ ZEXPORT ZuiVoid ZCALL ZuiLoadXml(ZuiText resname) {
     ZuiRes res = ZuiResDBGetRes(resname, ZREST_STREAM);
     if (res) {
         int len = 0;
-        ZuiAny xml = ZuiResGetData(res, &len);
+        ZPARAM xml = ZuiResGetData(res, &len);
         ZuiControl mp;
         mp = ZuiLayoutLoad(NULL, xml, len);
     }
@@ -177,7 +177,7 @@ ZEXPORT ZuiControl ZCALL NewZuiControlFromXml(ZuiControl ParentControl, ZuiText 
     ZuiRes res = ZuiResDBGetRes(resname, ZREST_STREAM);
     if (res) {
         int len = 0;
-        ZuiAny xml = ZuiResGetData(res, &len);
+        ZPARAM xml = ZuiResGetData(res, &len);
         ZuiControl mp;
         mp = ZuiLayoutLoad(ParentControl, xml, len);
         if (mp) {
@@ -212,7 +212,7 @@ ZEXPORT int ZCALL ZuiDialogBox(ZuiControl ParentControl, ZuiText resname,ZNotify
 }
 ZEXPORT int ZCALL ZuiMsgBox(ZuiControl ParentControl, ZuiText text, ZuiText title) {
     ZuiControl p;
-    MsgBox_pRoot = NewZuiControl(_T("MessageBox"), ParentControl, (ZuiAny)TRUE);
+    MsgBox_pRoot = NewZuiControl(_T("MessageBox"), ParentControl, (ZPARAM)TRUE);
     if (!MsgBox_pRoot->m_pOs) {
         FreeZuiControl(MsgBox_pRoot, FALSE);
         return 0;
@@ -221,10 +221,10 @@ ZEXPORT int ZCALL ZuiMsgBox(ZuiControl ParentControl, ZuiText text, ZuiText titl
     ZuiControlRegNotify(MsgBox_pRoot, Default_NotifyProc);
     //取消最小化按钮
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_min"));
-    ZCCALL(ZM_SetVisible, p, FALSE, (ZuiAny)TRUE);
+    ZCCALL(ZM_SetVisible, p, FALSE, (ZPARAM)TRUE);
     //取消最大化按钮
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_max"));
-    ZCCALL(ZM_SetVisible, p, FALSE, (ZuiAny)TRUE);
+    ZCCALL(ZM_SetVisible, p, FALSE, (ZPARAM)TRUE);
     //挂接关闭按钮事件
     p = ZuiControlFindName(MsgBox_pRoot, _T("WindowCtl_clos"));
     ZuiControlRegNotify(p, MsgBox_Notify_ctl);
@@ -236,9 +236,9 @@ ZEXPORT int ZCALL ZuiMsgBox(ZuiControl ParentControl, ZuiText text, ZuiText titl
     ZuiControlRegNotify(p, MsgBox_Notify_ctl);
 
     p = ZuiControlFindName(MsgBox_pRoot, _T("text"));
-    ZCCALL(ZM_SetText, p, text, (ZuiAny)TRUE);
+    ZCCALL(ZM_SetText, p, text, (ZPARAM)TRUE);
     p = ZuiControlFindName(MsgBox_pRoot, _T("title"));
-    ZCCALL(ZM_SetText, p, title, (ZuiAny)TRUE);
+    ZCCALL(ZM_SetText, p, title, (ZPARAM)TRUE);
 
     return ZuiDoModel(MsgBox_pRoot);
 }
@@ -273,7 +273,7 @@ ZuiBool ZuiIsPointInRect(ZuiRect Rect, ZuiPoint pt) {
 
 
 
-ZuiBool ZuiStingIsUtf8(ZuiAny str, int length)
+ZuiBool ZuiStingIsUtf8(ZPARAM str, int length)
 {
     int i;
     //UFT8可用1-6个字节编码,ASCII用一个字节
@@ -402,24 +402,24 @@ ZuiVoid ZuiStingSplit(ZuiText src, ZuiText pSeparator, ZuiText *dest, int *num)
     *num = count;
 }
 
-int ZuiUtf8ToUnicode(ZuiAny str, int slen, ZuiText out, int olen)
+int ZuiUtf8ToUnicode(ZuiText str, int slen, ZuiText out, int olen)
 {
     return ZuiOsUtf8ToUnicode(str, slen, out, olen);
 }
 
-int ZuiAsciiToUnicode(ZuiAny str, int slen, ZuiText out, int olen)
+int ZuiAsciiToUnicode(ZuiText str, int slen, ZuiText out, int olen)
 {
     return ZuiOsAsciiToUnicode(str, slen, out, olen);
 }
 
-int ZuiUnicodeToAscii(ZuiText str, int slen, ZuiAny out, int olen)
+int ZuiUnicodeToAscii(ZuiText str, int slen, ZuiText out, int olen)
 {
     return ZuiOsUnicodeToAscii(str, slen, out, olen);
 }
-int ZuiUnicodeToUtf8(ZuiText str, int slen, ZuiAny out, int olen) {
+int ZuiUnicodeToUtf8(ZuiText str, int slen, ZuiText out, int olen) {
     return ZuiOsUnicodeToUtf8(str, slen, out, olen);
 }
-ZuiColor ZuiStr2Color(ZuiAny str)
+ZuiColor ZuiStr2Color(ZuiText str)
 {
     ZuiText pstr = NULL;
     ZuiColor clrColor = 0xFFFFFFFF;

@@ -23,9 +23,9 @@ typedef struct _ZButton
     int m_dwStyle;              //图片文字组合结构-0 左右 1 上下。。。
     int m_dwType;               //按钮状态
     ZCtlProc old_call;
-    ZuiAny old_udata;
+    ZVoid old_udata;
 }*ZuiButton, ZButton;
-ZEXPORT ZuiAny ZCALL ZuiButtonProc(int ProcId, ZuiControl cp, ZuiButton p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiButtonProc(ZINT ProcId, ZuiControl cp, ZuiButton p, ZPARAM Param1, ZPARAM Param2);
 
 
 #endif	//__BUTTON_H__

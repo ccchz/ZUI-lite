@@ -9,7 +9,7 @@
 
 typedef struct _ZOsWindow
 {
-	ZuiAny xwindow;
+	ZPARAM xwindow;
 } *ZuiOsWindow, ZOsWindow;
 
 #endif //PLATFORM_OS_ANDROID

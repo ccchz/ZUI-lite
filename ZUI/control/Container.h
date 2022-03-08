@@ -15,9 +15,9 @@ typedef struct _ZContainer
 
     int m_dwType;               //°´Å¥×´Ì¬
     ZCtlProc old_call;
-    ZuiAny old_udata;
+    ZVoid old_udata;
 }*ZuiContainer, ZContainer;
-ZEXPORT ZuiAny ZCALL ZuiContainerProc(int ProcId, ZuiControl cp, ZuiContainer p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiContainerProc(ZINT ProcId, ZuiControl cp, ZuiContainer p, ZPARAM Param1, ZPARAM Param2);
 
 
 #endif	//__CONTAINER_H__

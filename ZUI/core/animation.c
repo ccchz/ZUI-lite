@@ -1,7 +1,7 @@
 ﻿#include "animation.h"
 #include "control.h"
 #include <platform/platform.h>
-ZuiVoid ZCALL OnPaint(ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZuiVoid ZCALL OnPaint(ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (!p->m_aAnime->steup) {
         //动画开始
         ZuiOsKillTimer_Id(p, 1);
@@ -22,7 +22,7 @@ ZuiVoid ZCALL OnPaint(ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
     }
 	return;
 }
-ZuiVoid ZCALL OnSize(ZuiControl p, ZuiAny w, ZuiAny h) {
+ZuiVoid ZCALL OnSize(ZuiControl p, ZPARAM w, ZPARAM h) {
     if (p->m_aAnime->m_hDcOffscreen)
         ZuiDestroyGraphics(p->m_aAnime->m_hDcOffscreen);
    p->m_aAnime->m_hDcOffscreen = ZuiCreateGraphics(p->m_pOs,(int)w, (int)h);
@@ -34,7 +34,7 @@ ZuiVoid ZCALL OnEvent(ZuiControl p, TEventUI *event) {
     }
 }
 
-ZuiAnimation ZuiAnimationNew(ZuiAny Param1, ZuiAny Param2) {
+ZuiAnimation ZuiAnimationNew(ZPARAM Param1, ZPARAM Param2) {
     ZuiAnimation p = (ZuiAnimation)malloc(sizeof(ZAnimation));
     p->steup = 0;
     p->OnPaint = OnPaint;

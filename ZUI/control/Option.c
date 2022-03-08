@@ -2,7 +2,7 @@
 #include <core/control.h>
 #include <core/resdb.h>
 #include "Button.h"
-ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiControl cp, ZuiOption p, ZuiColor color) {
+ZEXPORT ZINT ZCALL ZuiOptionDrawResStyle(ZuiControl cp, ZuiOption p, ZuiColor color) {
     ZRect* rc = &cp->m_rcItem;
     ZRect rcc = { 0 }, line1 = { 0 }, line2 = { 0 };
     ZuiButton button = p->old_udata;
@@ -205,7 +205,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionDrawResStyle(ZuiControl cp, ZuiOption p, ZuiColor 
     }
     return NULL;
 }
-ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZINT ZCALL ZuiOptionProc(ZINT ProcId, ZuiControl cp, ZuiOption p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_OnEvent: {
@@ -216,7 +216,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         case ZEVENT_LBUTTONUP: {
             p->old_call(ProcId, cp, p->old_udata, Param1, Param2); //先处理父类过程。
             if (ZuiIsPointInRect(&cp->m_rcItem, &((TEventUI*)Param1)->ptMouse)) {
-                ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(!ZCCALL(ZM_Option_GetSelected, cp, NULL, NULL)), NULL);
+                ZCCALL(ZM_Option_SetSelected, cp, (ZPARAM)(!ZCCALL(ZM_Option_GetSelected, cp, NULL, NULL)), NULL);
             }
             return 0;
         }
@@ -340,7 +340,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
             if (Param1) {
                 for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
                 {
-                    ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL);
+                    ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZPARAM)i, NULL);
                     ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL),ZC_Option);
                     if (pControl != cp && !isoption)
                     {
@@ -355,7 +355,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
                     int select = 0;
                     for (size_t i = 0; i < (size_t)ZCCALL(ZM_Layout_GetCount, cp->m_pParent, NULL, NULL); i++)
                     {
-                        ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZuiAny)i, NULL);
+                        ZuiControl pControl = ZCCALL(ZM_Layout_GetItemAt, cp->m_pParent, (ZPARAM)i, NULL);
                         ZuiBool isoption = _tcsicmp(ZCCALL(ZM_GetType, pControl, NULL, NULL), ZC_Option);
                         if(!isoption)
                             select += ZCCALL(ZM_Option_GetSelected, pControl, NULL, NULL) ? 1 : 0;
@@ -369,7 +369,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         }
         if (!Param2)
             ZuiControlInvalidate(cp, TRUE);
-        ZuiControlNotify(ZM_OnSelectChanged, cp, (ZuiAny)p->m_bSelected, NULL);
+        ZuiControlNotify(ZM_OnSelectChanged, cp, (ZPARAM)p->m_bSelected, NULL);
         return 0;
     }
     case ZM_Option_SetGroup: {
@@ -377,7 +377,7 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
         break;
     }
     case ZM_Option_GetSelected: {
-        return (ZuiAny)p->m_bSelected;
+        return (ZPARAM)p->m_bSelected;
     }
     case ZM_Option_SetResNormal: {
         if (p->m_ResSelected)
@@ -464,33 +464,33 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
     case ZM_SetAttribute: {
         ZuiAttribute zAttr = (ZuiAttribute)Param1;
         if (_tcscmp(zAttr->name, _T("group")) == 0)
-            ZCCALL(ZM_Option_SetGroup, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
+            ZCCALL(ZM_Option_SetGroup, cp, (ZPARAM)(_tcsicmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
         else if (_tcscmp(zAttr->name, _T("selected")) == 0)
-            ZCCALL(ZM_Option_SetSelected, cp, (ZuiAny)(_tcsicmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
+            ZCCALL(ZM_Option_SetSelected, cp, (ZPARAM)(_tcsicmp(zAttr->value, _T("true")) == 0 ? TRUE : FALSE), Param2);
         else if (_tcscmp(zAttr->name, _T("selectedimage")) == 0)
-            ZCCALL(ZM_Option_SetResNormal, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+            ZCCALL(ZM_Option_SetResNormal, cp, (ZPARAM)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
         else if (_tcscmp(zAttr->name, _T("selectedhotimage")) == 0)
-            ZCCALL(ZM_Option_SetResHot, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+            ZCCALL(ZM_Option_SetResHot, cp, (ZPARAM)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
         else if (_tcscmp(zAttr->name, _T("selectedpushedimage")) == 0)
-            ZCCALL(ZM_Option_SetResPushed, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+            ZCCALL(ZM_Option_SetResPushed, cp, (ZPARAM)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
         else if (_tcscmp(zAttr->name, _T("selectedfocusedimage")) == 0)
-            ZCCALL(ZM_Option_SetResFocused, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+            ZCCALL(ZM_Option_SetResFocused, cp, (ZPARAM)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
         else if (_tcscmp(zAttr->name, _T("selecteddisabledimage")) == 0)
-            ZCCALL(ZM_Option_SetResDisabled, cp, (ZuiAny)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
+            ZCCALL(ZM_Option_SetResDisabled, cp, (ZPARAM)ZuiResDBGetRes(zAttr->value, ZREST_IMG), Param2);
         else if (_tcsicmp(zAttr->name, _T("selectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorNormal, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            ZCCALL(ZM_Option_SetColorNormal, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
         else if (_tcsicmp(zAttr->name, _T("hotselectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorHot, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            ZCCALL(ZM_Option_SetColorHot, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
         else if (_tcsicmp(zAttr->name, _T("pushedselectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorPushed, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            ZCCALL(ZM_Option_SetColorPushed, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
         else if (_tcsicmp(zAttr->name, _T("focusedselectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorFocused, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            ZCCALL(ZM_Option_SetColorFocused, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
         else if (_tcsicmp(zAttr->name, _T("disabledselectedcolor")) == 0)
-            ZCCALL(ZM_Option_SetColorDisabled, cp, (ZuiAny)ZuiStr2Color(zAttr->value), Param2);
+            ZCCALL(ZM_Option_SetColorDisabled, cp, (ZPARAM)ZuiStr2Color(zAttr->value), Param2);
         else if (_tcsicmp(zAttr->name, _T("optionstyle")) == 0)
-            ZCCALL(ZM_Option_SetResType, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
+            ZCCALL(ZM_Option_SetResType, cp, (ZPARAM)(_ttoi(zAttr->value)), Param2);
         else if (_tcsicmp(zAttr->name, _T("optionsize")) == 0)
-            ZCCALL(ZM_Option_SetResSize, cp, (ZuiAny)(_ttoi(zAttr->value)), Param2);
+            ZCCALL(ZM_Option_SetResSize, cp, (ZPARAM)(_ttoi(zAttr->value)), Param2);
         break;
     }
     case ZM_OnCreate: {
@@ -509,22 +509,22 @@ ZEXPORT ZuiAny ZCALL ZuiOptionProc(int ProcId, ZuiControl cp, ZuiOption p, ZuiAn
     }
     case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
-        ZuiAny old_udata = p->old_udata;
+        ZVoid old_udata = p->old_udata;
         old_call(ProcId, cp, old_udata, Param1, Param2);
         free(p);
 
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)ZC_Option) == 0)
-            return (ZuiAny)p;
+        if (_tcsicmp(Param1, (ZPARAM)ZC_Option) == 0)
+            return (ZPARAM)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)ZC_Option;
+        return (ZPARAM)ZC_Option;
     case ZM_CoreInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     default:
         break;
     }

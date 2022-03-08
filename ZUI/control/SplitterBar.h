@@ -8,7 +8,7 @@ typedef struct _ZSplitterBar
     int m_dwType;
     ZCtlProc old_call;
 }*ZuiSplitterBar, ZSplitterBar;
-ZEXPORT ZuiAny ZCALL ZuiSplitterBarProc(int ProcId, ZuiControl cp, ZuiSplitterBar p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiSplitterBarProc(ZINT ProcId, ZuiControl cp, ZuiSplitterBar p, ZPARAM Param1, ZPARAM Param2);
 
 
 #endif	//__SplitterBar_H__

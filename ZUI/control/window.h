@@ -9,9 +9,9 @@ typedef struct _ZWindow
     ZuiOsWindow m_osWindow;    
     
     ZCtlProc old_call;
-    ZuiAny old_udata;
+    ZVoid old_udata;
 }*ZuiWindow, ZWindow;
-ZEXPORT ZuiAny ZCALL ZuiWindowProc(int ProcId, ZuiControl cp, ZuiWindow p, ZuiAny Param1, ZuiAny Param2);
+ZEXPORT ZINT ZCALL ZuiWindowProc(ZINT ProcId, ZuiControl cp, ZuiWindow p, ZPARAM Param1, ZPARAM Param2);
 //查找窗口
 ZEXPORT ZuiControl ZCALL ZuiWindowFindName(ZuiText Name);
 

@@ -3,43 +3,43 @@
 #include <core/resdb.h>
 #include <control/List.h>
 #include "core/Register.h"
-ZuiAny ZCALL ZuiTreeViewNotifyProc(int msg, ZuiControl p, ZuiAny Param1, ZuiAny Param2) {
+ZINT ZCALL ZuiTreeViewNotifyProc(int msg, ZuiControl p, ZPARAM Param1, ZPARAM Param2) {
     if (msg == ZM_OnSelectChanged) {
         ////选择
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     }
 	return 0;
 }
-ZEXPORT ZuiAny ZCALL ZuiTreeViewProc(int ProcId, ZuiControl cp, ZuiTreeView p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZINT ZCALL ZuiTreeViewProc(ZINT ProcId, ZuiControl cp, ZuiTreeView p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_TreeView_Add: {
         if (!Param1)
             return FALSE;
 
-        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_TreeNode))
+        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZPARAM)ZC_TreeNode))
             return FALSE;
 
         ZuiControlRegNotify(Param1, ZuiTreeViewNotifyProc);
         ZuiControlRegNotify(ZCCALL(ZM_TreeNode_GetFolderButton, Param1, NULL, NULL), ZuiTreeViewNotifyProc);
         ZuiControlRegNotify(ZCCALL(ZM_TreeNode_GetCheckBox, Param1, NULL, NULL), ZuiTreeViewNotifyProc);
 
-        ZCCALL(ZM_TreeNode_SetVisibleFolderBtn, Param1, (ZuiAny)p->m_bVisibleFolderBtn, NULL);
-        ZCCALL(ZM_TreeNode_SetVisibleCheckBtn, Param1, (ZuiAny)p->m_bVisibleCheckBtn, NULL);
+        ZCCALL(ZM_TreeNode_SetVisibleFolderBtn, Param1, (ZPARAM)p->m_bVisibleFolderBtn, NULL);
+        ZCCALL(ZM_TreeNode_SetVisibleCheckBtn, Param1, (ZPARAM)p->m_bVisibleCheckBtn, NULL);
         if (p->m_uItemMinWidth > 0)
-            ZCCALL(ZM_SetMinWidth, Param1, (ZuiAny)p->m_uItemMinWidth, NULL);
+            ZCCALL(ZM_SetMinWidth, Param1, (ZPARAM)p->m_uItemMinWidth, NULL);
 
         ZuiListProc(ZM_List_Add, cp, p->old_udata, Param1, NULL);
 
         ZCCALL(ZM_TreeNode_SetTreeView, Param1, cp, NULL);
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     }
     case ZM_TreeView_AddAt: {
         if (!Param1)
-            return (ZuiAny)-1;
+            return (ZPARAM)-1;
 
-        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_TreeNode))
-            return (ZuiAny)-1;
+        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZPARAM)ZC_TreeNode))
+            return (ZPARAM)-1;
 
         //继承事件
         ZuiControlRegNotify(Param1, ZuiTreeViewNotifyProc);
@@ -47,11 +47,11 @@ ZEXPORT ZuiAny ZCALL ZuiTreeViewProc(int ProcId, ZuiControl cp, ZuiTreeView p, Z
         ZuiControlRegNotify(ZCCALL(ZM_TreeNode_GetCheckBox, Param1, NULL, NULL), ZuiTreeViewNotifyProc);
         
 
-        ZCCALL(ZM_TreeNode_SetVisibleFolderBtn, Param1, (ZuiAny)p->m_bVisibleFolderBtn, NULL);
-        ZCCALL(ZM_TreeNode_SetVisibleCheckBtn, Param1, (ZuiAny)p->m_bVisibleCheckBtn, NULL);
+        ZCCALL(ZM_TreeNode_SetVisibleFolderBtn, Param1, (ZPARAM)p->m_bVisibleFolderBtn, NULL);
+        ZCCALL(ZM_TreeNode_SetVisibleCheckBtn, Param1, (ZPARAM)p->m_bVisibleCheckBtn, NULL);
 
         if (p->m_uItemMinWidth > 0)
-            ZCCALL(ZM_SetMinWidth, Param1, (ZuiAny)p->m_uItemMinWidth, NULL);
+            ZCCALL(ZM_SetMinWidth, Param1, (ZPARAM)p->m_uItemMinWidth, NULL);
 
 
         ZuiListProc(ZM_List_AddAt, cp, p->old_udata, Param1, Param2);
@@ -61,23 +61,23 @@ ZEXPORT ZuiAny ZCALL ZuiTreeViewProc(int ProcId, ZuiControl cp, ZuiTreeView p, Z
             int nCount = (int)ZCCALL(ZM_TreeNode_GetCountChild, Param1, NULL, NULL);
             for (int nIndex = 0; nIndex < nCount; nIndex++)
             {
-                ZuiControl pNode = ZCCALL(ZM_TreeNode_GetChildNode, Param1, (ZuiAny)nIndex, NULL);
+                ZuiControl pNode = ZCCALL(ZM_TreeNode_GetChildNode, Param1, (ZPARAM)nIndex, NULL);
                 if (pNode)
-                    return ZCCALL(ZM_TreeView_AddAt, cp, pNode, (ZuiAny)((int)Param2 + 1));
+                    return ZCCALL(ZM_TreeView_AddAt, cp, pNode, (ZPARAM)((int)Param2 + 1));
             }
         }
         else
-            return (ZuiAny)((int)Param2 + 1);
+            return (ZPARAM)((int)Param2 + 1);
 
-        return (ZuiAny)-1;
+        return (ZPARAM)-1;
     }
     case ZM_TreeView_Remove: {
 
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     }
     case ZM_TreeView_RemoveAt: {
 
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     }
     case ZM_TreeView_RemoveAll: {
         return ZuiListProc(ZM_List_RemoveAll, cp, p->old_udata, NULL, NULL);
@@ -106,34 +106,34 @@ ZEXPORT ZuiAny ZCALL ZuiTreeViewProc(int ProcId, ZuiControl cp, ZuiTreeView p, Z
     }
     case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
-        ZuiAny old_udata = p->old_udata;
+        ZVoid old_udata = p->old_udata;
         old_call(ProcId, cp, old_udata, Param1, Param2);
         free(p);
 
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)ZC_TreeView) == 0)
-            return (ZuiAny)p;
+        if (_tcsicmp(Param1, (ZPARAM)ZC_TreeView) == 0)
+            return (ZPARAM)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)ZC_TreeView;
+        return (ZPARAM)ZC_TreeView;
     case ZM_CoreInit:
         //将辅助控件注册到系统
         ZuiControlRegisterAdd(ZC_TreeNode, (ZCtlProc)&ZuiTreeNodeProc);
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
-        return (ZuiAny)NULL;
+        return (ZPARAM)NULL;
     default:
         break;
     }
     return p->old_call(ProcId, cp, p->old_udata, Param1, Param2);
 }
-ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, ZuiAny Param1, ZuiAny Param2) {
+ZEXPORT ZINT ZCALL ZuiTreeNodeProc(ZINT ProcId, ZuiControl cp, ZuiTreeNode p, ZPARAM Param1, ZPARAM Param2) {
     switch (ProcId)
     {
     case ZM_TreeNode_Add: {
-        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_TreeNode))
+        if (!_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZPARAM)ZC_TreeNode))
             return ZCCALL(ZM_TreeNode_AddChildNode, cp, Param1, NULL);//作为子节点插入
         return ZCCALL(ZM_TreeNode_Add, p->pHoriz, Param1, NULL);
         break;//普通插入,直接交给原型处理
@@ -148,7 +148,7 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
         if (!Param1)
             return FALSE;
 
-        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZuiAny)ZC_TreeNode))
+        if (_tcsicmp(ZCCALL(ZM_GetType, Param1, NULL, NULL), (ZPARAM)ZC_TreeNode))
             return FALSE;
         //计算缩进
         Param1 = ZCCALL(ZM_TreeNode_CalLocation, cp, Param1, NULL);
@@ -159,26 +159,26 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
             ZuiControl pNode = darray_getat(p->mTreeNodes, p->mTreeNodes->count-1);
 
             if (!pNode || !ZCCALL(ZM_TreeNode_GetLastNode, cp, NULL, NULL))
-                nRet = ZCCALL(ZM_TreeView_AddAt, p->pTreeView, Param1, (ZuiAny)((int)ZCCALL(ZM_TreeNode_GetTreeIndex, cp, NULL, NULL) + 1)) >= 0;
+                nRet = ZCCALL(ZM_TreeView_AddAt, p->pTreeView, Param1, (ZPARAM)((int)ZCCALL(ZM_TreeNode_GetTreeIndex, cp, NULL, NULL) + 1)) >= 0;
             else
-                nRet = ZCCALL(ZM_TreeView_AddAt, p->pTreeView, Param1, (ZuiAny)((int)ZCCALL(ZM_TreeNode_GetTreeIndex, ZCCALL(ZM_TreeNode_GetLastNode, pNode, NULL, NULL), NULL, NULL) + 1)) >= 0;
+                nRet = ZCCALL(ZM_TreeView_AddAt, p->pTreeView, Param1, (ZPARAM)((int)ZCCALL(ZM_TreeNode_GetTreeIndex, ZCCALL(ZM_TreeNode_GetLastNode, pNode, NULL, NULL), NULL, NULL) + 1)) >= 0;
         }
 
         if (nRet)
             darray_append(p->mTreeNodes, Param1);
 
-        return (ZuiAny)nRet;
+        return (ZPARAM)nRet;
     }
     case ZM_TreeNode_GetChildNode: {
-        return (ZuiAny)darray_getat(p->mTreeNodes, (int)Param1);
+        return (ZPARAM)darray_getat(p->mTreeNodes, (int)Param1);
     }
     case ZM_TreeNode_CalLocation: {
         if (!Param1)
             return 0;
-        ZCCALL(ZM_SetVisible, ZCCALL(ZM_TreeNode_GetDottedLine, Param1, NULL, NULL), (ZuiAny)TRUE, NULL);
+        ZCCALL(ZM_SetVisible, ZCCALL(ZM_TreeNode_GetDottedLine, Param1, NULL, NULL), (ZPARAM)TRUE, NULL);
         ZCCALL(ZM_SetFixedWidth,
             ZCCALL(ZM_TreeNode_GetDottedLine, Param1, NULL, NULL),
-            (ZuiAny)((int)ZCCALL(ZM_GetFixedWidth, p->pDottedLine, NULL, NULL) + 16), NULL);
+            (ZPARAM)((int)ZCCALL(ZM_GetFixedWidth, p->pDottedLine, NULL, NULL) + 16), NULL);
         ZCCALL(ZM_TreeNode_SetParentNode, Param1, cp, NULL);
         ZCCALL(ZM_TreeNode_SetTreeView, Param1, p->pTreeView, NULL);
         return Param1;
@@ -204,14 +204,14 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
     }
     case ZM_TreeNode_GetTreeIndex: {
         if (!p->pTreeView)
-            return (ZuiAny)-1;
+            return (ZPARAM)-1;
 
         for (int nIndex = 0; nIndex < (int)(ZCCALL(ZM_List_GetCount, p->pTreeView, NULL, NULL)); nIndex++) {
-            if (cp == ZCCALL(ZM_List_GetItemAt, p->pTreeView, (ZuiAny)nIndex, NULL))
-                return (ZuiAny)nIndex;
+            if (cp == ZCCALL(ZM_List_GetItemAt, p->pTreeView, (ZPARAM)nIndex, NULL))
+                return (ZPARAM)nIndex;
         }
 
-        return (ZuiAny)-1;
+        return (ZPARAM)-1;
     }
     case ZM_TreeNode_GetDottedLine: {
         return p->pDottedLine;
@@ -228,7 +228,7 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
         return 0;
     }
     case ZM_TreeNode_IsHasChild: {
-        return (ZuiAny)(p->mTreeNodes->count != 0);
+        return (ZPARAM)(p->mTreeNodes->count != 0);
     }
     case ZM_TreeNode_SetVisibleFolderBtn: {
         return ZCCALL(ZM_SetVisible, p->pFolderButton, Param1, NULL);
@@ -243,7 +243,7 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
         return ZCCALL(ZM_GetVisible, p->pCheckBox, NULL, NULL);
     }
     case ZM_TreeNode_GetCountChild: {
-        return (ZuiAny)p->mTreeNodes->count;
+        return (ZPARAM)p->mTreeNodes->count;
     }
     case ZM_TreeNode_GetFolderButton: {
         return p->pFolderButton;
@@ -295,11 +295,11 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
         ZCCALL(ZM_Option_SetResHot, p->pCheckBox, ZuiResDBGetRes(_T("default:default/checked.png"), ZREST_IMG), NULL);
         ZCCALL(ZM_Option_SetResPushed, p->pCheckBox, ZuiResDBGetRes(_T("default:default/checked.png"), ZREST_IMG), NULL);
 
-        ZCCALL(ZM_SetFixedHeight, cp, (ZuiAny)18, NULL);
-        ZCCALL(ZM_SetFixedWidth, cp, (ZuiAny)250, NULL);
+        ZCCALL(ZM_SetFixedHeight, cp, (ZPARAM)18, NULL);
+        ZCCALL(ZM_SetFixedWidth, cp, (ZPARAM)250, NULL);
 
         ZCCALL(ZM_SetFixedWidth, p->pFolderButton, ZCCALL(ZM_GetFixedHeight, cp, NULL, NULL), NULL);
-        ZCCALL(ZM_SetFixedWidth, p->pDottedLine, (ZuiAny)2, NULL);
+        ZCCALL(ZM_SetFixedWidth, p->pDottedLine, (ZPARAM)2, NULL);
         ZCCALL(ZM_SetFixedWidth, p->pCheckBox, ZCCALL(ZM_GetFixedHeight, cp, NULL, NULL), NULL);
 
         ZCCALL(ZM_SetVisible, p->pDottedLine, FALSE, NULL);
@@ -316,7 +316,7 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
     }
     case ZM_OnDestroy: {
         ZCtlProc old_call = p->old_call;
-        ZuiAny old_udata = p->old_udata;
+        ZVoid old_udata = p->old_udata;
         old_call(ProcId, cp, old_udata, Param1, Param2);
         if (p->mTreeNodes) darray_destroy(p->mTreeNodes);
         free(p);
@@ -324,15 +324,15 @@ ZEXPORT ZuiAny ZCALL ZuiTreeNodeProc(int ProcId, ZuiControl cp, ZuiTreeNode p, Z
         return 0;
     }
     case ZM_GetObject:
-        if (_tcsicmp(Param1, (ZuiAny)ZC_TreeNode) == 0)
-            return (ZuiAny)p;
+        if (_tcsicmp(Param1, (ZPARAM)ZC_TreeNode) == 0)
+            return (ZPARAM)p;
         break;
     case ZM_GetType:
-        return (ZuiAny)ZC_TreeNode;
+        return (ZPARAM)ZC_TreeNode;
     case ZM_CoreInit:
-        return (ZuiAny)TRUE;
+        return (ZPARAM)TRUE;
     case ZM_CoreUnInit:
-        return (ZuiAny)NULL;
+        return (ZPARAM)NULL;
     default:
         break;
     }
